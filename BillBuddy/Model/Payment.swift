@@ -8,14 +8,19 @@
 import Foundation
 import FirebaseFirestoreSwift
 
+/// 결제 - 추가, 또는 수정 시 리얼타임 베이스에 갱신일 최신화
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
-    var type: String // 분류
+    
+    var travelDate: String // "2023/7/4"
+    
+    var type: PaymentType // 분류
     var content: String // 내용
     var payment: Int // 금액
     var address: String // 주소
     var x : Double
     var y: Double
+    var participants: [Participant]
     
     var paymentDate: Double = Date().timeIntervalSince1970 // 지출날짜
     
@@ -34,4 +39,12 @@ struct Payment: Identifiable, Codable {
 struct Participant: Codable {
     var memberId: String
     var payment: Int
+}
+
+enum PaymentType: String, Codable {
+        case transportation // 교통
+        case accommodation // 숙박
+        case tourism // 관광
+        case food // 식비
+        case etc // 기타
 }

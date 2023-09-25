@@ -23,7 +23,6 @@
 		2766482D2ABD5B11000F8A10 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2766482C2ABD5B11000F8A10 /* FirebaseFirestoreSwift */; };
 		2766482F2ABD5B11000F8A10 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2766482E2ABD5B11000F8A10 /* FirebaseStorage */; };
 		276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648302ABD8B6E000F8A10 /* TravelCalculation.swift */; };
-		276648332ABD8BE6000F8A10 /* TravelDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648322ABD8BE6000F8A10 /* TravelDate.swift */; };
 		276648352ABD8C73000F8A10 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648342ABD8C73000F8A10 /* Payment.swift */; };
 		276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648362ABD8CFD000F8A10 /* SignInView.swift */; };
 		2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648392ABD8D13000F8A10 /* SignUpView.swift */; };
@@ -34,6 +33,9 @@
 		276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648472ABD8E19000F8A10 /* ChattingView.swift */; };
 		2766484B2ABD8E34000F8A10 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766484A2ABD8E34000F8A10 /* DetailView.swift */; };
 		2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766484D2ABD8E4D000F8A10 /* MyPageView.swift */; };
+		277C999E2AC06715006DFCFC /* Memeber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999D2AC06715006DFCFC /* Memeber.swift */; };
+		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
+		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +49,6 @@
 		276648102ABD5549000F8A10 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		276648132ABD5583000F8A10 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		276648302ABD8B6E000F8A10 /* TravelCalculation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCalculation.swift; sourceTree = "<group>"; };
-		276648322ABD8BE6000F8A10 /* TravelDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDate.swift; sourceTree = "<group>"; };
 		276648342ABD8C73000F8A10 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		276648362ABD8CFD000F8A10 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		276648392ABD8D13000F8A10 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -58,6 +59,9 @@
 		276648472ABD8E19000F8A10 /* ChattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingView.swift; sourceTree = "<group>"; };
 		2766484A2ABD8E34000F8A10 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		2766484D2ABD8E4D000F8A10 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		277C999D2AC06715006DFCFC /* Memeber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memeber.swift; sourceTree = "<group>"; };
+		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
+		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,9 +125,11 @@
 			isa = PBXGroup;
 			children = (
 				276648082ABD54AE000F8A10 /* User.swift */,
+				277C99A12AC08F9C006DFCFC /* UserTravel.swift */,
+				277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */,
 				276648302ABD8B6E000F8A10 /* TravelCalculation.swift */,
-				276648322ABD8BE6000F8A10 /* TravelDate.swift */,
 				276648342ABD8C73000F8A10 /* Payment.swift */,
+				277C999D2AC06715006DFCFC /* Memeber.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,19 +358,21 @@
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* DetailView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
+				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */,
 				276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */,
 				2766483F2ABD8D76000F8A10 /* MapView.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
+				277C999E2AC06715006DFCFC /* Memeber.swift in Sources */,
 				276648112ABD5549000F8A10 /* Extension.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
+				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,
 				276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */,
 				276648352ABD8C73000F8A10 /* Payment.swift in Sources */,
-				276648332ABD8BE6000F8A10 /* TravelDate.swift in Sources */,
 				276648452ABD8DCE000F8A10 /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
