@@ -8,12 +8,14 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct TravelCalculation {
+struct TravelCalculation: Identifiable, Codable {
     @DocumentID var id: String?
     
     /// 방 호스트 user id
     var hostId: String
     let createdDate: Double
+    var renewalDate: Double // 보여줄 일이없어 굳이 format 안해줘도 될듯합니다.
+
     
     var formattedDate: String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: createdDate)
@@ -25,11 +27,4 @@ struct TravelCalculation {
         
         return dateFormatter.string(from: dateCreatedAt)
     }
-}
-
-struct Member: Identifiable, Codable {
-    @DocumentID var id: String?
-    var memberId: String? //nil이면 user가 들어와있지않은 임시 맴버
-    var name: String
-    var deposit: Int
 }
