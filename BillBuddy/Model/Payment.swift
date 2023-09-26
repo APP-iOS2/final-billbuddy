@@ -12,19 +12,24 @@ import FirebaseFirestoreSwift
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
     
-    
     var type: PaymentType
     var content: String
     var payment: Int
-    let address: String
-    let x : Double
-    let y: Double
+    let address: Address
     var participants: [Participant]
     
     var paymentDate: Date = Date.now
     
     var formattedDate: String {
         return paymentDate.dateAndTime
+    }
+    
+    struct Address: Codable {
+        let address: String
+        /// 위도
+        let latitude: Double
+        /// 경도
+        let longitude: Double
     }
     
     struct Participant: Codable {
@@ -75,5 +80,3 @@ struct Payment: Identifiable, Codable {
     }
     
 }
-
-
