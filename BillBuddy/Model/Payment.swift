@@ -12,7 +12,6 @@ import FirebaseFirestoreSwift
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
     
-    
     var type: PaymentType
     var content: String
     var payment: Int
@@ -75,5 +74,4 @@ struct Payment: Identifiable, Codable {
     }
     
 }
-
 

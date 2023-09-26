@@ -18,5 +18,4 @@ struct TravelCalculation: Identifiable, Codable {
     var startDate: Date
     var endDate: Date
     var updateContentDate: Date
-    
 }

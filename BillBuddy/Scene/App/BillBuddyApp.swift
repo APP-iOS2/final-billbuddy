@@ -19,8 +19,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct BillBuddyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+   
     var body: some Scene {
-        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         WindowGroup {
             ContentView()
         }
