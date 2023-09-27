@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct tempRoomListView: View {
-    @StateObject var travelCalculationStore: TravelCalculationStore = TravelCalculationStore()
+    @StateObject var travelCalculationStore: tempTravelCalculationStore = tempTravelCalculationStore()
 
     
     var body: some View {

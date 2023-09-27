@@ -1,27 +1,27 @@
 //
-//  AddPaymentSheetView.swift
+//  EditPaymentSheet.swift
 //  BillBuddy
 //
-//  Created by 김유진 on 2023/09/25.
+//  Created by 김유진 on 2023/09/27.
 //
 
 import SwiftUI
 
-struct AddPaymentSheet: View {
-    @ObservedObject var paymentStore: PaymentStore
-    @Binding var isShowingAddPaymentSheetView: Bool
+struct EditPaymentSheet: View {
+    @State var payment: Payment
+    
+    @Binding var isShowingEditPaymentSheet: Bool
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
     @State private var numString: String = ""
     @State private var selectedCategory: Payment.PaymentType = .transportation
-    @State private var isSelectedCategory = false
     @State private var isVisibleCategorySelectPicker = false
     @State private var category: String = "교통/숙박/관광/식비/기타"
     
     var body: some View {
         VStack {
-            Text("지출 항목 추가")
+            Text("지출 항목 수정")
                 .font(.headline)
                 .padding()
             
@@ -40,7 +40,6 @@ struct AddPaymentSheet: View {
                     
                     Button(action: { isVisibleCategorySelectPicker = false
                         category = selectedCategory.rawValue
-                        isSelectedCategory = true
                     }, label: {
                         Text("선택")
                     })
@@ -49,14 +48,8 @@ struct AddPaymentSheet: View {
                     Button(action: {
                         isVisibleCategorySelectPicker = true
                     }, label: {
-                        if isSelectedCategory {
-                            Text(category)
-                                .foregroundStyle(.black)
-                        }
-                        else {
-                            Text(category)
-                                .foregroundStyle(.gray)
-                        }
+                        Text(category)
+                            .foregroundStyle(.black)
                     })
                     
                 }
@@ -116,14 +109,15 @@ struct AddPaymentSheet: View {
             .padding()
             
             Button(action: {
-                isShowingAddPaymentSheetView = false
-                let newPayment =
-                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
-                paymentStore.addPayment(newPayment: newPayment)
+                isShowingEditPaymentSheet = false
+
+                let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
+//                PaymentStore.
+                //                paymentStore.addPayment(newPayment: newPayment)
             }, label: {
                 HStack {
                     Spacer()
-                    Text("추가하기")
+                    Text("수정하기")
                         .bold()
                     Spacer()
                 }
@@ -133,12 +127,17 @@ struct AddPaymentSheet: View {
             .padding()
             
         }
-        
-        
+        .onAppear {
+            category = payment.type.rawValue
+            selectedCategory = payment.type
+            expandDetails = payment.content
+//            numString = String(payment.)
+            priceString = String(payment.payment)
+            
+        }
     }
 }
 
 #Preview {
-    AddPaymentSheet(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), isShowingAddPaymentSheetView: .constant(true))
-    
+    EditPaymentSheet(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: []), isShowingEditPaymentSheet: .constant(true))
 }

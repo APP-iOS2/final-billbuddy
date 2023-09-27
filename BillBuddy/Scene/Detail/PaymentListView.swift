@@ -44,22 +44,23 @@ struct PaymentListView: View {
                         HStack{
                             Image(systemName: "square.and.arrow.down.fill")
                             VStack(alignment: .leading, content: {
-                                Text("3,000,000")
+                                Text(payment.content)
+                                Text("\(payment.payment)")
                                     .bold()
-                                Text("파라다이스 호텔")
                             })
                         }
                     }
                     
-                    .sheet(isPresented: $isShowingEditPaymentSheet, content: {
-                        // TODO: EditPaymentSheet 만들어야한다.
-                        AddPaymentSheet(paymentStore: paymentStore, isShowingAddPaymentSheetView: $isShowingEditPaymentSheet)
+                    .sheet(isPresented: $isShowingEditPaymentSheet, onDismiss: {
+                        paymentStore.fetchAll()
+                    }, content: {
+                        EditPaymentSheet(payment: payment, isShowingEditPaymentSheet: $isShowingEditPaymentSheet)
                             .presentationDetents([.fraction(0.8), .large])
                     })
-
-                    
                 }
             }
+            
+            
             
         }
     }

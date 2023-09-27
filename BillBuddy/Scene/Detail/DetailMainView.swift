@@ -17,8 +17,6 @@ struct DetailMainView: View {
     
     var body: some View {
         ZStack {
-            
-            
             VStack {
                 HStack {
                     Button(action: {
@@ -76,6 +74,8 @@ struct DetailMainView: View {
         .onAppear {
             paymentStore.fetchAll()
         }
+        
+        
     }
 }
 

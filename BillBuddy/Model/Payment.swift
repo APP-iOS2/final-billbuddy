@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestoreSwift
-
 /// 결제 - 추가, 또는 수정 시 리얼타임 베이스에 갱신일 최신화
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
@@ -15,15 +14,21 @@ struct Payment: Identifiable, Codable {
     var type: PaymentType
     var content: String
     var payment: Int
-    let address: String
-    let x : Double
-    let y: Double
+    let address: Address
     var participants: [Participant]
     
     var paymentDate: Date = Date.now
     
     var formattedDate: String {
         return paymentDate.dateAndTime
+    }
+    
+    struct Address: Codable {
+        let address: String
+        /// 위도
+        let latitude: Double
+        /// 경도
+        let longitude: Double
     }
     
     struct Participant: Codable {
@@ -74,4 +79,3 @@ struct Payment: Identifiable, Codable {
     }
     
 }
-

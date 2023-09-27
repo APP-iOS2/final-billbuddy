@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class TravelCalculationStore: ObservableObject {
+class tempTravelCalculationStore: ObservableObject {
     @Published var travelCalculations: [TravelCalculation] = []
     
     let dbRef = Firestore.firestore().collection("TravelCalculation")
@@ -27,7 +27,7 @@ class TravelCalculationStore: ObservableObject {
                     let hostId: String = docData["hostId"] as? String ?? ""
                     let managerId: String = docData["managerId"] as? String ?? ""
                     
-                    let newTC = TravelCalculation(id: id, hostId: hostId, managerId: managerId, startDate: Date(), endDate: Date(), updateContentDate: Date())
+                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: "신나는 유럽여행", managerId: managerId, startDate: Date(), endDate: Date(), updateContentDate: Date(), members: [])
                     
                     tempTravelCalculations.append(newTC)
                 }
@@ -63,9 +63,26 @@ class PaymentStore: ObservableObject {
                     let id: String = doc.documentID
                     let docData = doc.data()
                     
-//                    let travelDate: String = docData["travelDate"] as? String ?? ""
+                    let typeString: String = docData["type"] as? String ?? ""
+                    var type: Payment.PaymentType = .etc
                     
-                    let newPayment = Payment(id: id, type: .transportation, content: "", payment: 10000, address: "", x: 0, y: 0, participants: [])
+                    switch(typeString) {
+                    case "교통":
+                        type = .transportation
+                    case "숙박":
+                        type = .accommodation
+                    case "관광":
+                        type = .tourism
+                    case "식비":
+                        type = .food
+                    default:
+                        type = .etc
+                    }
+                    
+                    let content: String = docData["content"] as? String ?? ""
+                    let price: Int = docData["payment"] as? Int ?? 0
+                    
+                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
                     
                     tempPayment.append(newPayment)
                 }
@@ -81,6 +98,12 @@ class PaymentStore: ObservableObject {
     func addPayment(newPayment: Payment) {
         try! dbRef.addDocument(from: newPayment.self)
         fetchAll()
+    }
+    
+    func editPayment(payment: Payment) {
+        if let id = payment.id {
+            try? dbRef.document(id).setData(from: payment)
+        }
     }
     
 }
