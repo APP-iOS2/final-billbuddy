@@ -37,6 +37,8 @@
 		277403DB2AC3B816000537DF /* AdmobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403DA2AC3B816000537DF /* AdmobView.swift */; };
 		277403DD2AC3B81A000537DF /* NativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403DC2AC3B81A000537DF /* NativeAdView.swift */; };
 		277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 277403E02AC3B8CC000537DF /* GoogleMobileAds */; };
+		277403E52AC3E579000537DF /* SignUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E32AC3E579000537DF /* SignUpStore.swift */; };
+		277403E62AC3E579000537DF /* SignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E42AC3E579000537DF /* SignInStore.swift */; };
 		277C999E2AC06715006DFCFC /* Memeber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999D2AC06715006DFCFC /* Memeber.swift */; };
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
@@ -76,6 +78,8 @@
 		2766484D2ABD8E4D000F8A10 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		277403DA2AC3B816000537DF /* AdmobView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdmobView.swift; sourceTree = "<group>"; };
 		277403DC2AC3B81A000537DF /* NativeAdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeAdView.swift; sourceTree = "<group>"; };
+		277403E32AC3E579000537DF /* SignUpStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStore.swift; sourceTree = "<group>"; };
+		277403E42AC3E579000537DF /* SignInStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInStore.swift; sourceTree = "<group>"; };
 		277C999D2AC06715006DFCFC /* Memeber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memeber.swift; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
@@ -234,6 +238,7 @@
 		276648382ABD8D02000F8A10 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				277403E22AC3E579000537DF /* SignStore */,
 				276648362ABD8CFD000F8A10 /* SignInView.swift */,
 				276648392ABD8D13000F8A10 /* SignUpView.swift */,
 			);
@@ -304,6 +309,15 @@
 				277403DC2AC3B81A000537DF /* NativeAdView.swift */,
 			);
 			path = AdmobView;
+			sourceTree = "<group>";
+		};
+		277403E22AC3E579000537DF /* SignStore */ = {
+			isa = PBXGroup;
+			children = (
+				277403E32AC3E579000537DF /* SignUpStore.swift */,
+				277403E42AC3E579000537DF /* SignInStore.swift */,
+			);
+			path = SignStore;
 			sourceTree = "<group>";
 		};
 		278BA5F92AC25C4C00761B0B /* Resource */ = {
@@ -433,9 +447,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				276648092ABD54AE000F8A10 /* User.swift in Sources */,
+				277403E62AC3E579000537DF /* SignInStore.swift in Sources */,
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* DetailView.swift in Sources */,
+				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
