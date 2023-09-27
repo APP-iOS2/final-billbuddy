@@ -18,6 +18,7 @@ struct tempRoomListView: View {
                     if let id = travelCalculation.id {
                         let paymentStore = PaymentStore(travelCalculationId: id)
                         DetailMainView(paymentStore: paymentStore)
+                            .navigationTitle(travelCalculation.travelTitle)
                     }
                 } label: {
                     Text(travelCalculation.hostId)

@@ -41,16 +41,19 @@ struct DetailMainView: View {
                 })
                 .disabled(selectedDaysIdx == days.count - 1)
             }
+            .padding()
             
             List{
-                Section{
+                Section{                                 
                     VStack(alignment: .leading, content: {
                         HStack{
-                            Text("오늘의 총 지출")
-                            Spacer()
-                            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            NavigationLink {
+                                SpendingListView()
+                            } label: {
+                                Text("오늘의 총 지출")
+                                Spacer()
                                 Text("자세히 보기")
-                            })
+                            }
                         }
                         Text("0원")
                             .bold()
@@ -93,30 +96,6 @@ struct DetailMainView: View {
                     }
                 }
             }
-            
-            
-            
-//            Spacer()
-//            
-//            Button(action: {
-//                isShowingAddPaymentSheetView = true
-//            }, label: {
-//                HStack {
-//                    Spacer()
-//                    Text("지출 내역 추가")
-//                        .bold()
-//                    Spacer()
-//                }
-//                .padding()
-//            })
-//            .buttonStyle(.borderedProminent)
-//            .padding()
-//            
-//            .sheet(isPresented: $isShowingAddPaymentSheetView, content: {
-//                AddPaymentView(paymentStore: paymentStore, isShowingAddPaymentSheetView: $isShowingAddPaymentSheetView)
-//                    .presentationDetents([.fraction(0.8), .large])
-//            })
-            
         }
         
         

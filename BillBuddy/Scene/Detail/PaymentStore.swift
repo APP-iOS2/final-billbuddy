@@ -103,6 +103,7 @@ class PaymentStore: ObservableObject {
     func editPayment(payment: Payment) {
         if let id = payment.id {
             try? dbRef.document(id).setData(from: payment)
+            fetchAll()
         }
     }
     
