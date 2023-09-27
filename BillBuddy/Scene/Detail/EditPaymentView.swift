@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditPaymentSheet: View {
+struct EditPaymentView: View {
     @State var payment: Payment
     
     @Binding var isShowingEditPaymentSheet: Bool
@@ -139,5 +139,5 @@ struct EditPaymentSheet: View {
 }
 
 #Preview {
-    EditPaymentSheet(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: []), isShowingEditPaymentSheet: .constant(true))
+    EditPaymentView(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: []), isShowingEditPaymentSheet: .constant(true))
 }

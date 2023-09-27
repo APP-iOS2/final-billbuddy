@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct AddPaymentSheet: View {
+struct AddPaymentView: View {
     @ObservedObject var paymentStore: PaymentStore
-    @Binding var isShowingAddPaymentSheetView: Bool
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -116,7 +115,6 @@ struct AddPaymentSheet: View {
             .padding()
             
             Button(action: {
-                isShowingAddPaymentSheetView = false
                 let newPayment =
                 Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
                 paymentStore.addPayment(newPayment: newPayment)
@@ -139,6 +137,6 @@ struct AddPaymentSheet: View {
 }
 
 #Preview {
-    AddPaymentSheet(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), isShowingAddPaymentSheetView: .constant(true))
+    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"))
     
 }
