@@ -12,39 +12,71 @@ import FirebaseFirestoreSwift
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
     
-    var travelDate: String // "2023/7/4"
-    
-    var type: PaymentType // 분류
-    var content: String // 내용
-    var payment: Int // 금액
-    var address: String // 주소
-    var x : Double
-    var y: Double
+    var type: PaymentType
+    var content: String
+    var payment: Int
+    let address: Address
     var participants: [Participant]
     
-    var paymentDate: Double = Date().timeIntervalSince1970 // 지출날짜
+    var paymentDate: Date = Date.now
     
     var formattedDate: String {
-        let dateCreatedAt: Date = Date(timeIntervalSince1970: paymentDate)
-        
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "MM/dd HH시 mm분"
-        
-        return dateFormatter.string(from: dateCreatedAt)
+        return paymentDate.dateAndTime
     }
-}
-
-struct Participant: Codable {
-    var memberId: String
-    var payment: Int
-}
-
-enum PaymentType: String, Codable {
-        case transportation // 교통
-        case accommodation // 숙박
-        case tourism // 관광
-        case food // 식비
-        case etc // 기타
+    
+    struct Address: Codable {
+        let address: String
+        /// 위도
+        let latitude: Double
+        /// 경도
+        let longitude: Double
+    }
+    
+    struct Participant: Codable {
+        var memberId: String
+        var payment: Int
+    }
+    
+    ///  case에 직접 String을 넣어주면 안된다는 멘토링을 들었던것같은데 저렇게 안하면 저장에문제가 생김
+    ///    하면 안좋은 이유가 궁금함.
+    enum PaymentType: String, CaseIterable, Codable {
+        case transportation = "교통"
+        case accommodation = "숙박"
+        case tourism = "관광"
+        case food = "식비"
+        case etc = "기타"
+        
+        
+        var typeString: String {
+            switch self {
+            case .transportation:
+                return "교통"
+            case .accommodation:
+                return "숙박"
+            case .tourism:
+                return "관광"
+            case .food:
+                return "식비"
+            case .etc:
+                return "기타"
+            }
+        }
+        
+        static func fromRawString(_ rawString: String) -> PaymentType {
+               switch rawString {
+               case "교통":
+                   return .transportation
+               case "숙박":
+                   return .accommodation
+               case "관광":
+                   return .tourism
+               case "식비":
+                   return .food
+               default:
+                   return .etc
+               }
+           }
+        
+    }
+    
 }
