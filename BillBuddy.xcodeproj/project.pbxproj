@@ -37,6 +37,9 @@
 		277C999E2AC06715006DFCFC /* Memeber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999D2AC06715006DFCFC /* Memeber.swift */; };
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
+		FF2277B42AC1816D00172526 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FF2277B32AC1816D00172526 /* GoogleMobileAds */; };
+		FF8BCBCE2AC275CD00DCB59E /* AdmobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8BCBCD2AC275CD00DCB59E /* AdmobView.swift */; };
+		FF8BCBD02AC2B56400DCB59E /* NativeAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8BCBCF2AC2B56400DCB59E /* NativeAdView.swift */; };
 		278BA5F82AC25C4700761B0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5F72AC25C4700761B0B /* GoogleService-Info.plist */; };
 		278BA6052AC25EA800761B0B /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */; };
 		278BA6062AC25EA800761B0B /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */; };
@@ -74,6 +77,8 @@
 		277C999D2AC06715006DFCFC /* Memeber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memeber.swift; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
+		FF8BCBCD2AC275CD00DCB59E /* AdmobView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobView.swift; sourceTree = "<group>"; };
+		FF8BCBCF2AC2B56400DCB59E /* NativeAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdView.swift; sourceTree = "<group>"; };
 		278BA5F72AC25C4700761B0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -96,6 +101,7 @@
 				276648272ABD5B11000F8A10 /* FirebaseDatabase in Frameworks */,
 				276648222ABD5AC6000F8A10 /* FirebaseAppCheck in Frameworks */,
 				2766482B2ABD5B11000F8A10 /* FirebaseFirestore in Frameworks */,
+				FF2277B42AC1816D00172526 /* GoogleMobileAds in Frameworks */,
 				2766482F2ABD5B11000F8A10 /* FirebaseStorage in Frameworks */,
 				276648252ABD5B11000F8A10 /* FirebaseAuth in Frameworks */,
 				2766482D2ABD5B11000F8A10 /* FirebaseFirestoreSwift in Frameworks */,
@@ -153,6 +159,7 @@
 		2766480B2ABD54DD000F8A10 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				FF8BCBCC2AC26BC800DCB59E /* Admob */,
 				276648162ABD55B7000F8A10 /* App */,
 				2766484C2ABD8E37000F8A10 /* Detail */,
 				276648402ABD8D7E000F8A10 /* Map */,
@@ -290,6 +297,13 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		FF8BCBCC2AC26BC800DCB59E /* Admob */ = {
+			isa = PBXGroup;
+			children = (
+				FF8BCBCD2AC275CD00DCB59E /* AdmobView.swift */,
+				FF8BCBCF2AC2B56400DCB59E /* NativeAdView.swift */,
+			);
+			path = Admob;
 		278BA5F92AC25C4C00761B0B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,6 +361,7 @@
 				2766482A2ABD5B11000F8A10 /* FirebaseFirestore */,
 				2766482C2ABD5B11000F8A10 /* FirebaseFirestoreSwift */,
 				2766482E2ABD5B11000F8A10 /* FirebaseStorage */,
+				FF2277B32AC1816D00172526 /* GoogleMobileAds */,
 			);
 			productName = BillBuddy;
 			productReference = 276647F72ABD53F8000F8A10 /* BillBuddy.app */;
@@ -378,6 +393,7 @@
 			mainGroup = 276647EE2ABD53F8000F8A10;
 			packageReferences = (
 				276648182ABD5AC6000F8A10 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FF2277B22AC1816D00172526 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 276647F82ABD53F8000F8A10 /* Products */;
 			projectDirPath = "";
@@ -430,8 +446,10 @@
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
+				FF8BCBD02AC2B56400DCB59E /* NativeAdView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
+				FF8BCBCE2AC275CD00DCB59E /* AdmobView.swift in Sources */,
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,
 				276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */,
 				276648352ABD8C73000F8A10 /* Payment.swift in Sources */,
@@ -583,6 +601,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.jayjay.BillBuddy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -613,6 +632,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = net.jayjay.BillBuddy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -653,6 +673,14 @@
 				minimumVersion = 10.15.0;
 			};
 		};
+		FF2277B22AC1816D00172526 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -690,6 +718,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 276648182ABD5AC6000F8A10 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		FF2277B32AC1816D00172526 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF2277B22AC1816D00172526 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
