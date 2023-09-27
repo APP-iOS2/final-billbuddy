@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct MapView: View {
+    @StateObject var locationManager = LocationManager()
+    
+    @State private var searchText: String = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                TextField("주소를 입력하세요", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                Button(action: {
+                    locationManager.searchAddress(searchText: searchText)
+                }, label: {
+                    Text("추가")
+                })
+                .padding()
+            }
+            MapViewCoordinater(locationManager: locationManager)
+        }
     }
 }
 

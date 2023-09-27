@@ -22,7 +22,7 @@ struct BillBuddyApp: App {
     var body: some Scene {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         WindowGroup {
-            ContentView()
+            MapView()
         }
     }
 }
