@@ -48,6 +48,8 @@
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
 		C483BDA12AC2A29400638E0E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */; };
 		C483BDA32AC2A6CE00638E0E /* tempRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */; };
+		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
+		C4860EF92AC4170700392D29 /* methods.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF82AC4170700392D29 /* methods.swift */; };
 		C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */; };
 		C4A285172AC2750F0070797C /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A285162AC2750F0070797C /* DetailMainView.swift */; };
 		C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C092AC1457D00472876 /* AddPaymentView.swift */; };
@@ -90,6 +92,8 @@
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tempRoomListView.swift; sourceTree = "<group>"; };
+		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
+		C4860EF82AC4170700392D29 /* methods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = methods.swift; sourceTree = "<group>"; };
 		C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentView.swift; sourceTree = "<group>"; };
 		C4A285162AC2750F0070797C /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4F87C092AC1457D00472876 /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
@@ -285,12 +289,14 @@
 		2766484C2ABD8E37000F8A10 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				C4860EF82AC4170700392D29 /* methods.swift */,
 				C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */,
 				C4A285162AC2750F0070797C /* DetailMainView.swift */,
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
 				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
 				C4F87C0B2AC160FE00472876 /* PaymentStore.swift */,
+				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */,
 				276648092ABD54AE000F8A10 /* User.swift in Sources */,
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
@@ -443,6 +450,7 @@
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
 				C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */,
 				277C999E2AC06715006DFCFC /* Memeber.swift in Sources */,
+				C4860EF92AC4170700392D29 /* methods.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
