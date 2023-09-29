@@ -27,7 +27,10 @@ class tempTravelCalculationStore: ObservableObject {
                     let hostId: String = docData["hostId"] as? String ?? ""
                     let managerId: String = docData["managerId"] as? String ?? ""
                     
-                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: "신나는 유럽여행", managerId: managerId, startDate: Date(), endDate: Date(), updateContentDate: Date(), members: [])
+                    let startDate: Double = docData["startDate"] as? Double ?? 0
+                    let endDate: Double = docData["endDate"] as? Double ?? 0
+                    
+                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: "신나는 유럽여행", managerId: managerId, startDate: startDate, endDate: endDate, updateContentDate: Date(), members: [])
                     
                     tempTravelCalculations.append(newTC)
                 }
@@ -81,8 +84,9 @@ class PaymentStore: ObservableObject {
                     
                     let content: String = docData["content"] as? String ?? ""
                     let price: Int = docData["payment"] as? Int ?? 0
+                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
                     
-                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
+                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate)
                     
                     tempPayment.append(newPayment)
                 }

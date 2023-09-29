@@ -17,7 +17,7 @@ struct PaymentListView: View {
         Section {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
-                    EditPaymentView(payment: payment, isShowingEditPaymentSheet: $isShowingEditPaymentSheet)
+                    EditPaymentView(payment: payment, startDate: 0, endDate: 0, isShowingEditPaymentSheet: $isShowingEditPaymentSheet)
                 } label: {
                     HStack{
                         Image(systemName: "square.and.arrow.down.fill")

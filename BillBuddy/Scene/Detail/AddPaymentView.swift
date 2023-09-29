@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AddPaymentView: View {
     @ObservedObject var paymentStore: PaymentStore
+    @State var startDate: Double
+    @State var endDate: Double
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -17,12 +19,21 @@ struct AddPaymentView: View {
     @State private var isSelectedCategory = false
     @State private var isVisibleCategorySelectPicker = false
     @State private var category: String = "교통/숙박/관광/식비/기타"
+    @State private var paymentDate: Date = Date.now
     
     var body: some View {
         VStack {
             Text("지출 항목 추가")
                 .font(.headline)
                 .padding()
+            
+            DatePicker(selection: $paymentDate, in: startDate.toDate()...endDate.toDate(), displayedComponents: .date, label: {
+                Text("일자")
+                    .bold()
+            })
+                .padding()
+            
+            Divider()
             
             HStack {
                 Text("분류")
@@ -116,7 +127,7 @@ struct AddPaymentView: View {
             
             Button(action: {
                 let newPayment =
-                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
+                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.addPayment(newPayment: newPayment)
             }, label: {
                 HStack {
@@ -137,6 +148,6 @@ struct AddPaymentView: View {
 }
 
 #Preview {
-    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"))
+    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), startDate: 0, endDate: 0)
     
 }

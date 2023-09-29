@@ -10,39 +10,14 @@ import SwiftUI
 
 struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
+    @State var startDate: Double
+    @State var endDate: Double
     
-    let days = ["7월 8일 월요일", "7월 9일 화요일", "7월 10일 수요일", "7월 11일 목요일"]
-    
-    @State private var selectedDaysIdx = 0
+    let days: [String] = []
     
     var body: some View {
         
         VStack {
-            HStack {
-                Button(action: {
-                    selectedDaysIdx -= 1
-                    if selectedDaysIdx < 0 {
-                        selectedDaysIdx = 0
-                    }
-                }, label: {
-                    Text("<")
-                })
-                .disabled(selectedDaysIdx == 0)
-                
-                Text(days[selectedDaysIdx])
-                
-                Button(action: {
-                    selectedDaysIdx += 1
-                    if selectedDaysIdx >= days.count {
-                        selectedDaysIdx = days.count - 1
-                    }
-                }, label: {
-                    Text(">")
-                })
-                .disabled(selectedDaysIdx == days.count - 1)
-            }
-            .padding()
-            
             List{
                 Section{                                 
                     VStack(alignment: .leading, content: {
@@ -65,7 +40,7 @@ struct DetailMainView: View {
                 
                 Section {
                     NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore)
+                        AddPaymentView(paymentStore: paymentStore, startDate: startDate, endDate: endDate)
                             .navigationTitle("지출 항목 추가")
                         // TODO: custom back button
 //                            .navigationBarBackButtonHidden()
@@ -98,17 +73,8 @@ struct DetailMainView: View {
             }
         }
         
-        
-        
-        
         .onAppear {
             paymentStore.fetchAll()
         }
-        
-        
     }
 }
-
-//#Preview {
-//    DetailMainView(paymentStore: PaymentStore(travelCalculationId: ""))
-//}

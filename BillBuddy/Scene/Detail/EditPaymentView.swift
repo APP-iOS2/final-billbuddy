@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EditPaymentView: View {
     @State var payment: Payment
+    @State var startDate: Double
+    @State var endDate: Double
     
     @Binding var isShowingEditPaymentSheet: Bool
     
@@ -18,12 +20,21 @@ struct EditPaymentView: View {
     @State private var selectedCategory: Payment.PaymentType = .transportation
     @State private var isVisibleCategorySelectPicker = false
     @State private var category: String = "교통/숙박/관광/식비/기타"
+    @State private var paymentDate: Date = Date()
     
     var body: some View {
         VStack {
             Text("지출 항목 수정")
                 .font(.headline)
                 .padding()
+            
+            DatePicker(selection: $paymentDate, in: startDate.toDate()...endDate.toDate(), displayedComponents: .date, label: {
+                Text("일자")
+                    .bold()
+            })
+                .padding()
+            
+            Divider()
             
             HStack {
                 Text("분류")
@@ -111,7 +122,7 @@ struct EditPaymentView: View {
             Button(action: {
                 isShowingEditPaymentSheet = false
 
-                let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [])
+                let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate.timeIntervalSince1970)
 //                PaymentStore.
                 //                paymentStore.addPayment(newPayment: newPayment)
             }, label: {
@@ -131,13 +142,12 @@ struct EditPaymentView: View {
             category = payment.type.rawValue
             selectedCategory = payment.type
             expandDetails = payment.content
-//            numString = String(payment.)
             priceString = String(payment.payment)
-            
+            paymentDate = payment.paymentDate.toDate()
         }
     }
 }
 
 #Preview {
-    EditPaymentView(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: []), isShowingEditPaymentSheet: .constant(true))
+    EditPaymentView(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: 0), startDate: 0, endDate: 0, isShowingEditPaymentSheet: .constant(true))
 }
