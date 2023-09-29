@@ -26,6 +26,7 @@ class tempTravelCalculationStore: ObservableObject {
                     
                     let hostId: String = docData["hostId"] as? String ?? ""
                     let managerId: String = docData["managerId"] as? String ?? ""
+                    let travelTitle: String = docData["travelTitle"] as? String ?? ""
                     
                     let startDate: Double = docData["startDate"] as? Double ?? 0
                     let endDate: Double = docData["endDate"] as? Double ?? 0

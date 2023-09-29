@@ -10,12 +10,13 @@ import SwiftUI
 
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
+    var travelCalculation: TravelCalculation
     
     var body: some View {
         Section {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
-                    EditPaymentView(payment: payment, paymentStore: paymentStore, startDate: 0, endDate: 0)
+                    EditPaymentView(payment: payment, paymentStore: paymentStore, travelCalculation: travelCalculation)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {

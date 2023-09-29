@@ -11,8 +11,7 @@ struct AddPaymentView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject var paymentStore: PaymentStore
-    @State var startDate: Double
-    @State var endDate: Double
+    var travelCalculation: TravelCalculation
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -23,7 +22,7 @@ struct AddPaymentView: View {
     
     var body: some View {
         VStack {
-            SubPaymentView(startDate: startDate, endDate: endDate, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+            SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
             
             Button(action: {
                 let newPayment =
@@ -55,7 +54,7 @@ struct AddPaymentView: View {
     }
 }
 
-#Preview {
-    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), startDate: 0, endDate: 0)
-    
-}
+//#Preview {
+//    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: trav)
+//
+//}

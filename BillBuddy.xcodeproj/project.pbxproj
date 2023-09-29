@@ -46,8 +46,8 @@
 		278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */; };
 		278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */; };
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
-		C478B1902AC69F3D005EE427 /* DoubleToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B18F2AC69F3D005EE427 /* DoubleToDate.swift */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
+		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
 		C483BDA12AC2A29400638E0E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */; };
 		C483BDA32AC2A6CE00638E0E /* tempRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
@@ -91,8 +91,8 @@
 		278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
-		C478B18F2AC69F3D005EE427 /* DoubleToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleToDate.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
+		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tempRoomListView.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
@@ -203,6 +203,7 @@
 				276648102ABD5549000F8A10 /* Color+Extension.swift */,
 				273FD6A82AC1A407007BF7D4 /* Font+Extension.swift */,
 				273FD6AA2AC1C6D9007BF7D4 /* Date+Extension.swift */,
+				C478B1932AC6C5BD005EE427 /* Double+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -299,7 +300,6 @@
 				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
 				C4F87C0B2AC160FE00472876 /* PaymentStore.swift */,
 				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
-				C478B18F2AC69F3D005EE427 /* DoubleToDate.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -442,6 +442,7 @@
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
+				C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */,
 				C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */,
@@ -459,7 +460,6 @@
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
-				C478B1902AC69F3D005EE427 /* DoubleToDate.swift in Sources */,
 				C4A285172AC2750F0070797C /* DetailMainView.swift in Sources */,
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,

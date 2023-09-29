@@ -10,8 +10,7 @@ import SwiftUI
 
 struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
-    @State var startDate: Double
-    @State var endDate: Double
+    var travelCalculation: TravelCalculation
     
     let days: [String] = []
     
@@ -36,11 +35,11 @@ struct DetailMainView: View {
                     .padding()
                 }
                 
-                PaymentListView(paymentStore: paymentStore)
+                PaymentListView(paymentStore: paymentStore, travelCalculation: travelCalculation)
                 
                 Section {
                     NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore, startDate: startDate, endDate: endDate)
+                        AddPaymentView(paymentStore: paymentStore, travelCalculation: travelCalculation)
                             .navigationTitle("지출 항목 추가")
                             .navigationBarBackButtonHidden()
                     } label: {

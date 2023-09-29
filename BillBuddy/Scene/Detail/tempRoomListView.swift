@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// 방 메인 -> 나중에 아리님 코드에서 불러오게끔 수정
+
 struct tempRoomListView: View {
     @StateObject var travelCalculationStore: tempTravelCalculationStore = tempTravelCalculationStore()
 
@@ -17,11 +19,11 @@ struct tempRoomListView: View {
                 NavigationLink {
                     if let id = travelCalculation.id {
                         let paymentStore = PaymentStore(travelCalculationId: id)
-                        DetailMainView(paymentStore: paymentStore, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
+                        DetailMainView(paymentStore: paymentStore, travelCalculation: travelCalculation)
                             .navigationTitle(travelCalculation.travelTitle)
                     }
                 } label: {
-                    Text(travelCalculation.hostId)
+                    Text(travelCalculation.travelTitle)
                 }
             }
         }

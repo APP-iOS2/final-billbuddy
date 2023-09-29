@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SubPaymentView: View {
-    @State var startDate: Double
-    @State var endDate: Double
+    
+    var travelCalculation: TravelCalculation
     
     @Binding var expandDetails: String
     @Binding var priceString: String
@@ -29,7 +29,7 @@ struct SubPaymentView: View {
     
     var body: some View {
         VStack {
-            DatePicker(selection: $paymentDate, in: startDate.toDate()...endDate.toDate(), displayedComponents: .date, label: {
+            DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
                 Text("일자")
                     .bold()
             })
