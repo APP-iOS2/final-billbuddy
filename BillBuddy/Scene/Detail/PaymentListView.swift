@@ -16,6 +16,8 @@ struct PaymentListView: View {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
                     EditPaymentView(payment: payment, paymentStore: paymentStore, startDate: 0, endDate: 0)
+                        .navigationTitle("지출 항목 수정")
+                        .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
                         Image(systemName: "square.and.arrow.down.fill")

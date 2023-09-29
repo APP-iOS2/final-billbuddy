@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EditPaymentView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @State var payment: Payment
     @ObservedObject var paymentStore: PaymentStore
     @State var startDate: Double
@@ -34,6 +36,7 @@ struct EditPaymentView: View {
             Button(action: {
                 let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.editPayment(payment: newPayment)
+                self.presentationMode.wrappedValue.dismiss()
             }, label: {
                 HStack {
                     Spacer()
@@ -47,6 +50,16 @@ struct EditPaymentView: View {
             .padding()
             
         }
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "chevron.backward")
+                })
+            }
+            
+        })
         
     }
 }

@@ -42,18 +42,7 @@ struct DetailMainView: View {
                     NavigationLink {
                         AddPaymentView(paymentStore: paymentStore, startDate: startDate, endDate: endDate)
                             .navigationTitle("지출 항목 추가")
-                        // TODO: custom back button
-//                            .navigationBarBackButtonHidden()
-//                            .toolbar {
-//                                ToolbarItem(placement: .topBarLeading) {
-//                                    Button(action: {
-//                                        
-//                                    }, label: {
-//                                        Image(systemName: "chevron.backward")
-//                                    })
-//                                    
-//                                }
-//                            }
+                            .navigationBarBackButtonHidden()
                     } label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")

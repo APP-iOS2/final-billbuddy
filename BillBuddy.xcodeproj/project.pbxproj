@@ -296,10 +296,10 @@
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
 				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
+				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
 				C4F87C0B2AC160FE00472876 /* PaymentStore.swift */,
 				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
 				C478B18F2AC69F3D005EE427 /* DoubleToDate.swift */,
-				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";

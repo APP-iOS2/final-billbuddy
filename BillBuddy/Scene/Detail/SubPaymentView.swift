@@ -21,6 +21,12 @@ struct SubPaymentView: View {
     @State var isSelectedCategory: Bool = false
     @State var isVisibleCategorySelectPicker: Bool = false
     
+    var divider: some View {
+        Divider()
+            .padding(.leading, 10)
+            .padding(.trailing, 10)
+    }
+    
     var body: some View {
         VStack {
             DatePicker(selection: $paymentDate, in: startDate.toDate()...endDate.toDate(), displayedComponents: .date, label: {
@@ -29,7 +35,7 @@ struct SubPaymentView: View {
             })
             .padding()
             
-            Divider()
+            divider
             
             HStack {
                 Text("분류")
@@ -69,9 +75,7 @@ struct SubPaymentView: View {
             }
             .padding()
             
-            Divider()
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+            divider
             
             HStack {
                 Text("내용")
@@ -81,9 +85,7 @@ struct SubPaymentView: View {
             }
             .padding()
             
-            Divider()
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+            divider
             
             HStack {
                 Text("인원")
@@ -93,9 +95,7 @@ struct SubPaymentView: View {
             }
             .padding()
             
-            Divider()
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+            divider
             
             HStack {
                 Text("결제금액")
@@ -108,9 +108,7 @@ struct SubPaymentView: View {
             }
             .padding()
             
-            Divider()
-                .padding(.leading, 10)
-                .padding(.trailing, 10)
+            divider
             
             HStack {
                 Text("위치")
