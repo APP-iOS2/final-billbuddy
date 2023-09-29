@@ -16,12 +16,7 @@ struct Payment: Identifiable, Codable {
     var payment: Int
     let address: Address
     var participants: [Participant]
-    
-    var paymentDate: Date = Date.now
-    
-    var formattedDate: String {
-        return paymentDate.dateAndTime
-    }
+    var paymentDate: Double
     
     struct Address: Codable {
         let address: String
