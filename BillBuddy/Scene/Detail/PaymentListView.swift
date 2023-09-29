@@ -11,13 +11,11 @@ import SwiftUI
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
     
-    @State private var isShowingEditPaymentSheet = false
-    
     var body: some View {
         Section {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
-                    EditPaymentView(payment: payment, startDate: 0, endDate: 0, isShowingEditPaymentSheet: $isShowingEditPaymentSheet)
+                    EditPaymentView(payment: payment, startDate: 0, endDate: 0)
                 } label: {
                     HStack{
                         Image(systemName: "square.and.arrow.down.fill")

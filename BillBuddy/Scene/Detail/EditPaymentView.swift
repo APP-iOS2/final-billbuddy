@@ -12,8 +12,6 @@ struct EditPaymentView: View {
     @State var startDate: Double
     @State var endDate: Double
     
-    @Binding var isShowingEditPaymentSheet: Bool
-    
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
     @State private var numString: String = ""
@@ -120,8 +118,6 @@ struct EditPaymentView: View {
             .padding()
             
             Button(action: {
-                isShowingEditPaymentSheet = false
-
                 let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate.timeIntervalSince1970)
 //                PaymentStore.
                 //                paymentStore.addPayment(newPayment: newPayment)
@@ -149,5 +145,5 @@ struct EditPaymentView: View {
 }
 
 #Preview {
-    EditPaymentView(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: 0), startDate: 0, endDate: 0, isShowingEditPaymentSheet: .constant(true))
+    EditPaymentView(payment: Payment(type: .transportation, content: "", payment: 50000, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: 0), startDate: 0, endDate: 0)
 }
