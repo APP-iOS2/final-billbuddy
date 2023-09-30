@@ -17,7 +17,7 @@ struct PaymentListView: View {
         Section {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
-                    EditPaymentView(payment: payment, paymentStore: paymentStore, travelCalculation: travelCalculation)
+                    EditPaymentView(payment: payment, paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {

@@ -12,6 +12,7 @@ struct EditPaymentView: View {
     
     @State var payment: Payment
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var memberStore: MemberStore
     var travelCalculation: TravelCalculation
     
     @State private var expandDetails: String = ""
@@ -23,14 +24,19 @@ struct EditPaymentView: View {
     
     var body: some View {
         VStack {
-            SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
-                .onAppear {
-                    category = payment.type.rawValue
-                    selectedCategory = payment.type
-                    expandDetails = payment.content
-                    priceString = String(payment.payment)
-                    paymentDate = payment.paymentDate.toDate()
-                }
+            
+            List {
+                SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                    .onAppear {
+                        category = payment.type.rawValue
+                        selectedCategory = payment.type
+                        expandDetails = payment.content
+                        priceString = String(payment.payment)
+                        paymentDate = payment.paymentDate.toDate()
+                    }
+                
+                AddPaymentMemberView(memberStore: memberStore)
+            }
             
             Button(action: {
                 let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate.timeIntervalSince1970)

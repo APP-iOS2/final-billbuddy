@@ -28,15 +28,24 @@ struct AddPaymentMemberView: View {
             }
             .padding()
             .sheet(isPresented: $isShowingAddSheet, content: {
-                
                 List(memberStore.members) { member in
                     Text(member.name)
+                        .onTapGesture {
+                            newMembers.append(member)
+                        }
                 }
                 .onAppear {
                     memberStore.fetchAll()
                 }
+                .presentationDetents([.fraction(0.4)])
+                
             })
             
+            ForEach(newMembers) { member in
+                Text(member.name)
+                    .padding()
+            }
+
         }
     }
 }
