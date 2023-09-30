@@ -10,9 +10,9 @@ import SwiftUI
 
 struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
-    var travelCalculation: TravelCalculation
+    @ObservedObject var memberStore: MemberStore
     
-    let days: [String] = []
+    var travelCalculation: TravelCalculation
     
     var body: some View {
         
@@ -35,11 +35,11 @@ struct DetailMainView: View {
                     .padding()
                 }
                 
-                PaymentListView(paymentStore: paymentStore, travelCalculation: travelCalculation)
+                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                 
                 Section {
                     NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore, travelCalculation: travelCalculation)
+                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                             .navigationTitle("지출 항목 추가")
                             .navigationBarBackButtonHidden()
                     } label: {

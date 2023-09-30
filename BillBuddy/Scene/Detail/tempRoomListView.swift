@@ -19,7 +19,9 @@ struct tempRoomListView: View {
                 NavigationLink {
                     if let id = travelCalculation.id {
                         let paymentStore = PaymentStore(travelCalculationId: id)
-                        DetailMainView(paymentStore: paymentStore, travelCalculation: travelCalculation)
+                        let memberStore = MemberStore(travelCalculationId: id)
+                        
+                        DetailMainView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                             .navigationTitle(travelCalculation.travelTitle)
                     }
                 } label: {

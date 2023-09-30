@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var memberStore: MemberStore
     var travelCalculation: TravelCalculation
     
     var body: some View {

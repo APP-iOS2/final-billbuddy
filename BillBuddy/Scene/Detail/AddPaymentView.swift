@@ -11,6 +11,7 @@ struct AddPaymentView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var memberStore: MemberStore
     var travelCalculation: TravelCalculation
     
     @State private var expandDetails: String = ""
@@ -20,9 +21,21 @@ struct AddPaymentView: View {
     @State private var category: String = "교통/숙박/관광/식비/기타"
     @State private var paymentDate: Date = Date()
     
+    var divider: some View {
+        Divider()
+            .padding(.leading, 10)
+            .padding(.trailing, 10)
+    }
+    
     var body: some View {
         VStack {
-            SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+            List {
+                SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                
+                AddPaymentMemberView(memberStore: memberStore)
+            }
+            
+            // 위치
             
             Button(action: {
                 let newPayment =
