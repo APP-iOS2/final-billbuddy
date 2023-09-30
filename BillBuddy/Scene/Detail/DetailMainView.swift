@@ -48,7 +48,7 @@ struct DetailMainView: View {
                                 .padding()
                                 .tint(.gray)
                             VStack(alignment: .leading) {
-                                if paymentStore.payments.count != 0 {
+                                if paymentStore.payments.count == 0 {
                                     Text("아직 등록한 지출 항목이 없습니다.\n지출 내역을 추가해주세요.")
                                 }
                                 else{

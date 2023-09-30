@@ -48,6 +48,7 @@
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
 		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
+		C478B1962AC7A1F5005EE427 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1952AC7A1F5005EE427 /* MemberStore.swift */; };
 		C483BDA12AC2A29400638E0E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */; };
 		C483BDA32AC2A6CE00638E0E /* tempRoomListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
@@ -93,6 +94,7 @@
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		C478B1952AC7A1F5005EE427 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStore.swift; sourceTree = "<group>"; };
 		C483BDA02AC2A29400638E0E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tempRoomListView.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
@@ -292,13 +294,13 @@
 		2766484C2ABD8E37000F8A10 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				C478B1972AC7A1FD005EE427 /* Model */,
 				C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */,
 				C4A285162AC2750F0070797C /* DetailMainView.swift */,
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
 				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
 				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
-				C4F87C0B2AC160FE00472876 /* PaymentStore.swift */,
 				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
 			);
 			path = Detail;
@@ -343,6 +345,15 @@
 				278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */,
 			);
 			path = Pretendard;
+			sourceTree = "<group>";
+		};
+		C478B1972AC7A1FD005EE427 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C4F87C0B2AC160FE00472876 /* PaymentStore.swift */,
+				C478B1952AC7A1F5005EE427 /* MemberStore.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -440,6 +451,7 @@
 				276648092ABD54AE000F8A10 /* User.swift in Sources */,
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
+				C478B1962AC7A1F5005EE427 /* MemberStore.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */,

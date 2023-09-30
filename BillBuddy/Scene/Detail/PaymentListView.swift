@@ -32,6 +32,9 @@ struct PaymentListView: View {
                     }
                 }
             }
+            .onDelete(perform: { indexSet in
+                paymentStore.deletePayment(idx: indexSet)
+            })
         }
     }
 }
