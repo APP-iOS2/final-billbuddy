@@ -23,8 +23,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct BillBuddyApp: App {
     var body: some Scene {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+        let userTravelStore = UserTravelStore()
+        
         WindowGroup {
-            MapView()
+            TravelListView()
+                .environmentObject(userTravelStore)
         }
     }
 }
