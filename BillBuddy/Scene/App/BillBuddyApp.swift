@@ -21,10 +21,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct BillBuddyApp: App {
+    @StateObject private var schemeServie: SchemeService = SchemeService()
+    
     var body: some Scene {
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
         WindowGroup {
-            MapView()
+            ContentView()
+                .environmentObject(schemeServie)
+                .onOpenURL(perform: { url in
+                    schemeServie.getUrl(url: url)
+                })
         }
     }
 }

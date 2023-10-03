@@ -42,6 +42,8 @@
 		277C999E2AC06715006DFCFC /* Memeber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999D2AC06715006DFCFC /* Memeber.swift */; };
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
+		278544682AC413A2009032CE /* MemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278544672AC413A2009032CE /* MemberManagementView.swift */; };
+		2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785446A2AC41CE0009032CE /* SchemeService.swift */; };
 		278BA6052AC25EA800761B0B /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */; };
 		278BA6062AC25EA800761B0B /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */; };
 		278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FE2AC25EA800761B0B /* Pretendard-Medium.otf */; };
@@ -51,6 +53,10 @@
 		278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */; };
 		278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */; };
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
+		278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC152ACC396D00B2EC50 /* FirestoreService.swift */; };
+		278DDC182ACC3A0700B2EC50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 278DDC172ACC3A0700B2EC50 /* GoogleService-Info.plist */; };
+		278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */; };
+		278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */; };
 		636CE5FB2AC3B27400BF7730 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FA2AC3B27400BF7730 /* LocationManager.swift */; };
 		636CE5FD2AC3B67700BF7730 /* MapViewCoordinater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FC2AC3B67600BF7730 /* MapViewCoordinater.swift */; };
 		636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FE2AC3BA1E00BF7730 /* Line.swift */; };
@@ -85,6 +91,8 @@
 		277C999D2AC06715006DFCFC /* Memeber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memeber.swift; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
+		278544672AC413A2009032CE /* MemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementView.swift; sourceTree = "<group>"; };
+		2785446A2AC41CE0009032CE /* SchemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeService.swift; sourceTree = "<group>"; };
 		278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
 		278BA5FE2AC25EA800761B0B /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
@@ -95,6 +103,10 @@
 		278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		278BA60E2AC2653300761B0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		278DDC152ACC396D00B2EC50 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
+		278DDC172ACC3A0700B2EC50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
+		278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMemeberStore.swift; sourceTree = "<group>"; };
 		636CE5FA2AC3B27400BF7730 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		636CE5FC2AC3B67600BF7730 /* MapViewCoordinater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinater.swift; sourceTree = "<group>"; };
 		636CE5FE2AC3BA1E00BF7730 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
@@ -177,7 +189,7 @@
 				276648492ABD8E22000F8A10 /* Chatting */,
 				2766484F2ABD8E51000F8A10 /* MyPage */,
 				276648432ABD8DB4000F8A10 /* Membership */,
-				277403DE2AC3B81E000537DF /* AdmobView */,
+				277403DE2AC3B81E000537DF /* Admob */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -185,6 +197,7 @@
 		2766480C2ABD54F2000F8A10 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				278DDC172ACC3A0700B2EC50 /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -210,7 +223,10 @@
 		276648152ABD5586000F8A10 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */,
 				276648132ABD5583000F8A10 /* AuthService.swift */,
+				2785446A2AC41CE0009032CE /* SchemeService.swift */,
+				278DDC152ACC396D00B2EC50 /* FirestoreService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -295,6 +311,7 @@
 		2766484C2ABD8E37000F8A10 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				278544692AC413AF009032CE /* MemberManagement */,
 				2766484A2ABD8E34000F8A10 /* DetailView.swift */,
 			);
 			path = Detail;
@@ -308,13 +325,13 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		277403DE2AC3B81E000537DF /* AdmobView */ = {
+		277403DE2AC3B81E000537DF /* Admob */ = {
 			isa = PBXGroup;
 			children = (
 				277403DA2AC3B816000537DF /* AdmobView.swift */,
 				277403DC2AC3B81A000537DF /* NativeAdView.swift */,
 			);
-			path = AdmobView;
+			path = Admob;
 			sourceTree = "<group>";
 		};
 		277403E22AC3E579000537DF /* SignStore */ = {
@@ -324,6 +341,15 @@
 				277403E42AC3E579000537DF /* SignInStore.swift */,
 			);
 			path = SignStore;
+			sourceTree = "<group>";
+		};
+		278544692AC413AF009032CE /* MemberManagement */ = {
+			isa = PBXGroup;
+			children = (
+				278544672AC413A2009032CE /* MemberManagementView.swift */,
+				278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */,
+			);
+			path = MemberManagement;
 			sourceTree = "<group>";
 		};
 		278BA5F92AC25C4C00761B0B /* Resource */ = {
@@ -439,6 +465,7 @@
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
 				278BA6052AC25EA800761B0B /* Pretendard-Regular.otf in Resources */,
+				278DDC182ACC3A0700B2EC50 /* GoogleService-Info.plist in Resources */,
 				278BA6062AC25EA800761B0B /* Pretendard-Black.otf in Resources */,
 				278BA6082AC25EA800761B0B /* Pretendard-Light.otf in Resources */,
 			);
@@ -456,6 +483,7 @@
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* DetailView.swift in Sources */,
+				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
@@ -466,10 +494,13 @@
 				636CE5FB2AC3B27400BF7730 /* LocationManager.swift in Sources */,
 				2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */,
 				276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */,
+				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
 				2766483F2ABD8D76000F8A10 /* MapView.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
 				277C999E2AC06715006DFCFC /* Memeber.swift in Sources */,
+				2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */,
+				278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
@@ -478,6 +509,7 @@
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,
 				277403DD2AC3B81A000537DF /* NativeAdView.swift in Sources */,
 				276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */,
+				278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */,
 				276648352ABD8C73000F8A10 /* Payment.swift in Sources */,
 				276648452ABD8DCE000F8A10 /* NotificationView.swift in Sources */,
 			);
