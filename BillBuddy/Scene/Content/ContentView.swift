@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var schemeServie: SchemeService
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if schemeServie.url != nil {
+                NavigationStack {
+                    DetailView()
+                }
+            } else {
+                TravelListView()
+            }
         }
         .padding()
     }
@@ -21,4 +26,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(SchemeService())
 }

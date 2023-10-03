@@ -21,7 +21,7 @@ struct TravelCalculation: Identifiable, Codable {
     var updateContentDate: Date
     var members: [Member]
     
-    struct Member: Codable {
+    struct Member: Codable, Hashable {
         var userId: String?
         var name: String
         /// 선금
