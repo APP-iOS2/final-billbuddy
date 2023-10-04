@@ -58,9 +58,6 @@
 		636CE5FB2AC3B27400BF7730 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FA2AC3B27400BF7730 /* LocationManager.swift */; };
 		636CE5FD2AC3B67700BF7730 /* MapViewCoordinater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FC2AC3B67600BF7730 /* MapViewCoordinater.swift */; };
 		636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FE2AC3BA1E00BF7730 /* Line.swift */; };
-		D26253492ACD04A50053177C /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26253482ACD04A50053177C /* SignInModel.swift */; };
-		D262534B2ACD0B600053177C /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D262534A2ACD0B600053177C /* AuthStore.swift */; };
-		D262534D2ACD2C910053177C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D262534C2ACD2C910053177C /* GoogleService-Info.plist */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
 		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
 		C478B1962AC7A1F5005EE427 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1952AC7A1F5005EE427 /* MemberStore.swift */; };
@@ -123,9 +120,6 @@
 		636CE5FA2AC3B27400BF7730 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		636CE5FC2AC3B67600BF7730 /* MapViewCoordinater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinater.swift; sourceTree = "<group>"; };
 		636CE5FE2AC3BA1E00BF7730 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
-		D26253482ACD04A50053177C /* SignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SignInModel.swift; path = ../../../../../../SignInModel.swift; sourceTree = "<group>"; };
-		D262534A2ACD0B600053177C /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
-		D262534C2ACD2C910053177C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		C478B1952AC7A1F5005EE427 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStore.swift; sourceTree = "<group>"; };
@@ -227,7 +221,7 @@
 		2766480C2ABD54F2000F8A10 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				D262534C2ACD2C910053177C /* GoogleService-Info.plist */,
+				C49389502ACD4163008115FA /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -288,11 +282,9 @@
 		276648382ABD8D02000F8A10 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
-				D26253472ACD04720053177C /* SignModel */,
 				277403E22AC3E579000537DF /* SignStore */,
 				276648362ABD8CFD000F8A10 /* SignInView.swift */,
 				276648392ABD8D13000F8A10 /* SignUpView.swift */,
-				D262534A2ACD0B600053177C /* AuthStore.swift */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -381,8 +373,8 @@
 		277403E22AC3E579000537DF /* SignStore */ = {
 			isa = PBXGroup;
 			children = (
-				277403E42AC3E579000537DF /* SignInStore.swift */,
 				277403E32AC3E579000537DF /* SignUpStore.swift */,
+				277403E42AC3E579000537DF /* SignInStore.swift */,
 			);
 			path = SignStore;
 			sourceTree = "<group>";
@@ -429,12 +421,6 @@
 			path = Pretendard;
 			sourceTree = "<group>";
 		};
-		D26253472ACD04720053177C /* SignModel */ = {
-			isa = PBXGroup;
-			children = (
-				D26253482ACD04A50053177C /* SignInModel.swift */,
-			);
-			path = SignModel;
 		C49389542ACD43C5008115FA /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,7 +528,6 @@
 				276648092ABD54AE000F8A10 /* User.swift in Sources */,
 				277403E62AC3E579000537DF /* SignInStore.swift in Sources */,
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
-				D262534B2ACD0B600053177C /* AuthStore.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
 				C478B1962AC7A1F5005EE427 /* MemberStore.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
@@ -586,7 +571,6 @@
 				278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */,
 				276648352ABD8C73000F8A10 /* Payment.swift in Sources */,
 				276648452ABD8DCE000F8A10 /* NotificationView.swift in Sources */,
-				D26253492ACD04A50053177C /* SignInModel.swift in Sources */,
 				C49389532ACD438D008115FA /* Member.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
