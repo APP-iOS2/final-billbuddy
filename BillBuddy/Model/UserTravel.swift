@@ -15,7 +15,9 @@ struct UserTravel: Identifiable, Codable {
     @DocumentID var id: String?
     var travelId: String
     var travelName: String
-    var createdDate: Date
+//    var createdDate: Date
+    var startDate: Date
+    var endDate: Date
     var isPaymentSettled: Bool = false
     // ~~~~~~~ 필요한 아이템들 넣으면 됨.
 }

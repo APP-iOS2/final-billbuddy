@@ -48,11 +48,7 @@ final class UserTravelStore: ObservableObject {
                 updateContentDate: Date(),
                 members: []
             )
-            
-            
 //            travelCalculation.userTravelId = userTravelRef.documentID
-            
-            
         } catch {
             print("Error adding travel: \(error)")
         }

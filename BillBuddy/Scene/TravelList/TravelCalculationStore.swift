@@ -31,7 +31,6 @@ final class TravelCalculationStore: ObservableObject {
             self.travelCalculations = fetchData
         }
     }
-    
 //    func addTravelCalulation(_ travel: TravelCalculation) {
 //        do {
 //            _ = try db.collection("TravelCalculation").addDocument(from: travel)

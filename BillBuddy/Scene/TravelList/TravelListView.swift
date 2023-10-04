@@ -20,6 +20,7 @@ struct TravelListView: View {
                 ScrollView {
                     ForEach(createTravelList(), id: \.id) { travelList in
                         Text(travelList.travelName)
+                        Text("\(travelList.startDate) - \(travelList.endDate)")
                     }
                 }
                 NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {
@@ -42,7 +43,6 @@ struct TravelListView: View {
             }
         }
     }
-    
 }
 
 extension TravelListView {
