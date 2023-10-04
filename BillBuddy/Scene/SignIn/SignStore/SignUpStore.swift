@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class SignUpStore: ObservableObject {
     @Published var nameText: String = ""
@@ -14,11 +15,24 @@ final class SignUpStore: ObservableObject {
     @Published var passwordConfirmText: String = ""
     @Published var phoneNumText: String = ""
     
+    var isTextError: Bool = false
+    var isPasswordUnCorrectError: Bool = false
+    var isPasswordCountError: Bool = false
+    var isShowingAlert: Bool = false
+    
+    var showError = false
+    
     func checkSignUp() -> Bool {
         if nameText.isEmpty || emailText.isEmpty || passwordText.isEmpty || passwordConfirmText.isEmpty || phoneNumText.isEmpty {
             return false
         }
         return true
     }
-
+    
+    // 이메일 형식
+    public func isValidEmailId(_ emailText: String) -> Bool {
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+        return emailTest.evaluate(with: emailText)
+    }
 }

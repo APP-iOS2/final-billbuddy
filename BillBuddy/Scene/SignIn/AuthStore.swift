@@ -65,7 +65,7 @@ public class AuthStore {
 //            return false
 //        }
 //    }
-//    
+//
 //    static func deleteUser() async throws {
 //        let user = Auth.auth().currentUser
 //        do {
@@ -74,7 +74,7 @@ public class AuthStore {
 //            print("Error delete user: \(error)")
 //        }
 //    }
-//    
+//
 //    static func changePassword(password: String) async throws {
 //        do {
 //            try await Auth.auth().currentUser?.updatePassword(to: password)
