@@ -43,6 +43,7 @@ final class SignInStore: ObservableObject {
         default:
             isShowingAlert = true
             return false
+            
         }
     }
 }
