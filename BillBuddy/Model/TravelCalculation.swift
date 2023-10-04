@@ -16,12 +16,12 @@ struct TravelCalculation: Identifiable, Codable {
     var travelTitle: String
     /// 총무id
     var managerId: String
-    var startDate: Date
-    var endDate: Date
+    var startDate: Double
+    var endDate: Double
     var updateContentDate: Date
     var members: [Member]
     
-    struct Member: Codable {
+    struct Member: Codable, Hashable {
         var userId: String?
         var name: String
         /// 선금

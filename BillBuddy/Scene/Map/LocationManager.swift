@@ -92,7 +92,7 @@ extension LocationManager {
         
         if let address = address {
             CLGeocoder().geocodeAddressString(address) { [weak self] (placemarks, error) in
-                guard let self = self else { return }
+                guard self != nil else { return }
 
                 if let placemarks = placemarks, let location = placemarks.first?.location {
                     latitude = location.coordinate.latitude
