@@ -77,7 +77,10 @@ class PaymentStore: ObservableObject {
                     let price: Int = docData["payment"] as? Int ?? 0
                     let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
                     
-                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: paymentDate)
+                    let participants: [Payment.Participant] = docData["participants"] as? [Payment.Participant] ?? []
+                    print(participants)
+                    
+                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate)
                     
                     tempPayment.append(newPayment)
                 }

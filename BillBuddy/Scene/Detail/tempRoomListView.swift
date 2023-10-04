@@ -23,6 +23,7 @@ struct tempRoomListView: View {
                         
                         DetailMainView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                             .navigationTitle(travelCalculation.travelTitle)
+                            .navigationBarBackButtonHidden()
                     }
                 } label: {
                     Text(travelCalculation.travelTitle)

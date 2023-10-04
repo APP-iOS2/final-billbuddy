@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditPaymentMemberView: View {
-    @Binding var payment: Payment
+    @Binding var participants: [Payment.Participant]
     @ObservedObject var memberStore: MemberStore
     
     @State private var isShowingAddSheet: Bool = false
@@ -28,7 +28,7 @@ struct EditPaymentMemberView: View {
             }
             .padding()
             
-            ForEach(payment.participants, id:\.self) { participant in
+            ForEach(participants, id:\.self) { participant in
                 Text(participant.memberId)
             }
         }

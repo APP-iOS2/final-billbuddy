@@ -44,9 +44,9 @@ struct AddPaymentMemberView: View {
                                 }
                             }
                         Spacer()
-                        if let existMember = newMembers.firstIndex(where: { m in
+                        if newMembers.firstIndex(where: { m in
                             m.name == member.name
-                        }) {
+                        }) != nil {
                             Image(systemName: "checkmark.seal.fill")
                         }
                         

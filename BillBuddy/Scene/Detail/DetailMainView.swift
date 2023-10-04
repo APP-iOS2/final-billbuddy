@@ -9,6 +9,8 @@ import SwiftUI
 
 
 struct DetailMainView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
     
@@ -59,6 +61,32 @@ struct DetailMainView: View {
                     }
                 }
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Image(systemName: "chevron.backward")
+                    })
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        NotificationListView()
+                    } label: {
+                        Text("알림")
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        MoreView()
+                    } label: {
+                        Text("더보기")
+                    }
+                }
+                
+            })
         }
         
         .onAppear {
