@@ -8,13 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var schemeServie: SchemeService
+    
     var body: some View {
-        NavigationStack {
-            tempRoomListView()
+        VStack {
+            NavigationStack {
+                tempRoomListView()
+            }
+            
+//            if schemeServie.url != nil {
+//                NavigationStack {
+//                    tempRoomListView()
+//                }
+//            } else {
+//                TravelListView()
+//            }
         }
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(SchemeService())
 }

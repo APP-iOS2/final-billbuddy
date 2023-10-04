@@ -1,8 +1,8 @@
 //
-//  Memeber.swift
+//  Member.swift
 //  BillBuddy
 //
-//  Created by 윤지호 on 2023/09/24.
+//  Created by 김유진 on 10/4/23.
 //
 
 import Foundation

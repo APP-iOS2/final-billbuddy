@@ -71,7 +71,7 @@ class PaymentStore: ObservableObject {
                     let docData = doc.data()
                     
                     let typeString: String = docData["type"] as? String ?? ""
-                    var type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
                     
                     let content: String = docData["content"] as? String ?? ""
                     let price: Int = docData["payment"] as? Int ?? 0

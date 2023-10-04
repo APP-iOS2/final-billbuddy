@@ -7,23 +7,29 @@
 
 import SwiftUI
 import FirebaseCore
+import GoogleMobileAds
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        FirebaseApp.configure()
+        ///모바일 광고 SDK 초기화
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        return true
+    }
 }
 
 @main
 struct BillBuddyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-   
+    @StateObject private var schemeServie: SchemeService = SchemeService()
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(schemeServie)
+                .onOpenURL(perform: { url in
+                    schemeServie.getUrl(url: url)
+                })
         }
     }
 }

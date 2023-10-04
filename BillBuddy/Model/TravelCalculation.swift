@@ -3,7 +3,7 @@
 //  BillBuddy
 //
 //  Created by 윤지호 on 2023/09/22.
-//
+//  2023/09/27. 13:40
 
 import Foundation
 import FirebaseFirestoreSwift
@@ -21,7 +21,7 @@ struct TravelCalculation: Identifiable, Codable {
     var updateContentDate: Date
     var members: [Member]
     
-    struct Member: Codable {
+    struct Member: Codable, Hashable {
         var userId: String?
         var name: String
         /// 선금
