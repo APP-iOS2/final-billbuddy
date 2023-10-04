@@ -12,15 +12,18 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if schemeServie.url != nil {
-                NavigationStack {
-                    DetailView()
-                }
-            } else {
-                TravelListView()
+            NavigationStack {
+                tempRoomListView()
             }
+            
+//            if schemeServie.url != nil {
+//                NavigationStack {
+//                    tempRoomListView()
+//                }
+//            } else {
+//                TravelListView()
+//            }
         }
-        .padding()
     }
 }
 
