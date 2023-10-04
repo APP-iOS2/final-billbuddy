@@ -23,4 +23,7 @@ extension Date {
         return Self.dateFormatter.string(from: self)
     }
     
+    var test: String {
+        return "test"
+    }
 }
