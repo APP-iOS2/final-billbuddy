@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9232ACC0334005C3F30 /* UserTravelStore.swift */; };
+		023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9252ACC034E005C3F30 /* TravelCalculationStore.swift */; };
+		023EF9282ACC0363005C3F30 /* TravelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9272ACC0363005C3F30 /* TravelFilter.swift */; };
+		023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */; };
+		023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92D2ACC0731005C3F30 /* AddTravelView.swift */; };
 		273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273FD6A82AC1A407007BF7D4 /* Font+Extension.swift */; };
 		273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273FD6AA2AC1C6D9007BF7D4 /* Date+Extension.swift */; };
 		276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276647FA2ABD53F8000F8A10 /* BillBuddyApp.swift */; };
@@ -76,6 +81,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		023EF9232ACC0334005C3F30 /* UserTravelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravelStore.swift; sourceTree = "<group>"; };
+		023EF9252ACC034E005C3F30 /* TravelCalculationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCalculationStore.swift; sourceTree = "<group>"; };
+		023EF9272ACC0363005C3F30 /* TravelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelFilter.swift; sourceTree = "<group>"; };
+		023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelButtonView.swift; sourceTree = "<group>"; };
+		023EF92D2ACC0731005C3F30 /* AddTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelView.swift; sourceTree = "<group>"; };
 		273FD6A82AC1A407007BF7D4 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		273FD6AA2AC1C6D9007BF7D4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		276647F72ABD53F8000F8A10 /* BillBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BillBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -293,6 +303,11 @@
 			isa = PBXGroup;
 			children = (
 				2766483B2ABD8D29000F8A10 /* TravelListView.swift */,
+				023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */,
+				023EF92D2ACC0731005C3F30 /* AddTravelView.swift */,
+				023EF9272ACC0363005C3F30 /* TravelFilter.swift */,
+				023EF9232ACC0334005C3F30 /* UserTravelStore.swift */,
+				023EF9252ACC034E005C3F30 /* TravelCalculationStore.swift */,
 			);
 			path = TravelList;
 			sourceTree = "<group>";
@@ -526,6 +541,7 @@
 				C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */,
 				C493894B2ACD034F008115FA /* EditPaymentMemberView.swift in Sources */,
 				276648092ABD54AE000F8A10 /* User.swift in Sources */,
+				023EF9282ACC0363005C3F30 /* TravelFilter.swift in Sources */,
 				277403E62AC3E579000537DF /* SignInStore.swift in Sources */,
 				273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */,
 				276647FD2ABD53F8000F8A10 /* ContentView.swift in Sources */,
@@ -536,8 +552,10 @@
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,
+				023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */,
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
+				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				636CE5FD2AC3B67700BF7730 /* MapViewCoordinater.swift in Sources */,
@@ -558,6 +576,8 @@
 				2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */,
 				278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
+				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
+				023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */,
