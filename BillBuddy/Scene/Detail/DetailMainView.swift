@@ -81,6 +81,7 @@ struct DetailMainView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         MoreView()
+                            .navigationTitle("더보기")
                     } label: {
                         Text("더보기")
                     }

@@ -57,6 +57,17 @@ struct AddPaymentMemberView: View {
                 }
                 .presentationDetents([.fraction(0.4)])
                 
+                Button(action: {
+                    isShowingAddSheet = false
+                }, label: {
+                    HStack {
+                        Spacer()
+                        Text("추가하기")
+                            .bold()
+                        Spacer()
+                    }
+                    .padding()
+                })
             })
             
             ForEach(newMembers) { member in
