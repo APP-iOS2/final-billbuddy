@@ -39,6 +39,4 @@ final class SignUpStore: ObservableObject {
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegex)
         return emailTest.evaluate(with: emailText)
     }
-    
-    
 }
