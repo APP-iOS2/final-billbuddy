@@ -34,8 +34,8 @@ struct EditPaymentView: View {
                         priceString = String(payment.payment)
                         paymentDate = payment.paymentDate.toDate()
                     }
-                
-                AddPaymentMemberView(memberStore: memberStore)
+                EditPaymentMemberView(payment: $payment, memberStore: memberStore)
+//                AddPaymentMemberView(memberStore: memberStore)
             }
             
             Button(action: {
@@ -65,8 +65,12 @@ struct EditPaymentView: View {
             }
             
         })
+        .onAppear {
+            paymentStore.fetchAll()
+        }
         
     }
+        
 }
 
 

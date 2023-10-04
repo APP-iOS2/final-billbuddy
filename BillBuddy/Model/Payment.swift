@@ -26,7 +26,7 @@ struct Payment: Identifiable, Codable {
         let longitude: Double
     }
     
-    struct Participant: Codable {
+    struct Participant: Codable, Hashable {
         var memberId: String
         var payment: Int
     }
