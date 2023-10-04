@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTravelView: View {
-    @StateObject var travelCalculationStore = TravelCalculationStore()
+    @Binding var travelData: TravelCalculation
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date(), endDate: Date(), updateContentDate: Date(), members: [])
     @State private var selectedMember = 0
@@ -18,13 +18,13 @@ struct AddTravelView: View {
             Spacer()
             VStack(alignment: .leading) {
                 Text("여행 제목")
-                TextField("여행 제목을 입력해주세요.", text: $travelCalculationStore.travelCalculations[selectedMember].travelTitle)
+                TextField("여행 제목을 입력해주세요.", text: $travelData.travelTitle)
                 
-                DatePicker("시작 일", selection: $travelCalculationStore.travelCalculations[selectedMember].startDate, displayedComponents: [.date])
+                DatePicker("시작 일", selection: $travelData.startDate, displayedComponents: [.date])
                     .datePickerStyle(.automatic)
                     .padding(.bottom, 10)
                 
-                DatePicker("종료 일", selection: $travelCalculationStore.travelCalculations[selectedMember].endDate, displayedComponents: [.date])
+                DatePicker("종료 일", selection: $travelData.endDate, displayedComponents: [.date])
                     .datePickerStyle(.automatic)
             }
             .padding([.leading, .trailing], 12)
@@ -38,8 +38,8 @@ struct AddTravelView: View {
             Spacer()
             
             Picker("참여 인원", selection: $selectedMember) {
-                ForEach(0..<travelCalculationStore.travelCalculations[selectedMember].members.count, id: \.self) { index in
-                    Text(travelCalculationStore.travelCalculations[selectedMember].members[index].name)
+                ForEach(0..<$travelData.members.count, id: \.self) { index in
+                    Text("\(index)")
                 }
             }
             .pickerStyle(.automatic)
@@ -57,5 +57,6 @@ struct AddTravelView: View {
 }
 
 #Preview {
-    AddTravelView()
+    AddTravelView(travelData: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date(), endDate: Date(), updateContentDate: Date(), members: [])))
+           .environmentObject(UserTravelStore())
 }

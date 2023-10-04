@@ -10,6 +10,7 @@ import SwiftUI
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var selectedFilter: TravelFilter = .paymentInProgress
+    @State private var newTravelData = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date(), endDate: Date(), updateContentDate: Date(), members: [])
     
     var body: some View {
         NavigationStack{
@@ -21,13 +22,12 @@ struct TravelListView: View {
                         Text(travelList.travelName)
                     }
                 }
-                NavigationLink {
-                    AddTravelView()
-                } label: {
+                NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {
                     AddTravelButtonView()
                 }
             }
         }
+        .navigationTitle("BillBuddy")
     }
     
     func createTravelList() -> [UserTravel] {

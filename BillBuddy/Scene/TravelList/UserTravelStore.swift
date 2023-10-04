@@ -41,8 +41,8 @@ final class UserTravelStore: ObservableObject {
             
             _ = TravelCalculation(
                 hostId: travel.hostId,
-                travelTitle: "",
-                managerId: "manager1",
+                travelTitle: travel.travelTitle,
+                managerId: travel.managerId,
                 startDate: travel.startDate,
                 endDate: travel.endDate,
                 updateContentDate: Date(),
