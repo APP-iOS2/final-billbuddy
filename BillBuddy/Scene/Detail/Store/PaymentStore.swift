@@ -80,8 +80,8 @@ class PaymentStore: ObservableObject {
                     let participantsDict = docData["participants"] as? [[String: Any]] ?? []
                     var participants: [Payment.Participant] = []
                     for p in participantsDict {
-                        var memberId = p["memberId"] as? String ?? ""
-                        var payment = p["payment"] as? Int ?? 0
+                        let memberId = p["memberId"] as? String ?? ""
+                        let payment = p["payment"] as? Int ?? 0
                         
                         participants.append(Payment.Participant(memberId: memberId, payment: payment))
                     }

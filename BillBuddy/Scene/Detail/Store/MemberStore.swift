@@ -57,10 +57,12 @@ class MemberStore: ObservableObject {
     }
     
     func findMemberById(memberId: String)->Member? {
+        print(members)
         if let existMember = members.firstIndex(where: { m in
             m.id == memberId
         })
         {
+            print(memberId, members[existMember])
             return members[existMember]
         }
         return nil

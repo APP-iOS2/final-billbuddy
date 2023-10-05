@@ -11,7 +11,7 @@ struct EditPaymentMemberView: View {
     @Binding var payment: Payment
     @ObservedObject var memberStore: MemberStore
     
-    @State private var isShowingAddSheet: Bool = false
+    @State private var isShowingEditSheet: Bool = false
     @State private var tempMembers: [Member] = []
     
     var body: some View {
@@ -21,7 +21,7 @@ struct EditPaymentMemberView: View {
                     .bold()
                 Spacer()
                 Button(action: {
-                    isShowingAddSheet = true
+                    isShowingEditSheet = true
                 }, label: {
                     if payment.participants.count == 0 {
                         Text("추가하기")
@@ -33,66 +33,66 @@ struct EditPaymentMemberView: View {
                 
             }
             .padding()
-//            .sheet(isPresented: $isShowingAddSheet, content: {
-//                List(memberStore.members) { member in
-//                    HStack {
-//                        if tempMembers.firstIndex(where: { m in
-//                            m.name == member.name
-//                        }) != nil {
-//                            Image(systemName: "checkmark.seal.fill")
-//                        }
-//                        else {
-//                            Image(systemName: "checkmark.seal")
-//                        }
-//                        
-//                        Text(member.name)
-//                            .onTapGesture {
-//                                // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
-//                                // 각각에 대해서 배열로 만들수도 없고 이걸 어뚜케 해야하지? 나중에 Refactoring 고민해보기!
-//                                if let existMember = tempMembers.firstIndex(where: { m in
-//                                    m.name == member.name
-//                                }) {
-//                                    tempMembers.remove(at: existMember)
-//                                }
-//                                else {
-//                                    tempMembers.append(member)
-//                                }
-//                            }
-//                        Spacer()
-//                        
-//                        
-//                    }
-//                }
-//                .onAppear {
-//                    memberStore.fetchAll()
-//                    //participant.memberId -> member 찾아서 tempMembers 에 넣어주기
-////                    tempMembers = memberStore.findMembersByParticipants(participants: payment.participants)
-//                }
-//                .presentationDetents([.fraction(0.4)])
-//                
-//                Button(action: {
-//                    isShowingAddSheet = false
-////                    newMembers = payment.participants
-//                }, label: {
-//                    HStack {
-//                        Spacer()
-//                        Text("추가하기")
-//                            .bold()
-//                        Spacer()
-//                    }
-//                    .padding()
-//                })
-//            })
+            .sheet(isPresented: $isShowingEditSheet, content: {
+                List(memberStore.members) { member in
+                    HStack {
+                        if tempMembers.firstIndex(where: { m in
+                            m.name == member.name
+                        }) != nil {
+                            Image(systemName: "checkmark.seal.fill")
+                        }
+                        else {
+                            Image(systemName: "checkmark.seal")
+                        }
+                        
+                        Text(member.name)
+                            .onTapGesture {
+                                // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
+                                // 각각에 대해서 배열로 만들수도 없고 이걸 어뚜케 해야하지? 나중에 Refactoring 고민해보기!
+                                if let existMember = tempMembers.firstIndex(where: { m in
+                                    m.name == member.name
+                                }) {
+                                    tempMembers.remove(at: existMember)
+                                }
+                                else {
+                                    tempMembers.append(member)
+                                }
+                            }
+                        Spacer()
+                    }
+                }
+                .onAppear {
+                    memberStore.fetchAll()
+                    tempMembers = memberStore.findMembersByParticipants(participants: payment.participants)
+                }
+                .presentationDetents([.fraction(0.4)])
+                
+                Button(action: {
+                    isShowingEditSheet = false
+                    var participants: [Payment.Participant] = []
+                    
+                    for m in tempMembers {
+                        participants.append(Payment.Participant(memberId: m.id ?? "", payment: m.payment))
+                    }
+                    payment.participants = participants
+                }, label: {
+                    HStack {
+                        Spacer()
+                        Text("수정하기")
+                            .bold()
+                        Spacer()
+                    }
+                    .padding()
+                })
+            })
             
-            
-//            ForEach(memberStore.findMembersByParticipants(participants: payment.participants)) { member in
-//                Text(member.name)
-//            }
-            
-            ForEach(payment.participants, id:\.self) { participant in
-                Text(participant.memberId)
+            ForEach(memberStore.findMembersByParticipants(participants: payment.participants)) { member in
+                Text(member.name)
             }
             
+        }
+        .onAppear {
+            memberStore.fetchAll()
         }
     }
 }
