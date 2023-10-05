@@ -21,8 +21,7 @@ struct EditPaymentView: View {
     @State private var selectedCategory: Payment.PaymentType = .transportation
     @State private var category: String = "교통/숙박/관광/식비/기타"
     @State private var paymentDate: Date = Date()
-    @State private var participants: [Payment.Participant] = []
-    
+
     var body: some View {
         VStack {
             
@@ -36,10 +35,7 @@ struct EditPaymentView: View {
                         paymentDate = payment.paymentDate.toDate()
                     }
                 
-                EditPaymentMemberView(participants: $participants, memberStore: memberStore)
-                    .onAppear {
-                        participants = payment.participants
-                    }
+                EditPaymentMemberView(payment: $payment, memberStore: memberStore)
             }
             
             Button(action: {
