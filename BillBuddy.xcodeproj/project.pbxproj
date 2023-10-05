@@ -413,13 +413,10 @@
 		C48F7C392ACE8F4300466308 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				C48F7C3A2ACE8F6400466308 /* SubViews */,
+				C48F7C3D2ACEA5F800466308 /* Payment */,
 				278544692AC413AF009032CE /* MemberManagement */,
 				C483BDA22AC2A6CE00638E0E /* tempRoomListView.swift */,
 				C4A285162AC2750F0070797C /* DetailMainView.swift */,
-				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
-				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
-				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
 				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
 				C493894E2ACD32A7008115FA /* NotificationListView.swift */,
 				C493894C2ACD2EE5008115FA /* MoreView.swift */,
@@ -435,6 +432,17 @@
 				C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		C48F7C3D2ACEA5F800466308 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
+				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
+				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
+				C48F7C3A2ACE8F6400466308 /* SubViews */,
+			);
+			path = Payment;
 			sourceTree = "<group>";
 		};
 		C49389542ACD43C5008115FA /* Store */ = {
