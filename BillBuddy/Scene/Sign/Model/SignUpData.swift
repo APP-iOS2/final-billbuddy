@@ -1,8 +1,8 @@
 //
-//  SignUpModel.swift
+//  SignUpData.swift
 //  BillBuddy
 //
-//  Created by 박지현 on 10/5/23.
+//  Created by 박지현 on 10/6/23.
 //
 
 import Foundation

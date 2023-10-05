@@ -82,9 +82,9 @@
 		C4A285172AC2750F0070797C /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A285162AC2750F0070797C /* DetailMainView.swift */; };
 		C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C092AC1457D00472876 /* AddPaymentView.swift */; };
 		C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C0B2AC160FE00472876 /* PaymentStore.swift */; };
-		D2C16DA22ACD54BE00F48A06 /* SignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DA12ACD54BD00F48A06 /* SignInModel.swift */; };
+		D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1132ACF0F0D0087712F /* SignUpData.swift */; };
+		D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DA12ACD54BD00F48A06 /* SignInData.swift */; };
 		D2C16DA92ACD5A1700F48A06 /* AuthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DA82ACD5A1700F48A06 /* AuthStore.swift */; };
-		D2C16DAF2ACE4B1D00F48A06 /* SignUpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DAE2ACE4B1D00F48A06 /* SignUpModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -157,9 +157,9 @@
 		C4A285162AC2750F0070797C /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4F87C092AC1457D00472876 /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
 		C4F87C0B2AC160FE00472876 /* PaymentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStore.swift; sourceTree = "<group>"; };
-		D2C16DA12ACD54BD00F48A06 /* SignInModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInModel.swift; sourceTree = "<group>"; };
+		D279D1132ACF0F0D0087712F /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
+		D2C16DA12ACD54BD00F48A06 /* SignInData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInData.swift; sourceTree = "<group>"; };
 		D2C16DA82ACD5A1700F48A06 /* AuthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthStore.swift; sourceTree = "<group>"; };
-		D2C16DAE2ACE4B1D00F48A06 /* SignUpModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -457,9 +457,9 @@
 		276648382ABD8D02000F8A10 /* Sign */ = {
 			isa = PBXGroup;
 			children = (
-				D2C16DA02ACD549F00F48A06 /* SignModel */,
-				277403E22AC3E579000537DF /* SignStore */,
-				D2C16DA52ACD551000F48A06 /* SignView */,
+				D2C16DA02ACD549F00F48A06 /* Model */,
+				277403E22AC3E579000537DF /* Store */,
+				D2C16DA52ACD551000F48A06 /* View */,
 			);
 			path = Sign;
 			sourceTree = "<group>";
@@ -535,14 +535,14 @@
 			path = Admob;
 			sourceTree = "<group>";
 		};
-		277403E22AC3E579000537DF /* SignStore */ = {
+		277403E22AC3E579000537DF /* Store */ = {
 			isa = PBXGroup;
 			children = (
 				277403E42AC3E579000537DF /* SignInStore.swift */,
 				277403E32AC3E579000537DF /* SignUpStore.swift */,
 				D2C16DA82ACD5A1700F48A06 /* AuthStore.swift */,
 			);
-			path = SignStore;
+			path = Store;
 			sourceTree = "<group>";
 		};
 		278544692AC413AF009032CE /* MemberManagement */ = {
@@ -596,22 +596,22 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
-		D2C16DA02ACD549F00F48A06 /* SignModel */ = {
+		D2C16DA02ACD549F00F48A06 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D2C16DA12ACD54BD00F48A06 /* SignInModel.swift */,
-				D2C16DAE2ACE4B1D00F48A06 /* SignUpModel.swift */,
+				D2C16DA12ACD54BD00F48A06 /* SignInData.swift */,
+				D279D1132ACF0F0D0087712F /* SignUpData.swift */,
 			);
-			path = SignModel;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		D2C16DA52ACD551000F48A06 /* SignView */ = {
+		D2C16DA52ACD551000F48A06 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				276648362ABD8CFD000F8A10 /* SignInView.swift */,
 				276648392ABD8D13000F8A10 /* SignUpView.swift */,
 			);
-			path = SignView;
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -735,7 +735,6 @@
 				C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */,
 				636CE5FB2AC3B27400BF7730 /* LocationManager.swift in Sources */,
 				2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */,
-				D2C16DAF2ACE4B1D00F48A06 /* SignUpModel.swift in Sources */,
 				C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */,
 				C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */,
 				276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */,
@@ -751,12 +750,13 @@
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
 				023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */,
+				D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */,
 				2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
-				D2C16DA22ACD54BE00F48A06 /* SignInModel.swift in Sources */,
+				D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */,
 				C493894F2ACD32A7008115FA /* NotificationListView.swift in Sources */,
 				C4A285172AC2750F0070797C /* DetailMainView.swift in Sources */,
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
