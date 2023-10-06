@@ -30,5 +30,4 @@ struct MapViewCoordinater: UIViewRepresentable {
             locationManager.mapView.addOverlay(line.polyline)
         }
     }
-    
 }

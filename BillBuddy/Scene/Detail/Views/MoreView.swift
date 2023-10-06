@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MoreView: View {
     let viewNames: [String] = ["채팅(유리님)", "지도(승준님)", "날짜 관리(아리님?)", "인원 관리(지호님)", "결산(지호님)"]
+
     var body: some View {
         VStack {
             List(viewNames, id:\.self) { name in

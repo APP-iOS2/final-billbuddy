@@ -53,6 +53,7 @@ struct DetailMainView: View {
             .padding()
             
             List{
+
                 PaymentListView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
                 
                 Section {

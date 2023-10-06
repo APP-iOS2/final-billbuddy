@@ -10,6 +10,7 @@ import SwiftUI
 struct NotificationListView: View {
     var body: some View {
         Text("알림뷰(지연님)")
+
     }
 }
 

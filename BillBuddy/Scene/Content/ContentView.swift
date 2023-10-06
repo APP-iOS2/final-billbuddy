@@ -12,17 +12,13 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            NavigationStack {
-                tempRoomListView()
+            if schemeServie.url == nil {
+                BillBuddyTabView()
+            } else {
+                NavigationStack {
+                    tempRoomListView()
+                }
             }
-            
-//            if schemeServie.url != nil {
-//                NavigationStack {
-//                    tempRoomListView()
-//                }
-//            } else {
-//                TravelListView()
-//            }
         }
     }
 }
