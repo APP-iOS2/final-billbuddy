@@ -13,7 +13,7 @@ struct EditPaymentView: View {
     @State var payment: Payment
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
-    var travelCalculation: TravelCalculation
+    var userTravel: UserTravel
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -26,7 +26,7 @@ struct EditPaymentView: View {
         VStack {
             
             List {
-                SubPaymentView(travelCalculation: travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         category = payment.type.rawValue
                         selectedCategory = payment.type

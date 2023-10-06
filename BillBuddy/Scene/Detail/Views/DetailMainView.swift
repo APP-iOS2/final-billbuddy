@@ -19,7 +19,7 @@ struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
     
-    var travelCalculation: TravelCalculation
+    var userTravel: UserTravel
     
     @State var isSpendingListViewActive: Bool = false
     @State var isSettlementViewActive: Bool = false
@@ -54,11 +54,11 @@ struct DetailMainView: View {
             
             List{
 
-                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
+                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                 
                 Section {
                     NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
+                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                             .navigationTitle("지출 항목 추가")
                             .navigationBarBackButtonHidden()
                     } label: {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SubPaymentView: View {
     
-    var travelCalculation: TravelCalculation
+    var userTravel: UserTravel
     
     @Binding var expandDetails: String
     @Binding var priceString: String
@@ -30,7 +30,7 @@ struct SubPaymentView: View {
     var body: some View {
         Group {
             Section {
-                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
+                DatePicker(selection: $paymentDate, in: userTravel.startDate.toDate()...userTravel.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
                         .bold()
                 })

@@ -11,13 +11,13 @@ import SwiftUI
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
-    var travelCalculation: TravelCalculation
+    var userTravel: UserTravel
     
     var body: some View {
         Section {
             ForEach(paymentStore.payments) { payment in
                 NavigationLink {
-                    EditPaymentView(payment: payment, paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
+                    EditPaymentView(payment: payment, paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {
@@ -44,6 +44,6 @@ struct PaymentListView: View {
     }
 }
 
-#Preview {
-    PaymentListView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: TravelCalculation(hostId: "", travelTitle: "유럽", managerId: "", startDate: 0, endDate: 0, updateContentDate: Date(), members: []))
-}
+//#Preview {
+//    PaymentListView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: TravelCalculation(hostId: "", travelTitle: "유럽", managerId: "", startDate: 0, endDate: 0, updateContentDate: Date(), members: []))
+//}
