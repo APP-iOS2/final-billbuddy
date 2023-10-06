@@ -22,7 +22,8 @@ struct PaymentListView: View {
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
-                        Image(systemName: "square.and.arrow.down.fill")
+                        ParticipantProfileView(payment: payment, memberStore: memberStore)
+                            .frame(height: 30)
                         VStack(alignment: .leading, content: {
                             
                             Text("\(payment.payment)")
@@ -37,5 +38,12 @@ struct PaymentListView: View {
                 paymentStore.deletePayment(idx: indexSet)
             })
         }
+        .onAppear {
+            memberStore.fetchAll()
+        }
     }
+}
+
+#Preview {
+    PaymentListView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: TravelCalculation(hostId: "", travelTitle: "유럽", managerId: "", startDate: 0, endDate: 0, updateContentDate: Date(), members: []))
 }
