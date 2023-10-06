@@ -29,6 +29,9 @@ struct TravelListView: View {
             }
         }
         .navigationTitle("BillBuddy")
+        .onAppear {
+            userTravelStore.fetchUserTravel()
+        }
     }
     
     func createTravelList() -> [UserTravel] {
