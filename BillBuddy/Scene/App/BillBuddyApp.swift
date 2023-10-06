@@ -28,7 +28,7 @@ struct BillBuddyApp: App {
     var body: some Scene {
 
         WindowGroup {
-            ContentView()
+            TravelListView()
                 .environmentObject(userTravelStore)
                 .environmentObject(schemeServie)
                 .onOpenURL(perform: { url in
