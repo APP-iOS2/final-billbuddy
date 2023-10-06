@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
-    
     var body: some View {
         VStack {
             Spacer()
