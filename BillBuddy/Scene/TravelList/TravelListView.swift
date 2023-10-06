@@ -12,15 +12,36 @@ struct TravelListView: View {
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var newTravelData = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
     
+    
     var body: some View {
         NavigationStack{
             VStack {
                 travelFilterButton
                     .padding(.top)
-                ScrollView {
+                List {
                     ForEach(createTravelList(), id: \.id) { travelList in
-                        Text(travelList.travelName)
-                        Text("\(travelList.startDate) - \(travelList.endDate)")
+                        NavigationLink {
+                            if let id = travelList.id {
+                                // travelList.id -> travelCalculation 찾기
+//                                let travelCalculation
+                                let paymentStore = PaymentStore(travelCalculationId: id)
+                                let memberStore = MemberStore(travelCalculationId: id)
+                                
+                                DetailMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: travelList)
+                                    .navigationTitle(travelList.travelName)
+                                    .navigationBarBackButtonHidden()
+                            }
+                        } label: {
+                            Text(travelList.travelName)
+                        }
+//                        NavigationLink {
+//                            
+//                        } label: {
+//                            Text(travelList.travelName)
+//                        }
+
+                        
+//                        Text("\(travelList.startDate) - \(travelList.endDate)")
                     }
                 }
                 NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {
@@ -29,6 +50,9 @@ struct TravelListView: View {
             }
         }
         .navigationTitle("BillBuddy")
+        .onAppear {
+            userTravelStore.fetchUserTravel()
+        }
     }
     
     func createTravelList() -> [UserTravel] {
@@ -71,6 +95,7 @@ extension TravelListView {
                 }
                 .onTapGesture {
                     self.selectedFilter = filter
+                    userTravelStore.fetchUserTravel()
                     print(self.selectedFilter)
                 }
             }
