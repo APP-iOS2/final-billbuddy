@@ -29,7 +29,7 @@ struct BillBuddyApp: App {
     var body: some Scene {
 
         WindowGroup {
-            ContentView()
+            TravelListView()
                 .environmentObject(settlementExpensesStore)
                 .environmentObject(userTravelStore)
                 .environmentObject(schemeServie)

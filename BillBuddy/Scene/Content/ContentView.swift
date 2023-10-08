@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject private var schemeServie: SchemeService
+    @StateObject private var schemeServie: SchemeService = SchemeService()
+    @StateObject private var userTravelStore = UserTravelStore()
+  
     
     var body: some View {
         VStack {
@@ -16,7 +18,12 @@ struct ContentView: View {
                 BillBuddyTabView()
             } else {
                 NavigationStack {
-                    tempRoomListView()
+                    TravelListView()
+                        .environmentObject(userTravelStore)
+                        .environmentObject(schemeServie)
+                        .onOpenURL(perform: { url in
+                            schemeServie.getUrl(url: url)
+                        })
                 }
             }
         }

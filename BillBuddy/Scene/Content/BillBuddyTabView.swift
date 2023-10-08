@@ -9,10 +9,18 @@ import SwiftUI
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
+    @StateObject private var schemeServie: SchemeService = SchemeService()
+    @StateObject private var userTravelStore = UserTravelStore()
+  
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                tempRoomListView()
+                TravelListView()
+                    .environmentObject(userTravelStore)
+                    .environmentObject(schemeServie)
+                    .onOpenURL(perform: { url in
+                        schemeServie.getUrl(url: url)
+                    })
             }
             .tabItem { Text("list") }
             .tag(0)
