@@ -21,6 +21,7 @@ struct SettledAccountView: View {
                             .padding(.bottom, 2)
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.title05)
+                            .foregroundStyle(Color.systemBlack)
                     }
                     Spacer()
                 }
