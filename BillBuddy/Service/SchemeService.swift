@@ -21,6 +21,8 @@ class SchemeService: ObservableObject {
     }
     
     func getUrl(url: URL) {
+//        id
+//        userName
         self.url = url
         print("url -> \(url)")
     }

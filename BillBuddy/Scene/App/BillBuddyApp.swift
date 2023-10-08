@@ -24,11 +24,13 @@ struct BillBuddyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var schemeServie: SchemeService = SchemeService()
     @StateObject private var userTravelStore = UserTravelStore()
-  
+    @StateObject private var settlementExpensesStore = SettlementExpensesStore()
+    
     var body: some Scene {
 
         WindowGroup {
             TravelListView()
+                .environmentObject(settlementExpensesStore)
                 .environmentObject(userTravelStore)
                 .environmentObject(schemeServie)
                 .onOpenURL(perform: { url in
