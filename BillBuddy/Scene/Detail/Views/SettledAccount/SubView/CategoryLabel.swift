@@ -13,7 +13,7 @@ struct CategoryLabel: View {
     
     var body: some View {
         HStack {
-            Image("\(category.imageString)-thin")
+            Image("\(category.getImageString(type: .thin))")
                 .renderingMode(.template)
                 .resizable()
                 .frame(width: 24, height: 24)
