@@ -56,6 +56,27 @@ struct Payment: Identifiable, Codable {
             }
         }
         
+        enum ImageType: String {
+            case nomal = ""
+            case thin = "-thin"
+            case badge = "-badge"
+        }
+        
+        func getImageString(type: ImageType) -> String {
+            switch self {
+            case .accommodation:
+                return "hotel-bed-5-2\(type.rawValue)"
+            case .food:
+                return "fork-knife-9\(type.rawValue)"
+            case .transportation:
+                return "bus-39\(type.rawValue)"
+            case .tourism:
+                return "beach-36\(type.rawValue)"
+            case .etc:
+                return "etc\(type.rawValue)"
+            }
+        }
+        
         static func fromRawString(_ rawString: String) -> PaymentType {
                switch rawString {
                case "교통":
