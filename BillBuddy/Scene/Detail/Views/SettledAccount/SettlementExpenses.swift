@@ -24,7 +24,7 @@ struct SettlementExpenses {
     var members: [MemberPayment] = []
 
     struct MemberPayment {
-        var memberData: Member = Member(name: "name", advancePayment: 0, payment: 0)
+        var memberData: TravelCalculation.Member = TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)
         /// 총참여한 나온 금액
         var 총참여한나온금액: Int = 0
         /// 총개인 결제 금액

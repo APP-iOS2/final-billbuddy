@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct SettledAccountView: View {
-    @EnvironmentObject var settlementExpensesStore: SettlementExpensesStore
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    @ObservedObject var settlementExpensesStore: SettlementExpensesStore
     
     var body: some View {
         ScrollView {
@@ -68,19 +70,33 @@ struct SettledAccountView: View {
         .padding([.leading, .trailing], 21)
         .padding([.top, .bottom], 12)
         .formStyle(.automatic)
-        .navigationTitle(
-            Text("결산")
-                .font(.title05)
-                .foregroundColor(Color.systemBlack)
-        )
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
+            }
+            ToolbarItem(placement: .principal) {
+                Text("결산")
+                    .font(.title05)
+                    .foregroundColor(Color.systemBlack)
+            }
+            
+            
+        })
     }
 }
 
 #Preview {
     NavigationStack {
-        SettledAccountView()
-            .environmentObject(SettlementExpensesStore())
+        SettledAccountView(settlementExpensesStore: SettlementExpensesStore())
+//            .environmentObject(SettlementExpensesStore())
     }
     
 }

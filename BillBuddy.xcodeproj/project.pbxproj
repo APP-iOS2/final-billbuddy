@@ -15,6 +15,7 @@
 		02D26A7E2ACF9E4400B1E889 /* TempMemberStoreMemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D26A7D2ACF9E4400B1E889 /* TempMemberStoreMemberStore.swift */; };
 		2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0E62ACD75210002D620 /* AdmobBannerView.swift */; };
 		2717D0F72ACD78390002D620 /* BillBuddyTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */; };
+		2729F3312AD427960089147E /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729F3302AD427960089147E /* MemberCell.swift */; };
 		273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273FD6A82AC1A407007BF7D4 /* Font+Extension.swift */; };
 		273FD6AB2AC1C6D9007BF7D4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273FD6AA2AC1C6D9007BF7D4 /* Date+Extension.swift */; };
 		276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276647FA2ABD53F8000F8A10 /* BillBuddyApp.swift */; };
@@ -105,6 +106,7 @@
 		2717D0E62ACD75210002D620 /* AdmobBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobBannerView.swift; sourceTree = "<group>"; };
 		2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillBuddyTabView.swift; sourceTree = "<group>"; };
 		2717D0FD2ACD7E260002D620 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2729F3302AD427960089147E /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		273FD6A82AC1A407007BF7D4 /* Font+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Extension.swift"; sourceTree = "<group>"; };
 		273FD6AA2AC1C6D9007BF7D4 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		276647F72ABD53F8000F8A10 /* BillBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BillBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -316,6 +318,14 @@
 				023EF92D2ACC0731005C3F30 /* AddTravelView.swift */,
 			);
 			path = AddTravel;
+			sourceTree = "<group>";
+		};
+		2729F3322AD4279D0089147E /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				2729F3302AD427960089147E /* MemberCell.swift */,
+			);
+			path = SubView;
 			sourceTree = "<group>";
 		};
 		276647EE2ABD53F8000F8A10 = {
@@ -539,6 +549,7 @@
 		278544692AC413AF009032CE /* MemberManagement */ = {
 			isa = PBXGroup;
 			children = (
+				2729F3322AD4279D0089147E /* SubView */,
 				278544672AC413A2009032CE /* MemberManagementView.swift */,
 			);
 			path = MemberManagement;
@@ -795,6 +806,7 @@
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
 				2766483F2ABD8D76000F8A10 /* MapView.swift in Sources */,
 				C49389492ACD030F008115FA /* AddPaymentMemberView.swift in Sources */,
+				2729F3312AD427960089147E /* MemberCell.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				C483BDA32AC2A6CE00638E0E /* tempRoomListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
