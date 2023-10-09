@@ -16,7 +16,7 @@ class SettlementExpensesStore: ObservableObject {
         }
     }
     
-    func setSettlementExpenses(payments: [Payment], members: [Member]) {
+    func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
         settlementExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
         
         settlementExpenses.totalTransportation = payments.filter{ $0.type == .transportation }.reduce(0, { $0 + $1.payment } )
@@ -28,7 +28,7 @@ class SettlementExpensesStore: ObservableObject {
         settlementExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, 총참여한나온금액: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
         
         for payment in payments {
-            var personaPayment = settlementExpenses.totalExpenditure / payment.participants.count
+            let personaPayment = settlementExpenses.totalExpenditure / payment.participants.count
             for participant in payment.participants {
                 let index = members.firstIndex(where: { $0.id == participant.memberId } )
                 settlementExpenses.members[index!].총참여한나온금액 += personaPayment
