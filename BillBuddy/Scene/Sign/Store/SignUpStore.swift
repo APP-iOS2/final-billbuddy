@@ -73,7 +73,7 @@ final class SignUpStore: ObservableObject {
     @MainActor
     public func postSignUp() async -> Bool {
         do {
-            let authResult = try await AuthStore.createUser(email: signUpData.email, password: signUpData.password )
+            let authResult = try await AuthStore.shared.createUser(email: signUpData.email, password: signUpData.password )
             let user = signUpData.changeToUserModel(id: authResult.user.uid)
             try await saveUserData(user: user)
             

@@ -19,21 +19,11 @@ final class SignInStore: ObservableObject {
     
     @Published var alertDescription: String = ""
     
-    func checkSignedIn() -> Bool {
-        if AuthStore.userUid.isEmpty {
-            isSignedIn = false
-            return false
-        } else {
-            isSignedIn = true
-            return true
-        }
-    }
-    
     @MainActor
     func checkSignIn() async throws -> Bool {
         isDisableSignInButton = true
         
-        let result = try await AuthStore.signIn(email: emailText, password: passwordText)
+        let result = try await AuthStore.shared.signIn(email: emailText, password: passwordText)
         self.alertDescription = result.description
         
         switch result {
