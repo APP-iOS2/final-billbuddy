@@ -8,23 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var schemeServie: SchemeService = SchemeService()
+    @StateObject private var schemeServie: SchemeService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
-  
+    @StateObject private var settlementExpensesStore = SettlementExpensesStore()
+    
     
     var body: some View {
         VStack {
             if schemeServie.url == nil {
                 BillBuddyTabView()
+                    .environmentObject(settlementExpensesStore)
+                    .environmentObject(userTravelStore)
             } else {
-                NavigationStack {
-                    TravelListView()
-                        .environmentObject(userTravelStore)
-                        .environmentObject(schemeServie)
-                        .onOpenURL(perform: { url in
-                            schemeServie.getUrl(url: url)
-                        })
-                }
+                BillBuddyTabView()
+                    .environmentObject(settlementExpensesStore)
+                    .environmentObject(userTravelStore)
+
             }
         }
     }
@@ -32,5 +31,4 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(SchemeService())
 }
