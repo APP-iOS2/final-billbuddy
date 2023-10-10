@@ -22,17 +22,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct BillBuddyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var schemeServie: SchemeService = SchemeService()
-    @StateObject private var userTravelStore = UserTravelStore()
-  
+    
     var body: some Scene {
-
         WindowGroup {
-            TravelListView()
-                .environmentObject(userTravelStore)
-                .environmentObject(schemeServie)
+            ContentView()
                 .onOpenURL(perform: { url in
-                    schemeServie.getUrl(url: url)
+                    SchemeService.shared.getUrl(url: url)
                 })
         }
     }
