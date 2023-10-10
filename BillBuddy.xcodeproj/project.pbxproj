@@ -60,6 +60,8 @@
 		278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */; };
 		278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */; };
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
+		278CE1752AD508E700B8C16E /* ChatNotifincationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */; };
+		278CE1762AD508E700B8C16E /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CE1742AD508E700B8C16E /* NotificationView.swift */; };
 		278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC152ACC396D00B2EC50 /* FirestoreService.swift */; };
 		278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */; };
 		278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */; };
@@ -145,6 +147,8 @@
 		278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNotifincationCell.swift; sourceTree = "<group>"; };
+		278CE1742AD508E700B8C16E /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		278DDC152ACC396D00B2EC50 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
 		278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMemeberStore.swift; sourceTree = "<group>"; };
@@ -491,6 +495,7 @@
 		276648432ABD8DB4000F8A10 /* Membership */ = {
 			isa = PBXGroup;
 			children = (
+				278CE1712AD508E700B8C16E /* Notification */,
 				2717D0F42ACD77C90002D620 /* Views */,
 			);
 			path = Membership;
@@ -589,6 +594,23 @@
 				278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */,
 			);
 			path = Pretendard;
+			sourceTree = "<group>";
+		};
+		278CE1712AD508E700B8C16E /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				278CE1722AD508E700B8C16E /* Views */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		278CE1722AD508E700B8C16E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */,
+				278CE1742AD508E700B8C16E /* NotificationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		27933F6B2AD3402300E6A545 /* SettledAccount */ = {
@@ -786,6 +808,7 @@
 				27933F702AD3402300E6A545 /* CategoryLabel.swift in Sources */,
 				C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
+				278CE1752AD508E700B8C16E /* ChatNotifincationCell.swift in Sources */,
 				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,
 				023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */,
@@ -804,6 +827,7 @@
 				2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */,
 				C48F7C3F2ACEAB4200466308 /* ParticipantProfileView.swift in Sources */,
 				C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */,
+				278CE1762AD508E700B8C16E /* NotificationView.swift in Sources */,
 				C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */,
 				276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */,
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
