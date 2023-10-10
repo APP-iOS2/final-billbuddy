@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+struct tempSettlementView: View {
+    var body: some View {
+        Text("정산 뷰")
+    }
+}
 
 struct DetailMainView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -14,34 +19,46 @@ struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
     
-    var travelCalculation: TravelCalculation
+    var userTravel: UserTravel
+    
+    @State var isSpendingListViewActive: Bool = false
+    @State var isSettlementViewActive: Bool = false
     
     var body: some View {
         
         VStack {
-            List{
-                Section{                                 
+            Section{
+                HStack{
                     VStack(alignment: .leading, content: {
-                        HStack{
-                            NavigationLink {
-                                SpendingListView()
-                            } label: {
-                                Text("오늘의 총 지출")
-                                Spacer()
-                                Text("자세히 보기")
-                            }
-                        }
-                        Text("0원")
+                        
+                        Button(action: {
+                            isSpendingListViewActive = true
+                        }, label: {
+                            Text("오늘의 총 지출")
+                        })
+                        Text("30,000,000원")
                             .bold()
                     })
-                    .padding()
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        isSettlementViewActive = true
+                    }, label: {
+                        Text("정산하기")
+                    })
                 }
                 
-                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
+            }
+            .padding()
+            
+            List{
+
+                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                 
                 Section {
                     NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, travelCalculation: travelCalculation)
+                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                             .navigationTitle("지출 항목 추가")
                             .navigationBarBackButtonHidden()
                     } label: {
@@ -60,6 +77,10 @@ struct DetailMainView: View {
                         }
                     }
                 }
+                
+                NavigationLink("", destination: SpendingListView(), isActive: $isSpendingListViewActive)
+                NavigationLink("", destination: tempSettlementView(), isActive: $isSettlementViewActive)
+                
             }
             .toolbar(content: {
                 ToolbarItem(placement: .topBarLeading) {

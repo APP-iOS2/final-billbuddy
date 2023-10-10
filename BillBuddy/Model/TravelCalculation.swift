@@ -23,11 +23,17 @@ struct TravelCalculation: Identifiable, Codable {
     
     struct Member: Codable, Identifiable, Hashable {
         var id: String = UUID().uuidString
+        /// uid / nil이면 user가 들어와있지않은 임시 맴버
         var userId: String?
         var name: String
         /// 선금
         var advancePayment: Int
         /// 쓴비용 중간중간 + - << 추가 할지 말지 고민해야함.
         var payment: Int
+        
+        // 추가
+        var userImage: String = ""
+        var bankName: String = ""
+        var bankAccountNum: String = ""
     }
 }

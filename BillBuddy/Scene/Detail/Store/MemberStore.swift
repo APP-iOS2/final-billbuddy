@@ -55,4 +55,29 @@ class MemberStore: ObservableObject {
     func editMember(editMember: Member) {
         
     }
+    
+    func findMemberById(memberId: String)->Member? {
+        print(members)
+        if let existMember = members.firstIndex(where: { m in
+            m.id == memberId
+        })
+        {
+            print(memberId, members[existMember])
+            return members[existMember]
+        }
+        return nil
+    }
+    
+    func findMembersByParticipants(participants: [Payment.Participant]) -> [Member] {
+        var member: [Member] = []
+        
+        for p in participants {
+            if let m = self.findMemberById(memberId: p.memberId)
+            {
+                member.append(m)
+            }
+        }
+        
+        return member
+    }
 }
