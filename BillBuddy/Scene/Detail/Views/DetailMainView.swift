@@ -9,54 +9,68 @@ import SwiftUI
 
 struct DetailMainView: View {
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
     
     var userTravel: UserTravel
     
-    enum Mode {
-        case payment
-        case map
-    }
-    
-    @State var mode: Mode = .payment
-    
-    @State var isPayment: Bool = true
+    @State var selection: Int = 0
     
     
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    mode = .payment
-                    isPayment = true
-                } label: {
-                    Text("내역")
-                }
-                .tint(isPayment ? .accentColor: .black)
-                .padding()
-                
-                Spacer()
-                
-                Button {
-                    mode = .map
-                    isPayment = false
-                } label: {
-                    Text("지도")
-                }
-                .tint(isPayment ? .black: .accentColor)
-                .padding()
-
-            }
-            .padding()
+            SliderView(items: ["내역", "지도"], selection: $selection, defaultXSpace: 12)
             
-            if isPayment {
+            
+            if selection == 0 {
                 PaymentMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
             }
-            else {
-                Text("지도 뷰")
+            else if selection == 1 {
+                VStack{
+                    Text("지도 뷰")
+                    Spacer()
+                }
             }
+            
         }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    NotificationListView()
+                } label: {
+                    Image("ringing-bell-notification-3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    MoreView()
+                        .navigationTitle("더보기")
+                } label: {
+                    Image("steps-1 3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+            }
+            
+        })
     }
 }
 

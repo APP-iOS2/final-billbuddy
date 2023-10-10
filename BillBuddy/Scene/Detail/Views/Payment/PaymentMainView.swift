@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
@@ -34,7 +33,7 @@ struct PaymentMainView: View {
                 .onAppear {
                     selectedDate = userTravel.startDate
                 }
-
+                
                 Spacer()
             }
             .padding()
@@ -42,6 +41,7 @@ struct PaymentMainView: View {
                 DateSheet(selectedDate: $selectedDate, userTravel: userTravel)
                     .presentationDetents([.fraction(0.4)])
             })
+            .frame(height: 52)
             
             GroupBox {
                 HStack {
@@ -62,26 +62,8 @@ struct PaymentMainView: View {
                     })
                 }
                 
-                
-                Divider()
-                
-                VStack(alignment: .leading) {
-                    HStack {
-                        Image("money-cash-bill-1-6")
-                            .resizable()
-                            .frame(width: 18, height: 18)
-                        Text("0")
-                        
-                        Image("credit-card-5-24")
-                            .resizable()
-                            .frame(width: 18, height: 18)
-                        Text("0")
-                        
-                        Spacer()
-                    }
-                }
-                
             }
+            .frame(height: 80)
             .padding()
             
             HStack {
@@ -112,6 +94,8 @@ struct PaymentMainView: View {
             }
             .padding()
             
+            Spacer()
+            
             GroupBox {
                 NavigationLink {
                     AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
@@ -123,52 +107,18 @@ struct PaymentMainView: View {
                         Image("Group 1171275314")
                             .resizable()
                             .frame(width: 28, height: 28)
-                            
+                        
                         Text("지출 내역 추가")
-                            
+                        
                         Spacer()
                     }
                 }
             }
             .padding()
             
-            Spacer()
+            
         }
-        .navigationBarBackButtonHidden()
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar(content: {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Image("arrow_back")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                })
-            }
-            
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    NotificationListView()
-                } label: {
-                    Image("ringing-bell-notification-3")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
-            
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    MoreView()
-                        .navigationTitle("더보기")
-                } label: {
-                    Image("steps-1 3")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
-            
-        })
+        
         .onAppear {
             paymentStore.fetchAll()
         }
