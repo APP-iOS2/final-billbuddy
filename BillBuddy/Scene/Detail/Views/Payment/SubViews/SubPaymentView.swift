@@ -14,7 +14,7 @@ struct SubPaymentView: View {
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var headCountString: String
-    @Binding var selectedCategory: Payment.PaymentType
+    @Binding var selectedCategory: Payment.PaymentType?
     @Binding var category: String
     @Binding var paymentDate: Date
     
@@ -30,6 +30,7 @@ struct SubPaymentView: View {
     var body: some View {
         Group {
             Section {
+                // TODO: 이 부분 한국식으로 어떻게할지 고민
                 DatePicker(selection: $paymentDate, in: userTravel.startDate.toDate()...userTravel.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
                         .bold()
@@ -49,13 +50,23 @@ struct SubPaymentView: View {
                 HStack {
                     ForEach(Payment.PaymentType.allCases, id:\.self) { type in
                         Button(action: {
-                            selectedCategory = type
+                                selectedCategory = type
+                            
                         }, label: {
                             VStack {
-                                if selectedCategory == type {
-                                    Image(type.getImageString(type: .badge))
-                                        .resizable()
-                                        .frame(width: 24, height: 24)
+                                if let selected = selectedCategory {
+                                    if selected == type {
+                                        // TODO: 이 부분 나중에 primary color 이미지로 교환
+                                        Image(type.getImageString(type: .badge))
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    else {
+                                        Image(type.getImageString(type: .thin))
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                        
+                                    }
                                 }
                                 else {
                                     Image(type.getImageString(type: .thin))
