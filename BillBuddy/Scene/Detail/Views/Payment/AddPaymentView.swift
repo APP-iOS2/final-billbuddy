@@ -18,7 +18,7 @@ struct AddPaymentView: View {
     @State private var priceString: String = ""
     @State private var headCountString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var category: String = "교통/숙박/관광/식비/기타"
+    @State private var category: String = "기타"
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [Member] = []
     
@@ -30,7 +30,7 @@ struct AddPaymentView: View {
     
     var body: some View {
         VStack {
-            List {
+            List {                
                 SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = userTravel.startDate.toDate()

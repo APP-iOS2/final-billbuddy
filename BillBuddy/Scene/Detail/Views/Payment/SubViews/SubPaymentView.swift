@@ -29,6 +29,7 @@ struct SubPaymentView: View {
     
     var body: some View {
         Group {
+            
             Section {
                 // TODO: 이 부분 한국식으로 어떻게할지 고민
                 DatePicker(selection: $paymentDate, in: userTravel.startDate.toDate()...userTravel.endDate.toDate(), displayedComponents: .date, label: {

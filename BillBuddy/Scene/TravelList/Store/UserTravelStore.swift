@@ -45,7 +45,7 @@ final class UserTravelStore: ObservableObject {
                 managerId: travel.managerId,
                 startDate: travel.startDate,
                 endDate: travel.endDate,
-                updateContentDate: Date(),
+                updateContentDate: travel.updateContentDate,
                 members: []
             )
 //            travelCalculation.userTravelId = userTravelRef.documentID

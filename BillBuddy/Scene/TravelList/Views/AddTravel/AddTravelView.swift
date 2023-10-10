@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct AddTravelView: View {
-    @Binding var travelData: TravelCalculation
     @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
     @EnvironmentObject var userTravelStore: UserTravelStore
-    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
+    @State private var travelTitle: String = ""
     
     
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                TextField("여행 제목을 입력해주세요.", text: $travelData.travelTitle)
+                TextField("여행 제목을 입력해주세요.", text: $travelTitle)
                     .padding(.bottom, 15)
                 
                 HStack {
@@ -77,6 +76,7 @@ struct AddTravelView: View {
             Spacer()
             
             Button {
+                let newTravel = TravelCalculation(hostId: "", travelTitle: travelTitle, managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: 0, members: [])
                 userTravelStore.addTravel(newTravel)
                 
             } label: {
@@ -87,6 +87,6 @@ struct AddTravelView: View {
 }
 
 #Preview {
-    AddTravelView(travelData: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])))
+    AddTravelView()
         .environmentObject(UserTravelStore())
 }

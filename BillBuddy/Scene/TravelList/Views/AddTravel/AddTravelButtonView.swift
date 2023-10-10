@@ -27,12 +27,18 @@ struct AddTravelButtonView: View {
             
             HStack {
                 Spacer()
-                if showMenuItem2 {
-                    Text("여행 추가하기")
-                        .foregroundColor(Color.black)
-                    MenuItem(icon: "add")
-                        .padding(.trailing, 12)
+                NavigationLink {
+                    AddTravelView()
+                } label: {
+                    if showMenuItem2 {
+                        Text("여행 추가하기")
+                            .foregroundColor(Color.black)
+                        MenuItem(icon: "add")
+                            .padding(.trailing, 12)
+                    }
                 }
+
+                
             }
             
             

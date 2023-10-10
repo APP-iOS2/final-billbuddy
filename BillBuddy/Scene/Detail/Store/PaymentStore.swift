@@ -30,8 +30,9 @@ class tempTravelCalculationStore: ObservableObject {
                     
                     let startDate: Double = docData["startDate"] as? Double ?? 0
                     let endDate: Double = docData["endDate"] as? Double ?? 0
+                    let updateContentDate: Double = docData["updateContentDate"] as? Double ?? 0
                     
-                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: travelTitle, managerId: managerId, startDate: startDate, endDate: endDate, updateContentDate: Date(), members: [])
+                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: travelTitle, managerId: managerId, startDate: startDate, endDate: endDate, updateContentDate: updateContentDate, members: [])
                     
                     tempTravelCalculations.append(newTC)
                 }
