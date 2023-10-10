@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DateSheet: View {
+    @Binding var selectedDate: Double
     
     struct dateNumber: Hashable {
         var date: Date
@@ -16,7 +17,6 @@ struct DateSheet: View {
     
     var userTravel: UserTravel
     @State var dates: [dateNumber] = []
-    
     var body: some View {
         VStack {
             ScrollView {
@@ -24,11 +24,12 @@ struct DateSheet: View {
                     HStack {
                         
                         Button(action: {
-                            
+                            selectedDate = date.date.timeIntervalSince1970
                         }, label: {
                             Text(date.date.dateWeek)
                             Text(date.dateNum)
                         })
+                        .buttonStyle(.plain)
                         
                         Spacer()
                     }
@@ -57,5 +58,5 @@ struct DateSheet: View {
 }
 
 #Preview {
-    DateSheet(userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
+    DateSheet(selectedDate: .constant(0), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
 }

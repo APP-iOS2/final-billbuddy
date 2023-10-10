@@ -625,8 +625,6 @@
 				C493894E2ACD32A7008115FA /* NotificationListView.swift */,
 				C493894C2ACD2EE5008115FA /* MoreView.swift */,
 				C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */,
-				C47F6C762AD51878006B77D6 /* PaymentMainView.swift */,
-				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -645,6 +643,8 @@
 		C48F7C3D2ACEA5F800466308 /* Payment */ = {
 			isa = PBXGroup;
 			children = (
+				C47F6C762AD51878006B77D6 /* PaymentMainView.swift */,
+				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
 				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,

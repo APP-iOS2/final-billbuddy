@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var paymentStore: PaymentStore
@@ -18,26 +17,29 @@ struct PaymentMainView: View {
     var userTravel: UserTravel
     
     @State var isShowingDateSheet: Bool = false
+    @State var selectedDate: Double = 0
     
     var body: some View {
         VStack{
             HStack {
-                Text("2023년 9월 21일")
-                    .bold()
+                
                 Button {
                     isShowingDateSheet = true
                 } label: {
-                    Text("1일차")
+                    Text(selectedDate.toDate().dateWeek)
                     Image("expand_more")
                         .resizable()
                         .frame(width: 24, height: 24)
+                }
+                .onAppear {
+                    selectedDate = userTravel.startDate
                 }
 
                 Spacer()
             }
             .padding()
             .sheet(isPresented: $isShowingDateSheet, content: {
-                DateSheet(userTravel: userTravel)
+                DateSheet(selectedDate: $selectedDate, userTravel: userTravel)
                     .presentationDetents([.fraction(0.4)])
             })
             
