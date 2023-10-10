@@ -11,6 +11,7 @@ struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var newTravelData = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
+    @Namespace var animation
     
     
     var body: some View {
@@ -74,29 +75,28 @@ extension TravelListView {
         HStack {
             ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
                 VStack {
+                    Text(filter.title)
+                        .font(.title3)
+                        .fontWeight(selectedFilter == filter ? .bold : .regular)
+                        .foregroundColor(selectedFilter == filter ? .primary : .black)
+                    
                     if filter == selectedFilter {
-                        Text(filter.title)
-                            .font(.body)
+                        Capsule()
                             .foregroundColor(.primary)
-                            .padding(.vertical, 4)
-                            .padding([.leading, .trailing], 10)
-                            .background(Color.white)
-                            .cornerRadius(20)
+                            .frame(height: 3)
+                            .matchedGeometryEffect(id: "filter", in: animation)
                     } else {
-                        Text(filter.title)
-                            .padding(.vertical, 4)
-                            .padding([.leading, .trailing], 10)
-                            .cornerRadius(20)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color.black, lineWidth: 1.5)
-                            )
+                        Capsule()
+                            .foregroundColor(.clear)
+                            .frame(height: 3)
                     }
                 }
                 .onTapGesture {
-                    self.selectedFilter = filter
-                    userTravelStore.fetchUserTravel()
-                    print(self.selectedFilter)
+                    withAnimation(Animation.default) {
+                        self.selectedFilter = filter
+                        userTravelStore.fetchUserTravel()
+                        print(self.selectedFilter)
+                    }
                 }
             }
         }
