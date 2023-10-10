@@ -30,9 +30,16 @@ struct PaymentListView: View {
                             Text(payment.content)
                                 .tint(.gray)
                             HStack {
-                                Image("user-single-neutral-male-4-1")
-                                    .resizable()
-                                    .frame(width: 18, height: 18)
+                                if payment.participants.count == 1 {
+                                    Image("user-single-neutral-male-4")
+                                        .resizable()
+                                        .frame(width: 18, height: 18)
+                                }
+                                else if payment.participants.count > 1 {
+                                    Image("user-single-neutral-male-4-1")
+                                        .resizable()
+                                        .frame(width: 18, height: 18)
+                                }
                                 Text("\(payment.participants.count)명")
                             }
                         })
