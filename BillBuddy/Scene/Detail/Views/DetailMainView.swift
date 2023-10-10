@@ -33,7 +33,7 @@ struct DetailMainView: View {
                 } label: {
                     Text("내역")
                 }
-                .tint(isPayment ? .accentColor: .accentColor)
+                .tint(isPayment ? .accentColor: .black)
                 .padding()
                 
                 Spacer()
@@ -44,7 +44,7 @@ struct DetailMainView: View {
                 } label: {
                     Text("지도")
                 }
-                .tint(isPayment ? .black: .black)
+                .tint(isPayment ? .black: .accentColor)
                 .padding()
 
             }
@@ -56,7 +56,10 @@ struct DetailMainView: View {
                 Button {
                     isShowingDateSheet = true
                 } label: {
-                    Text("1일차 >")
+                    Text("1일차")
+                    Image("expand_more")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 }
 
                 Spacer()
@@ -69,7 +72,12 @@ struct DetailMainView: View {
             GroupBox {
                 HStack {
                     VStack(alignment: .leading, content: {
-                        Text("총 지출 >")
+                        HStack{
+                            Text("총 지출")
+                            Image("chevron_right")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
                         Text("0원")
                     })
                     
@@ -85,10 +93,16 @@ struct DetailMainView: View {
                 
                 VStack(alignment: .leading) {
                     HStack {
-                        Text("카드")
+                        Image("money-cash-bill-1-6")
+                            .resizable()
+                            .frame(width: 18, height: 18)
                         Text("0")
-                        Text("현금")
+                        
+                        Image("credit-card-5-24")
+                            .resizable()
+                            .frame(width: 18, height: 18)
                         Text("0")
+                        
                         Spacer()
                     }
                 }
@@ -101,6 +115,9 @@ struct DetailMainView: View {
                     
                 }, label: {
                     Text("전체내역")
+                    Image("expand_more")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 })
                 
                 Spacer()
@@ -116,22 +133,44 @@ struct DetailMainView: View {
                         PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                     }
                     .frame(maxWidth: .infinity)
-                    Text("지출 내역 추가")
+                    
                 }
                 Spacer()
             }
             .padding()
             
-            
+            GroupBox {
+                NavigationLink {
+                    AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                        .navigationTitle("지출 항목 추가")
+                        .navigationBarBackButtonHidden()
+                } label: {
+                    HStack {
+                        Spacer()
+                        Image("Group 1171275314")
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            
+                        Text("지출 내역 추가")
+                            
+                        Spacer()
+                    }
+                }
+            }
+            .padding()
             
             Spacer()
         }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.backward")
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 })
             }
             
@@ -139,7 +178,9 @@ struct DetailMainView: View {
                 NavigationLink {
                     NotificationListView()
                 } label: {
-                    Text("알림")
+                    Image("ringing-bell-notification-3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 }
             }
             
@@ -148,14 +189,15 @@ struct DetailMainView: View {
                     MoreView()
                         .navigationTitle("더보기")
                 } label: {
-//                    Image(uiImage: UIImage(named: "icons/common/steps-1 3"))
-                    Text("더보기")
+                    Image("steps-1 3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 }
             }
             
         })
         .onAppear {
-            paymentStore.fetchAll()
+//            paymentStore.fetchAll()
         }
     }
 }

@@ -29,7 +29,6 @@ struct TravelListView: View {
                                 
                                 DetailMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: travelList)
                                     .navigationTitle(travelList.travelName)
-                                    .navigationBarBackButtonHidden()
                             }
                         } label: {
                             Text(travelList.travelName)

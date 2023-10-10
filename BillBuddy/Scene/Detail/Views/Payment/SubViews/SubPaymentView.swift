@@ -113,7 +113,6 @@ struct SubPaymentView: View {
     }
 }
 
-//
-//#Preview {
-//    SubPaymentView()
-//}
+#Preview {
+    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
+}
