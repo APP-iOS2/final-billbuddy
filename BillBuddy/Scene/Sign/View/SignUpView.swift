@@ -67,7 +67,7 @@ struct SignUpView: View {
                             
                             Task {
                                 if await signUpStore.postSignUp() {
-                                    print("성공")
+
                                 } else {
                                     print("실패")
                                 }
