@@ -30,19 +30,10 @@ struct TravelListView: View {
                                 
                                 DetailMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: travelList)
                                     .navigationTitle(travelList.travelName)
-                                    .navigationBarBackButtonHidden()
                             }
                         } label: {
                             Text(travelList.travelName)
                         }
-//                        NavigationLink {
-//                            
-//                        } label: {
-//                            Text(travelList.travelName)
-//                        }
-
-                        
-//                        Text("\(travelList.startDate) - \(travelList.endDate)")
                     }
                 }
                 NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {
