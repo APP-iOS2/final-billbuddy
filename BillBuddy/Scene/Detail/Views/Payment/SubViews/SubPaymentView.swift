@@ -38,49 +38,41 @@ struct SubPaymentView: View {
             }
             
             Section {
-                HStack {
+                
+                HStack{
                     Text("분류")
                         .bold()
                     Spacer()
-                    
-                    Button(action: {
-                        isVisibleCategorySelectPicker = true
-                    }, label: {
-                        if isSelectedCategory {
-                            Text(category)
-                                .foregroundStyle(.black)
-                        }
-                        else {
-                            Text(category)
-                                .foregroundStyle(.gray)
-                        }
-                    })
-                    
-                    
                 }
                 .padding()
-                .onAppear {
-                    if category != "교통/숙박/관광/식비/기타" {
-                        isSelectedCategory = true
+                
+                HStack {
+                    ForEach(Payment.PaymentType.allCases, id:\.self) { type in
+                        Button(action: {
+                            selectedCategory = type
+                        }, label: {
+                            VStack {
+                                if selectedCategory == type {
+                                    Image(type.getImageString(type: .badge))
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                }
+                                else {
+                                    Image(type.getImageString(type: .thin))
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                    
+                                }
+                                
+                                Text(type.rawValue)
+                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .foregroundStyle(Color(hex: "A9ABB8"))
+                            }
+                            .padding()
+                        })
+                        .buttonStyle(.plain)
                     }
                 }
-                .sheet(isPresented: $isVisibleCategorySelectPicker, content: {
-                    Picker(selection: $selectedCategory, label: Text("Category")) {
-                        ForEach(Payment.PaymentType.allCases, id: \.self) { type in
-                            Text(type.rawValue)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    
-                    Button(action: { isVisibleCategorySelectPicker = false
-                        category = selectedCategory.rawValue
-                        isSelectedCategory = true
-                    }, label: {
-                        Text("선택")
-                    })
-                    
-                    .presentationDetents([.fraction(0.3)])
-                })
                 
             }
             

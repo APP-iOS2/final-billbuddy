@@ -22,15 +22,34 @@ struct PaymentListView: View {
                         .navigationBarBackButtonHidden()
                 } label: {
                     HStack{
-                        ParticipantProfileView(payment: payment, memberStore: memberStore)
-                            .frame(height: 30)
+                        Image(payment.type.getImageString(type: .badge))
+                            .resizable()
+                            .frame(width: 40, height: 40)
                         VStack(alignment: .leading, content: {
                             
-                            Text("\(payment.payment)")
-                                .bold()
                             Text(payment.content)
                                 .tint(.gray)
+                            HStack {
+                                Image("user-single-neutral-male-4-1")
+                                    .resizable()
+                                    .frame(width: 18, height: 18)
+                                Text("\(payment.participants.count)명")
+                            }
                         })
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .trailing) {
+                            Text("\(payment.payment)원")
+                            if payment.participants.isEmpty {
+                                Text("\(payment.payment)원")
+                            }
+                            else {
+                                Text("\(payment.payment / payment.participants.count)원")
+                            }
+                            
+                        }
+                        
                     }
                 }
             }
@@ -44,6 +63,6 @@ struct PaymentListView: View {
     }
 }
 
-//#Preview {
-//    PaymentListView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: TravelCalculation(hostId: "", travelTitle: "유럽", managerId: "", startDate: 0, endDate: 0, updateContentDate: Date(), members: []))
-//}
+#Preview {
+    PaymentListView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0))
+}

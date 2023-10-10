@@ -67,6 +67,7 @@ struct DetailMainView: View {
             .padding()
             .sheet(isPresented: $isShowingDateSheet, content: {
                 DateSheet(userTravel: userTravel)
+                    .presentationDetents([.fraction(0.4)])
             })
             
             GroupBox {
@@ -133,9 +134,8 @@ struct DetailMainView: View {
                         PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                     }
                     .frame(maxWidth: .infinity)
-                    
                 }
-                Spacer()
+                
             }
             .padding()
             
@@ -197,7 +197,7 @@ struct DetailMainView: View {
             
         })
         .onAppear {
-//            paymentStore.fetchAll()
+            paymentStore.fetchAll()
         }
     }
 }
