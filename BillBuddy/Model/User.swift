@@ -20,6 +20,7 @@ struct User: Identifiable, Codable {
     var bankAccountNum: String
     var isPremium: Bool
     var premiumDueDate: Date
+    var userImage: String = "DBPin"
     
     var formattedDate: String {
         return premiumDueDate.dateAndTime
