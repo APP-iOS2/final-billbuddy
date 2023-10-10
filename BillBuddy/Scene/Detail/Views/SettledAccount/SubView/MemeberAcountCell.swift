@@ -27,7 +27,7 @@ struct MemeberAcountCell: View {
 
             Spacer()
             Button {
-                // 계좌복사버튼
+                UIPasteboard.general.string = "\(member.memberData.bankName) \(member.memberData.bankAccountNum)"
             } label: {
                 HStack {
                     Text("계좌정보")

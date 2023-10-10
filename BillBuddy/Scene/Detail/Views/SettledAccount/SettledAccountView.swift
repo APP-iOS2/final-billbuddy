@@ -10,7 +10,7 @@ import SwiftUI
 struct SettledAccountView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @ObservedObject var settlementExpensesStore: SettlementExpensesStore
+    @EnvironmentObject var settlementExpensesStore: SettlementExpensesStore
     
     var body: some View {
         ScrollView {
@@ -95,8 +95,8 @@ struct SettledAccountView: View {
 
 #Preview {
     NavigationStack {
-        SettledAccountView(settlementExpensesStore: SettlementExpensesStore())
-//            .environmentObject(SettlementExpensesStore())
+        SettledAccountView()
+            .environmentObject(SettlementExpensesStore())
     }
     
 }

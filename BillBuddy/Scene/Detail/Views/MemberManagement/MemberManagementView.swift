@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MemberManagementView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     @StateObject private var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
     @State private var isShowingAlert: Bool = false
     @State private var isEditing: Bool = false
@@ -48,7 +50,7 @@ struct MemberManagementView: View {
                     .font(Font.body02)
             }
             .frame(width: 332, height: 52)
-            .background(Color.primary)
+            .background(Color.error)
             .cornerRadius(12)
             .foregroundColor(.white)
             .padding(.bottom, 59)
@@ -56,26 +58,26 @@ struct MemberManagementView: View {
         }
         .navigationTitle("인원관리")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("편집") {
-                    isEditing.toggle()
-                }
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("저장") {
-                    sampleMemeberStore.saveMemeber()
-                }
+            
+            ToolbarItem(placement: .principal) {
+                Text("결산")
+                    .font(.title05)
+                    .foregroundColor(Color.systemBlack)
             }
             
             
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    isShowingAlert = true
-                } label:{
-                    /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
-                }
-            }
+            
         }
         .alert(isPresented: $isShowingAlert) {
             Alert(title: Text("수정을 취소하겠습니까?"),
