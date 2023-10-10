@@ -2,18 +2,17 @@
 //  DetailMainView.swift
 //  BillBuddy
 //
-//  Created by 김유진 on 2023/09/26.
+//  Created by 김유진 on 10/9/23.
 //
 
 import SwiftUI
 
-struct tempSettlementView: View {
-    var body: some View {
-        Text("정산 뷰")
-    }
-}
-
 struct DetailMainView: View {
+    enum Mode {
+        case payment
+        case map
+    }
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @ObservedObject var paymentStore: PaymentStore
@@ -21,98 +20,148 @@ struct DetailMainView: View {
     
     var userTravel: UserTravel
     
-    @State var isSpendingListViewActive: Bool = false
-    @State var isSettlementViewActive: Bool = false
+    @State var mode: Mode = .payment
+    @State var isPayment: Bool = true
+    @State var isShowingDateSheet: Bool = false
     
     var body: some View {
-        
-        VStack {
-            Section{
-                HStack{
+        VStack{
+            HStack {
+                Button {
+                    mode = .payment
+                    isPayment = true
+                } label: {
+                    Text("내역")
+                }
+                .tint(isPayment ? .accentColor: .accentColor)
+                .padding()
+                
+                Spacer()
+                
+                Button {
+                    mode = .map
+                    isPayment = false
+                } label: {
+                    Text("지도")
+                }
+                .tint(isPayment ? .black: .black)
+                .padding()
+
+            }
+            .padding()
+            
+            HStack {
+                Text("2023년 9월 21일")
+                    .bold()
+                Button {
+                    isShowingDateSheet = true
+                } label: {
+                    Text("1일차 >")
+                }
+
+                Spacer()
+            }
+            .padding()
+            .sheet(isPresented: $isShowingDateSheet, content: {
+                DateSheet(userTravel: userTravel)
+            })
+            
+            GroupBox {
+                HStack {
                     VStack(alignment: .leading, content: {
-                        
-                        Button(action: {
-                            isSpendingListViewActive = true
-                        }, label: {
-                            Text("오늘의 총 지출")
-                        })
-                        Text("30,000,000원")
-                            .bold()
+                        Text("총 지출 >")
+                        Text("0원")
                     })
                     
                     Spacer()
                     
-                    Button(action: {
-                        isSettlementViewActive = true
-                    }, label: {
+                    Button(action: {}, label: {
                         Text("정산하기")
                     })
+                }
+                
+                
+                Divider()
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("카드")
+                        Text("0")
+                        Text("현금")
+                        Text("0")
+                        Spacer()
+                    }
                 }
                 
             }
             .padding()
             
-            List{
-
-                PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+            HStack {
+                Button(action: {
+                    
+                }, label: {
+                    Text("전체내역")
+                })
                 
-                Section {
-                    NavigationLink {
-                        AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
-                            .navigationTitle("지출 항목 추가")
-                            .navigationBarBackButtonHidden()
-                    } label: {
-                        HStack {
-                            Image(systemName: "plus.circle.fill")
-                                .padding()
-                                .tint(.gray)
-                            VStack(alignment: .leading) {
-                                if paymentStore.payments.count == 0 {
-                                    Text("아직 등록한 지출 항목이 없습니다.\n지출 내역을 추가해주세요.")
-                                }
-                                else{
-                                    Text("지출 내역 추가")
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                NavigationLink("", destination: SpendingListView(), isActive: $isSpendingListViewActive)
-                NavigationLink("", destination: tempSettlementView(), isActive: $isSettlementViewActive)
-                
+                Spacer()
+                Text("편집")
             }
-            .toolbar(content: {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                    }, label: {
-                        Image(systemName: "chevron.backward")
-                    })
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        NotificationListView()
-                    } label: {
-                        Text("알림")
+            .padding()
+            
+            Divider()
+            
+            HStack {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                     }
+                    .frame(maxWidth: .infinity)
+                    Text("지출 내역 추가")
                 }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        MoreView()
-                            .navigationTitle("더보기")
-                    } label: {
-                        Text("더보기")
-                    }
-                }
-                
-            })
+                Spacer()
+            }
+            .padding()
+            
+            
+            
+            Spacer()
         }
-        
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image(systemName: "chevron.backward")
+                })
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    NotificationListView()
+                } label: {
+                    Text("알림")
+                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    MoreView()
+                        .navigationTitle("더보기")
+                } label: {
+//                    Image(uiImage: UIImage(named: "icons/common/steps-1 3"))
+                    Text("더보기")
+                }
+            }
+            
+        })
         .onAppear {
             paymentStore.fetchAll()
         }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        DetailMainView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), userTravel: UserTravel(travelId: "4eB3HvBvH6jXYDLu9irl", travelName: "신나는 유럽여행", startDate: 1675186400, endDate: 1681094400))
     }
 }

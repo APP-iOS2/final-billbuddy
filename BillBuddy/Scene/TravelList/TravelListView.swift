@@ -34,14 +34,6 @@ struct TravelListView: View {
                         } label: {
                             Text(travelList.travelName)
                         }
-//                        NavigationLink {
-//                            
-//                        } label: {
-//                            Text(travelList.travelName)
-//                        }
-
-                        
-//                        Text("\(travelList.startDate) - \(travelList.endDate)")
                     }
                 }
                 NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {

@@ -22,7 +22,13 @@ extension Date {
         
         return Self.dateFormatter.string(from: self)
     }
-    
-    
+
+    var dateWeek: String {
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier: "ko_KR")
+        Self.dateFormatter.dateFormat = "MM.dd(eeeee)"
+        
+        return Self.dateFormatter.string(from: self)
+    }
     
 }
