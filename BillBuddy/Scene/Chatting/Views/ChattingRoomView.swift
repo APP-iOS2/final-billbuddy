@@ -9,63 +9,103 @@ import SwiftUI
 
 struct ChattingRoomView: View {
     
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     @State private var inputText: String = ""
     
     var body: some View {
-        ZStack {
-            chattingItem
+        VStack {
+            ScrollView {
+                chattingItem
+            }
             VStack {
-                Spacer()
                 chattingInputBar
             }
         }
         .navigationTitle("신나는 유럽여행")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    mode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    
+                }, label: {
+                    Image("steps-1 3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
+            }
+        }
     }
     
     private var chattingItem: some View {
-        ScrollView {
-            ForEach(0..<1) { data in
-                HStack {
-                    Spacer()
-                    HStack {
-                        Text("안녕?")
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    .background(Color.positive)
-                    .cornerRadius(10)
-                }
-                .padding(.horizontal)
-                .padding(.top, 3)
-            }
-            HStack{
+        ForEach(0..<15) { data in
+            HStack {
                 Spacer()
+                VStack {
+                 Spacer()
+                    Text("오후 6:03")
+                        .font(Font.caption02)
+                        .foregroundColor(.systemGray06)
+                }
+                VStack {
+                    Text("김상인")
+                        .font(Font.caption02)
+                        .foregroundColor(.systemBlack)
+                    Text("안녕?")
+                        .font(Font.body04)
+                        .foregroundColor(.systemBlack)
+                        .padding()
+                        .background(Color.systemGray01)
+                        .cornerRadius(12)
+                }
+                VStack {
+                    Circle()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.systemGray06)
+                    Spacer()
+                }
             }
+            .padding(.horizontal)
+            .padding(.top, 5)
         }
-        .background(Color(.init(white: 0.95, alpha: 1)))
     }
     
     private var chattingInputBar: some View {
-        HStack(spacing: 16) {
-            Image(systemName: "photo.badge.plus")
-                .font(.system(size: 24))
-                .foregroundColor(.systemGray08)
+        HStack() {
             TextField("내용을 입력해주세요", text: $inputText)
+                .padding()
             Button {
                 
             } label: {
-                Text("보내기")
-                    .foregroundColor(.white)
+                Image("emoji")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.systemGray07)
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            .background(Color.positive)
-            .cornerRadius(10)
+            Button {
+                
+            } label: {
+                Image("mail-send-email-message-35")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.systemGray07)
+            }
+            .padding(.trailing, 10)
         }
-        .padding(.horizontal, 20)
-        .frame(height: 40)
-        .background(Color.white)
+        .frame(height: 50)
+        .background(Color.systemGray01)
+        .cornerRadius(12)
+        .padding(.horizontal, 10)
     }
 }
 
