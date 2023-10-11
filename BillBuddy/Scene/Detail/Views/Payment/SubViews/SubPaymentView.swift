@@ -57,15 +57,23 @@ struct SubPaymentView: View {
                             VStack {
                                 if let selected = selectedCategory {
                                     if selected == type {
-                                        // TODO: 이 부분 나중에 primary color 이미지로 교환
-                                        Image(type.getImageString(type: .badge))
+                                        Image(type.getImageString(type: .thin))
+                                            .renderingMode(.template)
                                             .resizable()
                                             .frame(width: 24, height: 24)
+                                            .foregroundStyle(Color.primary)
+                                        Text(type.rawValue)
+                                            .font(.custom("Pretendard-Medium", size: 12))
+                                            .foregroundStyle(Color.primary)
+                                            
                                     }
                                     else {
                                         Image(type.getImageString(type: .thin))
                                             .resizable()
                                             .frame(width: 24, height: 24)
+                                        Text(type.rawValue)
+                                            .font(.custom("Pretendard-Medium", size: 12))
+                                            .foregroundStyle(Color(hex: "A9ABB8"))
                                         
                                     }
                                 }
@@ -73,12 +81,13 @@ struct SubPaymentView: View {
                                     Image(type.getImageString(type: .thin))
                                         .resizable()
                                         .frame(width: 24, height: 24)
+                                    Text(type.rawValue)
+                                        .font(.custom("Pretendard-Medium", size: 12))
+                                        .foregroundStyle(Color(hex: "A9ABB8"))
                                     
                                 }
                                 
-                                Text(type.rawValue)
-                                    .font(.custom("Pretendard-Medium", size: 12))
-                                    .foregroundStyle(Color(hex: "A9ABB8"))
+                                
                             }
                             .padding()
                         })
