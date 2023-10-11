@@ -9,7 +9,77 @@ import SwiftUI
 
 struct ChattingView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            VStack {
+                ScrollView {
+                    chattingItems
+                        .padding(.top, 5)
+                        .overlay(
+                            Rectangle()
+                                .frame(height: 1, alignment: .top)
+                                .foregroundColor(.gray100), alignment: .top
+                        )
+                }
+            }
+            .navigationTitle("채팅")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        
+                    }, label: {
+                        Image("ringing-bell-notification-3")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.systemBlack)
+                    })
+                }
+            }
+        }
+    }
+    
+    private var chattingItems: some View {
+        ForEach(0..<3, id: \.self) { data in
+            NavigationLink {
+                ChattingRoomView()
+            } label: {
+                HStack {
+                    Circle()
+                        .frame(width: 48, height: 48)
+                        .foregroundColor(.gray200)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("신나는 유럽여행")
+                                .font(Font.body02)
+                                .foregroundColor(.systemBlack)
+                            
+                            Text("8")
+                                .font(Font.body02)
+                                .foregroundColor(.gray500)
+                        }
+                        Text("채팅미리보기")
+                            .font(Font.body04)
+                            .foregroundColor(.gray700)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text("오후 2:27")
+                            .font(Font.caption01)
+                            .foregroundColor(.gray500)
+                        Text("5")
+                            .frame(width: 16, height: 16)
+                            .font(Font.caption03)
+                            .foregroundColor(.white)
+                            .background(Color.error)
+                            .cornerRadius(50)
+                    }
+                }
+            }
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
+            .frame(height: 80)
+        }
+        .padding(2)
     }
 }
 

@@ -31,36 +31,26 @@ extension Color {
     /// 57B585
     static let positive = Color(hex: "#57B585")
     
-    /// gray-050
     /// F7F7FA
-    static let systemGray01 = Color(hex: "#F7F7FA")
-    /// gray-100
+    static let gray050 = Color(hex: "#F7F7FA")
     /// F0F0F5
-    static let systemGray02 = Color(hex: "#F0F0F5")
-    /// gray-200
+    static let gray100 = Color(hex: "#F0F0F5")
     /// E8E8EE
-    static let systemGray03 = Color(hex: "#E8E8EE")
-    /// gray-300
+    static let gray200 = Color(hex: "#E8E8EE")
     /// E1E1E8
-    static let systemGray04 = Color(hex: "#E1E1E8")
-    /// gray-400
+    static let gray300 = Color(hex: "#E1E1E8")
     /// CDCED6
-    static let systemGray05 = Color(hex: "#CDCED6")
-    /// gray-500
+    static let gray400 = Color(hex: "#CDCED6")
     /// A9ABB8
-    static let systemGray06 = Color(hex: "#A9ABB8")
-    /// gray-600
+    static let gray500 = Color(hex: "#A9ABB8")
     /// 858899
-    static let systemGray07 = Color(hex: "#858899")
-    /// gray-700
+    static let gray600 = Color(hex: "#858899")
     /// 525463
-    static let systemGray08 = Color(hex: "#525463")
-    /// gray-800
+    static let gray700 = Color(hex: "#525463")
     /// 3E404C
-    static let systemGray09 = Color(hex: "#3E404C")
-    /// gray-900
+    static let gray800 = Color(hex: "#3E404C")
     /// 2B2D36
-    static let systemGray10 = Color(hex: "#2B2D36")
+    static let gray900 = Color(hex: "#2B2D36")
     /// black / 252730
     static let systemBlack = Color(hex: "#252730")
 

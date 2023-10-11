@@ -37,7 +37,7 @@ struct MemeberAcountCell: View {
                         .frame(width: 18, height: 18)
                 }
             }
-            .foregroundColor(.systemGray07)
+            .foregroundColor(.gray600)
             .font(.body04)
             
             

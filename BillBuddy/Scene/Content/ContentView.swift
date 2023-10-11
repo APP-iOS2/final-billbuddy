@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var signInStore: SignInStore = SignInStore()
+    @StateObject private var signUpStore: SignUpStore = SignUpStore()
+    @StateObject private var userService: UserService = .shared
     @StateObject private var schemeServie: SchemeService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
@@ -15,19 +18,31 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if schemeServie.url == nil {
-                BillBuddyTabView()
-                    .environmentObject(settlementExpensesStore)
-                    .environmentObject(userTravelStore)
+         
+            if userService.isSignIn {
+                if schemeServie.url == nil {
+                    BillBuddyTabView()
+                        .environmentObject(settlementExpensesStore)
+                        .environmentObject(userTravelStore)
+                } else {
+                    BillBuddyTabView()
+                        .environmentObject(settlementExpensesStore)
+                        .environmentObject(userTravelStore)
+                }
             } else {
-                BillBuddyTabView()
-                    .environmentObject(settlementExpensesStore)
-                    .environmentObject(userTravelStore)
-
+                NavigationStack {
+                    SignInView(signInStore: signInStore)
+                        .environmentObject(signInStore)
+                        .environmentObject(signUpStore)
+                        .environmentObject(userService)
+              
+                }
             }
         }
     }
 }
+
+
 
 #Preview {
     ContentView()

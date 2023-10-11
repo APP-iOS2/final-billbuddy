@@ -35,13 +35,14 @@ struct TravelListView: View {
                         }
                     }
                 }
-                
-                AddTravelButtonView()
+                NavigationLink(destination: AddTravelView()) {
+                    AddTravelButtonView()
+                }
             }
         }
         .navigationTitle("BillBuddy")
         .onAppear {
-            userTravelStore.fetchUserTravel()
+            userTravelStore.fetchTravelCalculation()
         }
     }
     

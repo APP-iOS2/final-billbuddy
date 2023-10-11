@@ -19,7 +19,7 @@ struct SettledAccountView: View {
                     VStack(alignment: .leading) {
                         Text("총지출")
                             .font(.body04)
-                            .foregroundStyle(Color.systemGray07)
+                            .foregroundStyle(Color.gray600)
                             .padding(.bottom, 2)
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.title05)
@@ -53,7 +53,7 @@ struct SettledAccountView: View {
                     HStack {
                         Text("개인별 지출")
                             .font(.body04)
-                            .foregroundStyle(Color.systemGray07)
+                            .foregroundStyle(Color.gray600)
                         Spacer()
                     }
                     Divider()
