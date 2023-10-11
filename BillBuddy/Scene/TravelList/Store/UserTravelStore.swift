@@ -96,7 +96,7 @@ final class UserTravelStore: ObservableObject {
             _ = try service.collection("TravelCalculation").document(tempTravel.id ?? "").setData(from: tempTravel)
             
             _ = try service.collection("User").document(userId).collection("UserTravel").addDocument(from: tempTravel)
-            
+
 //            _ = TravelCalculation(
 //                hostId: travel.hostId,
 //                travelTitle: travel.travelTitle,

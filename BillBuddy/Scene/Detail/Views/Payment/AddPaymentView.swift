@@ -17,8 +17,8 @@ struct AddPaymentView: View {
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
     @State private var headCountString: String = ""
-    @State private var selectedCategory: Payment.PaymentType = .transportation
-    @State private var category: String = "교통/숙박/관광/식비/기타"
+    @State private var selectedCategory: Payment.PaymentType?
+    @State private var category: String = "기타"
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [Member] = []
     
@@ -30,13 +30,17 @@ struct AddPaymentView: View {
     
     var body: some View {
         VStack {
-            List {
+            List {                
                 SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                    .onAppear {
+                        paymentDate = userTravel.startDate.toDate()
+                    }
+                
+                // 위치
                 
                 AddPaymentMemberView(newMembers: $newMembers, memberStore: memberStore)
             }
             
-            // 위치
             
             Button(action: {
                 var participants: [Payment.Participant] = []
@@ -46,7 +50,7 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+                Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.addPayment(newPayment: newPayment)
                 presentationMode.wrappedValue.dismiss()
                 

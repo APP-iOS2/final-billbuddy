@@ -14,7 +14,7 @@ struct SubPaymentView: View {
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var headCountString: String
-    @Binding var selectedCategory: Payment.PaymentType
+    @Binding var selectedCategory: Payment.PaymentType?
     @Binding var category: String
     @Binding var paymentDate: Date
     
@@ -29,7 +29,9 @@ struct SubPaymentView: View {
     
     var body: some View {
         Group {
+            
             Section {
+                // TODO: 이 부분 한국식으로 어떻게할지 고민
                 DatePicker(selection: $paymentDate, in: userTravel.startDate.toDate()...userTravel.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
                         .bold()
@@ -38,49 +40,51 @@ struct SubPaymentView: View {
             }
             
             Section {
-                HStack {
+                
+                HStack{
                     Text("분류")
                         .bold()
                     Spacer()
-                    
-                    Button(action: {
-                        isVisibleCategorySelectPicker = true
-                    }, label: {
-                        if isSelectedCategory {
-                            Text(category)
-                                .foregroundStyle(.black)
-                        }
-                        else {
-                            Text(category)
-                                .foregroundStyle(.gray)
-                        }
-                    })
-                    
-                    
                 }
                 .padding()
-                .onAppear {
-                    if category != "교통/숙박/관광/식비/기타" {
-                        isSelectedCategory = true
+                
+                HStack {
+                    ForEach(Payment.PaymentType.allCases, id:\.self) { type in
+                        Button(action: {
+                                selectedCategory = type
+                            
+                        }, label: {
+                            VStack {
+                                if let selected = selectedCategory {
+                                    if selected == type {
+                                        // TODO: 이 부분 나중에 primary color 이미지로 교환
+                                        Image(type.getImageString(type: .badge))
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    else {
+                                        Image(type.getImageString(type: .thin))
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                        
+                                    }
+                                }
+                                else {
+                                    Image(type.getImageString(type: .thin))
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                    
+                                }
+                                
+                                Text(type.rawValue)
+                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .foregroundStyle(Color(hex: "A9ABB8"))
+                            }
+                            .padding()
+                        })
+                        .buttonStyle(.plain)
                     }
                 }
-                .sheet(isPresented: $isVisibleCategorySelectPicker, content: {
-                    Picker(selection: $selectedCategory, label: Text("Category")) {
-                        ForEach(Payment.PaymentType.allCases, id: \.self) { type in
-                            Text(type.rawValue)
-                        }
-                    }
-                    .pickerStyle(.wheel)
-                    
-                    Button(action: { isVisibleCategorySelectPicker = false
-                        category = selectedCategory.rawValue
-                        isSelectedCategory = true
-                    }, label: {
-                        Text("선택")
-                    })
-                    
-                    .presentationDetents([.fraction(0.3)])
-                })
                 
             }
             
@@ -113,7 +117,6 @@ struct SubPaymentView: View {
     }
 }
 
-//
-//#Preview {
-//    SubPaymentView()
-//}
+#Preview {
+    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
+}

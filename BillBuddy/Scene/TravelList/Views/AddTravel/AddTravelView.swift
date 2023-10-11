@@ -17,6 +17,7 @@ struct AddTravelView: View {
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
+    @State private var travelTitle: String = ""
     
     var body: some View {
         VStack {
@@ -86,7 +87,6 @@ struct AddTravelView: View {
 }
 
 #Preview {
-//    AddTravelView(travelData: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])))
     AddTravelView()
         .environmentObject(UserTravelStore())
 }
