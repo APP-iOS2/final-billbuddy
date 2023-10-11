@@ -40,7 +40,7 @@ struct ProfileView: View {
                     Text(myPageStore.myPageData.bankAccountNum)
                         .foregroundColor(.gray600)
                     Button(action: {
-                        
+                        UIPasteboard.general.string = myPageStore.myPageData.bankName + " " + myPageStore.myPageData.bankAccountNum
                     }, label: {
                         Image("multiple-file-1-5")
                             .resizable()
@@ -81,13 +81,11 @@ struct ProfileView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        //작동
-                    }, label: {
+                    NavigationLink(destination: ProfileEditView()) {
                         Text("수정")
                             .font(.body01)
                             .foregroundColor(.systemBlack)
-                    })
+                    }
                 }
             }
     }
