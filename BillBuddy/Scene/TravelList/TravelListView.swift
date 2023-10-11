@@ -19,19 +19,19 @@ struct TravelListView: View {
 //                travelFilterButton
 //                    .padding(.top)
                 List {
-                    ForEach(userTravelStore.userTravels, id: \.id) { travelList in
+                    ForEach(userTravelStore.travels) { travel in
                         NavigationLink {
-                            let id = travelList.travelId
+//                            let id = travel.travelId
                             // travelList.id -> travelCalculation 찾기
                             //                                let travelCalculation
-                            let paymentStore = PaymentStore(travelCalculationId: id)
-                            let memberStore = MemberStore(travelCalculationId: id)
+                             
+                             
                             
-                            DetailMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: travelList)
-                                .navigationTitle(travelList.travelName)
+                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), memberStore: MemberStore(travelCalculationId: travel.id))
+//                                .navigationTitle(travelList.travelName)
                             
                         } label: {
-                            Text(travelList.travelName)
+                            Text(travel.travelTitle)
                         }
                     }
                 }
@@ -46,14 +46,14 @@ struct TravelListView: View {
         }
     }
     
-    func createTravelList() -> [UserTravel] {
+    func createTravelList() -> [TravelCalculation] {
         switch selectedFilter {
         case .paymentInProgress:
-            return userTravelStore.userTravels.filter { userTravel in
+            return userTravelStore.travels.filter { userTravel in
                 return !userTravel.isPaymentSettled
             }
         case .paymentSettled:
-            return userTravelStore.userTravels.filter { userTravel in
+            return userTravelStore.travels.filter { userTravel in
                 return userTravel.isPaymentSettled
             }
         }
