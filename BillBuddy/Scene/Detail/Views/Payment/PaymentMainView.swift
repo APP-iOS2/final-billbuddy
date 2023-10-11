@@ -20,6 +20,8 @@ struct PaymentMainView: View {
     
     var body: some View {
         VStack{
+            
+            /// 2023년 9월 21일 1일차
             HStack {
                 Button {
                     isShowingDateSheet = true
@@ -70,11 +72,11 @@ struct PaymentMainView: View {
                 }
             }
             
-            
+            /// 총 지출 >
             GroupBox {
                 HStack {
                     VStack(alignment: .leading, content: {
-                        HStack{
+                        HStack(spacing: 0) {
                             Text("총 지출")
                                 .font(.custom("Pretendard-Medium", size: 14))
                                 .foregroundStyle(Color(hex: "858899"))
@@ -97,7 +99,8 @@ struct PaymentMainView: View {
                 
             }
             .frame(height: 80)
-            .padding()
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
             
             HStack {
                 Button(action: {
@@ -122,31 +125,33 @@ struct PaymentMainView: View {
                         PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                     }
                     .frame(maxWidth: .infinity)
+                    
+                    GroupBox {
+                        NavigationLink {
+                            AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                                .navigationTitle("지출 항목 추가")
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Image("Group 1171275314")
+                                    .resizable()
+                                    .frame(width: 28, height: 28)
+                                
+                                Text("지출 내역 추가")
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding()
                 }
             }
             .padding()
             
             Spacer()
             
-            GroupBox {
-                NavigationLink {
-                    AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
-                        .navigationTitle("지출 항목 추가")
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    HStack {
-                        Spacer()
-                        Image("Group 1171275314")
-                            .resizable()
-                            .frame(width: 28, height: 28)
-                        
-                        Text("지출 내역 추가")
-                        
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
+            
         }
     }
 }
