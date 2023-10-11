@@ -29,13 +29,19 @@ struct AddPaymentView: View {
     
     var body: some View {
         VStack {
-            List {                
+            List {
                 SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
                 
-                // 위치
+                Section {
+                    HStack {
+                        Text("위치")
+                        Spacer()
+                        // Payment.Address(address: "", latitude: 0, longitude: 0)
+                    }
+                }
                 
                 AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
             }
@@ -45,7 +51,7 @@ struct AddPaymentView: View {
                 var participants: [Payment.Participant] = []
                 
                 for m in newMembers {
-                    participants.append(Payment.Participant(memberId: m.id ?? "", payment: m.payment))
+                    participants.append(Payment.Participant(memberId: m.id, payment: m.payment))
                 }
                 
                 let newPayment =

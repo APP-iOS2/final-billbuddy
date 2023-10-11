@@ -118,5 +118,9 @@ final class UserTravelStore: ObservableObject {
             print("Error adding travel: \(error)")
         }
     }
+    
+    func addPayment(travelCalculation: TravelCalculation, payment: Payment) {
+        try! service.collection("TravelCalculation").document(travelCalculation.id).collection("Payment").addDocument(from: payment.self)
+    }
 }
 

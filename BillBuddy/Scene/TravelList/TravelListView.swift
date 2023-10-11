@@ -28,7 +28,7 @@ struct TravelListView: View {
                     }
                 }
                 
-                AddTravelButtonView()
+                AddTravelButtonView(userTravelStore: userTravelStore)
             }
         }
         .navigationTitle("BillBuddy")

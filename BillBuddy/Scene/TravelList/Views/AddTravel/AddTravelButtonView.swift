@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
+    @ObservedObject var userTravelStore: UserTravelStore
     
     @State private var showMenuItem1 = false
     @State private var showMenuItem2 = false
     @State private var buttonImage = "plus.circle.fill"
+    @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     
     var body: some View {
         VStack {
@@ -19,7 +21,7 @@ struct AddTravelButtonView: View {
                 Spacer()
                 if showMenuItem1 {
                     NavigationLink {
-                        MainAddPaymentView()
+                        MainAddPaymentView(userTravelStore: userTravelStore, travelCalculation: travelCalculation)
                     } label: {
                         
                         Text("지출 추가하기")
@@ -83,7 +85,7 @@ struct MenuItem: View {
         }
     }
 }
-
-#Preview {
-    AddTravelButtonView()
-}
+//
+//#Preview {
+//    AddTravelButtonView()
+//}
