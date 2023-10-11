@@ -17,7 +17,6 @@ struct AddTravelView: View {
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
-    @State private var travelTitle: String = ""
     
     var body: some View {
         VStack {

@@ -71,7 +71,7 @@ struct MenuItem: View {
     var body: some View {
         ZStack {
             Circle()
-                .foregroundColor(Color.systemGray03)
+//                .foregroundColor(Color.systemGray03)
                 .frame(width: 60, height: 60)
             Image(icon)
         }

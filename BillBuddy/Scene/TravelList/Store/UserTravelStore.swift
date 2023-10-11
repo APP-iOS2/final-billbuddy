@@ -75,13 +75,12 @@ final class UserTravelStore: ObservableObject {
         let userId = AuthStore.shared.userUid
         
         let tempTravel = TravelCalculation(
-            id: UUID().uuidString,
             hostId: userId,
             travelTitle: title,
             managerId: userId,
             startDate: startDate.timeIntervalSince1970,
             endDate: endDate.timeIntervalSince1970,
-            updateContentDate: Date(),
+            updateContentDate: 0,
             members: tempMembers
         )
         
@@ -93,7 +92,7 @@ final class UserTravelStore: ObservableObject {
         )
         
         do {
-            _ = try service.collection("TravelCalculation").document(tempTravel.id ?? "").setData(from: tempTravel)
+            _ = try service.collection("TravelCalculation").addDocument(from: tempTravel.self)
             
             _ = try service.collection("User").document(userId).collection("UserTravel").addDocument(from: tempTravel)
 
