@@ -21,6 +21,7 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var isChaging: Bool = false
     
     private var searchResult: [Place] = []
+    private var selectedPlace: MKAnnotation?
     
     override init() {
         super.init()
@@ -45,9 +46,8 @@ final class LocationManager: NSObject, ObservableObject {
         default: break
         }
     }
- 
-    
 }
+
 extension LocationManager {
     
     func fetchAnotations() {
@@ -182,6 +182,15 @@ extension LocationManager: CLLocationManagerDelegate {
         locationManager.requestLocation()
         moveFocusOnUserLocation()
     }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+       
+    }
+    
 }
 
 extension LocationManager: MKMapViewDelegate {
@@ -201,6 +210,19 @@ extension LocationManager: MKMapViewDelegate {
             self.isChaging = false
         }
     }
+    
+    func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
+        
+        guard let placeIndex = placeList.firstIndex(where: { $0.placeName == annotation.title }) else { return }
+        let place = placeList[placeIndex]
+        
+        self.placeList.remove(at: placeIndex)
+        self.placeList.insert(place, at: 0)
+        
+        selectedPlace = annotation
+        moveFocusChange(location: annotation.coordinate)
+    }
+    
     // 라인 뷰 제공
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if let polyline = overlay as? MKPolyline {
