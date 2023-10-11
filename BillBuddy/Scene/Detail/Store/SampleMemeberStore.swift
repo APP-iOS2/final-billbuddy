@@ -15,7 +15,7 @@ class SampleMemeberStore: ObservableObject {
     var travel: TravelCalculation
     
     init() {
-        let sample = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date.now.timeIntervalSince1970, endDate: Date.now.timeIntervalSince1970 + 1, updateContentDate: Date.now, members: [TravelCalculation.Member(name: "인원1", advancePayment: 200, payment: 0)])
+        let sample = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date.now.timeIntervalSince1970, endDate: Date.now.timeIntervalSince1970 + 1, updateContentDate: Date.now.timeIntervalSince1970, members: [TravelCalculation.Member(name: "인원1", advancePayment: 200, payment: 0)])
         self.travel = sample
         self.members = sample.members
     }
@@ -23,7 +23,7 @@ class SampleMemeberStore: ObservableObject {
     func saveMemeber() {
         Task {
             do {
-                self.travel.updateContentDate = Date.now
+                self.travel.updateContentDate = Date.now.timeIntervalSince1970
                 try await FirestoreService.shared.saveDocument(collection: .travel, documentId: self.travel.id ?? "", data: self.travel)
             } catch {
                 self.alertDescription = "저장을 실패하였습니다."

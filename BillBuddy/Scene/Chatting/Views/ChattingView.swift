@@ -17,7 +17,7 @@ struct ChattingView: View {
                         .overlay(
                             Rectangle()
                                 .frame(height: 1, alignment: .top)
-                                .foregroundColor(.systemGray02), alignment: .top
+                                .foregroundColor(.gray100), alignment: .top
                         )
                 }
             }
@@ -46,7 +46,7 @@ struct ChattingView: View {
                 HStack {
                     Circle()
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.systemGray03)
+                        .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
                             Text("신나는 유럽여행")
@@ -55,17 +55,17 @@ struct ChattingView: View {
                             
                             Text("8")
                                 .font(Font.body02)
-                                .foregroundColor(.systemGray06)
+                                .foregroundColor(.gray500)
                         }
                         Text("채팅미리보기")
                             .font(Font.body04)
-                            .foregroundColor(.systemGray08)
+                            .foregroundColor(.gray700)
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text("오후 2:27")
                             .font(Font.caption01)
-                            .foregroundColor(.systemGray06)
+                            .foregroundColor(.gray500)
                         Text("5")
                             .frame(width: 16, height: 16)
                             .font(Font.caption03)

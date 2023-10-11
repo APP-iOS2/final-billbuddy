@@ -91,7 +91,5 @@ struct Payment: Identifiable, Codable {
                    return .etc
                }
            }
-        
     }
-    
 }

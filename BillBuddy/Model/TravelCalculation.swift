@@ -18,7 +18,7 @@ struct TravelCalculation: Identifiable, Codable {
     var managerId: String
     var startDate: Double
     var endDate: Double
-    var updateContentDate: Date
+    var updateContentDate: Double
     var members: [Member]
     
     struct Member: Codable, Identifiable, Hashable {

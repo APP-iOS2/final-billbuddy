@@ -55,7 +55,7 @@ struct ChattingRoomView: View {
                  Spacer()
                     Text("오후 6:03")
                         .font(Font.caption02)
-                        .foregroundColor(.systemGray06)
+                        .foregroundColor(.gray500)
                 }
                 VStack {
                     Text("김상인")
@@ -65,13 +65,13 @@ struct ChattingRoomView: View {
                         .font(Font.body04)
                         .foregroundColor(.systemBlack)
                         .padding()
-                        .background(Color.systemGray01)
+                        .background(Color.gray050)
                         .cornerRadius(12)
                 }
                 VStack {
                     Circle()
                         .frame(width: 40, height: 40)
-                        .foregroundColor(.systemGray06)
+                        .foregroundColor(.gray500)
                     Spacer()
                 }
             }
@@ -90,7 +90,7 @@ struct ChattingRoomView: View {
                 Image("emoji")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.systemGray07)
+                    .foregroundColor(.gray600)
             }
             Button {
                 
@@ -98,12 +98,12 @@ struct ChattingRoomView: View {
                 Image("mail-send-email-message-35")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.systemGray07)
+                    .foregroundColor(.gray600)
             }
             .padding(.trailing, 10)
         }
         .frame(height: 50)
-        .background(Color.systemGray01)
+        .background(Color.gray050)
         .cornerRadius(12)
         .padding(.horizontal, 10)
     }
