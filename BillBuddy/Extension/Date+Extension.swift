@@ -31,4 +31,12 @@ extension Date {
         return Self.dateFormatter.string(from: self)
     }
     
+    var dateWeekYear: String {
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier: "ko_KR")
+        Self.dateFormatter.dateFormat = "YYYY년 MM월 dd일"
+        
+        return Self.dateFormatter.string(from: self)
+    }
+    
 }

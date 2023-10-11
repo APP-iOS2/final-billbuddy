@@ -21,19 +21,30 @@ struct PaymentMainView: View {
     var body: some View {
         VStack{
             HStack {
-                
                 Button {
                     isShowingDateSheet = true
                 } label: {
-                    Text(selectedDate.toDate().dateWeek)
-                    Image("expand_more")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    if selectedDate == 0 {
+                        Text("전체")
+                            .font(.custom("Pretendard-Semibold", size: 16))
+                            .foregroundStyle(.black)
+                        Image("expand_more")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    
+                    else {
+                        Text(selectedDate.toDate().dateWeekYear)
+                            .font(.custom("Pretendard-Semibold", size: 16))
+                            .foregroundStyle(.black)
+                        Text("\(selectedDate.howManyDaysFromStartDate(startDate: userTravel.startDate))일차")
+                            .font(.custom("Pretendard-Semibold", size: 14))
+                            .foregroundStyle(Color(hex: "858899"))
+                        Image("expand_more")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
-                .onAppear {
-                    selectedDate = userTravel.startDate
-                }
-                
                 Spacer()
             }
             .padding()
@@ -42,24 +53,46 @@ struct PaymentMainView: View {
                     .presentationDetents([.fraction(0.4)])
             })
             .frame(height: 52)
+            .onChange(of: selectedDate, perform: { date in
+                if selectedDate == 0 {
+                    paymentStore.fetchAll()
+                }
+                else {
+                    paymentStore.fetchDate(date: date)
+                }
+            })
+            .onAppear {
+                if selectedDate == 0 {
+                    paymentStore.fetchAll()
+                }
+                else {
+                    paymentStore.fetchDate(date: selectedDate)
+                }
+            }
+            
             
             GroupBox {
                 HStack {
                     VStack(alignment: .leading, content: {
                         HStack{
                             Text("총 지출")
+                                .font(.custom("Pretendard-Medium", size: 14))
+                                .foregroundStyle(Color(hex: "858899"))
                             Image("chevron_right")
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                        Text("0원")
+                        Text("₩0")
+                            .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     
                     Spacer()
                     
-                    Button(action: {}, label: {
+                    NavigationLink {
+                        Text("정산 뷰")
+                    } label: {
                         Text("정산하기")
-                    })
+                    }
                 }
                 
             }
@@ -90,7 +123,6 @@ struct PaymentMainView: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
-                
             }
             .padding()
             
@@ -115,12 +147,6 @@ struct PaymentMainView: View {
                 }
             }
             .padding()
-            
-            
-        }
-        
-        .onAppear {
-            paymentStore.fetchAll()
         }
     }
 }
