@@ -12,6 +12,8 @@ struct AddPaymentView: View {
 
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
+    @StateObject var locationManager = LocationManager()
+    
     var userTravel: UserTravel
     
     @State private var expandDetails: String = ""
@@ -34,10 +36,12 @@ struct AddPaymentView: View {
                 SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                 
                 AddPaymentMemberView(newMembers: $newMembers, memberStore: memberStore)
+                
+                // 위치
+                AddPaymentMapView()
+                    .frame(height: 500)
             }
-            
-            // 위치
-            
+               
             Button(action: {
                 var participants: [Payment.Participant] = []
                 
@@ -46,7 +50,7 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.addPayment(newPayment: newPayment)
                 presentationMode.wrappedValue.dismiss()
                 
