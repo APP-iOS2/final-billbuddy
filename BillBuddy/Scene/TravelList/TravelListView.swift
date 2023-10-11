@@ -16,22 +16,22 @@ struct TravelListView: View {
     var body: some View {
         NavigationStack{
             VStack {
-                travelFilterButton
-                    .padding(.top)
+//                travelFilterButton
+//                    .padding(.top)
                 List {
-                    ForEach(createTravelList(), id: \.id) { travelList in
+                    ForEach(userTravelStore.travels) { travel in
                         NavigationLink {
-                            if let id = travelList.id {
-                                // travelList.id -> travelCalculation 찾기
-//                                let travelCalculation
-                                let paymentStore = PaymentStore(travelCalculationId: id)
-                                let memberStore = MemberStore(travelCalculationId: id)
-                                
-                                DetailMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: travelList)
-                                    .navigationTitle(travelList.travelName)
-                            }
+//                            let id = travel.travelId
+                            // travelList.id -> travelCalculation 찾기
+                            //                                let travelCalculation
+                             
+                             
+                            
+                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), memberStore: MemberStore(travelCalculationId: travel.id))
+//                                .navigationTitle(travelList.travelName)
+                            
                         } label: {
-                            Text(travelList.travelName)
+                            Text(travel.travelTitle)
                         }
                     }
                 }
@@ -46,52 +46,52 @@ struct TravelListView: View {
         }
     }
     
-    func createTravelList() -> [UserTravel] {
+    func createTravelList() -> [TravelCalculation] {
         switch selectedFilter {
         case .paymentInProgress:
-            return userTravelStore.userTravels.filter { userTravel in
+            return userTravelStore.travels.filter { userTravel in
                 return !userTravel.isPaymentSettled
             }
         case .paymentSettled:
-            return userTravelStore.userTravels.filter { userTravel in
+            return userTravelStore.travels.filter { userTravel in
                 return userTravel.isPaymentSettled
             }
         }
     }
 }
 
-extension TravelListView {
-    var travelFilterButton: some View {
-        HStack {
-            ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
-                VStack {
-                    Text(filter.title)
-                        .font(.title3)
-                        .fontWeight(selectedFilter == filter ? .bold : .regular)
-                        .foregroundColor(selectedFilter == filter ? .primary : .black)
-                    
-                    if filter == selectedFilter {
-                        Capsule()
-                            .foregroundColor(.primary)
-                            .frame(height: 3)
-                            .matchedGeometryEffect(id: "filter", in: animation)
-                    } else {
-                        Capsule()
-                            .foregroundColor(.clear)
-                            .frame(height: 3)
-                    }
-                }
-                .onTapGesture {
-                    withAnimation(Animation.default) {
-                        self.selectedFilter = filter
-                        userTravelStore.fetchUserTravel()
-                        print(self.selectedFilter)
-                    }
-                }
-            }
-        }
-    }
-}
+//extension TravelListView {
+//    var travelFilterButton: some View {
+//        HStack {
+//            ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
+//                VStack {
+//                    Text(filter.title)
+//                        .font(.title3)
+//                        .fontWeight(selectedFilter == filter ? .bold : .regular)
+//                        .foregroundColor(selectedFilter == filter ? .primary : .black)
+//                    
+//                    if filter == selectedFilter {
+//                        Capsule()
+//                            .foregroundColor(.primary)
+//                            .frame(height: 3)
+//                            .matchedGeometryEffect(id: "filter", in: animation)
+//                    } else {
+//                        Capsule()
+//                            .foregroundColor(.clear)
+//                            .frame(height: 3)
+//                    }
+//                }
+//                .onTapGesture {
+//                    withAnimation(Animation.default) {
+//                        self.selectedFilter = filter
+//                        userTravelStore.fetchUserTravel()
+//                        print(self.selectedFilter)
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 #Preview {
     TravelListView()

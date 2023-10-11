@@ -15,7 +15,7 @@ struct DetailMainView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var memberStore: MemberStore
     
-    var userTravel: UserTravel
+    var userTravel: UserTravel = UserTravel(travelId: "", travelName: "", startDate: 0.0, endDate: 0.0)
     
     @State var selection: Int = 0
     
