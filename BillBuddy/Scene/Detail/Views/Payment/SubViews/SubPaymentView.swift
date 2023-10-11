@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SubPaymentView: View {
     
-    var userTravel: UserTravel
+    @Binding var travelCalculation: TravelCalculation
     
     @Binding var expandDetails: String
     @Binding var priceString: String
@@ -32,7 +32,7 @@ struct SubPaymentView: View {
             
             Section {
                 // TODO: 이 부분 한국식으로 어떻게할지 고민
-                DatePicker(selection: $paymentDate, in: userTravel.startDate.toDate()...userTravel.endDate.toDate(), displayedComponents: .date, label: {
+                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
                         .bold()
                 })
@@ -117,6 +117,6 @@ struct SubPaymentView: View {
     }
 }
 
-#Preview {
-    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
-}
+//#Preview {
+//    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
+//}

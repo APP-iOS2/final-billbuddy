@@ -88,6 +88,7 @@ final class UserTravelStore: ObservableObject {
             startDate: startDate.timeIntervalSince1970,
             endDate: endDate.timeIntervalSince1970,
             updateContentDate: 0,
+            isPaymentSettled: false,
             members: tempMembers
         )
         

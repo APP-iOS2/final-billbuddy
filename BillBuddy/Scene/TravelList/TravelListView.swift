@@ -21,15 +21,7 @@ struct TravelListView: View {
                 List {
                     ForEach(userTravelStore.travels) { travel in
                         NavigationLink {
-//                            let id = travel.travelId
-                            // travelList.id -> travelCalculation 찾기
-                            //                                let travelCalculation
-                             
-                             
-                            
-                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), memberStore: MemberStore(travelCalculationId: travel.id))
-//                                .navigationTitle(travelList.travelName)
-                            
+                            DetailMainView(travelCalculation: travel)
                         } label: {
                             Text(travel.travelTitle)
                         }
@@ -96,3 +88,4 @@ extension TravelListView {
 #Preview {
     TravelListView()
 }
+
