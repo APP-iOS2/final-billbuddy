@@ -60,38 +60,38 @@ struct TravelListView: View {
     }
 }
 
-//extension TravelListView {
-//    var travelFilterButton: some View {
-//        HStack {
-//            ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
-//                VStack {
-//                    Text(filter.title)
-//                        .font(.title3)
-//                        .fontWeight(selectedFilter == filter ? .bold : .regular)
-//                        .foregroundColor(selectedFilter == filter ? .primary : .black)
-//                    
-//                    if filter == selectedFilter {
-//                        Capsule()
-//                            .foregroundColor(.primary)
-//                            .frame(height: 3)
-//                            .matchedGeometryEffect(id: "filter", in: animation)
-//                    } else {
-//                        Capsule()
-//                            .foregroundColor(.clear)
-//                            .frame(height: 3)
-//                    }
-//                }
-//                .onTapGesture {
-//                    withAnimation(Animation.default) {
-//                        self.selectedFilter = filter
-//                        userTravelStore.fetchUserTravel()
-//                        print(self.selectedFilter)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+extension TravelListView {
+    var travelFilterButton: some View {
+        HStack {
+            ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
+                VStack {
+                    Text(filter.title)
+                        .font(.title3)
+                        .fontWeight(selectedFilter == filter ? .bold : .regular)
+                        .foregroundColor(selectedFilter == filter ? .primary : .black)
+                    
+                    if filter == selectedFilter {
+                        Capsule()
+                            .foregroundColor(.primary)
+                            .frame(height: 3)
+                            .matchedGeometryEffect(id: "filter", in: animation)
+                    } else {
+                        Capsule()
+                            .foregroundColor(.clear)
+                            .frame(height: 3)
+                    }
+                }
+                .onTapGesture {
+                    withAnimation(Animation.default) {
+                        self.selectedFilter = filter
+//                        userTravelStore.fetchTravelCalculation()
+                        print(self.selectedFilter)
+                    }
+                }
+            }
+        }
+    }
+}
 
 #Preview {
     TravelListView()
