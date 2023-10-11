@@ -28,7 +28,7 @@ struct PaymentListView: View {
                         VStack(alignment: .leading, content: {
                             
                             Text(payment.content)
-                                .tint(.gray)
+                                .foregroundStyle(Color.black)
                             HStack {
                                 if payment.participants.count == 1 {
                                     Image("user-single-neutral-male-4")
@@ -41,6 +41,7 @@ struct PaymentListView: View {
                                         .frame(width: 18, height: 18)
                                 }
                                 Text("\(payment.participants.count)명")
+                                    .foregroundStyle(Color(hex: "858899"))
                             }
                         })
                         
@@ -48,11 +49,14 @@ struct PaymentListView: View {
                         
                         VStack(alignment: .trailing) {
                             Text("\(payment.payment)원")
+                                .foregroundStyle(Color.black)
                             if payment.participants.isEmpty {
                                 Text("\(payment.payment)원")
+                                    .foregroundStyle(Color(hex: "858899"))
                             }
                             else {
                                 Text("\(payment.payment / payment.participants.count)원")
+                                    .foregroundStyle(Color(hex: "858899"))
                             }
                             
                         }

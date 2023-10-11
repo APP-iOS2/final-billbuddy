@@ -36,10 +36,11 @@ struct AddPaymentView: View {
                         paymentDate = userTravel.startDate.toDate()
                     }
                 
+                // 위치
+                
                 AddPaymentMemberView(newMembers: $newMembers, memberStore: memberStore)
             }
             
-            // 위치
             
             Button(action: {
                 var participants: [Payment.Participant] = []

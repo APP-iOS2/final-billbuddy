@@ -20,20 +20,33 @@ struct PaymentMainView: View {
     
     var body: some View {
         VStack{
+            
+            /// 2023년 9월 21일 1일차
             HStack {
-                
                 Button {
                     isShowingDateSheet = true
                 } label: {
-                    Text(selectedDate.toDate().dateWeek)
-                    Image("expand_more")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    if selectedDate == 0 {
+                        Text("전체")
+                            .font(.custom("Pretendard-Semibold", size: 16))
+                            .foregroundStyle(.black)
+                        Image("expand_more")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    
+                    else {
+                        Text(selectedDate.toDate().dateWeekYear)
+                            .font(.custom("Pretendard-Semibold", size: 16))
+                            .foregroundStyle(.black)
+                        Text("\(selectedDate.howManyDaysFromStartDate(startDate: userTravel.startDate))일차")
+                            .font(.custom("Pretendard-Semibold", size: 14))
+                            .foregroundStyle(Color(hex: "858899"))
+                        Image("expand_more")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
-                .onAppear {
-                    selectedDate = userTravel.startDate
-                }
-                
                 Spacer()
             }
             .padding()
@@ -42,29 +55,52 @@ struct PaymentMainView: View {
                     .presentationDetents([.fraction(0.4)])
             })
             .frame(height: 52)
+            .onChange(of: selectedDate, perform: { date in
+                if selectedDate == 0 {
+                    paymentStore.fetchAll()
+                }
+                else {
+                    paymentStore.fetchDate(date: date)
+                }
+            })
+            .onAppear {
+                if selectedDate == 0 {
+                    paymentStore.fetchAll()
+                }
+                else {
+                    paymentStore.fetchDate(date: selectedDate)
+                }
+            }
             
+            /// 총 지출 >
             GroupBox {
                 HStack {
                     VStack(alignment: .leading, content: {
-                        HStack{
+                        HStack(spacing: 0) {
                             Text("총 지출")
+                                .font(.custom("Pretendard-Medium", size: 14))
+                                .foregroundStyle(Color(hex: "858899"))
                             Image("chevron_right")
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                        Text("0원")
+                        Text("₩0")
+                            .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     
                     Spacer()
                     
-                    Button(action: {}, label: {
+                    NavigationLink {
+                        Text("정산 뷰")
+                    } label: {
                         Text("정산하기")
-                    })
+                    }
                 }
                 
             }
             .frame(height: 80)
-            .padding()
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
             
             HStack {
                 Button(action: {
@@ -89,38 +125,33 @@ struct PaymentMainView: View {
                         PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
                     }
                     .frame(maxWidth: .infinity)
+                    
+                    GroupBox {
+                        NavigationLink {
+                            AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                                .navigationTitle("지출 항목 추가")
+                                .navigationBarBackButtonHidden()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Image("Group 1171275314")
+                                    .resizable()
+                                    .frame(width: 28, height: 28)
+                                
+                                Text("지출 내역 추가")
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding()
                 }
-                
             }
             .padding()
             
             Spacer()
             
-            GroupBox {
-                NavigationLink {
-                    AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
-                        .navigationTitle("지출 항목 추가")
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    HStack {
-                        Spacer()
-                        Image("Group 1171275314")
-                            .resizable()
-                            .frame(width: 28, height: 28)
-                        
-                        Text("지출 내역 추가")
-                        
-                        Spacer()
-                    }
-                }
-            }
-            .padding()
             
-            
-        }
-        
-        .onAppear {
-            paymentStore.fetchAll()
         }
     }
 }

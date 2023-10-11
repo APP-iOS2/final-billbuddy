@@ -638,6 +638,7 @@
 		C48F7C3A2ACE8F6400466308 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
+				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
 				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
 				C49389482ACD030F008115FA /* AddPaymentMemberView.swift */,
 				C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */,
@@ -649,7 +650,6 @@
 			isa = PBXGroup;
 			children = (
 				C47F6C762AD51878006B77D6 /* PaymentMainView.swift */,
-				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
 				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,

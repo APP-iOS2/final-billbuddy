@@ -20,20 +20,32 @@ struct DateSheet: View {
     var body: some View {
         VStack {
             ScrollView {
+                HStack {
+                    Button(action: {
+                        selectedDate = 0
+                    }, label: {
+                        Text("전체")
+                            .font(.custom("Pretendard-Semibold", size: 16))
+                    })
+                    .buttonStyle(.plain)
+                    
+                    Spacer()
+                }
+                
+                .padding(16)
                 ForEach(dates, id:\.self) { date in
                     HStack {
-                        
                         Button(action: {
                             selectedDate = date.date.timeIntervalSince1970
                         }, label: {
-                            Text(date.date.dateWeek)
-                            Text(date.dateNum)
+                            Text(date.date.dateWeek + " " + date.dateNum)
+                                .font(.custom("Pretendard-Semibold", size: 16))
                         })
                         .buttonStyle(.plain)
                         
                         Spacer()
                     }
-                    .padding()
+                    .padding(16)
                 }
             }
         }
@@ -58,5 +70,5 @@ struct DateSheet: View {
 }
 
 #Preview {
-    DateSheet(selectedDate: .constant(0), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
+    DateSheet(selectedDate: .constant(1675186400), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
 }
