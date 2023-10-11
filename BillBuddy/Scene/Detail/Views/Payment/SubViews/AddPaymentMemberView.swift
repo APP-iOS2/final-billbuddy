@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AddPaymentMemberView: View {
-    @Binding var newMembers: [Member]
-    @ObservedObject var memberStore: MemberStore
+    @Binding var newMembers: [TravelCalculation.Member]
+    @Binding var travelCalculation: TravelCalculation
     
     @State private var isShowingAddSheet: Bool = false
-    @State private var tempMembers: [Member] = []
+    @State private var tempMembers: [TravelCalculation.Member] = []
     
     var body: some View {
         Section {
@@ -34,7 +34,7 @@ struct AddPaymentMemberView: View {
             }
             .padding()
             .sheet(isPresented: $isShowingAddSheet, content: {
-                List(memberStore.members) { member in
+                List(travelCalculation.members) { member in
                     HStack {
                         if tempMembers.firstIndex(where: { m in
                             m.name == member.name
@@ -64,7 +64,6 @@ struct AddPaymentMemberView: View {
                     }
                 }
                 .onAppear {
-                    memberStore.fetchAll()
                     tempMembers = newMembers
                 }
                 .presentationDetents([.fraction(0.4)])

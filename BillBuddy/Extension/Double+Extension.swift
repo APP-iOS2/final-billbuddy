@@ -27,4 +27,24 @@ extension Double {
         
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
+    
+    func howManyDaysFromStartDate(startDate: Double)->Int {
+        if self < startDate {
+            return -1
+        }
+        let now = 86400 * floor(self / 86400)
+        let start = 86400 * floor(startDate / 86400)
+        
+        let difference: Double = now - start
+        let days = difference / 86400
+        
+        return Int(days) + 1
+    }
+    
+    func todayRange()->ClosedRange<Double> {
+        let today_00_00_00 = 86400 * floor(self / 86400)
+        let today_11_59_59 = 86400 * ceil(self / 86400) - 1
+        
+        return today_00_00_00...today_11_59_59
+    }
 }
