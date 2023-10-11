@@ -142,6 +142,7 @@ struct PaymentMainView: View {
         })
         .frame(height: 52)
         .onChange(of: selectedDate, perform: { date in
+            // MARK: 1번만 fetch되게 하는 방법이 없을지 ,,
             if selectedDate == 0 {
                 paymentStore.fetchAll()
             }

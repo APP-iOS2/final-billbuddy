@@ -71,6 +71,7 @@ struct EditPaymentView: View {
             
         })
         .onAppear {
+            // TODO: 해당 payment만 fetch 되도록 수정
             paymentStore.fetchAll()
         }
         
