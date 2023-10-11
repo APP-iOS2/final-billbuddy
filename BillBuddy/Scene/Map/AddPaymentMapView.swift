@@ -74,9 +74,6 @@ struct AddPaymentMapView: View {
                     .frame(width: 50, height: 50, alignment: .center)
             }
         }
-        .onAppear {
-            
-        }
     }
 }
 

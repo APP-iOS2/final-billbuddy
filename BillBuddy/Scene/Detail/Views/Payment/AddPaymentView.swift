@@ -55,7 +55,7 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+                Payment(type: selectedCategory ?? Payment.PaymentType.transportation, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
                 
                 paymentStore.addPayment(newPayment: newPayment)
                 presentationMode.wrappedValue.dismiss()
