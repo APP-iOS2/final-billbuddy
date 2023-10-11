@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct TravelCalculation: Identifiable, Codable {
-    @DocumentID var id: String?
+    var id: String = UUID().uuidString
     
     /// 방 호스트 user id
     let hostId: String
