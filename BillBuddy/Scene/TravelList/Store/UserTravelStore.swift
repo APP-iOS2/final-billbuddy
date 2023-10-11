@@ -68,9 +68,11 @@ final class UserTravelStore: ObservableObject {
     
     func addTravel(_ title: String, memberCount: Int, startDate: Date, endDate: Date) {
         var tempMembers: [TravelCalculation.Member] = []
-        for index in 1...memberCount {
-            let member = TravelCalculation.Member(name: "인원\(index)", advancePayment: 0, payment: 0)
-            tempMembers.append(member)
+        if memberCount > 0 {
+            for index in 1...memberCount {
+                let member = TravelCalculation.Member(name: "인원\(index)", advancePayment: 0, payment: 0)
+                tempMembers.append(member)
+            }
         }
         let userId = AuthStore.shared.userUid
         
@@ -85,16 +87,16 @@ final class UserTravelStore: ObservableObject {
         )
         
         let userTravel = UserTravel(
-            travelId: tempTravel.id ?? "",
+            travelId: tempTravel.id,
             travelName: title,
             startDate: startDate.timeIntervalSince1970,
             endDate: endDate.timeIntervalSince1970
         )
         
         do {
-            _ = try service.collection("TravelCalculation").addDocument(from: tempTravel.self)
+            try service.collection("TravelCalculation").document(tempTravel.id).setData(from: tempTravel)
             
-            _ = try service.collection("User").document(userId).collection("UserTravel").addDocument(from: tempTravel)
+            _ = try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
 
 //            _ = TravelCalculation(
 //                hostId: travel.hostId,
