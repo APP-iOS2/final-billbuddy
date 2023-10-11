@@ -26,13 +26,13 @@ struct MemberManagementView: View {
                             ShareLink(item: sampleMemeberStore.getURL(userName: member.name)) {
                                 Text("초대하기")
                                     .font(Font.caption02)
-                                    .foregroundColor(Color.systemGray07)
+                                    .foregroundColor(Color.gray600)
                             }
                             
                         } else {
                             Text("초대됨")
                                 .font(Font.caption02)
-                                .foregroundColor(Color.systemGray07)
+                                .foregroundColor(Color.gray600)
                         }
                     }
                 }
