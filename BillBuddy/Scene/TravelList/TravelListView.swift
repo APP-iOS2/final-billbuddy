@@ -27,9 +27,8 @@ struct TravelListView: View {
                         }
                     }
                 }
-                NavigationLink(destination: AddTravelView()) {
-                    AddTravelButtonView()
-                }
+                
+                AddTravelButtonView()
             }
         }
         .navigationTitle("BillBuddy")

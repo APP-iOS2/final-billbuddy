@@ -18,26 +18,32 @@ struct AddTravelButtonView: View {
             HStack {
                 Spacer()
                 if showMenuItem1 {
-                    Text("지출 추가하기")
-                        .foregroundColor(Color.black)
-                    MenuItem(icon: "wallet")
-                        .padding(.trailing, 12)
+                    NavigationLink {
+                        MainAddPaymentView()
+                    } label: {
+                        
+                        Text("지출 추가하기")
+                            .foregroundColor(Color.black)
+                        MenuItem(icon: "wallet")
+                            .padding(.trailing, 12)
+                    }
                 }
             }
             
             HStack {
                 Spacer()
-                NavigationLink {
-                    AddTravelView()
-                } label: {
-                    if showMenuItem2 {
+                if showMenuItem2 {
+                    NavigationLink {
+                        AddTravelView()
+                    } label: {
+                        
                         Text("여행 추가하기")
                             .foregroundColor(Color.black)
                         MenuItem(icon: "add")
                             .padding(.trailing, 12)
                     }
                 }
-
+                
                 
             }
             
@@ -50,7 +56,7 @@ struct AddTravelButtonView: View {
                     Image(systemName: buttonImage)
                         .font(.system(size: 50))
                         .frame(width: 60, height: 60)
-                        
+                    
                 }
                 .padding(.trailing, 12)
             }
@@ -71,7 +77,7 @@ struct MenuItem: View {
     var body: some View {
         ZStack {
             Circle()
-//                .foregroundColor(Color.systemGray03)
+            //                .foregroundColor(Color.systemGray03)
                 .frame(width: 60, height: 60)
             Image(icon)
         }
