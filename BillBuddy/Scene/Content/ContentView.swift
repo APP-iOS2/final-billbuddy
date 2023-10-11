@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var signInStore: SignInStore = SignInStore()
-    @StateObject private var signUpStore: SignUpStore = SignUpStore()
     @StateObject private var userService: UserService = .shared
     @StateObject private var schemeServie: SchemeService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
@@ -35,7 +34,6 @@ struct ContentView: View {
                 NavigationStack {
                     SignInView(signInStore: signInStore)
                         .environmentObject(signInStore)
-                        .environmentObject(signUpStore)
                         .environmentObject(userService)
               
                 }
