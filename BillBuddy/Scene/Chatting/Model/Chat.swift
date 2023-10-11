@@ -17,15 +17,15 @@ struct Chat: Identifiable, Codable {
     let travelTitle: String
     // 여행 생성한 멤버 ID
     let hostId: String
-    // 채팅방 생성 날짜
-    let createdDate: Double
-    // 채팅에 참여한 유저 ID
-    let memberIDs: [Member]
+//    // 채팅방 생성 날짜
+//    let createdDate: Double
+    // 채팅에 참여한 유저
+    let member: [Member]
     // 마지막 메세지 내용 - 미리보기
-    var lastMessage: String
+    var lastMessage: String?
     // 마지막 메세지 날짜 -- 미리보기, 리스트 정렬 순서
-    var lastMessageDate: Date
+    var lastMessageDate: Double?
     // 읽지 않은 메세지 수 [유저아이디 : 갯수]
-    var unreadMessageCount: [String : Int]
+    var unreadMessageCount: [String : Int]?
         
 }
