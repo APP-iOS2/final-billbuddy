@@ -35,6 +35,12 @@ struct EditPaymentView: View {
                         paymentDate = payment.paymentDate.toDate()
                     }
                 
+                Section {
+                    Text("위치")
+                    
+                    Text(payment.address.address)
+                }
+                
                 EditPaymentMemberView(payment: $payment, memberStore: memberStore)
             }
             
