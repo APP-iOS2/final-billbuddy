@@ -71,7 +71,7 @@ struct EditPaymentMemberView: View {
                     var participants: [Payment.Participant] = []
                     
                     for m in tempMembers {
-                        participants.append(Payment.Participant(memberId: m.id ?? "", payment: m.payment))
+                        participants.append(Payment.Participant(memberId: m.id , payment: m.payment))
                     }
                     payment.participants = participants
                 }, label: {
@@ -91,7 +91,6 @@ struct EditPaymentMemberView: View {
             
         }
         .onAppear {
-//            memberStore.fetchAll()
         }
     }
 }

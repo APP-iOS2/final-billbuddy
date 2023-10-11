@@ -7,30 +7,10 @@
 
 import SwiftUI
 
-struct SelectTripSheet: View {
-    
-    @ObservedObject var userTravelStore: UserTravelStore
-    @Binding var travelCalculation: TravelCalculation
-    var body: some View {
-        VStack {
-            ForEach(userTravelStore.travels) { travel in
-                Button(action: {
-                    travelCalculation = travel
-                }, label: {
-                    Text(travel.travelTitle)
-                })
-            }
-            
-        }
-    }
-}
 
 struct MainAddPaymentView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-//    @Binding var travelCalculation: TravelCalculation
-//    @ObservedObject var paymentStore: PaymentStore
     
     @ObservedObject var userTravelStore: UserTravelStore
     
@@ -38,9 +18,8 @@ struct MainAddPaymentView: View {
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
-    @State private var headCountString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var category: String = "기타"
+    @State private var category: String = ""
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [TravelCalculation.Member] = []
     
@@ -72,7 +51,7 @@ struct MainAddPaymentView: View {
                         .presentationDetents([.fraction(0.4)])
                 })
                 
-                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }

@@ -15,22 +15,15 @@ struct AddPaymentView: View {
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
-    @State private var headCountString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var category: String = "기타"
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [TravelCalculation.Member] = []
-    
-    var divider: some View {
-        Divider()
-            .padding(.leading, 10)
-            .padding(.trailing, 10)
-    }
-    
+
     var body: some View {
         VStack {
             List {
-                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
@@ -45,7 +38,9 @@ struct AddPaymentView: View {
                 
                 AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
             }
-            
+            .onAppear{
+                paymentDate = travelCalculation.startDate.toDate()
+            }
             
             Button(action: {
                 var participants: [Payment.Participant] = []

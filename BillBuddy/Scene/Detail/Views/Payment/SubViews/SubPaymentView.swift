@@ -13,7 +13,6 @@ struct SubPaymentView: View {
     
     @Binding var expandDetails: String
     @Binding var priceString: String
-    @Binding var headCountString: String
     @Binding var selectedCategory: Payment.PaymentType?
     @Binding var category: String
     @Binding var paymentDate: Date

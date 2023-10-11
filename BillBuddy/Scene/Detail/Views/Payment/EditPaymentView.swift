@@ -17,7 +17,6 @@ struct EditPaymentView: View {
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
-    @State private var headCountString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var category: String = "교통/숙박/관광/식비/기타"
     @State private var paymentDate: Date = Date()
@@ -26,7 +25,7 @@ struct EditPaymentView: View {
         VStack {
             
             List {
-                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         category = payment.type.rawValue
                         selectedCategory = payment.type
@@ -36,9 +35,11 @@ struct EditPaymentView: View {
                     }
                 
                 Section {
-                    Text("위치")
-                    
-                    Text(payment.address.address)
+                    HStack {
+                        Text("위치")
+                        Spacer()
+                        Text(payment.address.address)
+                    }
                 }
                 
                 EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)

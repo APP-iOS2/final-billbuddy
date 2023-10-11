@@ -77,6 +77,7 @@
 		636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FE2AC3BA1E00BF7730 /* Line.swift */; };
 		C445FB8F2AD67BD400A1B727 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C445FB8E2AD67BD400A1B727 /* GoogleService-Info.plist */; };
 		C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */; };
+		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
 		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
 		C478B1962AC7A1F5005EE427 /* MemberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1952AC7A1F5005EE427 /* MemberStore.swift */; };
@@ -166,6 +167,7 @@
 		636CE5FE2AC3BA1E00BF7730 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		C445FB8E2AD67BD400A1B727 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAddPaymentView.swift; sourceTree = "<group>"; };
+		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		C478B1952AC7A1F5005EE427 /* MemberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberStore.swift; sourceTree = "<group>"; };
@@ -662,10 +664,11 @@
 		C48F7C3A2ACE8F6400466308 /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
-				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
 				C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */,
 				C49389482ACD030F008115FA /* AddPaymentMemberView.swift */,
 				C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */,
+				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
+				C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				2729F3312AD427960089147E /* MemberCell.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
+				C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */,
 				C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */,
 				27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */,
 				2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */,
