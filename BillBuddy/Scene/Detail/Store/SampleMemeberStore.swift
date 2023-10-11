@@ -42,8 +42,11 @@ class SampleMemeberStore: ObservableObject {
     }
     
     func getURL(userName: String) -> URL {
-        let url = URL(string: "\(URLSchemeBase.scheme.rawValue).//travel?id=\(travel.id ?? "")/name=\(userName)")
-        return url!
+        let urlString = "\(URLSchemeBase.scheme.rawValue).//travel?id=\(travel.id ?? "")/name=\(userName)"
+        guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return URL(string: "실패!")! }
+        guard let url = URL(string: encodeString) else { return URL(string: "실패!")! }
+        
+        return url
     }
     
     

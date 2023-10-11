@@ -16,6 +16,10 @@ enum URLSchemeBase: String {
 class SchemeService: ObservableObject {
     @Published var url: URL? = nil
     
+    static let shared: SchemeService = SchemeService()
+    
+    private init() { }
+    
     var isEmptyUrl: Bool {
         return url == nil
     }

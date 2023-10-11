@@ -8,82 +8,76 @@
 import SwiftUI
 
 struct MemberManagementView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     @StateObject private var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
     @State private var isShowingAlert: Bool = false
     @State private var isEditing: Bool = false
     @State private var isShowingEditSheet: Bool = false
     
     var body: some View {
-        
-        Form {
-            Section {
+        ScrollView {
+            VStack {
                 ForEach(sampleMemeberStore.members, id: \.self.name) { member in
                     HStack {
-                        Button {
-                            print("a")
-                        } label: {
-                            HStack {
-                                Text(member.name)
-                                Spacer()
-                                Text("선금: \(member.advancePayment)")
-                                Spacer()
+                        MemberCell(member: member)
+                        
+                        if member.userId == nil {
+                            ShareLink(item: sampleMemeberStore.getURL(userName: member.name)) {
+                                Text("초대하기")
+                                    .font(Font.caption02)
+                                    .foregroundColor(Color.systemGray07)
                             }
                             
-                        }
-                        
-                        if member.userId == nil && !isEditing {
-                            ShareLink(item: sampleMemeberStore.getURL(userName: member.name), subject: Text("d"), message: Text("초대합니다")) {
-                                Text("초대하기")
-                            }
-                        } else if isEditing {
-                            Button {
-                                isShowingEditSheet = true
-                            } label: {
-                                Text("편집")
-                            }
-
                         } else {
-                            EmptyView()
+                            Text("초대됨")
+                                .font(Font.caption02)
+                                .foregroundColor(Color.systemGray07)
                         }
                     }
                 }
+                .padding([.leading, .trailing], 24)
+                Spacer()
             }
-            Section {
-                Button {
-                    withAnimation {
-                        sampleMemeberStore.addMember()
-                    }
-                } label: {
-                    Label("인원추가하기", systemImage: "plus")
+        }
+        Section {
+            Button {
+                withAnimation {
+                    sampleMemeberStore.addMember()
                 }
-                .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
-                
-
+            } label: {
+                Text("인원 추가")
+                    .font(Font.body02)
             }
-           
+            .frame(width: 332, height: 52)
+            .background(Color.error)
+            .cornerRadius(12)
+            .foregroundColor(.white)
+            .padding(.bottom, 59)
+            .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
         }
         .navigationTitle("인원관리")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden()
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("편집") {
-                    isEditing.toggle()
-                }
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("저장") {
-                    sampleMemeberStore.saveMemeber()
-                }
+            
+            ToolbarItem(placement: .principal) {
+                Text("결산")
+                    .font(.title05)
+                    .foregroundColor(Color.systemBlack)
             }
             
             
-            ToolbarItem(placement: .cancellationAction) {
-                Button {
-                    isShowingAlert = true
-                } label:{
-                    /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
-                }
-            }
+            
         }
         .alert(isPresented: $isShowingAlert) {
             Alert(title: Text("수정을 취소하겠습니까?"),
