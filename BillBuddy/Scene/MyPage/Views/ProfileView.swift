@@ -1,0 +1,100 @@
+//
+//  ProfileView.swift
+//  BillBuddy
+//
+//  Created by 박지현 on 10/11/23.
+//
+
+import SwiftUI
+
+struct ProfileView: View {
+    
+    @ObservedObject var myPageStore: MyPageStore
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Image(myPageStore.myPageData.userImage)
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .cornerRadius(50)
+                VStack(alignment: .leading) {
+                    Text(myPageStore.myPageData.name)
+                        .font(.body01)
+                        .padding(.bottom, 8)
+                    Text("애플 계정 연결중")
+                        .font(.caption02)
+                        .foregroundColor(.gray600)
+                }
+                .padding(16)
+                Spacer()
+            }
+            .padding(.bottom, 36)
+            
+            Group {
+                HStack {
+                    Text("계좌 정보")
+                    Spacer()
+                    Text(myPageStore.myPageData.bankName)
+                        .foregroundColor(.gray600)
+                    Text(myPageStore.myPageData.bankAccountNum)
+                        .foregroundColor(.gray600)
+                    Button(action: {
+                        
+                    }, label: {
+                        Image("multiple-file-1-5")
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.gray600)
+                            .frame(width: 18, height: 18)
+                    })
+                }
+                HStack {
+                    Text("휴대폰 번호")
+                    Spacer()
+                    Text(myPageStore.myPageData.phoneNum)
+                        .foregroundColor(.gray600)
+                }
+                HStack {
+                    Text("이메일 주소")
+                    Spacer()
+                    Text(myPageStore.myPageData.email)
+                        .foregroundColor(.gray600)
+                }
+            }
+            .font(.body04)
+            .padding(.bottom, 36)
+        }
+        .padding(24)
+        Spacer()
+            .navigationTitle("내 프로필")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        // 작동
+                    }) {
+                        Image("arrow_back")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.systemBlack)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        //작동
+                    }, label: {
+                        Text("수정")
+                            .font(.body01)
+                            .foregroundColor(.systemBlack)
+                    })
+                }
+            }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        ProfileView(myPageStore: MyPageStore())
+    }
+}
