@@ -9,10 +9,9 @@ import SwiftUI
 
 struct AddPaymentView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    
+    @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var memberStore: MemberStore
-    var userTravel: UserTravel
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -20,7 +19,7 @@ struct AddPaymentView: View {
     @State private var selectedCategory: Payment.PaymentType?
     @State private var category: String = "기타"
     @State private var paymentDate: Date = Date()
-    @State private var newMembers: [Member] = []
+    @State private var newMembers: [TravelCalculation.Member] = []
     
     var divider: some View {
         Divider()
@@ -31,14 +30,14 @@ struct AddPaymentView: View {
     var body: some View {
         VStack {
             List {                
-                SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
-                        paymentDate = userTravel.startDate.toDate()
+                        paymentDate = travelCalculation.startDate.toDate()
                     }
                 
                 // 위치
                 
-                AddPaymentMemberView(newMembers: $newMembers, memberStore: memberStore)
+                AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
             }
             
             

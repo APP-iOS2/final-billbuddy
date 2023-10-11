@@ -11,11 +11,7 @@ struct DetailMainView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    
-    @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var memberStore: MemberStore
-    
-    var userTravel: UserTravel
+    @State var travelCalculation: TravelCalculation
     
     @State var selection: Int = 0
     
@@ -26,7 +22,7 @@ struct DetailMainView: View {
             
             
             if selection == 0 {
-                PaymentMainView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                PaymentMainView(travelCalculation: $travelCalculation, paymentStore: PaymentStore(travelCalculationId: travelCalculation.id))
             }
             else if selection == 1 {
                 VStack{
@@ -74,8 +70,8 @@ struct DetailMainView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        DetailMainView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), userTravel: UserTravel(travelId: "4eB3HvBvH6jXYDLu9irl", travelName: "신나는 유럽여행", startDate: 1675186400, endDate: 1681094400))
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        DetailMainView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), memberStore: MemberStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), userTravel: UserTravel(travelId: "4eB3HvBvH6jXYDLu9irl", travelName: "신나는 유럽여행", startDate: 1675186400, endDate: 1681094400))
+//    }
+//}

@@ -10,12 +10,14 @@ import SwiftUI
 struct DateSheet: View {
     @Binding var selectedDate: Double
     
+    @State var startDate: Double
+    @State var endDate: Double
+    
     struct dateNumber: Hashable {
         var date: Date
         var dateNum: String
     }
     
-    var userTravel: UserTravel
     @State var dates: [dateNumber] = []
     var body: some View {
         VStack {
@@ -50,7 +52,7 @@ struct DateSheet: View {
             }
         }
         .onAppear {
-            dates = startDateToEndDate(startDate: userTravel.startDate, endDate: userTravel.endDate)
+            dates = startDateToEndDate(startDate: startDate, endDate: endDate)
         }
     }
     
@@ -69,6 +71,6 @@ struct DateSheet: View {
     }
 }
 
-#Preview {
-    DateSheet(selectedDate: .constant(1675186400), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
-}
+//#Preview {
+//    DateSheet(selectedDate: .constant(1675186400), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
+//}

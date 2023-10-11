@@ -8,43 +8,6 @@
 import Foundation
 import FirebaseFirestore
 
-class tempTravelCalculationStore: ObservableObject {
-    @Published var travelCalculations: [TravelCalculation] = []
-    
-    let dbRef = Firestore.firestore().collection("TravelCalculation")
-    
-    func fetchAll() {
-        dbRef.getDocuments { snapshot, error in
-            if let snapshot {
-                
-                var tempTravelCalculations: [TravelCalculation] = []
-                
-                for doc in snapshot.documents {
-                    
-                    let id: String = doc.documentID
-                    let docData = doc.data()
-                    
-                    let hostId: String = docData["hostId"] as? String ?? ""
-                    let managerId: String = docData["managerId"] as? String ?? ""
-                    let travelTitle: String = docData["travelTitle"] as? String ?? ""
-                    
-                    let startDate: Double = docData["startDate"] as? Double ?? 0
-                    let endDate: Double = docData["endDate"] as? Double ?? 0
-                    let updateContentDate: Double = docData["updateContentDate"] as? Double ?? 0
-                    
-                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: travelTitle, managerId: managerId, startDate: startDate, endDate: endDate, updateContentDate: updateContentDate, members: [])
-                    
-                    tempTravelCalculations.append(newTC)
-                }
-                
-                DispatchQueue.main.async {
-                    self.travelCalculations = tempTravelCalculations
-                }
-            }
-        }
-    }
-}
-
 class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     
