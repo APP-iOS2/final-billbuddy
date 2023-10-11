@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 
 struct TravelCalculation: Identifiable, Codable {
-    @DocumentID var id: String?
+    var id: String = UUID().uuidString
     
     /// 방 호스트 user id
     let hostId: String
@@ -19,6 +19,7 @@ struct TravelCalculation: Identifiable, Codable {
     var startDate: Double
     var endDate: Double
     var updateContentDate: Double
+    var isPaymentSettled: Bool = false
     var members: [Member]
     
     struct Member: Codable, Identifiable, Hashable {

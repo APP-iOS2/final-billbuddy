@@ -9,11 +9,8 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    
+    @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var memberStore: MemberStore
-    
-    var userTravel: UserTravel
     
     @State var isShowingDateSheet: Bool = false
     @State var selectedDate: Double = 0
@@ -39,7 +36,7 @@ struct PaymentMainView: View {
                         Text(selectedDate.toDate().dateWeekYear)
                             .font(.custom("Pretendard-Semibold", size: 16))
                             .foregroundStyle(.black)
-                        Text("\(selectedDate.howManyDaysFromStartDate(startDate: userTravel.startDate))일차")
+                        Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
                             .font(.custom("Pretendard-Semibold", size: 14))
                             .foregroundStyle(Color(hex: "858899"))
                         Image("expand_more")
@@ -51,7 +48,7 @@ struct PaymentMainView: View {
             }
             .padding()
             .sheet(isPresented: $isShowingDateSheet, content: {
-                DateSheet(selectedDate: $selectedDate, userTravel: userTravel)
+                DateSheet(selectedDate: $selectedDate, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
                     .presentationDetents([.fraction(0.4)])
             })
             .frame(height: 52)
@@ -122,13 +119,13 @@ struct PaymentMainView: View {
             HStack {
                 ScrollView {
                     VStack(alignment: .leading) {
-                        PaymentListView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                        PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
                     }
                     .frame(maxWidth: .infinity)
                     
                     GroupBox {
                         NavigationLink {
-                            AddPaymentView(paymentStore: paymentStore, memberStore: memberStore, userTravel: userTravel)
+                            AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
                                 .navigationTitle("지출 항목 추가")
                                 .navigationBarBackButtonHidden()
                         } label: {

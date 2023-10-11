@@ -11,9 +11,9 @@ struct EditPaymentView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State var payment: Payment
+    
+    @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var memberStore: MemberStore
-    var userTravel: UserTravel
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -26,7 +26,7 @@ struct EditPaymentView: View {
         VStack {
             
             List {
-                SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         category = payment.type.rawValue
                         selectedCategory = payment.type
@@ -41,7 +41,7 @@ struct EditPaymentView: View {
                     Text(payment.address.address)
                 }
                 
-                EditPaymentMemberView(payment: $payment, memberStore: memberStore)
+                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
             }
             
             Button(action: {

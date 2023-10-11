@@ -1,19 +1,40 @@
 //
-//  AddPaymentSheetView.swift
+//  MainAddPaymentView.swift
 //  BillBuddy
 //
-//  Created by 김유진 on 2023/09/25.
+//  Created by 김유진 on 10/11/23.
 //
 
 import SwiftUI
 
-struct AddPaymentView: View {
+struct SelectTripSheet: View {
+    
+    @ObservedObject var userTravelStore: UserTravelStore
+    @Binding var travelCalculation: TravelCalculation
+    var body: some View {
+        VStack {
+            ForEach(userTravelStore.travels) { travel in
+                Button(action: {
+                    travelCalculation = travel
+                }, label: {
+                    Text(travel.travelTitle)
+                })
+            }
+            
+        }
+    }
+}
+
+struct MainAddPaymentView: View {
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @Binding var travelCalculation: TravelCalculation
-    @ObservedObject var paymentStore: PaymentStore
-    @StateObject var locationManager = LocationManager()
- 
+//    @Binding var travelCalculation: TravelCalculation
+//    @ObservedObject var paymentStore: PaymentStore
+    
+    @ObservedObject var userTravelStore: UserTravelStore
+    
+    @State var travelCalculation: TravelCalculation
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -22,6 +43,8 @@ struct AddPaymentView: View {
     @State private var category: String = "기타"
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [TravelCalculation.Member] = []
+    
+    @State private var isShowingSelectTripSheet: Bool = false
     
     var divider: some View {
         Divider()
@@ -32,6 +55,23 @@ struct AddPaymentView: View {
     var body: some View {
         VStack {
             List {
+                Section{
+                    HStack {
+                        Text("여행")
+                        Spacer()
+                        Button(action: {
+                            isShowingSelectTripSheet = true
+                        }, label: {
+                            Text(travelCalculation.travelTitle)
+                        })
+                    }
+                }
+                .sheet(isPresented: $isShowingSelectTripSheet, content: {
+                    
+                    SelectTripSheet(userTravelStore: userTravelStore, travelCalculation: $travelCalculation)
+                        .presentationDetents([.fraction(0.4)])
+                })
+                
                 SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
@@ -44,14 +84,16 @@ struct AddPaymentView: View {
                         // Payment.Address(address: "", latitude: 0, longitude: 0)
                     }
                 }
-                AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
                 
-                // 위치
-                AddPaymentMapView()
-                    .frame(height: 500)
-
+                AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
             }
-
+            .onAppear {
+                if let first = userTravelStore.travels.first {
+                    travelCalculation = first
+                }
+            }
+            
+            
             Button(action: {
                 var participants: [Payment.Participant] = []
                 
@@ -60,9 +102,8 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory ?? Payment.PaymentType.etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
-                
-                paymentStore.addPayment(newPayment: newPayment)
+                Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+                userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
                 presentationMode.wrappedValue.dismiss()
                 
             }, label: {
@@ -91,6 +132,5 @@ struct AddPaymentView: View {
 }
 
 //#Preview {
-//    AddPaymentView(paymentStore: PaymentStore(travelCalculationId: "4eB3HvBvH6jXYDLu9irl"), travelCalculation: trav)
-//
+//    MainAddPaymentView()
 //}
