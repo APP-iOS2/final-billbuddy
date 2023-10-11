@@ -44,14 +44,14 @@ struct TravelListView: View {
 //                        Text("\(travelList.startDate) - \(travelList.endDate)")
                     }
                 }
-                NavigationLink(destination: AddTravelView(travelData: $newTravelData)) {
+                NavigationLink(destination: AddTravelView()) {
                     AddTravelButtonView()
                 }
             }
         }
         .navigationTitle("BillBuddy")
         .onAppear {
-            userTravelStore.fetchUserTravel()
+            userTravelStore.fetchTravelCalculation()
         }
     }
     
