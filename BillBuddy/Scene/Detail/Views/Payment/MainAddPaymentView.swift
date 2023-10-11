@@ -19,7 +19,6 @@ struct MainAddPaymentView: View {
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var category: String = ""
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [TravelCalculation.Member] = []
     
@@ -51,7 +50,7 @@ struct MainAddPaymentView: View {
                         .presentationDetents([.fraction(0.4)])
                 })
                 
-                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }

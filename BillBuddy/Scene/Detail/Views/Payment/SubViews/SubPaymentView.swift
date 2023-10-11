@@ -14,11 +14,7 @@ struct SubPaymentView: View {
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var selectedCategory: Payment.PaymentType?
-    @Binding var category: String
     @Binding var paymentDate: Date
-    
-    @State var isSelectedCategory: Bool = false
-    @State var isVisibleCategorySelectPicker: Bool = false
     
     var divider: some View {
         Divider()
@@ -51,7 +47,6 @@ struct SubPaymentView: View {
                     ForEach(Payment.PaymentType.allCases, id:\.self) { type in
                         Button(action: {
                                 selectedCategory = type
-                            
                         }, label: {
                             VStack {
                                 if let selected = selectedCategory {
