@@ -19,7 +19,7 @@ struct TravelCalculation: Identifiable, Codable {
     var startDate: Double
     var endDate: Double
     var updateContentDate: Double
-    var isPaymentSettled: Bool
+    var isPaymentSettled: Bool = false
     var members: [Member]
     
     struct Member: Codable, Identifiable, Hashable {

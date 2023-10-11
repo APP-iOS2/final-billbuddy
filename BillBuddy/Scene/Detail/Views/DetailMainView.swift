@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+   
     @State var travelCalculation: TravelCalculation
     
     @State var selection: Int = 0

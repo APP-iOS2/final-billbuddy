@@ -22,8 +22,6 @@ struct TravelListView: View {
                     ForEach(userTravelStore.travels) { travel in
                         NavigationLink {
                             DetailMainView(travelCalculation: travel)
-//                                .navigationTitle(travelList.travelName)
-                            
                         } label: {
                             Text(travel.travelTitle)
                         }
