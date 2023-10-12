@@ -30,12 +30,16 @@ struct PaymentMainView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4, content: {
                         HStack(spacing: 0) {
-                            Text("총 지출")
-                                .font(.custom("Pretendard-Medium", size: 14))
-                                .foregroundStyle(Color(hex: "858899"))
-                            Image("chevron_right")
-                                .resizable()
-                                .frame(width: 24, height: 24)
+                            NavigationLink {
+                                SpendingListView()
+                            } label: {
+                                Text("총 지출")
+                                    .font(.custom("Pretendard-Medium", size: 14))
+                                    .foregroundStyle(Color(hex: "858899"))
+                                Image("chevron_right")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
                         }
                         Text("₩0")
                             .font(.custom("Pretendard-Semibold", size: 16))
@@ -72,7 +76,6 @@ struct PaymentMainView: View {
             .padding(.bottom, 32)
             
             HStack(spacing: 0) {
-                // TODO: SelectedCategory에 따라서 보여주는 PaymentList가 달라야한다.
                 Button(action: {
                     isShowingSelectCategorySheet = true
                 }, label: {
