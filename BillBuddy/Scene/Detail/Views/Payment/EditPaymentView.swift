@@ -11,35 +11,40 @@ struct EditPaymentView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State var payment: Payment
+    
+    @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var memberStore: MemberStore
-    var userTravel: UserTravel
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
-    @State private var headCountString: String = ""
-    @State private var selectedCategory: Payment.PaymentType = .transportation
-    @State private var category: String = "교통/숙박/관광/식비/기타"
+    @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date()
 
     var body: some View {
         VStack {
             
             List {
-                SubPaymentView(userTravel: userTravel, expandDetails: $expandDetails, priceString: $priceString, headCountString: $headCountString, selectedCategory: $selectedCategory, category: $category, paymentDate: $paymentDate)
+                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
                     .onAppear {
-                        category = payment.type.rawValue
                         selectedCategory = payment.type
                         expandDetails = payment.content
                         priceString = String(payment.payment)
                         paymentDate = payment.paymentDate.toDate()
                     }
                 
-                EditPaymentMemberView(payment: $payment, memberStore: memberStore)
+                Section {
+                    HStack {
+                        Text("위치")
+                        Spacer()
+                        Text(payment.address.address)
+                    }
+                }
+                
+                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
             }
             
             Button(action: {
-                let newPayment = Payment(id: payment.id, type: selectedCategory, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.editPayment(payment: newPayment)
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
@@ -66,6 +71,7 @@ struct EditPaymentView: View {
             
         })
         .onAppear {
+            // TODO: 해당 payment만 fetch 되도록 수정
             paymentStore.fetchAll()
         }
         

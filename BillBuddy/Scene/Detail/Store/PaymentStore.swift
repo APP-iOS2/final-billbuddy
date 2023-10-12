@@ -8,42 +8,6 @@
 import Foundation
 import FirebaseFirestore
 
-class tempTravelCalculationStore: ObservableObject {
-    @Published var travelCalculations: [TravelCalculation] = []
-    
-    let dbRef = Firestore.firestore().collection("TravelCalculation")
-    
-    func fetchAll() {
-        dbRef.getDocuments { snapshot, error in
-            if let snapshot {
-                
-                var tempTravelCalculations: [TravelCalculation] = []
-                
-                for doc in snapshot.documents {
-                    
-                    let id: String = doc.documentID
-                    let docData = doc.data()
-                    
-                    let hostId: String = docData["hostId"] as? String ?? ""
-                    let managerId: String = docData["managerId"] as? String ?? ""
-                    let travelTitle: String = docData["travelTitle"] as? String ?? ""
-                    
-                    let startDate: Double = docData["startDate"] as? Double ?? 0
-                    let endDate: Double = docData["endDate"] as? Double ?? 0
-                    
-                    let newTC = TravelCalculation(id: id, hostId: hostId, travelTitle: travelTitle, managerId: managerId, startDate: startDate, endDate: endDate, updateContentDate: Date(), members: [])
-                    
-                    tempTravelCalculations.append(newTC)
-                }
-                
-                DispatchQueue.main.async {
-                    self.travelCalculations = tempTravelCalculations
-                }
-            }
-        }
-    }
-}
-
 class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     
@@ -64,8 +28,8 @@ class PaymentStore: ObservableObject {
                 
                 for doc in snapshot.documents {
                     /// 아래의 코드는 struct가 확정이 나면 쓸것!
-//                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
-//                    tempPayment.append(newPayment)
+                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
+                    //                    tempPayment.append(newPayment)
                     
                     let id: String = doc.documentID
                     let docData = doc.data()
@@ -77,6 +41,9 @@ class PaymentStore: ObservableObject {
                     let price: Int = docData["payment"] as? Int ?? 0
                     let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
                     
+                    let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
+                    let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
+                    
                     let participantsDict = docData["participants"] as? [[String: Any]] ?? []
                     var participants: [Payment.Participant] = []
                     for p in participantsDict {
@@ -86,7 +53,7 @@ class PaymentStore: ObservableObject {
                         participants.append(Payment.Participant(memberId: memberId, payment: payment))
                     }
                     
-                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate)
+                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
                     
                     tempPayment.append(newPayment)
                 }
@@ -97,6 +64,167 @@ class PaymentStore: ObservableObject {
                 
             }
         }
+    }
+    
+    func fetchDate(date: Double) {
+        payments.removeAll()
+        
+        dbRef.getDocuments { snapshot, error in
+            if let snapshot {
+                var tempPayment: [Payment] = []
+                
+                for doc in snapshot.documents {
+                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
+                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
+                    //                    tempPayment.append(newPayment)
+                    
+                    let id: String = doc.documentID
+                    let docData = doc.data()
+                    
+                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
+                    
+                    if (date.todayRange() ~= paymentDate) {
+                        
+                        let typeString: String = docData["type"] as? String ?? ""
+                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+                        
+                        let content: String = docData["content"] as? String ?? ""
+                        let price: Int = docData["payment"] as? Int ?? 0
+                        
+                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
+                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
+                        
+                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
+                        var participants: [Payment.Participant] = []
+                        for p in participantsDict {
+                            let memberId = p["memberId"] as? String ?? ""
+                            let payment = p["payment"] as? Int ?? 0
+                            
+                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
+                        }
+                        
+                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
+                        
+                        tempPayment.append(newPayment)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.payments = tempPayment
+                }
+                
+            }
+        }
+    }
+    
+    func fetchDateCategory(date: Double, category: Payment.PaymentType) {
+        payments.removeAll()
+        
+        dbRef.getDocuments { snapshot, error in
+            if let snapshot {
+                var tempPayment: [Payment] = []
+                
+                for doc in snapshot.documents {
+                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
+                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
+                    //                    tempPayment.append(newPayment)
+                    
+                    let id: String = doc.documentID
+                    let docData = doc.data()
+                    
+                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
+                    let typeString: String = docData["type"] as? String ?? ""
+                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+
+                    if type == category && (date.todayRange() ~= paymentDate) {
+                        
+                        let typeString: String = docData["type"] as? String ?? ""
+                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+                        
+                        let content: String = docData["content"] as? String ?? ""
+                        let price: Int = docData["payment"] as? Int ?? 0
+                        
+                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
+                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
+                        
+                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
+                        var participants: [Payment.Participant] = []
+                        for p in participantsDict {
+                            let memberId = p["memberId"] as? String ?? ""
+                            let payment = p["payment"] as? Int ?? 0
+                            
+                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
+                        }
+                        
+                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
+                        
+                        tempPayment.append(newPayment)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.payments = tempPayment
+                }
+                
+            }
+        }
+    }
+    
+    func fetchCategory(category: Payment.PaymentType) {
+        payments.removeAll()
+        
+        dbRef.getDocuments { snapshot, error in
+            if let snapshot {
+                var tempPayment: [Payment] = []
+                
+                for doc in snapshot.documents {
+                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
+                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
+                    //                    tempPayment.append(newPayment)
+                    
+                    let id: String = doc.documentID
+                    let docData = doc.data()
+                    
+                    let typeString: String = docData["type"] as? String ?? ""
+                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+                    
+                    if type == category {
+                        let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
+                        
+                        let typeString: String = docData["type"] as? String ?? ""
+                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
+                        
+                        let content: String = docData["content"] as? String ?? ""
+                        let price: Int = docData["payment"] as? Int ?? 0
+                        
+                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
+                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
+                        
+                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
+                        var participants: [Payment.Participant] = []
+                        for p in participantsDict {
+                            let memberId = p["memberId"] as? String ?? ""
+                            let payment = p["payment"] as? Int ?? 0
+                            
+                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
+                        }
+                        
+                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
+                        
+                        tempPayment.append(newPayment)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.payments = tempPayment
+                }
+                
+            }
+        }
+    }
+    
+    func fetchAPayment(payment: Payment) {
+        
     }
     
     func addPayment(newPayment: Payment) {
@@ -122,4 +250,27 @@ class PaymentStore: ObservableObject {
         payments.remove(atOffsets: idx)
     }
     
+    //    func findMemberById(memberId: String)->Member? {
+    //        if let existMember = members.firstIndex(where: { m in
+    //            m.id == memberId
+    //        })
+    //        {
+    //            print(memberId, members[existMember])
+    //            return members[existMember]
+    //        }
+    //        return nil
+    //    }
+    //
+    //    func findMembersByParticipants(participants: [Payment.Participant]) -> [Member] {
+    //        var member: [Member] = []
+    //
+    //        for p in participants {
+    //            if let m = self.findMemberById(memberId: p.memberId)
+    //            {
+    //                member.append(m)
+    //            }
+    //        }
+    //
+    //        return member
+    //    }
 }

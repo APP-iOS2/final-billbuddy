@@ -9,10 +9,10 @@ import SwiftUI
 
 struct EditPaymentMemberView: View {
     @Binding var payment: Payment
-    @ObservedObject var memberStore: MemberStore
+    @Binding var travelCalculation: TravelCalculation
     
     @State private var isShowingEditSheet: Bool = false
-    @State private var tempMembers: [Member] = []
+    @State private var tempMembers: [TravelCalculation.Member] = []
     
     var body: some View {
         Section {
@@ -34,7 +34,7 @@ struct EditPaymentMemberView: View {
             }
             .padding()
             .sheet(isPresented: $isShowingEditSheet, content: {
-                List(memberStore.members) { member in
+                List(travelCalculation.members) { member in
                     HStack {
                         if tempMembers.firstIndex(where: { m in
                             m.name == member.name
@@ -62,8 +62,7 @@ struct EditPaymentMemberView: View {
                     }
                 }
                 .onAppear {
-                    memberStore.fetchAll()
-                    tempMembers = memberStore.findMembersByParticipants(participants: payment.participants)
+//                    tempMembers = memberStore.findMembersByParticipants(participants: payment.participants)
                 }
                 .presentationDetents([.fraction(0.4)])
                 
@@ -72,7 +71,7 @@ struct EditPaymentMemberView: View {
                     var participants: [Payment.Participant] = []
                     
                     for m in tempMembers {
-                        participants.append(Payment.Participant(memberId: m.id ?? "", payment: m.payment))
+                        participants.append(Payment.Participant(memberId: m.id , payment: m.payment))
                     }
                     payment.participants = participants
                 }, label: {
@@ -86,13 +85,12 @@ struct EditPaymentMemberView: View {
                 })
             })
             
-            ForEach(memberStore.findMembersByParticipants(participants: payment.participants)) { member in
-                Text(member.name)
-            }
+//            ForEach(memberStore.findMembersByParticipants(participants: payment.participants)) { member in
+//                Text(member.name)
+//            }
             
         }
         .onAppear {
-            memberStore.fetchAll()
         }
     }
 }

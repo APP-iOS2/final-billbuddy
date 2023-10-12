@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ChattingView: View {
+    @EnvironmentObject var chatStore: ChatStore
+    private let userId = AuthStore.shared.userUid
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -20,6 +23,9 @@ struct ChattingView: View {
                                 .foregroundColor(.gray100), alignment: .top
                         )
                 }
+            }
+            .onAppear {
+                chatStore.fetchChatList()
             }
             .navigationTitle("채팅")
             .navigationBarTitleDisplayMode(.inline)
@@ -39,7 +45,7 @@ struct ChattingView: View {
     }
     
     private var chattingItems: some View {
-        ForEach(0..<3, id: \.self) { data in
+        ForEach(chatStore.chats) { chat in
             NavigationLink {
                 ChattingRoomView()
             } label: {
@@ -49,29 +55,36 @@ struct ChattingView: View {
                         .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
-                            Text("신나는 유럽여행")
+                            Text(chat.travelTitle)
                                 .font(Font.body02)
                                 .foregroundColor(.systemBlack)
                             
-                            Text("8")
+                            Text("\(chat.memberIds.count)")
                                 .font(Font.body02)
                                 .foregroundColor(.gray500)
                         }
-                        Text("채팅미리보기")
-                            .font(Font.body04)
-                            .foregroundColor(.gray700)
+                        if let messagePreview = chat.lastMessage {
+                            Text(messagePreview)
+                                .font(Font.body04)
+                                .foregroundColor(.gray700)
+                        }
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("오후 2:27")
-                            .font(Font.caption01)
-                            .foregroundColor(.gray500)
-                        Text("5")
-                            .frame(width: 16, height: 16)
-                            .font(Font.caption03)
-                            .foregroundColor(.white)
-                            .background(Color.error)
-                            .cornerRadius(50)
+                        // TODO: 더블타입 오전 HH:mm 로 변환하기 - Double+Extension.swift
+                        if let lastMessageTime = chat.lastMessageDate {
+                            Text("\(lastMessageTime)")
+                                .font(Font.caption01)
+                                .foregroundColor(.gray500)
+                        }
+                        if let unreadMessage = chat.unreadMessageCount?[userId], unreadMessage > 0 {
+                            Text("\(unreadMessage)")
+                                .frame(width: 16, height: 16)
+                                .font(Font.caption03)
+                                .foregroundColor(.white)
+                                .background(Color.error)
+                                .cornerRadius(50)
+                        }
                     }
                 }
             }
@@ -85,4 +98,5 @@ struct ChattingView: View {
 
 #Preview {
     ChattingView()
+        .environmentObject(ChatStore())
 }
