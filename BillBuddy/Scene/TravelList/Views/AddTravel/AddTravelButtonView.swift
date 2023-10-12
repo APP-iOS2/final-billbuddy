@@ -71,6 +71,11 @@ struct AddTravelButtonView: View {
         // 다은님이 주신 심볼로는 버튼을 하얀색으로 만들지 못함
         buttonImage = showMenuItem1 || showMenuItem2 ? "xmark.circle.fill" : "plus.circle.fill"
     }
+    
+    func closeMenu() {
+        showMenuItem1.toggle()
+        showMenuItem2.toggle()
+    }
 }
 
 struct MenuItem: View {
@@ -79,7 +84,7 @@ struct MenuItem: View {
     var body: some View {
         ZStack {
             Circle()
-            //                .foregroundColor(Color.systemGray03)
+                .foregroundColor(Color.gray300)
                 .frame(width: 60, height: 60)
             Image(icon)
         }
