@@ -49,7 +49,7 @@ struct ChattingView: View {
     private var chattingItems: some View {
         ForEach(travelStore.travels) { travel in
             NavigationLink {
-                ChattingRoomView()
+                ChattingRoomView(travel: travel)
             } label: {
                 HStack {
                     Circle()
