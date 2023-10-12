@@ -15,11 +15,9 @@ struct DetailMainView: View {
     
     @State var selection: Int = 0
     
-    
     var body: some View {
         VStack {
             SliderView(items: ["내역", "지도"], selection: $selection, defaultXSpace: 12)
-            
             
             if selection == 0 {
                 PaymentMainView(travelCalculation: $travelCalculation, paymentStore: PaymentStore(travelCalculationId: travelCalculation.id))
@@ -33,6 +31,7 @@ struct DetailMainView: View {
             
         }
         .navigationBarBackButtonHidden()
+        .navigationTitle(travelCalculation.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {

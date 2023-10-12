@@ -16,10 +16,9 @@ struct TravelListView: View {
     var body: some View {
         NavigationStack{
             VStack {
-//                travelFilterButton
-//                    .padding(.top)
+                travelFilterButton
                 List {
-                    ForEach(userTravelStore.travels) { travel in
+                    ForEach(createTravelList()) { travel in
                         NavigationLink {
                             DetailMainView(travelCalculation: travel)
                         } label: {
