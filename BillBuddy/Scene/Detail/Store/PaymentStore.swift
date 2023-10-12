@@ -224,7 +224,7 @@ class PaymentStore: ObservableObject {
     }
     
     func fetchAPayment(payment: Payment) {
-        
+//        payments.firstIndex(of: payment)
     }
     
     func addPayment(newPayment: Payment) {
@@ -239,38 +239,18 @@ class PaymentStore: ObservableObject {
         }
     }
     
-    func deletePayment(idx: IndexSet) {
-        for i in idx {
-            if let id = payments[i].id {
-                dbRef.document(id).delete()
+    func deletePayment(payment: Payment) {
+        if let id = payment.id {
+            dbRef.document(id).delete()
+            
+            /// fetchAll 해주니까 순간적으로 사라졌다가 다 다시 불러오는게 로딩이 느려서
+            /// payments 자체에서 삭제하도록 해줌
+            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                payments.remove(at: index)
             }
+
+            
         }
-        /// fetchAll 해주니까 순간적으로 사라졌다가 다 다시 불러오는게 로딩이 느려서
-        /// payments 자체에서 삭제하도록 해줌
-        payments.remove(atOffsets: idx)
+        
     }
-    
-    //    func findMemberById(memberId: String)->Member? {
-    //        if let existMember = members.firstIndex(where: { m in
-    //            m.id == memberId
-    //        })
-    //        {
-    //            print(memberId, members[existMember])
-    //            return members[existMember]
-    //        }
-    //        return nil
-    //    }
-    //
-    //    func findMembersByParticipants(participants: [Payment.Participant]) -> [Member] {
-    //        var member: [Member] = []
-    //
-    //        for p in participants {
-    //            if let m = self.findMemberById(memberId: p.memberId)
-    //            {
-    //                member.append(m)
-    //            }
-    //        }
-    //
-    //        return member
-    //    }
 }
