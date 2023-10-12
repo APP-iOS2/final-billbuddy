@@ -18,7 +18,7 @@ struct TravelListView: View {
             VStack {
                 travelFilterButton
                 List {
-                    ForEach(userTravelStore.travels) { travel in
+                    ForEach(createTravelList()) { travel in
                         NavigationLink {
                             DetailMainView(travelCalculation: travel)
                         } label: {
