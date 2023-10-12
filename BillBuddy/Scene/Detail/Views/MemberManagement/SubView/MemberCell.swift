@@ -9,12 +9,18 @@ import SwiftUI
 
 struct MemberCell: View {
     var member: TravelCalculation.Member
+    
+    var onEditing: () -> Void
+    var onRemove: () -> Void
+    
     var body: some View {
         HStack {
             Image("DBPin")
                 .resizable()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
+                .padding(.leading, 8)
+
             
             VStack(spacing: 0) {
                 Text(member.name)
@@ -30,11 +36,23 @@ struct MemberCell: View {
             Spacer()
             
         }
+        .swipeActions(edge: .trailing) {
+            Button("삭제") {
+                onRemove()
+            }
+            .tint(Color.error)
+            
+            Button("수정") {
+                onEditing()
+            }
+            .tint(Color.gray500)
+            
+        }
         .frame(height: 40)
         .padding([.top, .bottom], 12)
     }
 }
 
 #Preview {
-    MemberCell(member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100))
+    MemberCell(member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), onEditing: { print("edit") }, onRemove: { print("remove") })
 }
