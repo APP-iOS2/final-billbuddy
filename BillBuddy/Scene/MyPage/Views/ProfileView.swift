@@ -80,13 +80,13 @@ struct ProfileView: View {
                             .foregroundColor(.systemBlack)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: ProfileEditView()) {
-                        Text("수정")
-                            .font(.body01)
-                            .foregroundColor(.systemBlack)
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    NavigationLink(destination: ProfileEditView()) {
+//                        Text("수정")
+//                            .font(.body01)
+//                            .foregroundColor(.systemBlack)
+//                    }
+//                }
             }
     }
 }
