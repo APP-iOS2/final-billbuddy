@@ -224,7 +224,7 @@ class PaymentStore: ObservableObject {
     }
     
     func fetchAPayment(payment: Payment) {
-        
+//        payments.firstIndex(of: payment)
     }
     
     func addPayment(newPayment: Payment) {
@@ -249,28 +249,4 @@ class PaymentStore: ObservableObject {
         /// payments 자체에서 삭제하도록 해줌
         payments.remove(atOffsets: idx)
     }
-    
-    //    func findMemberById(memberId: String)->Member? {
-    //        if let existMember = members.firstIndex(where: { m in
-    //            m.id == memberId
-    //        })
-    //        {
-    //            print(memberId, members[existMember])
-    //            return members[existMember]
-    //        }
-    //        return nil
-    //    }
-    //
-    //    func findMembersByParticipants(participants: [Payment.Participant]) -> [Member] {
-    //        var member: [Member] = []
-    //
-    //        for p in participants {
-    //            if let m = self.findMemberById(memberId: p.memberId)
-    //            {
-    //                member.append(m)
-    //            }
-    //        }
-    //
-    //        return member
-    //    }
 }

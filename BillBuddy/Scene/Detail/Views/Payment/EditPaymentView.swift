@@ -32,15 +32,20 @@ struct EditPaymentView: View {
                         paymentDate = payment.paymentDate.toDate()
                     }
                 
+                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
+                
                 Section {
                     HStack {
                         Text("위치")
+                            .font(.custom("Pretendard-Bold", size: 14))
+                            
                         Spacer()
-                        Text(payment.address.address)
+                        // Payment.Address(address: "", latitude: 0, longitude: 0)
                     }
+                    .padding(.leading, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
                 }
-                
-                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
             }
             
             Button(action: {
@@ -51,13 +56,14 @@ struct EditPaymentView: View {
                 HStack {
                     Spacer()
                     Text("수정하기")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 18))
+                        .foregroundStyle(.white)
                     Spacer()
                 }
-                .padding()
+                .padding(.top, 24)
+                .padding(.bottom, 24)
             })
-            .buttonStyle(.borderedProminent)
-            .padding()
+            .background(Color.primary)
             
         }
         .toolbar(content: {
@@ -65,7 +71,9 @@ struct EditPaymentView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.backward")
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 })
             }
             
