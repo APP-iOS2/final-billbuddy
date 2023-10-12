@@ -18,6 +18,7 @@ struct AddTravelView: View {
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack {
@@ -79,8 +80,10 @@ struct AddTravelView: View {
             Button {
                 userTravelStore.addTravel(travelTitle, memberCount: selectedMember, startDate: startDate, endDate: endDate)
                 chatStore.addChattingRoom(travelTitle: travelTitle)
+                
+                presentationMode.wrappedValue.dismiss()
             } label: {
-                Text("여행추가")
+                Text("개설하기")
             }
         }
     }
