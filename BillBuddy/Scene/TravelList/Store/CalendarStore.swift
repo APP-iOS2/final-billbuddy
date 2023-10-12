@@ -10,6 +10,7 @@ import Foundation
 final class CalendarStore: ObservableObject {
     
     var calendar = Calendar.current
+    
     @Published var date: Date = Date()
     @Published var firstDate: Date?
     @Published var secondDate: Date?
