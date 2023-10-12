@@ -25,7 +25,7 @@ extension Color {
         self.init(red: red, green: green, blue: blue, opacity: opacity)
     }
     /// 2952E7
-    static let primary = Color("primary2")
+    static let myPrimary = Color(hex: "#2952E7")
     /// D84D50
     static let error = Color(hex: "#D84D50")
     /// 57B585
