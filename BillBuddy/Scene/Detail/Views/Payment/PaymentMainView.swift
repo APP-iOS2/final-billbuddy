@@ -69,7 +69,7 @@ struct PaymentMainView: View {
             .frame(height: 80)
             .background {
                 RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(hex: "F7F7FA"))
+                    .fill(Color(hex: "F7F7FA"))
             }
             .padding(.leading, 16)
             .padding(.trailing, 16)
@@ -95,7 +95,7 @@ struct PaymentMainView: View {
                 })
                 .sheet(isPresented: $isShowingSelectCategorySheet) {
                     SelectCategoryView(mode: .sheet, selectedCategory: $selectedCategory)
-                    .presentationDetents([.fraction(0.3)])
+                        .presentationDetents([.fraction(0.3)])
                 }
                 .onChange(of: selectedCategory, perform: { category in
                     if selectedDate == 0 {
@@ -141,43 +141,41 @@ struct PaymentMainView: View {
     }
     
     var paymentList: some View {
-        ScrollView {
-            VStack {
-                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                    .padding(.bottom, 12)
-            }
-            .frame(maxWidth: .infinity)
+        List {
+            PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                .padding(.bottom, 12)
+                .listRowSeparator(.hidden)
             
-            Group {
-                NavigationLink {
-                    AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                        .navigationTitle("지출 항목 추가")
-                        .navigationBarBackButtonHidden()
-                } label: {
-                    HStack(spacing: 12) {
-                        Spacer()
-                        Image("add payment")
-                            .resizable()
-                            .frame(width: 28, height: 28)
-                        
-                        Text("지출 내역 추가")
-                            .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
-                        
-                        Spacer()
-                    }
-                    .padding(.top, 12)
-                    .padding(.bottom, 12)
+            NavigationLink {
+                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    .navigationTitle("지출 항목 추가")
+                    .navigationBarBackButtonHidden()
+            } label: {
+                HStack(spacing: 12) {
+                    Spacer()
+                    Image("add payment")
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                    
+                    Text("지출 내역 추가")
+                        .font(.custom("Pretendard-Medium", size: 14))
+                        .foregroundStyle(Color(hex: "858899"))
+                    
+                    Spacer()
                 }
+                .padding(.top, 12)
+                .padding(.bottom, 12)
             }
+            
             .background {
                 RoundedRectangle(cornerRadius: 12)
                     .stroke(Color(hex: "F0F0F5"), lineWidth: 1)
-                    
+                
             }
             .padding(.leading, 16)
             .padding(.trailing, 16)
         }
+        .listStyle(.grouped)
     }
     
     var date: some View {
@@ -220,7 +218,7 @@ struct PaymentMainView: View {
             DateSheet(selectedDate: $selectedDate, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
                 .presentationDetents([.fraction(0.4)])
         })
-
+        
         .onChange(of: selectedDate, perform: { date in
             // MARK: 1번만 fetch되게 하는 방법이 없을지 ,,
             if selectedDate == 0 {

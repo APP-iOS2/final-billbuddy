@@ -239,14 +239,18 @@ class PaymentStore: ObservableObject {
         }
     }
     
-    func deletePayment(idx: IndexSet) {
-        for i in idx {
-            if let id = payments[i].id {
-                dbRef.document(id).delete()
+    func deletePayment(payment: Payment) {
+        if let id = payment.id {
+            dbRef.document(id).delete()
+            
+            /// fetchAll 해주니까 순간적으로 사라졌다가 다 다시 불러오는게 로딩이 느려서
+            /// payments 자체에서 삭제하도록 해줌
+            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                payments.remove(at: index)
             }
+
+            
         }
-        /// fetchAll 해주니까 순간적으로 사라졌다가 다 다시 불러오는게 로딩이 느려서
-        /// payments 자체에서 삭제하도록 해줌
-        payments.remove(atOffsets: idx)
+        
     }
 }
