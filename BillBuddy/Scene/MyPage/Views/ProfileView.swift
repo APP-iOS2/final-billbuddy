@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var myPageStore: MyPageStore
     
     var body: some View {
@@ -64,30 +65,31 @@ struct ProfileView: View {
             }
             .font(.body04)
             .padding(.bottom, 36)
+            Spacer()
         }
         .padding(24)
-        Spacer()
-            .navigationTitle("내 프로필")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        // 작동
-                    }) {
-                        Image("arrow_back")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.systemBlack)
-                    }
+        .navigationTitle("내 프로필")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
                 }
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    NavigationLink(destination: ProfileEditView()) {
-//                        Text("수정")
-//                            .font(.body01)
-//                            .foregroundColor(.systemBlack)
-//                    }
-//                }
             }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: ProfileEditView(myPageStore: MyPageStore())) {
+                    Text("수정")
+                        .font(.body01)
+                        .foregroundColor(.systemBlack)
+                }
+            }
+        }
     }
 }
 
