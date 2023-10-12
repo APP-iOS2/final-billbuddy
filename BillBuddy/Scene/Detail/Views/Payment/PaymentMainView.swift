@@ -7,13 +7,84 @@
 
 import SwiftUI
 
+struct SelectCategorySheet: View {
+    
+    @Binding var selectedCategory: Payment.PaymentType?
+    
+    var body: some View {
+        HStack {
+            
+            Button(action: {
+                selectedCategory = nil
+            }, label: {
+                if selectedCategory == nil {
+                    Text("전체")
+                        .font(.custom("Pretendard-Medium", size: 12))
+                        .foregroundStyle(Color.primary)
+                }
+                else {
+                    Text("전체")
+                        .font(.custom("Pretendard-Medium", size: 12))
+                        .foregroundStyle(Color.black)
+                }
+            })
+            .buttonStyle(.plain)
+            
+            ForEach(Payment.PaymentType.allCases, id:\.self) { type in
+                Button(action: {
+                        selectedCategory = type
+                }, label: {
+                    VStack {
+                        if let selected = selectedCategory {
+                            if selected == type {
+                                Image(type.getImageString(type: .thin))
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundStyle(Color.primary)
+                                Text(type.rawValue)
+                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .foregroundStyle(Color.primary)
+                                    
+                            }
+                            else {
+                                Image(type.getImageString(type: .thin))
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text(type.rawValue)
+                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .foregroundStyle(Color(hex: "A9ABB8"))
+                                
+                            }
+                        }
+                        else {
+                            Image(type.getImageString(type: .thin))
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                            Text(type.rawValue)
+                                .font(.custom("Pretendard-Medium", size: 12))
+                                .foregroundStyle(Color(hex: "A9ABB8"))
+                            
+                        }
+                        
+                        
+                    }
+                })
+                .buttonStyle(.plain)
+            }
+        }
+    }
+}
+
 struct PaymentMainView: View {
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
     
     @State var isShowingDateSheet: Bool = false
+    @State var isShowingSelectCategorySheet: Bool = false
     @State var selectedDate: Double = 0
+    @State var selectedCategory: Payment.PaymentType?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -69,15 +140,46 @@ struct PaymentMainView: View {
             .padding(.bottom, 32)
             
             HStack(spacing: 0) {
+                // TODO: SelectedCategory에 따라서 보여주는 PaymentList가 달라야한다.
                 Button(action: {
-                    
+                    isShowingSelectCategorySheet = true
                 }, label: {
-                    Text("전체내역")
-                        .font(.custom("Pretendard-Medium", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
+                    if let category = selectedCategory {
+                        Text(category.rawValue)
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color(hex: "858899"))
+                    }
+                    else {
+                        Text("전체내역")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color(hex: "858899"))
+                    }
                     Image("expand_more")
                         .resizable()
                         .frame(width: 24, height: 24)
+                })
+                .sheet(isPresented: $isShowingSelectCategorySheet) {
+                    SelectCategorySheet(selectedCategory: $selectedCategory)
+                    .presentationDetents([.fraction(0.3)])
+                }
+                .onChange(of: selectedCategory, perform: { category in
+                    if selectedDate == 0 {
+                        if let category = selectedCategory {
+                            paymentStore.fetchCategory(category: category)
+                        }
+                        else {
+                            paymentStore.fetchAll()
+                        }
+                    }
+                    else {
+                        if let category = selectedCategory{
+                            paymentStore.fetchDateCategory(date: selectedDate, category: category)
+                        }
+                        else {
+                            paymentStore.fetchDate(date: selectedDate)
+                        }
+                        
+                    }
                 })
                 
                 Spacer()
@@ -192,6 +294,7 @@ struct PaymentMainView: View {
             else {
                 paymentStore.fetchDate(date: date)
             }
+            selectedCategory = nil
         })
         .onAppear {
             if selectedDate == 0 {
@@ -200,6 +303,7 @@ struct PaymentMainView: View {
             else {
                 paymentStore.fetchDate(date: selectedDate)
             }
+            selectedCategory = nil
         }
     }
 }
