@@ -102,6 +102,7 @@ struct ProfileView: View {
                 }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 
