@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ProfileEditView: View {
-    
-    @ObservedObject var myPageStore: MyPageStore
 
     var body: some View {
         ZStack {
@@ -27,6 +25,6 @@ struct ProfileEditView: View {
 
 #Preview {
     NavigationStack {
-        ProfileEditView(myPageStore: MyPageStore())
+        ProfileEditView()
     }
 }

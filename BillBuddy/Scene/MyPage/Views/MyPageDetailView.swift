@@ -9,19 +9,19 @@ import SwiftUI
 
 struct MyPageDetailView: View {
     
-    @ObservedObject var myPageStore: MyPageStore
+    @EnvironmentObject var userService: UserService
     
     var body: some View {
         VStack {
             HStack {
-                Image(myPageStore.myPageData.userImage)
+                Image(userService.currentUser?.userImage ?? "white")
                     .resizable()
                     .frame(width: 80, height: 80)
                     .cornerRadius(50)
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileView(myPageStore: MyPageStore())) {
+                    NavigationLink(destination: ProfileView()) {
                         HStack {
-                            Text(myPageStore.myPageData.name)
+                            Text(userService.currentUser?.name ?? "")
                                 .font(.body01)
                                 .foregroundColor(.systemBlack)
                             Image("chevron_right")
@@ -29,16 +29,25 @@ struct MyPageDetailView: View {
                                 .frame(width: 24, height: 24)
                         }
                     }
-                
+                    
                     HStack {
-                        Text(myPageStore.myPageData.bankName)
-                            .font(.caption02)
-                            .foregroundColor(.gray600)
-                        Text(myPageStore.myPageData.bankAccountNum)
+                        if let bankName = userService.currentUser?.bankName, !bankName.isEmpty {
+                            Text(bankName)
+                                .font(.caption02)
+                                .foregroundColor(.gray600)
+                        } else {
+                            Text("등록 계좌 없음")
+                                .font(.caption02)
+                                .foregroundColor(.gray600)
+                        }
+                        Text(userService.currentUser?.bankAccountNum ?? "")
                             .font(.caption02)
                             .foregroundColor(.gray600)
                         Button(action: {
-                            UIPasteboard.general.string = myPageStore.myPageData.bankName + " " + myPageStore.myPageData.bankAccountNum
+                            let bankName = userService.currentUser?.bankName ?? ""
+                            let bankAccountNum = userService.currentUser?.bankAccountNum ?? ""
+                            let combinedString = bankName + " " + bankAccountNum
+                            UIPasteboard.general.string = combinedString
                         }, label: {
                             Image("multiple-file-1-5")
                                 .resizable()
@@ -65,6 +74,7 @@ struct MyPageDetailView: View {
 
 #Preview {
     NavigationStack {
-        MyPageDetailView(myPageStore: MyPageStore())
+        MyPageDetailView()
+            .environmentObject(UserService.shared)
     }
 }
