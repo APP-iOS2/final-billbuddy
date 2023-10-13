@@ -20,9 +20,24 @@ final class MessageStore: ObservableObject {
             print("Failed send message: \(error)")
         }
     }
-
-    func fetchMessage() {
-        
+    
+    func fetchMessages(travelCalculation: TravelCalculation) {
+        db.collection("TravelCalculation").document(travelCalculation.id)
+            .collection("Message").order(by:"sendDate").getDocuments() { snapshot, error in
+                if let snapshot {
+                    var newMessage: [Message] = []
+                    for document in snapshot.documents {
+                        do {
+                            let item = try document.data(as: Message.self)
+                            newMessage.append(item)
+                        } catch {
+                            print("Failed fetch chatting message: \(error)")
+                            return
+                        }
+                    }
+                    self.messages = newMessage
+                }
+            }
     }
     
 }
