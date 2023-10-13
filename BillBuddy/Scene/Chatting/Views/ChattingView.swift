@@ -73,8 +73,7 @@ struct ChattingView: View {
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        // TODO: 더블타입 오전 HH:mm 로 변환하기 - Double+Extension.swift
-                        if let lastMessageTime = travel.lastMessageDate {
+                        if let lastMessageTime = travel.lastMessageDate?.toFormattedChatDate() {
                             Text("\(lastMessageTime)")
                                 .font(Font.caption01)
                                 .foregroundColor(.gray500)

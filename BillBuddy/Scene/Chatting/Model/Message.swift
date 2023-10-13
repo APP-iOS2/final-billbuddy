@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestoreSwift
 
 // MARK: 채팅 메세지 버블 모델
-struct Message: Identifiable {
+struct Message: Identifiable, Codable {
     
     @DocumentID var id: String?
     // 채팅 메세지 작성자 ID

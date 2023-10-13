@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject private var schemeServie: SchemeService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
+    @StateObject private var messageStore = MessageStore()
     
     var body: some View {
         VStack {
@@ -22,11 +23,13 @@ struct ContentView: View {
                     BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
+                        .environmentObject(messageStore)
                         .environmentObject(userService)
                 } else {
                     BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
+                        .environmentObject(messageStore)
                         .environmentObject(userService)
                 }
             } else {
