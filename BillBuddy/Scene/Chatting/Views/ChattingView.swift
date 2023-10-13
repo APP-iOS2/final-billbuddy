@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ChattingView: View {
-    @EnvironmentObject var chatStore: ChatStore
-    private let userId = AuthStore.shared.userUid
+    @EnvironmentObject var travelStore: UserTravelStore
     
     var body: some View {
         NavigationStack {
@@ -25,29 +24,32 @@ struct ChattingView: View {
                 }
             }
             .onAppear {
-                chatStore.fetchChatList()
+                travelStore.fetchTravelCalculation()
             }
-            .navigationTitle("채팅")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("채팅")
+                        .font(.title05)
+                        .foregroundColor(.systemBlack)
+                }
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        
-                    }, label: {
+                    NavigationLink {
+                        NotificationListView()
+                    } label: {
                         Image("ringing-bell-notification-3")
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(.systemBlack)
-                    })
+                    }
                 }
             }
         }
     }
     
     private var chattingItems: some View {
-        ForEach(chatStore.chats) { chat in
+        ForEach(travelStore.travels) { travel in
             NavigationLink {
-                ChattingRoomView()
+                ChattingRoomView(travel: travel)
             } label: {
                 HStack {
                     Circle()
@@ -55,15 +57,15 @@ struct ChattingView: View {
                         .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(chat.travelTitle)
+                            Text(travel.travelTitle)
                                 .font(Font.body02)
                                 .foregroundColor(.systemBlack)
                             
-                            Text("\(chat.memberIds.count)")
+                            Text("\(travel.members.count)")
                                 .font(Font.body02)
                                 .foregroundColor(.gray500)
                         }
-                        if let messagePreview = chat.lastMessage {
+                        if let messagePreview = travel.lastMessage {
                             Text(messagePreview)
                                 .font(Font.body04)
                                 .foregroundColor(.gray700)
@@ -72,12 +74,12 @@ struct ChattingView: View {
                     Spacer()
                     VStack(alignment: .trailing) {
                         // TODO: 더블타입 오전 HH:mm 로 변환하기 - Double+Extension.swift
-                        if let lastMessageTime = chat.lastMessageDate {
+                        if let lastMessageTime = travel.lastMessageDate {
                             Text("\(lastMessageTime)")
                                 .font(Font.caption01)
                                 .foregroundColor(.gray500)
                         }
-                        if let unreadMessage = chat.unreadMessageCount?[userId], unreadMessage > 0 {
+                        if let unreadMessage = travel.unreadMessageCount?[AuthStore.shared.userUid], unreadMessage > 0 {
                             Text("\(unreadMessage)")
                                 .frame(width: 16, height: 16)
                                 .font(Font.caption03)
@@ -97,6 +99,8 @@ struct ChattingView: View {
 }
 
 #Preview {
-    ChattingView()
-        .environmentObject(ChatStore())
+    NavigationStack {
+        ChattingView()
+            .environmentObject(UserTravelStore())
+    }
 }

@@ -101,11 +101,18 @@ struct MainAddPaymentView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.backward")
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 })
             }
             
         })
+        .navigationBarBackButtonHidden()
+        .navigationTitle(
+            Text("지출 항목 추가")
+                .font(.custom("Pretendard-Bold", size: 18))
+        )
     }
 }
 

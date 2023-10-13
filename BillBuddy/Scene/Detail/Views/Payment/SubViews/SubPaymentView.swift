@@ -16,104 +16,68 @@ struct SubPaymentView: View {
     @Binding var selectedCategory: Payment.PaymentType?
     @Binding var paymentDate: Date
     
-    var divider: some View {
-        Divider()
-            .padding(.leading, 10)
-            .padding(.trailing, 10)
-    }
-    
     var body: some View {
         Group {
-            
             Section {
                 // TODO: 이 부분 한국식으로 어떻게할지 고민
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 14))
                 })
-                .padding()
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
             }
             
             Section {
                 
                 HStack{
                     Text("분류")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 14))
                     Spacer()
                 }
-                .padding()
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 20)
                 
                 HStack {
-                    ForEach(Payment.PaymentType.allCases, id:\.self) { type in
-                        Button(action: {
-                                selectedCategory = type
-                        }, label: {
-                            VStack {
-                                if let selected = selectedCategory {
-                                    if selected == type {
-                                        Image(type.getImageString(type: .thin))
-                                            .renderingMode(.template)
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                            .foregroundStyle(Color.primary)
-                                        Text(type.rawValue)
-                                            .font(.custom("Pretendard-Medium", size: 12))
-                                            .foregroundStyle(Color.primary)
-                                            
-                                    }
-                                    else {
-                                        Image(type.getImageString(type: .thin))
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                        Text(type.rawValue)
-                                            .font(.custom("Pretendard-Medium", size: 12))
-                                            .foregroundStyle(Color(hex: "A9ABB8"))
-                                        
-                                    }
-                                }
-                                else {
-                                    Image(type.getImageString(type: .thin))
-                                        .resizable()
-                                        .frame(width: 24, height: 24)
-                                    Text(type.rawValue)
-                                        .font(.custom("Pretendard-Medium", size: 12))
-                                        .foregroundStyle(Color(hex: "A9ABB8"))
-                                    
-                                }
-                                
-                                
-                            }
-                            .padding()
-                        })
-                        .buttonStyle(.plain)
-                    }
+                    Spacer()
+                    SelectCategoryView(mode: .category, selectedCategory: $selectedCategory)
+                    Spacer()
                 }
-                
+                .padding(.bottom, 30)
+                .listRowSeparator(.hidden)
             }
             
             Section {
                 
                 HStack {
                     Text("내용")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 14))
                     TextField("내용을 입력해주세요", text: $expandDetails)
                         .multilineTextAlignment(.trailing)
+                        .font(.custom("Pretendard-Medium", size: 14))
                 }
-                .padding()
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
             }
             
             Section {
                 
                 HStack {
                     Text("결제금액")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 14))
                     Spacer()
                     
                     TextField("결제금액을 입력해주세요", text: $priceString)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
+                        .font(.custom("Pretendard-Medium", size: 14))
                 }
-                .padding()
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
             }
             
         }

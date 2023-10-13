@@ -7,29 +7,38 @@
 
 import SwiftUI
 
-struct SelectCategorySheet: View {
+struct SelectCategoryView: View {
+    
+    enum Mode {
+        case category // 전체 x
+        case sheet    // 전체 o
+    }
+    
+    
+    @State var mode: Mode
     
     @Binding var selectedCategory: Payment.PaymentType?
     
     var body: some View {
-        HStack {
-            
-            Button(action: {
-                selectedCategory = nil
-            }, label: {
-                if selectedCategory == nil {
-                    Text("전체")
-                        .font(.custom("Pretendard-Medium", size: 12))
-                        .foregroundStyle(Color.primary)
-                }
-                else {
-                    Text("전체")
-                        .font(.custom("Pretendard-Medium", size: 12))
-                        .foregroundStyle(Color.black)
-                }
-            })
-            .buttonStyle(.plain)
-            
+        HStack(spacing: 36) {
+            if mode == .sheet {
+                Button(action: {
+                    selectedCategory = nil
+                }, label: {
+                    if selectedCategory == nil {
+                        Text("전체")
+                            .font(.custom("Pretendard-Medium", size: 12))
+                            .foregroundStyle(Color.primary)
+                    }
+                    else {
+                        Text("전체")
+                            .font(.custom("Pretendard-Medium", size: 12))
+                            .foregroundStyle(Color.black)
+                    }
+                })
+                .buttonStyle(.plain)
+            }
+                
             ForEach(Payment.PaymentType.allCases, id:\.self) { type in
                 Button(action: {
                         selectedCategory = type

@@ -13,7 +13,6 @@ struct AddTravelView: View {
 //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
 
     @EnvironmentObject var userTravelStore: UserTravelStore
-    @EnvironmentObject var chatStore: ChatStore
     @State private var travelTitle: String = ""
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
@@ -79,7 +78,6 @@ struct AddTravelView: View {
             
             Button {
                 userTravelStore.addTravel(travelTitle, memberCount: selectedMember, startDate: startDate, endDate: endDate)
-                chatStore.addChattingRoom(travelTitle: travelTitle)
                 
                 presentationMode.wrappedValue.dismiss()
             } label: {
@@ -91,6 +89,4 @@ struct AddTravelView: View {
 
 #Preview {
     AddTravelView()
-        .environmentObject(UserTravelStore())
-        .environmentObject(ChatStore())
 }

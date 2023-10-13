@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ChattingRoomView: View {
-    
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @State var travel: TravelCalculation
     @State private var inputText: String = ""
     
     var body: some View {
@@ -22,7 +21,7 @@ struct ChattingRoomView: View {
                 chattingInputBar
             }
         }
-        .navigationTitle("신나는 유럽여행")
+        .navigationTitle(travel.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -110,5 +109,5 @@ struct ChattingRoomView: View {
 }
 
 #Preview {
-    ChattingRoomView()
+    ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
 }

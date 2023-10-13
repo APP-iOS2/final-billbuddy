@@ -12,34 +12,49 @@ struct MemberManagementView: View {
 
     @StateObject private var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
     @State private var isShowingAlert: Bool = false
+    @State private var isShowingSaveAlert: Bool = false
     @State private var isEditing: Bool = false
     @State private var isShowingEditSheet: Bool = false
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(sampleMemeberStore.members, id: \.self.name) { member in
-                    HStack {
-                        MemberCell(member: member)
-                        
-                        if member.userId == nil {
-                            ShareLink(item: sampleMemeberStore.getURL(userName: member.name)) {
-                                Text("초대하기")
-                                    .font(Font.caption02)
-                                    .foregroundColor(Color.gray600)
+        List {
+            ForEach(sampleMemeberStore.members, id: \.self.name) { member in
+                HStack {
+                    MemberCell(
+                        member: member,
+                        onEditing: {
+                            isShowingEditSheet = true
+                        },
+                        onRemove: {
+                            withAnimation {
+                                sampleMemeberStore.removeMember(memberId: member.id)
                             }
-                            
-                        } else {
-                            Text("초대됨")
+                        }
+                    )
+                    
+                    if member.userId == nil {
+                        
+                        ShareLink(item: sampleMemeberStore.getURL(userId: member.id), message: Text("여행에 초대합니다")) {
+                            Text("초대하기")
                                 .font(Font.caption02)
                                 .foregroundColor(Color.gray600)
+                                .padding(.trailing, 24)
                         }
+                        
+                    } else {
+                        Text("초대됨")
+                            .font(Font.caption02)
+                            .foregroundColor(Color.gray600)
+                            .padding(.trailing, 24)
+
                     }
                 }
-                .padding([.leading, .trailing], 24)
-                Spacer()
+                
             }
+            .listRowSeparator(.hidden)
         }
+        .listStyle(.inset)
+
         Section {
             Button {
                 withAnimation {
@@ -50,7 +65,7 @@ struct MemberManagementView: View {
                     .font(Font.body02)
             }
             .frame(width: 332, height: 52)
-            .background(Color.error)
+            .background(Color.myPrimary)
             .cornerRadius(12)
             .foregroundColor(.white)
             .padding(.bottom, 59)
@@ -62,12 +77,35 @@ struct MemberManagementView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    if sampleMemeberStore.isEdited {
+                        self.isShowingSaveAlert = true
+                    } else {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }
                 }, label: {
                     Image("arrow_back")
                         .resizable()
                         .frame(width: 24, height: 24)
                 })
+                .alert(isPresented: $isShowingSaveAlert) {
+                    Alert(title: Text("변경사항을 저장하시겠습니까?"),
+                          message: Text("뒤로가기 시 변경사항이 삭제됩니다."),
+                          primaryButton: .destructive(Text("뒤로가기"), action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    }),
+                          secondaryButton: .default(Text("저장"), action: {
+                        Task {
+                            await sampleMemeberStore.saveMemeber()
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }))
+                }
+                
+                .sheet(isPresented: $isShowingEditSheet) {
+                    // onDismiss
+                } content: {
+                    Text("hi")
+                }
             }
             
             ToolbarItem(placement: .principal) {
@@ -75,22 +113,10 @@ struct MemberManagementView: View {
                     .font(.title05)
                     .foregroundColor(Color.systemBlack)
             }
-            
-            
-            
         }
-        .alert(isPresented: $isShowingAlert) {
-            Alert(title: Text("수정을 취소하겠습니까?"),
-                  primaryButton: .destructive(Text("계속작성")),
-                  secondaryButton: .cancel(Text("확인"), action: {
-                // dismiss
-            }))
-        }
-        .sheet(isPresented: $isShowingEditSheet) {
-            // onDismiss
-        } content: {
-            Text("hi")
-        }
+       
+        
+        
 
     }
 }
