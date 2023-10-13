@@ -9,13 +9,21 @@ import SwiftUI
 
 struct ChattingRoomView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @EnvironmentObject var messageStore: MessageStore
     @State var travel: TravelCalculation
     @State private var inputText: String = ""
     
     var body: some View {
         VStack {
             ScrollView {
-                chattingItem
+                if let activeChat = travel.lastMessage {
+                    chattingItem
+                } else {
+                    Text("여행 친구들과 대화를 시작해보세요")
+                        .font(Font.body04)
+                        .foregroundColor(.gray500)
+                        .padding()
+                } 
             }
             VStack {
                 chattingInputBar
@@ -92,7 +100,9 @@ struct ChattingRoomView: View {
                     .foregroundColor(.gray600)
             }
             Button {
-                
+                let newMessage = Message(senderId: AuthStore.shared.userUid, message: inputText, sendDate: Date().timeIntervalSince1970, isRead: false)
+                messageStore.sendMessage(travelCalculation: travel, message: newMessage)
+                inputText.removeAll()
             } label: {
                 Image("mail-send-email-message-35")
                     .resizable()
@@ -109,5 +119,8 @@ struct ChattingRoomView: View {
 }
 
 #Preview {
-    ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+    NavigationStack {
+        ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+            .environmentObject(MessageStore())
+    }
 }
