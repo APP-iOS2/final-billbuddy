@@ -24,11 +24,13 @@ struct ContentView: View {
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
                         .environmentObject(messageStore)
+                        .environmentObject(userService)
                 } else {
                     BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
                         .environmentObject(messageStore)
+                        .environmentObject(userService)
                 }
             } else {
                 NavigationStack {

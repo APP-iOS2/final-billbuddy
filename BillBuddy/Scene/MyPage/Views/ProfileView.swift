@@ -9,18 +9,22 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    @EnvironmentObject var userService: UserService
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var myPageStore: MyPageStore
     
     var body: some View {
         VStack {
             HStack {
-                Image(myPageStore.myPageData.userImage)
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(50)
+                Button {
+                    // 버튼 눌리면 수정
+                } label: {
+                    Image(userService.currentUser?.userImage ?? "white")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                        .cornerRadius(50)
+                }
                 VStack(alignment: .leading) {
-                    Text(myPageStore.myPageData.name)
+                    Text(userService.currentUser?.name ?? "")
                         .font(.body01)
                         .padding(.bottom, 8)
                     Text("애플 계정 연결중")
@@ -36,12 +40,20 @@ struct ProfileView: View {
                 HStack {
                     Text("계좌 정보")
                     Spacer()
-                    Text(myPageStore.myPageData.bankName)
-                        .foregroundColor(.gray600)
-                    Text(myPageStore.myPageData.bankAccountNum)
+                    if let bankName = userService.currentUser?.bankName, !bankName.isEmpty {
+                        Text(bankName)
+                            .foregroundColor(.gray600)
+                    } else {
+                        Text("등록 계좌 없음")
+                            .foregroundColor(.gray600)
+                    }
+                    Text(userService.currentUser?.bankAccountNum ?? "")
                         .foregroundColor(.gray600)
                     Button(action: {
-                        UIPasteboard.general.string = myPageStore.myPageData.bankName + " " + myPageStore.myPageData.bankAccountNum
+                        let bankName = userService.currentUser?.bankName ?? ""
+                        let bankAccountNum = userService.currentUser?.bankAccountNum ?? ""
+                        let combinedString = bankName + " " + bankAccountNum
+                        UIPasteboard.general.string = combinedString
                     }, label: {
                         Image("multiple-file-1-5")
                             .resizable()
@@ -53,13 +65,13 @@ struct ProfileView: View {
                 HStack {
                     Text("휴대폰 번호")
                     Spacer()
-                    Text(myPageStore.myPageData.phoneNum)
+                    Text(userService.currentUser?.phoneNum ?? "")
                         .foregroundColor(.gray600)
                 }
                 HStack {
                     Text("이메일 주소")
                     Spacer()
-                    Text(myPageStore.myPageData.email)
+                    Text(userService.currentUser?.email ?? "")
                         .foregroundColor(.gray600)
                 }
             }
@@ -83,7 +95,7 @@ struct ProfileView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: ProfileEditView(myPageStore: MyPageStore())) {
+                NavigationLink(destination: ProfileEditView()) {
                     Text("수정")
                         .font(.body01)
                         .foregroundColor(.systemBlack)
@@ -95,6 +107,7 @@ struct ProfileView: View {
 
 #Preview {
     NavigationStack {
-        ProfileView(myPageStore: MyPageStore())
+        ProfileView()
+            .environmentObject(UserService.shared)
     }
 }
