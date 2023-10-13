@@ -11,9 +11,11 @@ import SwiftUI
 
 struct MyPageView: View {
     
+    @EnvironmentObject var userService: UserService
+    
     var body: some View {
         VStack {
-            MyPageDetailView(myPageStore: MyPageStore())
+            MyPageDetailView()
             MyPageSettingView()
             Spacer()
         }
@@ -35,5 +37,6 @@ struct MyPageView: View {
 #Preview {
     NavigationStack {
         MyPageView()
+            .environmentObject(UserService.shared)
     }
 }
