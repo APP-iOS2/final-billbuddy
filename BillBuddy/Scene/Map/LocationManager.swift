@@ -1,25 +1,26 @@
 //
 //  LocationManager.swift
-//  BillBuddyMapKit
+//  BillBuddy
 //
-//  Created by 이승준 on 10/5/23.
+//  Created by 이승준 on 2023/09/27.
 //
-
-import Foundation
 import CoreLocation
+import Foundation
 import MapKit
+import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
 final class LocationManager: NSObject, ObservableObject {
-    private var locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     
     @Published var mapView: MKMapView = .init()
+    @Published var placeList: [Place] = []
+    @Published var annotations: [MKAnnotation] = []
+    @Published var lines: [Line] = []
     @Published var isChaging: Bool = false
-    @Published var selectedAddress: String = ""
-    @Published var userLatitude: Double = 0.0
-    @Published var userLongitude: Double = 0.0
     
-    private var userLocalcity: String = ""
-    private var seletedPlace: MKAnnotation?
+    private var searchResult: [Place] = []
     
     override init() {
         super.init()
@@ -31,7 +32,6 @@ final class LocationManager: NSObject, ObservableObject {
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.requestWhenInUseAuthorization()
     }
     /// 위치 승인
     func requestAuthorizqtion() {
@@ -45,13 +45,88 @@ final class LocationManager: NSObject, ObservableObject {
         default: break
         }
     }
+ 
+    
 }
 extension LocationManager {
     
-    // MARK: - 사용자 위치로 포인터 이동
-    func moveFocusOnUserLocation() {
-        mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(.follow, animated: true)
+    func fetchAnotations() {
+        Task {
+            do {
+                let snapshots = try await Firestore.firestore().collection("Place").getDocuments()
+                
+                print(snapshots.documents.count)
+                var places: [Place] = []
+                try snapshots.documents.forEach { snapshot in
+                    do {
+                        let place = try snapshot.data(as: Place.self)
+                        places.append(place)
+                    } catch let DecodingError.dataCorrupted(context) {
+                        print(context)
+                    } catch let DecodingError.keyNotFound(key, context) {
+                        print("Key '\(key)' not found:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                    } catch let DecodingError.valueNotFound(value, context) {
+                        print("Value '\(value)' not found:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                    } catch let DecodingError.typeMismatch(type, context)  {
+                        print("Type '\(type)' mismatch:", context.debugDescription)
+                        print("codingPath:", context.codingPath)
+                    } catch {
+                        print("error: ", error)
+                    }
+                }
+                print(places)
+                searchResult = places
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    
+    // MARK: - 주소를 좌표로 바꾸기
+    func changeToCoordinate(address: String?) -> (Double?, Double?) {
+        var latitude: Double?
+        var longitude: Double?
+        
+        if let address = address {
+            CLGeocoder().geocodeAddressString(address) { [weak self] (placemarks, error) in
+                guard self != nil else { return }
+
+                if let placemarks = placemarks, let location = placemarks.first?.location {
+                    latitude = location.coordinate.latitude
+                    longitude = location.coordinate.longitude
+                } else {
+                    print("주소를 찾을 수 없습니다.")
+                }
+            }
+        }
+        return (latitude, longitude)
+    }
+    // MARK: 좌표를 CLLocation으로 변환
+    func changeToClLocation(latitude: Double?, longitude: Double?) -> CLLocation? {
+        guard let latitude = latitude, let longitude = longitude else { return nil }
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+    // MARK: - CLLocation을 주소로 변환
+    static func changeToAddress(location: CLLocation?) -> String {
+        var address: String = ""
+        
+        if let location = location {
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { placemarks, error in
+                if error == nil {
+                    guard let placemarks = placemarks,
+                          let placemark = placemarks.last else { return }
+
+                    address = (placemark.addressDictionary?["FormattedAddressLines"] as? [String])?.first ?? ""
+                } else {
+                    print("주소로 변환하지 못했습니다.")
+                }
+            })
+        }
+        
+        return address
     }
     
     // MARK: - 주소로 화면 이동
@@ -62,75 +137,54 @@ extension LocationManager {
         mapView.setRegion(region, animated: true)
     }
     
-    // MARK: - 주소로 검색
-    func searchAddress(searchAddress: String){
+    // MARK: - 입력한 주소에 어노테이션 추가
+    func searchAddress(searchText: String){
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(searchAddress) { [self] placeMarks, error in
+        geocoder.geocodeAddressString(searchText) { [self] placeMarks, error in
             guard let placeMark = placeMarks?.first, let location = placeMark.location
             else {
                 print("주소를 찾을 수 없습니다.")
                 return
             }
-            print("입력된 주소: \(searchAddress)")
+            print("입력된 주소: \(searchText)")
             
-            moveFocusChange(location: location.coordinate)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location.coordinate
+            annotation.title = searchText
+            annotations.append(annotation)
+            print("어노테이션 추가완료")
+            moveFocusChange(location: annotation.coordinate)
+            
+            if annotations.count >= 2 {
+                let line = Line(coordinates: annotations.map { $0.coordinate })
+                lines.append(line)
+            }
         }
     }
-    
-    // MARK: - 위도, 경도에 따른 주소 찾기
-    func findAddr(location: CLLocation){
-        let findLocation = location
-        let geocoder = CLGeocoder()
-        
-        geocoder.reverseGeocodeLocation(findLocation, completionHandler: {(placemarks, error) in
-            if let address: [CLPlacemark] = placemarks {
-                var myAdd: String = ""
-                if let area: String = address.last?.locality{
-                    myAdd += area
-                }
+    // MARK: - 사용자 위치로 포인터 이동
+    func moveFocusOnUserLocation() {
+        mapView.showsUserLocation = true
+        mapView.setUserTrackingMode(.follow, animated: true)
+        if !mapView.annotations.isEmpty && !placeList.isEmpty {
+            print("place => \(placeList)")
+            let annotation = mapView.annotations.filter { $0.title == placeList[0].placeName }
+            if annotation.isEmpty == false {
+                mapView.deselectAnnotation(annotation[0], animated: true)
                 
-                if let name: String = address.last?.name {
-                    myAdd += " "
-                    myAdd += name
-                }
-                    self.selectedAddress = myAdd
             }
-        })
-    }
-    
-    func setAnnotations() {
-        mapView.removeAnnotations(mapView.annotations)
-        
-//        for payment in paymentStore.payments {
-//            let annotation = MKPointAnnotation()
-//            annotation.title = payment.address.address
-//            annotation.coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
-//            mapView.addAnnotation(annotation)
-//        }
-        
+        }
     }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways else { return }
         locationManager.requestLocation()
         moveFocusOnUserLocation()
     }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
-    }
-    
-    // 현재 위치를 저장
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    }
 }
 
 extension LocationManager: MKMapViewDelegate {
-    
-    // 이동할 때마다 중앙 핀이 움직이게 하는
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         if !isChaging {
             DispatchQueue.main.async {
@@ -138,19 +192,23 @@ extension LocationManager: MKMapViewDelegate {
             }
         }
     }
-    
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        userLatitude = mapView.centerCoordinate.latitude
-        userLongitude = mapView.centerCoordinate.longitude
-        let location: CLLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
+        let location: CLLocation = CLLocation(latitude: mapView.centerCoordinate.latitude, longitude: mapView.centerCoordinate.longitude)
         
-//        self.changeToAddress(location: location)
-        findAddr(location: location)
+        LocationManager.changeToAddress(location: location)
         
         DispatchQueue.main.async {
-//            print("location: \(location)")
-//            print("address: \(self.selectedAddress)")
             self.isChaging = false
         }
+    }
+    // 라인 뷰 제공
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = .red
+            renderer.lineWidth = 5
+            return renderer
+        }
+        return MKOverlayRenderer()
     }
 }

@@ -12,8 +12,6 @@ struct AddPaymentView: View {
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
-    @StateObject var locationManager = LocationManager()
- 
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -35,7 +33,7 @@ struct AddPaymentView: View {
                     HStack {
                         Text("위치")
                             .font(.custom("Pretendard-Bold", size: 14))
-                        
+                            
                         Spacer()
                         // Payment.Address(address: "", latitude: 0, longitude: 0)
                     }
@@ -43,9 +41,6 @@ struct AddPaymentView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 16)
                 }
-                // 위치
-                AddPaymentMapView()
-                    .frame(height: 500)
                 
             }
             .onAppear{
@@ -60,8 +55,7 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory ?? Payment.PaymentType.etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
-                
+                Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.addPayment(newPayment: newPayment)
                 presentationMode.wrappedValue.dismiss()
                 
