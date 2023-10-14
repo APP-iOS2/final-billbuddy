@@ -10,7 +10,9 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-   
+    
+    @StateObject var locationManager = LocationManager()
+    
     @State var travelCalculation: TravelCalculation
     
     @State var selection: Int = 0
@@ -23,10 +25,7 @@ struct DetailMainView: View {
                 PaymentMainView(travelCalculation: $travelCalculation, paymentStore: PaymentStore(travelCalculationId: travelCalculation.id))
             }
             else if selection == 1 {
-                VStack{
-                    Text("지도 뷰")
-                    Spacer()
-                }
+                MapMainView(locationManager: locationManager, paymentStore: PaymentStore(travelCalculationId: travelCalculation.id), travelCalculation: $travelCalculation)
             }
             
         }
