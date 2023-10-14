@@ -7,30 +7,103 @@
 
 import SwiftUI
 
-struct MoreView: View {
-    @Binding var travelCalculation: TravelCalculation
-    let viewNames: [String] = ["채팅(유리님)", "지도(승준님)", "방 수정(아리님)", "인원 관리(지호님)", "결산(지호님)"]
+enum ListItem: String, CaseIterable {
+    case chat
+    case editDate
+    case mamberManagement
+    case spendingList
+    
+    var itemName: String {
+        switch self {
+        case .chat:
+            "채팅"
+        case .editDate:
+            "지도"
+        case .mamberManagement:
+            "인원관리"
+        case .spendingList:
+            "결산"
+        }
+    }
+    
+    var itemImageString: String {
+        switch self {
+        case .chat:
+            "chat-bubble-text-square1"
+        case .editDate:
+            "calendar-check-1"
+        case .mamberManagement:
+            "user-single-neutral-male-4"
+        case .spendingList:
+            "script-2-18"
+        }
+    }
+}
 
+// 리스트 가 옆으로 밀리는 버그가 있음
+struct MoreView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    var travelCalculation: TravelCalculation
+    
     var body: some View {
         VStack {
-            List(viewNames, id:\.self) { name in
+            List(ListItem.allCases, id:\.self) { item in
                 NavigationLink {
-                    Text(name)
+                    switch item {
+                    case .chat:
+                        SpendingListView()
+                    case .editDate:
+                        SpendingListView()
+                    case .mamberManagement:
+                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelCalculation))
+                    case .spendingList:
+                        SpendingListView()
+                    }
                 } label: {
-                    Text(name)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Image(item.itemImageString)
+                                .renderingMode(.template)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .padding(.trailing, 12)
+                            Text(item.itemName)
+                                .font(Font.body04)
+                        }
+                    }
+                    .foregroundStyle(Color.gray800)
+                    .frame(height: 16 + 16 + 24)
+                    .padding([.leading, .trailing], 24)
                 }
             }
-            
-            NavigationLink {
+            .listStyle(.plain)
+        }
+        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
                 
-            } label: {
-                Text("인원관리")
             }
-
+            
+            ToolbarItem(placement: .principal) {
+                Text("더보기")
+                    .font(.title05)
+                    .foregroundColor(Color.systemBlack)
+            }
         }
     }
 }
 
 #Preview {
-    MoreView(travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [])))
+    NavigationStack {
+        MoreView(travelCalculation: TravelCalculation.sampletravel)
+    }
 }
