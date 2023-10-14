@@ -10,7 +10,7 @@ import SwiftUI
 struct MemberManagementView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @StateObject private var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
+    @StateObject var sampleMemeberStore: SampleMemeberStore
     @State private var isShowingAlert: Bool = false
     @State private var isShowingSaveAlert: Bool = false
     @State private var isEditing: Bool = false
@@ -24,7 +24,7 @@ struct MemberManagementView: View {
                     MemberCell(
                         member: member,
                         onEditing: {
-                            sampleMemeberStore.startEdit(index)
+                            sampleMemeberStore.selectMember(index)
                             isShowingEditSheet = true
                         },
                         onRemove: {
@@ -45,7 +45,7 @@ struct MemberManagementView: View {
                                     .foregroundColor(Color.gray600)
                                 if member.userId == nil {
                                     Button {
-                                        sampleMemeberStore.startEdit(index)
+                                        sampleMemeberStore.selectMember(index)
                                         isShowingShareSheet = true
                                     } label: {
                                         
@@ -135,6 +135,6 @@ struct MemberManagementView: View {
 
 #Preview {
     NavigationStack {
-        MemberManagementView()
+        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: TravelCalculation.sampletravel))
     }
 }

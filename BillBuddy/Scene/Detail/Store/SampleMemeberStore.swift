@@ -19,11 +19,10 @@ class SampleMemeberStore: ObservableObject {
     var travel: TravelCalculation
     
     init(travel: TravelCalculation) {
-        let sample = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date.now.timeIntervalSince1970, endDate: Date.now.timeIntervalSince1970 + 1, updateContentDate: Date.now.timeIntervalSince1970, isPaymentSettled: false, members: [TravelCalculation.Member(name: "인원1", advancePayment: 200, payment: 0)])
-        self.travel = sample
-        self.members = sample.members
+        self.travel = travel
+        self.members = travel.members
     }
-    func startEdit(_ index: Int) {
+    func selectMember(_ index: Int) {
         selectedmemberIndex = index
     }
     
