@@ -40,6 +40,7 @@
 		276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648362ABD8CFD000F8A10 /* SignInView.swift */; };
 		2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648392ABD8D13000F8A10 /* SignUpView.swift */; };
 		2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766483B2ABD8D29000F8A10 /* TravelListView.swift */; };
+		2766483F2ABD8D76000F8A10 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766483E2ABD8D76000F8A10 /* MapView.swift */; };
 		276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648412ABD8DB0000F8A10 /* MembershipView.swift */; };
 		276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648472ABD8E19000F8A10 /* ChattingView.swift */; };
 		2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766484A2ABD8E34000F8A10 /* PaymentListView.swift */; };
@@ -110,6 +111,10 @@
 		D2C95AE62AD7A16D00DFCB03 /* MyPageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */; };
 		D2C95AE82AD7B59900DFCB03 /* MyPageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */; };
 		FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */; };
+		FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FF635D1D2AD7CD41002C0B67 /* TossPayments */; };
+		FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */; };
+		FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */; };
+		FF635D2B2AD8228C002C0B67 /* MembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D2A2AD8228C002C0B67 /* MembershipView.swift */; };
 		FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */; };
 		FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */; };
 /* End PBXBuildFile section */
@@ -143,6 +148,7 @@
 		276648362ABD8CFD000F8A10 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		276648392ABD8D13000F8A10 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2766483B2ABD8D29000F8A10 /* TravelListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelListView.swift; sourceTree = "<group>"; };
+		2766483E2ABD8D76000F8A10 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		276648412ABD8DB0000F8A10 /* MembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipView.swift; sourceTree = "<group>"; };
 		276648472ABD8E19000F8A10 /* ChattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingView.swift; sourceTree = "<group>"; };
 		2766484A2ABD8E34000F8A10 /* PaymentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListView.swift; sourceTree = "<group>"; };
@@ -212,6 +218,9 @@
 		D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDetailView.swift; sourceTree = "<group>"; };
 		D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingView.swift; sourceTree = "<group>"; };
 		FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdTestView.swift; sourceTree = "<group>"; };
+		FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsView.swift; sourceTree = "<group>"; };
+		FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsStore.swift; sourceTree = "<group>"; };
+		FF635D2A2AD8228C002C0B67 /* MembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipView.swift; sourceTree = "<group>"; };
 		FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeContentView.swift; sourceTree = "<group>"; };
 		FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -228,6 +237,7 @@
 				277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */,
 				2766482F2ABD5B11000F8A10 /* FirebaseStorage in Frameworks */,
 				276648252ABD5B11000F8A10 /* FirebaseAuth in Frameworks */,
+				FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */,
 				2766482D2ABD5B11000F8A10 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,7 +334,8 @@
 		2717D0F42ACD77C90002D620 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				276648412ABD8DB0000F8A10 /* MembershipView.swift */,
+				FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */,
+				FF635D2A2AD8228C002C0B67 /* MembershipView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -536,6 +547,7 @@
 		276648432ABD8DB4000F8A10 /* Membership */ = {
 			isa = PBXGroup;
 			children = (
+				FF635D232AD7D501002C0B67 /* Store */,
 				2717D0F42ACD77C90002D620 /* Views */,
 			);
 			path = Membership;
@@ -750,6 +762,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		FF635D232AD7D501002C0B67 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -775,6 +795,7 @@
 				2766482C2ABD5B11000F8A10 /* FirebaseFirestoreSwift */,
 				2766482E2ABD5B11000F8A10 /* FirebaseStorage */,
 				277403E02AC3B8CC000537DF /* GoogleMobileAds */,
+				FF635D1D2AD7CD41002C0B67 /* TossPayments */,
 			);
 			productName = BillBuddy;
 			productReference = 276647F72ABD53F8000F8A10 /* BillBuddy.app */;
@@ -807,6 +828,7 @@
 			packageReferences = (
 				276648182ABD5AC6000F8A10 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				277403DF2AC3B8CC000537DF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				FF635D1C2AD7CD41002C0B67 /* XCRemoteSwiftPackageReference "payment-sdk-ios" */,
 			);
 			productRefGroup = 276647F82ABD53F8000F8A10 /* Products */;
 			projectDirPath = "";
@@ -864,6 +886,7 @@
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
+				FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */,
 				C47F6C772AD51878006B77D6 /* PaymentMainView.swift in Sources */,
 				27933F702AD3402300E6A545 /* CategoryLabel.swift in Sources */,
 				C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */,
@@ -875,6 +898,7 @@
 				023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */,
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
+				FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */,
 				C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */,
 				FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */,
 				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
@@ -883,6 +907,7 @@
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */,
+				FF635D2B2AD8228C002C0B67 /* MembershipView.swift in Sources */,
 				D2C95AE62AD7A16D00DFCB03 /* MyPageDetailView.swift in Sources */,
 				C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */,
 				D279D1182ACFE6670087712F /* UserService.swift in Sources */,
@@ -891,7 +916,6 @@
 				C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */,
 				C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */,
 				C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */,
-				276648422ABD8DB0000F8A10 /* MembershipView.swift in Sources */,
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
 				46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */,
 				C49389492ACD030F008115FA /* AddPaymentMemberView.swift in Sources */,
@@ -1160,6 +1184,14 @@
 				minimumVersion = 10.11.0;
 			};
 		};
+		FF635D1C2AD7CD41002C0B67 /* XCRemoteSwiftPackageReference "payment-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tosspayments/payment-sdk-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.24;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1202,6 +1234,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 277403DF2AC3B8CC000537DF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		FF635D1D2AD7CD41002C0B67 /* TossPayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF635D1C2AD7CD41002C0B67 /* XCRemoteSwiftPackageReference "payment-sdk-ios" */;
+			productName = TossPayments;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
