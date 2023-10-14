@@ -14,8 +14,12 @@ final class CalendarStore: ObservableObject {
     @Published var date: Date = Date()
     @Published var firstDate: Date?
     @Published var secondDate: Date?
+    @Published var instructionText: String = "시작일을 선택해주세요"
     
+    // 각 주의 날짜들을 반환
     var weeks: [[Date]] {
+        
+        // 일주일의 첫 번째 요일을 월요일로 지정(일요일은 1)
         calendar.firstWeekday = 2
         var weeks = [[Date]]()
         let range = calendar.range(of: .weekOfYear, in: .month, for: date)!
@@ -28,6 +32,7 @@ final class CalendarStore: ObservableObject {
             weeks.append(weekDays)
         }
         
+        // 해당 월이 5주로 되어있을 경우 마지막 주에 날짜 추가
         if weeks.count == 5 {
             let startDate = calendar.date(byAdding: .day, value: 1, to: weeks.last!.last!)!
             var weekDays = [startDate]
@@ -49,28 +54,35 @@ final class CalendarStore: ObservableObject {
         date = currentDate
     }
     
+    // 날짜 선택
     func selectDay(_ day: Date) {
         if firstDate == nil {
             firstDate = day
+            instructionText = "종료일을 선택해주세요"
         } else if secondDate == nil {
             if let first = firstDate {
                 if first > day {
                     secondDate = first
                     firstDate = day
+                    instructionText = "여행 일정 선택 완료"
                 } else {
                     secondDate = day
+                    instructionText = "여행 일정 선택 완료"
                 }
             }
         } else {
             firstDate = day
             secondDate = nil
+            instructionText = "시작일을 선택해주세요"
         }
     }
     
+    // 오늘 날짜인지 확인
     func isToday(day: Date) -> Bool {
         return calendar.isDateInToday(day)
     }
     
+    // 선택된 날짜가 범위에 속하는지 확인
     func isDateInRange(day: Date) -> Bool {
         if secondDate == nil {
             if let firstDate {
@@ -84,6 +96,7 @@ final class CalendarStore: ObservableObject {
         return false
     }
     
+    // 선택된 날짜인지 확인
     func isDateSelected(day: Date) -> Bool {
         if secondDate == nil {
             if let firstDate {
@@ -97,11 +110,13 @@ final class CalendarStore: ObservableObject {
         return false
     }
     
+    // 해당 날짜가 달의 첫 번째 날인지 확인
     func isFirstDayOfMonth(date: Date) -> Bool {
         let components = calendar.dateComponents([.day], from: date)
         return components.day == 1
     }
-
+    
+    // 해당 날짜가 달의 마지막 날인지 확인
     func isLastDayOfMonth(date: Date) -> Bool {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day, .month, .year], from: date)
@@ -109,47 +124,41 @@ final class CalendarStore: ObservableObject {
         return components.day == lastDayOfMonth
     }
     
-    func dateToStr(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yyyy"
-        return dateFormatter.string(from: date)
-    }
     
+    /// 몇 월 달인지 반환
     func titleForMonth() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "LLLL"
-        return dateFormatter.string(from: date).uppercased()
-    }
-    
-    func titleForYear() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "M월"
         return dateFormatter.string(from: date)
     }
     
+    /// 연도 반환
+    func titleForYear() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy년"
+        return dateFormatter.string(from: date)
+    }
     
+    /// 이전 달로 이동
     func selectBackMonth() {
         date = calendar.date(byAdding: .month, value: -1, to: date) ?? Date()
     }
     
+    /// 다음 달로 이동
     func selectForwardMonth() {
         date = calendar.date(byAdding: .month, value: 1, to: date) ?? Date()
-    }
-    
-    func selectBackYear() {
-        date = calendar.date(byAdding: .year, value: -1, to: date) ?? Date()
-    }
-    
-    func selectForwardYear() {
-        date = calendar.date(byAdding: .year, value: 1, to: date) ?? Date()
     }
 }
 
 extension Date {
+    // 해당 월의 첫 번째 날짜 반환
     func startOfMonth(_ calendar: Calendar) -> Date {
         return calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self)))!
     }
     
+    // 해당 월의 첫 번째 주 반환
     func startOfWeek(_ week: Int, calendar: Calendar) -> Date {
         var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
         components.weekOfYear = week
