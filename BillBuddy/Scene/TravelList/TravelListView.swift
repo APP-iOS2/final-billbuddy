@@ -84,6 +84,9 @@ extension TravelListView {
 }
 
 #Preview {
-    TravelListView()
+    NavigationStack{
+        TravelListView()
+            .environmentObject(UserTravelStore())
+    }
 }
 

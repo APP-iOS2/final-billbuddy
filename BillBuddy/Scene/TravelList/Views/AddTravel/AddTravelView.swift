@@ -8,18 +8,20 @@
 import SwiftUI
 
 struct AddTravelView: View {
-//    @Binding var travelData: TravelCalculation
-//    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
-//    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
-
+    //    @Binding var travelData: TravelCalculation
+    //    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
+    //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
+    
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var travelTitle: String = ""
     @State private var selectedMember = 0
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
+    @State private var isShowingCalendarView = false
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
+        // 전체적인 디자인 수정 예정
         VStack {
             VStack(alignment: .leading) {
                 TextField("여행 제목을 입력해주세요.", text: $travelTitle)
@@ -31,20 +33,17 @@ struct AddTravelView: View {
                     Spacer()
                     
                     Button {
-                        
+                        isShowingCalendarView.toggle()
                     } label: {
-                        Image(systemName: "calendar")
+                        Image("calendar-add-4")
+                    }
+                    .sheet(isPresented: $isShowingCalendarView) {
+                        CalendarSheetView()
+                            .presentationDetents([.height(500)])
+                            .presentationDragIndicator(.visible)
                     }
                     
                 }
-                DatePicker("시작 일", selection: $startDate, displayedComponents: [.date])
-                    .datePickerStyle(.automatic)
-                    .padding(.bottom, 15)
-
-
-                DatePicker("종료 일", selection: $endDate, displayedComponents: [.date])
-                    .datePickerStyle(.automatic)
-                    .padding(.bottom, 15)
             }
             .padding([.leading, .trailing], 12)
             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -58,7 +57,7 @@ struct AddTravelView: View {
                 Button {
                     selectedMember = max(0, selectedMember - 1)
                 } label: {
-                    Image(systemName: "minus.circle")
+                    Image("Group 1171275315")
                 }
                 
                 Text("\(selectedMember)")
@@ -66,7 +65,7 @@ struct AddTravelView: View {
                 Button {
                     selectedMember += 1
                 } label: {
-                    Image(systemName: "plus.circle")
+                    Image("Group 1171275314")
                 }
                 
             }
