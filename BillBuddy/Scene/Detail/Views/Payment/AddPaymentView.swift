@@ -12,6 +12,7 @@ struct AddPaymentView: View {
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
+    @StateObject var locationManager = LocationManager()
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -30,16 +31,12 @@ struct AddPaymentView: View {
                 AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
                 
                 Section {
-                    HStack {
-                        Text("위치")
-                            .font(.custom("Pretendard-Bold", size: 14))
-                            
-                        Spacer()
+                    // 위치
+                    AddPaymentMapView()
+                        .frame(height: 500)
+                        
+                    Spacer()
                         // Payment.Address(address: "", latitude: 0, longitude: 0)
-                    }
-                    .padding(.leading, 16)
-                    .padding(.top, 16)
-                    .padding(.bottom, 16)
                 }
                 
             }
