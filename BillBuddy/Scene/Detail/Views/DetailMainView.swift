@@ -56,7 +56,7 @@ struct DetailMainView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    MoreView()
+                    MoreView(travelCalculation: travelCalculation)
                         .navigationTitle("더보기")
                 } label: {
                     Image("steps-1 3")

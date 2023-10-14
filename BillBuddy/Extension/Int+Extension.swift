@@ -17,3 +17,7 @@ extension Int {
         return "₩" + famattedNumber
     }
 }
+
+extension NumberFormatter {
+    static let numberFomatter = NumberFormatter()
+}
