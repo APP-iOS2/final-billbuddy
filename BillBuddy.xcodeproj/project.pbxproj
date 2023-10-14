@@ -12,6 +12,8 @@
 		023EF9282ACC0363005C3F30 /* TravelFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9272ACC0363005C3F30 /* TravelFilter.swift */; };
 		023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */; };
 		023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92D2ACC0731005C3F30 /* AddTravelView.swift */; };
+		0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */; };
+		02C34C0D2ADA646C00A605E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 02C34C0C2ADA646C00A605E7 /* GoogleService-Info.plist */; };
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
 		2663484B2AD8DD6C002CCCF4 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663484A2AD8DD6C002CCCF4 /* NotificationView.swift */; };
 		2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0E62ACD75210002D620 /* AdmobBannerView.swift */; };
@@ -118,6 +120,8 @@
 		023EF9272ACC0363005C3F30 /* TravelFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelFilter.swift; sourceTree = "<group>"; };
 		023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelButtonView.swift; sourceTree = "<group>"; };
 		023EF92D2ACC0731005C3F30 /* AddTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelView.swift; sourceTree = "<group>"; };
+		0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetView.swift; sourceTree = "<group>"; };
+		02C34C0C2ADA646C00A605E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		2663484A2AD8DD6C002CCCF4 /* NotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		2717D0E62ACD75210002D620 /* AdmobBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobBannerView.swift; sourceTree = "<group>"; };
@@ -273,8 +277,8 @@
 			isa = PBXGroup;
 			children = (
 				023EF9232ACC0334005C3F30 /* UserTravelStore.swift */,
-				02C949962AD7D90300DFF9D4 /* CalendarStore.swift */,
 				023EF9252ACC034E005C3F30 /* TravelCalculationStore.swift */,
+				02C949962AD7D90300DFF9D4 /* CalendarStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -359,6 +363,7 @@
 			children = (
 				023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */,
 				023EF92D2ACC0731005C3F30 /* AddTravelView.swift */,
+				0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */,
 			);
 			path = AddTravel;
 			sourceTree = "<group>";
@@ -817,6 +822,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02C34C0D2ADA646C00A605E7 /* GoogleService-Info.plist in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
@@ -856,6 +862,7 @@
 				2717D0F72ACD78390002D620 /* BillBuddyTabView.swift in Sources */,
 				27933F742AD3403500E6A545 /* SettlementExpensesStore.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
+				0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				C47F6C772AD51878006B77D6 /* PaymentMainView.swift in Sources */,
 				27933F702AD3402300E6A545 /* CategoryLabel.swift in Sources */,
