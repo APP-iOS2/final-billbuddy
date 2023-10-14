@@ -1,13 +1,13 @@
 //
-//  AddPaymentMapView.swift
+//  EditPaymentMapView.swift
 //  BillBuddy
 //
-//  Created by 이승준 on 10/11/23.
+//  Created by 이승준 on 10/12/23.
 //
 
 import SwiftUI
 
-struct AddPaymentMapView: View {
+struct EditPaymentMapView: View {
     @StateObject var locationManager = LocationManager()
     
     @State private var searchAddress: String = ""
@@ -73,5 +73,5 @@ struct AddPaymentMapView: View {
 }
 
 #Preview {
-    AddPaymentMapView()
+    EditPaymentMapView()
 }

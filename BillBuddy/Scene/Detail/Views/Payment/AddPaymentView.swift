@@ -49,7 +49,6 @@ struct AddPaymentView: View {
                 // 위치
                 AddPaymentMapView()
                     .frame(height: 500)
-
             }
 
             Button(action: {

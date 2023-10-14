@@ -9,7 +9,6 @@ import Foundation
 import CoreLocation
 import MapKit
 
-@MainActor
 final class LocationManager: NSObject, ObservableObject {
     private var locationManager = CLLocationManager()
     
@@ -32,7 +31,7 @@ final class LocationManager: NSObject, ObservableObject {
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
+//        locationManager.requestWhenInUseAuthorization()
     }
     /// 위치 승인
     func requestAuthorizqtion() {
@@ -94,9 +93,21 @@ extension LocationManager {
                     myAdd += " "
                     myAdd += name
                 }
-                self.selectedAddress = myAdd
+                    self.selectedAddress = myAdd
             }
         })
+    }
+    
+    func setAnnotations() {
+        mapView.removeAnnotations(mapView.annotations)
+        
+//        for payment in paymentStore.payments {
+//            let annotation = MKPointAnnotation()
+//            annotation.title = payment.address.address
+//            annotation.coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
+//            mapView.addAnnotation(annotation)
+//        }
+        
     }
 }
 
