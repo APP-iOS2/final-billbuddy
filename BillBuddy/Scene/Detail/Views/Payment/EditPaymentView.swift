@@ -14,6 +14,7 @@ struct EditPaymentView: View {
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
+    @StateObject var locationManager = LocationManager()
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -36,11 +37,8 @@ struct EditPaymentView: View {
                 
                 Section {
                     HStack {
-                        Text("위치")
-                            .font(.custom("Pretendard-Bold", size: 14))
-                            
-                        Spacer()
-                        // Payment.Address(address: "", latitude: 0, longitude: 0)
+                        EditPaymentMapView(locationManager: locationManager)
+                            .frame(height: 500)
                     }
                     .padding(.leading, 16)
                     .padding(.top, 16)
