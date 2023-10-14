@@ -21,6 +21,12 @@ struct TravelCalculation: Identifiable, Codable {
     var updateContentDate: Double
     var isPaymentSettled: Bool = false
     var members: [Member]
+    // 채팅: 마지막 메세지 내용 - 미리보기
+    var lastMessage: String?
+    // 채팅: 마지막 메세지 날짜 -- 미리보기, 리스트 정렬 순서
+    var lastMessageDate: Double?
+    // 채팅: 읽지 않은 메세지 수 [유저아이디 : 갯수]
+    var unreadMessageCount: [String : Int]?
     
     struct Member: Codable, Identifiable, Hashable {
         var id: String = UUID().uuidString
@@ -31,7 +37,6 @@ struct TravelCalculation: Identifiable, Codable {
         var advancePayment: Int
         /// 쓴비용 중간중간 + - << 추가 할지 말지 고민해야함.
         var payment: Int
-        
         // 추가
         var userImage: String = ""
         var bankName: String = ""

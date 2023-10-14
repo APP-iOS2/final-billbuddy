@@ -11,40 +11,32 @@ import SwiftUI
 
 struct MyPageView: View {
     
-    var user : User
+    @EnvironmentObject var userService: UserService
     
     var body: some View {
-        Form {
-            Section("내정보") {
-                HStack {
-                    Image(systemName: "person.crop.circle")
-                    Text(user.name)
-                }
-                .font(.largeTitle)
-                Text(user.bankName)
-                Text(user.bankAccountNum)
+        VStack {
+            MyPageDetailView()
+            MyPageSettingView()
+            Spacer()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Text("마이페이지")
+                    .font(.title05)
             }
-            
-            Section("설정") {
-                Text("알림 설정")
-                Text("위치 설정")
-            }
-            Section("정보") {
-                Text("개인정보 이용 동의")
-                Text("문의하기")
-                Text("오픈소스 라이센스")
-            }
-            Section {
-                Text("로그아웃")
-                Text("계정탈퇴")
-                    .foregroundStyle(.red)
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Image("ringing-bell-notification-3")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.systemBlack)
             }
         }
     }
 }
 
 #Preview {
-    
-    MyPageView(user: User(email: "이메일", name: "이름", phoneNum: "휴대폰 번호", bankName: "은행", bankAccountNum: "계좌 번호", isPremium: false, premiumDueDate: Date.now))
-    
+    NavigationStack {
+        MyPageView()
+            .environmentObject(UserService.shared)
+    }
 }

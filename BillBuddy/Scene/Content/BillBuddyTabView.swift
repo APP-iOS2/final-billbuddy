@@ -25,7 +25,7 @@ struct BillBuddyTabView: View {
             .tabItem { Text("채팅") }
             .tag(1)
             NavigationStack {
-                MyPageView(user: User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now))
+                MyPageView()
             }
             .tabItem { Text("마이페이지") }
             .tag(2)

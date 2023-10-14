@@ -8,21 +8,31 @@
 import SwiftUI
 
 struct ChattingRoomView: View {
-    
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @EnvironmentObject var messageStore: MessageStore
+    var travel: TravelCalculation
     @State private var inputText: String = ""
     
     var body: some View {
         VStack {
             ScrollView {
-                chattingItem
+                if messageStore.messages.isEmpty {
+                    Text("여행 친구들과 대화를 시작해보세요")
+                        .font(Font.body04)
+                        .foregroundColor(.gray500)
+                        .padding()
+                } else {
+                    chattingItem
+                }
             }
             VStack {
                 chattingInputBar
             }
         }
-        .navigationTitle("신나는 유럽여행")
+        .onAppear {
+            messageStore.fetchMessages(travelCalculation: travel)
+        }
+        .navigationTitle(travel.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -48,35 +58,72 @@ struct ChattingRoomView: View {
     }
     
     private var chattingItem: some View {
-        ForEach(0..<15) { data in
-            HStack {
-                Spacer()
-                VStack {
-                 Spacer()
-                    Text("오후 6:03")
-                        .font(Font.caption02)
-                        .foregroundColor(.gray500)
+        ForEach(messageStore.messages) { message in
+            if message.senderId == AuthStore.shared.userUid {
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(message.senderId)
+                            .font(Font.caption02)
+                            .foregroundColor(.systemBlack)
+                        HStack {
+                            VStack {
+                                Spacer()
+                                Text(message.sendDate.toFormattedChatDate())
+                                    .font(Font.caption02)
+                                    .foregroundColor(.gray500)
+                            }
+                            Text(message.message)
+                                .font(Font.body04)
+                                .foregroundColor(.systemBlack)
+                                .padding(.horizontal)
+                                .padding(.vertical, 10)
+                                .background(Color(hex: "#DEEBFF"))
+                                .cornerRadius(12)
+                        }
+                    }
+                    VStack {
+                        Circle()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray500)
+                        Spacer()
+                    }
                 }
-                VStack {
-                    Text("김상인")
-                        .font(Font.caption02)
-                        .foregroundColor(.systemBlack)
-                    Text("안녕?")
-                        .font(Font.body04)
-                        .foregroundColor(.systemBlack)
-                        .padding()
-                        .background(Color.gray050)
-                        .cornerRadius(12)
-                }
-                VStack {
-                    Circle()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.gray500)
+                .padding(.horizontal)
+                .padding(.vertical, 5)
+            } else {
+                HStack {
+                    VStack {
+                        Circle()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray500)
+                        Spacer()
+                    }
+                    VStack(alignment: .leading) {
+                        Text(message.senderId)
+                            .font(Font.caption02)
+                            .foregroundColor(.systemBlack)
+                        HStack {
+                            Text(message.message)
+                                .font(Font.body04)
+                                .foregroundColor(.systemBlack)
+                                .padding(.horizontal)
+                                .padding(.vertical, 10)
+                                .background(Color.gray050)
+                                .cornerRadius(12)
+                            VStack {
+                                Spacer()
+                                Text(message.sendDate.toFormattedChatDate())
+                                    .font(Font.caption02)
+                                    .foregroundColor(.gray500)
+                            }
+                        }
+                    }
                     Spacer()
                 }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
             }
-            .padding(.horizontal)
-            .padding(.top, 5)
         }
     }
     
@@ -93,7 +140,9 @@ struct ChattingRoomView: View {
                     .foregroundColor(.gray600)
             }
             Button {
-                
+                let newMessage = Message(senderId: AuthStore.shared.userUid, message: inputText, sendDate: Date().timeIntervalSince1970, isRead: false)
+                messageStore.sendMessage(travelCalculation: travel, message: newMessage)
+                inputText.removeAll()
             } label: {
                 Image("mail-send-email-message-35")
                     .resizable()
@@ -110,5 +159,8 @@ struct ChattingRoomView: View {
 }
 
 #Preview {
-    ChattingRoomView()
+    NavigationStack {
+        ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+            .environmentObject(MessageStore())
+    }
 }

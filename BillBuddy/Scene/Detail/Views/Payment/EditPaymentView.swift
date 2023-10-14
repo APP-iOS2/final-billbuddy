@@ -14,6 +14,7 @@ struct EditPaymentView: View {
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
+    @StateObject var locationManager = LocationManager()
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -32,15 +33,17 @@ struct EditPaymentView: View {
                         paymentDate = payment.paymentDate.toDate()
                     }
                 
+                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
+                
                 Section {
                     HStack {
-                        Text("위치")
-                        Spacer()
-                        Text(payment.address.address)
+                        EditPaymentMapView(locationManager: locationManager)
+                            .frame(height: 500)
                     }
+                    .padding(.leading, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
                 }
-                
-                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
             }
             
             Button(action: {
@@ -51,13 +54,14 @@ struct EditPaymentView: View {
                 HStack {
                     Spacer()
                     Text("수정하기")
-                        .bold()
+                        .font(.custom("Pretendard-Bold", size: 18))
+                        .foregroundStyle(.white)
                     Spacer()
                 }
-                .padding()
+                .padding(.top, 24)
+                .padding(.bottom, 24)
             })
-            .buttonStyle(.borderedProminent)
-            .padding()
+            .background(Color.primary)
             
         }
         .toolbar(content: {
@@ -65,7 +69,9 @@ struct EditPaymentView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }, label: {
-                    Image(systemName: "chevron.backward")
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 })
             }
             
