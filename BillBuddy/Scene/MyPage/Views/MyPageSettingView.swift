@@ -73,7 +73,7 @@ struct MyPageSettingView: View {
                 .frame(width: 361, height: 1)
             
             Button(action: {
-//                isShowingLogoutAlert.toggle()
+                isShowingLogoutAlert.toggle()
             }, label: {
                 Text("로그아웃")
                     .font(.body04)
@@ -91,20 +91,20 @@ struct MyPageSettingView: View {
             })
         }
         .padding(.horizontal, 24)
-//        .alert("로그아웃", isPresented: $isShowingLogoutAlert) {
-//            Button("취소", role: .cancel) {}
-//            Button("로그아웃", role: .destructive) {
-//                do {
-//                    if try AuthStore.shared.signOut() {
-//                        UserService.shared.isSignIn = false
-//                    }
-//                } catch {
-//                    print("Error signing out: \(error.localizedDescription)")
-//                }
-//            }
-//        } message: {
-//            Text("로그아웃을 합니다.")
-//        }
+        .alert("로그아웃", isPresented: $isShowingLogoutAlert) {
+            Button("취소", role: .cancel) {}
+            Button("로그아웃", role: .destructive) {
+                do {
+                    if try AuthStore.shared.signOut() {
+                        UserService.shared.isSignIn = false
+                    }
+                } catch {
+                    print("Error signing out: \(error.localizedDescription)")
+                }
+            }
+        } message: {
+            Text("로그아웃을 합니다.")
+        }
     }
 }
 
