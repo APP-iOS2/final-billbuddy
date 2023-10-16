@@ -47,7 +47,7 @@ struct MapMainView: View {
                 }
                 .padding()
                 .sheet(isPresented: $isShowingDateSheet, content: {
-                    DateSheet(selectedDate: $selectedDate, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
+                    DateSheet(selectedDate: $selectedDate, isShowingDateSheet: $isShowingDateSheet, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
                         .presentationDetents([.fraction(0.4)])
                 })
                 .frame(height: 52)
@@ -68,10 +68,11 @@ struct MapMainView: View {
                     }
                 }
             }
-  
-            MapSubView()
+            
+            MapSubView(locationManager: locationManager, paymentStore: paymentStore)
                 .frame(height: 400)
-            MapDetailView()
+ 
+            MapDetailView(paymentStore: paymentStore)
             Spacer()
         }
     }

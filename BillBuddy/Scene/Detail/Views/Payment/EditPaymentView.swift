@@ -20,6 +20,7 @@ struct EditPaymentView: View {
     @State private var priceString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date()
+    @State private var searchAddress: String = ""
 
     var body: some View {
         VStack {
@@ -37,7 +38,7 @@ struct EditPaymentView: View {
                 
                 Section {
                     HStack {
-                        EditPaymentMapView(locationManager: locationManager)
+                        EditPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
                             .frame(height: 500)
                     }
                     .padding(.leading, 16)
@@ -47,7 +48,7 @@ struct EditPaymentView: View {
             }
             
             Button(action: {
-                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.editPayment(payment: newPayment)
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {

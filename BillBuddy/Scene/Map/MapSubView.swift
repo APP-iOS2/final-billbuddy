@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MapSubView: View {
     
-    @StateObject var locationManager = LocationManager()
+    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var paymentStore: PaymentStore
     
     var body: some View {
         VStack {
@@ -17,8 +18,6 @@ struct MapSubView: View {
                 VStack {
                     MapViewCoordinater(locationManager: locationManager)
                 }
-                .padding()
-                
                 Button {
                     locationManager.moveFocusOnUserLocation()
                 } label: {
@@ -35,9 +34,10 @@ struct MapSubView: View {
                 
             }
         }
+
     }
 }
 
 #Preview {
-    MapSubView()
+    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travelCalculationId: ""))
 }

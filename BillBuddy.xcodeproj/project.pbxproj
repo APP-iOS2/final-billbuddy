@@ -81,6 +81,7 @@
 		638A9F4F2ADA816E00C931DD /* MapMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F4E2ADA816E00C931DD /* MapMainView.swift */; };
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
+		638A9F592ADA88AA00C931DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638A9F582ADA88AA00C931DD /* GoogleService-Info.plist */; };
 		C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */; };
 		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* SelectCategoryView.swift */; };
@@ -181,6 +182,7 @@
 		638A9F4E2ADA816E00C931DD /* MapMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMainView.swift; sourceTree = "<group>"; };
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
+		638A9F582ADA88AA00C931DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAddPaymentView.swift; sourceTree = "<group>"; };
 		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
+				638A9F582ADA88AA00C931DD /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -822,6 +825,7 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
+				638A9F592ADA88AA00C931DD /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,

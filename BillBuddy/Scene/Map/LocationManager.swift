@@ -10,7 +10,7 @@ import CoreLocation
 import MapKit
 
 final class LocationManager: NSObject, ObservableObject {
-    private var locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     
     @Published var mapView: MKMapView = .init()
     @Published var isChaging: Bool = false
@@ -73,6 +73,10 @@ extension LocationManager {
             }
             print("입력된 주소: \(searchAddress)")
             
+            selectedAddress = searchAddress
+            userLatitude = location.coordinate.latitude
+            userLongitude = location.coordinate.longitude
+            
             moveFocusChange(location: location.coordinate)
         }
     }
@@ -93,20 +97,20 @@ extension LocationManager {
                     myAdd += " "
                     myAdd += name
                 }
-                    self.selectedAddress = myAdd
+                self.selectedAddress = myAdd
             }
         })
     }
     
-    func setAnnotations() {
+    func setAnnotations(paymentStore: PaymentStore) {
         mapView.removeAnnotations(mapView.annotations)
         
-//        for payment in paymentStore.payments {
-//            let annotation = MKPointAnnotation()
-//            annotation.title = payment.address.address
-//            annotation.coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
-//            mapView.addAnnotation(annotation)
-//        }
+        for payment in paymentStore.payments {
+            let annotation = MKPointAnnotation()
+            annotation.title = payment.address.address
+            annotation.coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
+            mapView.addAnnotation(annotation)
+        }
         
     }
 }
@@ -144,12 +148,9 @@ extension LocationManager: MKMapViewDelegate {
         userLongitude = mapView.centerCoordinate.longitude
         let location: CLLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
         
-//        self.changeToAddress(location: location)
         findAddr(location: location)
         
         DispatchQueue.main.async {
-//            print("location: \(location)")
-//            print("address: \(self.selectedAddress)")
             self.isChaging = false
         }
     }

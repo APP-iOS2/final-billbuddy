@@ -19,7 +19,10 @@ struct AddPaymentView: View {
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date()
     @State private var newMembers: [TravelCalculation.Member] = []
-
+    @State private var searchAddress: String = ""
+    @State private var searchlatitude: Double = 0.0
+    @State private var searchlongitude: Double = 0.0
+    
     var body: some View {
         VStack {
             List {
@@ -32,7 +35,7 @@ struct AddPaymentView: View {
                 
                 Section {
                     // 위치
-                    AddPaymentMapView()
+                    AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress, searchlatitude: $searchlatitude, searchlongitude: $searchlongitude)
                         .frame(height: 500)
                         
                     Spacer()
@@ -52,7 +55,7 @@ struct AddPaymentView: View {
                 }
                 
                 let newPayment =
-                Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+                Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.addPayment(newPayment: newPayment)
                 presentationMode.wrappedValue.dismiss()
                 

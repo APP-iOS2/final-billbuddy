@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct AddPaymentMapView: View {
-    @StateObject var locationManager = LocationManager()
+    @ObservedObject var locationManager: LocationManager
     
-    @State private var searchAddress: String = ""
     @State private var isShowingAddress: Bool = false
+    
+    @Binding var searchAddress: String
+    @Binding var searchlatitude: Double
+    @Binding var searchlongitude: Double
     
     var body: some View {
         GeometryReader { geometry in
@@ -35,7 +38,7 @@ struct AddPaymentMapView: View {
                                     .padding()
                                 Button(action: {
                                     locationManager.searchAddress(searchAddress: searchAddress)
-                                    locationManager.selectedAddress = searchAddress
+//                                    locationManager.selectedAddress = searchAddress
                                     isShowingAddress = true
                                     
                                 }, label: {
@@ -73,5 +76,5 @@ struct AddPaymentMapView: View {
 }
 
 #Preview {
-    AddPaymentMapView()
+    AddPaymentMapView(locationManager: LocationManager(), searchAddress: .constant("cheonan"), searchlatitude: .constant(0.0), searchlongitude: .constant(0.0))
 }
