@@ -61,7 +61,7 @@ struct EditPaymentView: View {
                 .padding(.top, 24)
                 .padding(.bottom, 24)
             })
-            .background(Color.primary)
+            .background(Color.myPrimary)
             
         }
         .toolbar(content: {
@@ -78,7 +78,7 @@ struct EditPaymentView: View {
         })
         .onAppear {
             // TODO: 해당 payment만 fetch 되도록 수정
-            paymentStore.fetchAll()
+//            paymentStore.fetchAll()
         }
         
     }

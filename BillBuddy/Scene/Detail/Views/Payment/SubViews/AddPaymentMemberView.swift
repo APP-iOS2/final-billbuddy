@@ -30,13 +30,13 @@ struct AddPaymentMemberView: View {
                         if newMembers.count == 0 {
                             Text("추가하기")
                                 .font(.custom("Pretendard-Medium", size: 14))
-                                .foregroundStyle(Color(hex: "A9ABB8"))
+                                .foregroundStyle(Color.gray500)
                             
                             Image("chevron_right")
                                 .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 24, height: 24)
-                                .foregroundStyle(Color(hex: "A9ABB8"))
+                                .foregroundStyle(Color.gray500)
                         }
                         else {
                             Text("수정하기")

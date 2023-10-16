@@ -20,6 +20,14 @@ struct PaymentMainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            header
+            paymentList
+            Spacer()
+        }
+    }
+    
+    var header: some View {
+        VStack(spacing: 0) {
             
             /// 2023년 9월 21일 1일차
             date
@@ -35,7 +43,7 @@ struct PaymentMainView: View {
                             } label: {
                                 Text("총 지출")
                                     .font(.custom("Pretendard-Medium", size: 14))
-                                    .foregroundStyle(Color(hex: "858899"))
+                                    .foregroundStyle(Color.gray600)
                                 Image("chevron_right")
                                     .resizable()
                                     .frame(width: 24, height: 24)
@@ -55,7 +63,7 @@ struct PaymentMainView: View {
                     } label: {
                         Text("정산하기")
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     
                     .frame(width: 71, height: 30, alignment: .center)
@@ -69,12 +77,61 @@ struct PaymentMainView: View {
             .frame(height: 80)
             .background {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(hex: "F7F7FA"))
+                    .fill(Color.gray050)
             }
             .padding(.leading, 16)
             .padding(.trailing, 16)
             .padding(.bottom, 32)
             
+            filteringSection
+        }
+    }
+    
+    var paymentList: some View {
+        VStack(spacing: 0) {
+            List {
+                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    .padding(.bottom, 12)
+                    .listRowSeparator(.hidden)
+            }
+            .listStyle(.grouped)
+            // MARK: 이 부분 나중에 수정
+//            .scrollContentBackground(.hidden)
+            
+            NavigationLink {
+                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    .navigationTitle("지출 항목 추가")
+                    .navigationBarBackButtonHidden()
+            } label: {
+                HStack(spacing: 12) {
+                    Spacer()
+                    Image("add payment")
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                    
+                    Text("지출 내역 추가")
+                        .font(.custom("Pretendard-Medium", size: 14))
+                        .foregroundStyle(Color.gray600)
+                    
+                    Spacer()
+                }
+                .padding(.top, 12)
+                .padding(.bottom, 12)
+            }
+            
+            
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.gray100, lineWidth: 1)
+                
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
+        }
+    }
+    
+    var filteringSection: some View {
+        VStack(spacing: 0) {
             HStack(spacing: 0) {
                 Button(action: {
                     isShowingSelectCategorySheet = true
@@ -82,12 +139,12 @@ struct PaymentMainView: View {
                     if let category = selectedCategory {
                         Text(category.rawValue)
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     else {
                         Text("전체내역")
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     Image("expand_more")
                         .resizable()
@@ -119,9 +176,9 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Text("편집")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color(hex: "858899"))
+//                Text("편집")
+//                    .font(.custom("Pretendard-Medium", size: 14))
+//                    .foregroundStyle(Color.gray600)
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
@@ -131,51 +188,7 @@ struct PaymentMainView: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
                 .padding(.bottom, 16)
-            
-            paymentList
-            
-            Spacer()
-            
-            
         }
-    }
-    
-    var paymentList: some View {
-        List {
-            PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                .padding(.bottom, 12)
-                .listRowSeparator(.hidden)
-            
-            NavigationLink {
-                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                    .navigationTitle("지출 항목 추가")
-                    .navigationBarBackButtonHidden()
-            } label: {
-                HStack(spacing: 12) {
-                    Spacer()
-                    Image("add payment")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                    
-                    Text("지출 내역 추가")
-                        .font(.custom("Pretendard-Medium", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
-                    
-                    Spacer()
-                }
-                .padding(.top, 12)
-                .padding(.bottom, 12)
-            }
-            
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(hex: "F0F0F5"), lineWidth: 1)
-                
-            }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
-        }
-        .listStyle(.grouped)
     }
     
     var date: some View {
@@ -200,7 +213,7 @@ struct PaymentMainView: View {
                         .foregroundStyle(.black)
                     Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
                         .font(.custom("Pretendard-Semibold", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
+                        .foregroundStyle(Color.gray600)
                     Image("expand_more")
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -236,7 +249,6 @@ struct PaymentMainView: View {
             else {
                 paymentStore.fetchDate(date: selectedDate)
             }
-            selectedCategory = nil
         }
     }
 }

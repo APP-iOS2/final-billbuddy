@@ -20,6 +20,11 @@ struct SubPaymentView: View {
         Group {
             Section {
                 // TODO: 이 부분 한국식으로 어떻게할지 고민
+                // MARK: Date Picker에서 시간까지 다 받아야할듯 ,, 10분 단위나 ,, 그런 너낌으로 / 아님 순서를 정해줘야함
+                
+                /// 1 장소에서 2 장소로 이동했는데 2 장소가 먼저인지 1 장소가 먼저인지를 모름 → 시간이든 뭐든 써줘야할거같은데 어떻게할지!!
+                /// 1. paymentDate에 끼워넣는다
+                /// 2. order를 사용자가 스크롤하면서 할 수 있게해서 순서를 payment에 var order 등으로 생성해서 넣어준다
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
                     Text("일자")
                         .font(.custom("Pretendard-Bold", size: 14))
