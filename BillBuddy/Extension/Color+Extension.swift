@@ -51,6 +51,8 @@ extension Color {
     static let gray800 = Color(hex: "#3E404C")
     /// 2B2D36
     static let gray900 = Color(hex: "#2B2D36")
+    /// F5F6FE
+    static let gray1000 = Color(hex: "F5F6FE")
     /// black / 252730
     static let systemBlack = Color(hex: "#252730")
 

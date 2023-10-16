@@ -10,22 +10,56 @@ import SwiftUI
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var selectedFilter: TravelFilter = .paymentInProgress
+    @State private var isShowingEditTravelView = false
     @Namespace var animation
     
     
     var body: some View {
         NavigationStack{
-            VStack {
-                travelFilterButton
-                List {
-                    ForEach(createTravelList()) { travel in
-                        NavigationLink {
-                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
-                        } label: {
-                            Text(travel.travelTitle)
+            VStack(alignment: .center) {
+                HStack {
+                    travelFilterButton
+                    Spacer()
+                }
+                    ScrollView(.vertical, showsIndicators: false) {
+                        ForEach(createTravelList()) { travel in
+                            NavigationLink {
+                                DetailMainView(travelCalculation: travel)
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(travel.travelTitle)
+                                            .font(.body01)
+                                            .foregroundColor(.black)
+                                            .padding(.bottom, 5)
+                                        Text("\(travel.startDate.toFormattedMonthandDay()) ~ \(travel.endDate.toFormattedMonthandDay())")
+                                            .font(.caption02)
+                                            .foregroundColor(Color.gray600)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    Button {
+                                        isShowingEditTravelView.toggle()
+                                    } label: {
+                                        Image("steps-1 3")
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    .sheet(isPresented: $isShowingEditTravelView) {
+                                        EditTravelSheetView()
+                                            .presentationDetents([.height(300)])
+                                    }
+                                    
+                                }
+                                .padding([.leading, .trailing], 26)
+                                .frame(width: 361, height: 95)
+                                .background(Color.gray1000.cornerRadius(12))
+                            }
                         }
                     }
-                }
+                
+//                .padding(.leading, 15)
                 
                 AddTravelButtonView(userTravelStore: userTravelStore)
             }
@@ -37,6 +71,8 @@ struct TravelListView: View {
     }
     
     func createTravelList() -> [TravelCalculation] {
+        var sortedTravels: [TravelCalculation]
+        
         switch selectedFilter {
         case .paymentInProgress:
             return userTravelStore.travels.filter { userTravel in
@@ -47,6 +83,10 @@ struct TravelListView: View {
                 return userTravel.isPaymentSettled
             }
         }
+        
+        sortedTravels.sort { $0.startDate < $1.startDate}
+        
+        return sortedTravels
     }
 }
 
@@ -56,19 +96,20 @@ extension TravelListView {
             ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
                 VStack {
                     Text(filter.title)
-                        .font(.title3)
+                        .padding(.top, 30)
+                        .font(Font.body02)
                         .fontWeight(selectedFilter == filter ? .bold : .regular)
-                        .foregroundColor(selectedFilter == filter ? .primary : .black)
+                        .foregroundColor(selectedFilter == filter ? .myPrimary : .gray500)
                     
                     if filter == selectedFilter {
                         Capsule()
-                            .foregroundColor(.primary)
-                            .frame(height: 3)
+                            .foregroundColor(Color.myPrimary)
+                            .frame(width: 100, height: 3)
                             .matchedGeometryEffect(id: "filter", in: animation)
                     } else {
                         Capsule()
                             .foregroundColor(.clear)
-                            .frame(height: 3)
+                            .frame(width: 100, height: 3)
                     }
                 }
                 .onTapGesture {
@@ -84,7 +125,7 @@ extension TravelListView {
 }
 
 #Preview {
-    NavigationStack{
+    NavigationStack {
         TravelListView()
             .environmentObject(UserTravelStore())
     }

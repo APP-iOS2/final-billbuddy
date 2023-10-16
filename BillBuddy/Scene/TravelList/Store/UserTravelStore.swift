@@ -14,6 +14,7 @@ final class UserTravelStore: ObservableObject {
 //    private let db = Firestore.firestore()
     private let service = Firestore.firestore()
 
+    
 //    func fetchUserTravel() {
 //        db.collection("User").document("id").collection("UserTravel").getDocuments { snapshot, error in
 //            guard let documents = snapshot?.documents, error == nil else {
