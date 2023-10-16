@@ -37,7 +37,7 @@ struct MapMainView: View {
                                 .foregroundStyle(.black)
                             Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
                                 .font(.custom("Pretendard-Semibold", size: 14))
-                                .foregroundStyle(Color(hex: "858899"))
+                                .foregroundStyle(Color.gray600)
                             Image("expand_more")
                                 .resizable()
                                 .frame(width: 24, height: 24)
