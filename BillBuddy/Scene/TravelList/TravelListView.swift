@@ -32,7 +32,7 @@ struct TravelListView: View {
                                             .font(.body01)
                                             .foregroundColor(.black)
                                             .padding(.bottom, 5)
-                                        Text("\(travel.startDate.toFormattedMonthandDay()) ~ \(travel.endDate.toFormattedMonthandDay())")
+                                        Text("\(travel.startDate.toFormattedMonthandDay()) - \(travel.endDate.toFormattedMonthandDay())")
                                             .font(.caption02)
                                             .foregroundColor(Color.gray600)
                                     }
@@ -48,7 +48,7 @@ struct TravelListView: View {
                                     }
                                     .sheet(isPresented: $isShowingEditTravelView) {
                                         EditTravelSheetView()
-                                            .presentationDetents([.height(300)])
+                                            .presentationDetents([.height(250)])
                                     }
                                     
                                 }

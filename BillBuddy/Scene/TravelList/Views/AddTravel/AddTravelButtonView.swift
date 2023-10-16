@@ -30,10 +30,8 @@ struct AddTravelButtonView: View {
                         MenuItem(icon: "wallet")
                             .padding(.trailing, 12)
                     }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                    
-                
-                
             }
             
             HStack {
@@ -48,9 +46,8 @@ struct AddTravelButtonView: View {
                         MenuItem(icon: "add")
                             .padding(.trailing, 12)
                     }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                
-                
             }
             
             
@@ -62,6 +59,7 @@ struct AddTravelButtonView: View {
                     Image(systemName: buttonImage)
                         .font(.system(size: 50))
                         .frame(width: 60, height: 60)
+                        .animation(nil, value: UUID())
                     
                 }
                 .padding(.trailing, 12)
@@ -75,8 +73,10 @@ struct AddTravelButtonView: View {
             showMenuItem2 = false
             buttonImage = "plus.circle.fill"
         } else {
-            showMenuItem1 = true
-            showMenuItem2 = true
+            withAnimation(.bouncy) {
+                showMenuItem1 = true
+                showMenuItem2 = true
+            }
             buttonImage = "xmark.circle.fill"
         }
     }

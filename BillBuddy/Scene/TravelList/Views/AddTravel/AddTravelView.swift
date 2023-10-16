@@ -18,7 +18,7 @@ struct AddTravelView: View {
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var isShowingCalendarView = false
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         // 전체적인 디자인 수정 예정
@@ -64,6 +64,7 @@ struct AddTravelView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
+                        .buttonStyle(.plain)
                         
                         Text("\(selectedMember)")
                         
@@ -74,6 +75,7 @@ struct AddTravelView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
+                        .buttonStyle(.plain)
                         
                     }
                 }
@@ -86,7 +88,8 @@ struct AddTravelView: View {
             Button {
                 userTravelStore.addTravel(travelTitle, memberCount: selectedMember, startDate: startDate, endDate: endDate)
                 
-                presentationMode.wrappedValue.dismiss()
+//                presentationMode.wrappedValue.dismiss()
+                dismiss()
             } label: {
                 Text("개설하기")
                     .font(.title05)

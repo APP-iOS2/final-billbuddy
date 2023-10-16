@@ -23,7 +23,7 @@ extension Double {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         
         Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        Self.dateFormatter.dateFormat = "YY년 MM월 dd일"
+        Self.dateFormatter.dateFormat = "YYYY.MM.dd"
         
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
@@ -32,7 +32,7 @@ extension Double {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         
         Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        Self.dateFormatter.dateFormat = "YY년 MM월 dd일"
+        Self.dateFormatter.dateFormat = "YY년 MM월 dd일 HH:mm"
         
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
