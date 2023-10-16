@@ -13,6 +13,7 @@ struct EditPaymentMemberView: View {
     
     @State private var isShowingEditSheet: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
+    @State private var existingMembers: [TravelCalculation.Member] = []
     
     var body: some View {
         Section {
@@ -58,42 +59,49 @@ struct EditPaymentMemberView: View {
             }
             
             .sheet(isPresented: $isShowingEditSheet, content: {
-                List(travelCalculation.members) { member in
-                    HStack {
-                        if tempMembers.firstIndex(where: { m in
-                            m.name == member.name
-                        }) != nil {
-                            Image("form-checked-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        else {
-                            Image("form-check-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        
-                        Text(member.name)
-                            .font(.custom("Pretendard-Semibold", size: 14))
-                            .foregroundStyle(Color.black)
-                            .onTapGesture {
-                                // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
-                                // 각각에 대해서 배열로 만들수도 없고 이걸 어뚜케 해야하지? 나중에 Refactoring 고민해보기!
-                                if let existMember = tempMembers.firstIndex(where: { m in
-                                    m.name == member.name
-                                }) {
-                                    tempMembers.remove(at: existMember)
-                                }
-                                else {
-                                    tempMembers.append(member)
-                                }
+                ScrollView {
+                    ForEach(travelCalculation.members) { member in
+                        HStack {
+                            if tempMembers.firstIndex(where: { m in
+                                m.name == member.name
+                            }) != nil {
+                                Image("form-checked-input radio")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
                             }
-                        Spacer()
+                            else {
+                                Image("form-check-input radio")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
+                            }
+                            
+                            Text(member.name)
+                                .font(.custom("Pretendard-Semibold", size: 14))
+                                .foregroundStyle(Color.black)
+                                .onTapGesture {
+                                    // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
+                                    // 각각에 대해서 배열로 만들수도 없고 이걸 어뚜케 해야하지? 나중에 Refactoring 고민해보기!
+                                    if let existMember = tempMembers.firstIndex(where: { m in
+                                        m.name == member.name
+                                    }) {
+                                        tempMembers.remove(at: existMember)
+                                    }
+                                    else {
+                                        tempMembers.append(member)
+                                    }
+                                }
+                            Spacer()
+                        }
+                        .padding(.leading, 32)
+                        .padding(.top, 36)
+                        .onAppear {
+                            tempMembers = existingMembers
+                        }
                     }
+                    .presentationDetents([.fraction(0.4)])
                 }
-                .padding(.leading, 32)
-                .padding(.top, 36)
-                .presentationDetents([.fraction(0.4)])
+                .padding(.top, 8)
+                .padding(.bottom, 36)
                 
                 Button(action: {
                     isShowingEditSheet = false
@@ -103,6 +111,7 @@ struct EditPaymentMemberView: View {
                         participants.append(Payment.Participant(memberId: m.id , payment: m.payment))
                     }
                     payment.participants = participants
+                    existingMembers = tempMembers
                 }, label: {
                     HStack {
                         Spacer()
@@ -119,7 +128,7 @@ struct EditPaymentMemberView: View {
                 .frame(height: 52)
             })
             
-            ForEach(tempMembers) { member in
+            ForEach(existingMembers) { member in
                 HStack {
                     Text(member.name)
                         .font(.custom("Pretendard-Medium", size: 14))
@@ -147,10 +156,10 @@ struct EditPaymentMemberView: View {
                 if let existMember = travelCalculation.members.firstIndex(where: { m in
                     m.id == participant.memberId
                 }) {
-                    if let _ = tempMembers.firstIndex(of: travelCalculation.members[existMember]) {
+                    if let _ = existingMembers.firstIndex(of: travelCalculation.members[existMember]) {
                         continue
                     }
-                    tempMembers.append(travelCalculation.members[existMember])
+                    existingMembers.append(travelCalculation.members[existMember])
                 }
             }
         }

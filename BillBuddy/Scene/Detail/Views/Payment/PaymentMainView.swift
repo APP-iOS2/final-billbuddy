@@ -176,9 +176,9 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Text("편집")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color.gray600)
+//                Text("편집")
+//                    .font(.custom("Pretendard-Medium", size: 14))
+//                    .foregroundStyle(Color.gray600)
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
