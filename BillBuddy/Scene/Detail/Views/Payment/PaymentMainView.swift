@@ -20,6 +20,14 @@ struct PaymentMainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            header
+            paymentList
+            Spacer()
+        }
+    }
+    
+    var header: some View {
+        VStack(spacing: 0) {
             
             /// 2023년 9월 21일 1일차
             date
@@ -74,6 +82,56 @@ struct PaymentMainView: View {
             .padding(.leading, 16)
             .padding(.trailing, 16)
             .padding(.bottom, 32)
+            
+            filteringSection
+        }
+    }
+    
+    var paymentList: some View {
+        List {
+            PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                .padding(.bottom, 12)
+                .listRowSeparator(.hidden)
+            
+            NavigationLink {
+                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    .navigationTitle("지출 항목 추가")
+                    .navigationBarBackButtonHidden()
+            } label: {
+                HStack(spacing: 12) {
+                    Spacer()
+                    Image("add payment")
+                        .resizable()
+                        .frame(width: 28, height: 28)
+                    
+                    // TODO: 위아래로 실선 나오는거 수정하기
+                    Text("지출 내역 추가")
+                        .font(.custom("Pretendard-Medium", size: 14))
+                        .foregroundStyle(Color(hex: "858899"))
+                    
+                    Spacer()
+                }
+                .padding(.top, 12)
+                .padding(.bottom, 12)
+            }
+            
+            
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(hex: "F0F0F5"), lineWidth: 1)
+                
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
+        }
+        .listStyle(.grouped)
+        .scrollContentBackground(.hidden)
+//        .listRowInsets(nil) // 이거 안됨
+    }
+    
+    var filteringSection: some View {
+        VStack(spacing: 0) {
+            
             
             HStack(spacing: 0) {
                 Button(action: {
@@ -131,51 +189,7 @@ struct PaymentMainView: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
                 .padding(.bottom, 16)
-            
-            paymentList
-            
-            Spacer()
-            
-            
         }
-    }
-    
-    var paymentList: some View {
-        List {
-            PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                .padding(.bottom, 12)
-                .listRowSeparator(.hidden)
-            
-            NavigationLink {
-                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                    .navigationTitle("지출 항목 추가")
-                    .navigationBarBackButtonHidden()
-            } label: {
-                HStack(spacing: 12) {
-                    Spacer()
-                    Image("add payment")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                    
-                    Text("지출 내역 추가")
-                        .font(.custom("Pretendard-Medium", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
-                    
-                    Spacer()
-                }
-                .padding(.top, 12)
-                .padding(.bottom, 12)
-            }
-            
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(hex: "F0F0F5"), lineWidth: 1)
-                
-            }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
-        }
-        .listStyle(.grouped)
     }
     
     var date: some View {
@@ -236,7 +250,6 @@ struct PaymentMainView: View {
             else {
                 paymentStore.fetchDate(date: selectedDate)
             }
-            selectedCategory = nil
         }
     }
 }
