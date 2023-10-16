@@ -88,10 +88,15 @@ struct PaymentMainView: View {
     }
     
     var paymentList: some View {
-        List {
-            PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
-                .padding(.bottom, 12)
-                .listRowSeparator(.hidden)
+        VStack(spacing: 0) {
+            List {
+                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    .padding(.bottom, 12)
+                    .listRowSeparator(.hidden)
+            }
+            .listStyle(.grouped)
+            // MARK: 이 부분 나중에 수정
+//            .scrollContentBackground(.hidden)
             
             NavigationLink {
                 AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
@@ -104,7 +109,6 @@ struct PaymentMainView: View {
                         .resizable()
                         .frame(width: 28, height: 28)
                     
-                    // TODO: 위아래로 실선 나오는거 수정하기
                     Text("지출 내역 추가")
                         .font(.custom("Pretendard-Medium", size: 14))
                         .foregroundStyle(Color(hex: "858899"))
@@ -124,15 +128,10 @@ struct PaymentMainView: View {
             .padding(.leading, 16)
             .padding(.trailing, 16)
         }
-        .listStyle(.grouped)
-        .scrollContentBackground(.hidden)
-//        .listRowInsets(nil) // 이거 안됨
     }
     
     var filteringSection: some View {
         VStack(spacing: 0) {
-            
-            
             HStack(spacing: 0) {
                 Button(action: {
                     isShowingSelectCategorySheet = true

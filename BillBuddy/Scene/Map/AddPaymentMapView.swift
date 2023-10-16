@@ -18,7 +18,7 @@ struct AddPaymentMapView: View {
             VStack {
                 HStack {
                     Text("위치")
-                        .font(.custom("Pretendard-Bold", size: 18))
+                        .font(.custom("Pretendard-Bold", size: 14))
                     Spacer()
                     if isShowingAddress {
                         Text("입력된 주소 : \(locationManager.selectedAddress)")
