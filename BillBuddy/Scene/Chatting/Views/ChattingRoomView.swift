@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ChattingRoomView: View {
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-    @EnvironmentObject var messageStore: MessageStore
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var messageStore: MessageStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
     
@@ -38,9 +38,9 @@ struct ChattingRoomView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    mode.wrappedValue.dismiss()
+                    dismiss()
                 }, label: {
-                    Image("arrow_back")
+                    Image(.arrowBack)
                         .resizable()
                         .frame(width: 24, height: 24)
                 })
@@ -49,7 +49,7 @@ struct ChattingRoomView: View {
                 Button(action: {
                     
                 }, label: {
-                    Image("steps-1 3")
+                    Image(.steps13)
                         .resizable()
                         .frame(width: 24, height: 24)
                 })
@@ -134,7 +134,7 @@ struct ChattingRoomView: View {
             Button {
                 
             } label: {
-                Image("emoji")
+                Image(.emoji)
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.gray600)
@@ -144,7 +144,7 @@ struct ChattingRoomView: View {
                 messageStore.sendMessage(travelCalculation: travel, message: newMessage)
                 inputText.removeAll()
             } label: {
-                Image("mail-send-email-message-35")
+                Image(.mailSendEmailMessage35)
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundColor(.gray600)

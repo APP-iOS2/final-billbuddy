@@ -194,7 +194,6 @@
 		638A9F4E2ADA816E00C931DD /* MapMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMainView.swift; sourceTree = "<group>"; };
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
-		C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAddPaymentView.swift; sourceTree = "<group>"; };
 		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
@@ -247,14 +246,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		022B2EF72ADD44CB001B8C4D /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,7 +396,6 @@
 				276647F92ABD53F8000F8A10 /* BillBuddy */,
 				276647F82ABD53F8000F8A10 /* Products */,
 				276648232ABD5B11000F8A10 /* Frameworks */,
-				022B2EF72ADD44CB001B8C4D /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -467,7 +457,6 @@
 			isa = PBXGroup;
 			children = (
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
-				263F119F2ADD7D2A006CE929 /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
