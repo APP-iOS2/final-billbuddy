@@ -28,7 +28,7 @@ struct SelectCategoryView: View {
                     if selectedCategory == nil {
                         Text("전체")
                             .font(.custom("Pretendard-Medium", size: 12))
-                            .foregroundStyle(Color.primary)
+                            .foregroundStyle(Color.myPrimary)
                     }
                     else {
                         Text("전체")
@@ -50,10 +50,10 @@ struct SelectCategoryView: View {
                                     .renderingMode(.template)
                                     .resizable()
                                     .frame(width: 24, height: 24)
-                                    .foregroundStyle(Color.primary)
+                                    .foregroundStyle(Color.myPrimary)
                                 Text(type.rawValue)
                                     .font(.custom("Pretendard-Medium", size: 12))
-                                    .foregroundStyle(Color.primary)
+                                    .foregroundStyle(Color.myPrimary)
                                     
                             }
                             else {

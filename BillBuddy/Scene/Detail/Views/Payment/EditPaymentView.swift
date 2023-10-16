@@ -61,7 +61,7 @@ struct EditPaymentView: View {
                 .padding(.top, 24)
                 .padding(.bottom, 24)
             })
-            .background(Color.primary)
+            .background(Color.myPrimary)
             
         }
         .toolbar(content: {
