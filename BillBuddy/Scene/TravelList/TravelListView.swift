@@ -24,7 +24,7 @@ struct TravelListView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
-                                DetailMainView(travelCalculation: travel)
+                                DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading) {

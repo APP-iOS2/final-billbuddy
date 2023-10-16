@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		022B2EE92ADCFB6A001B8C4D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 022B2EE82ADCFB6A001B8C4D /* GoogleService-Info.plist */; };
 		022B2EED2ADD394F001B8C4D /* EditTravelSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022B2EEC2ADD394F001B8C4D /* EditTravelSheetView.swift */; };
 		023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9232ACC0334005C3F30 /* UserTravelStore.swift */; };
 		023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF9252ACC034E005C3F30 /* TravelCalculationStore.swift */; };
@@ -86,7 +85,6 @@
 		638A9F4F2ADA816E00C931DD /* MapMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F4E2ADA816E00C931DD /* MapMainView.swift */; };
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
-		C404A5C52ADD06AB00B9858C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */; };
 		C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */; };
 		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* SelectCategoryView.swift */; };
@@ -247,6 +245,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		022B2EF72ADD44CB001B8C4D /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -397,6 +403,7 @@
 				276647F92ABD53F8000F8A10 /* BillBuddy */,
 				276647F82ABD53F8000F8A10 /* Products */,
 				276648232ABD5B11000F8A10 /* Frameworks */,
+				022B2EF72ADD44CB001B8C4D /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -870,7 +877,6 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
-				C404A5C52ADD06AB00B9858C /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
