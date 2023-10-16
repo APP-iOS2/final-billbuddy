@@ -12,14 +12,18 @@ class SampleMemeberStore: ObservableObject {
     @Published var isShowingAlert: Bool = false
     @Published var alertDescription: String = ""
     
-    @Published var isEdited: Bool = false
+    @Published var isSelectedMember: Bool = false
+    @Published var selectedmemberIndex: Int = 0
+    
     
     var travel: TravelCalculation
     
-    init() {
-        let sample = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date.now.timeIntervalSince1970, endDate: Date.now.timeIntervalSince1970 + 1, updateContentDate: Date.now.timeIntervalSince1970, isPaymentSettled: false, members: [TravelCalculation.Member(name: "인원1", advancePayment: 200, payment: 0)])
-        self.travel = sample
-        self.members = sample.members
+    init(travel: TravelCalculation) {
+        self.travel = travel
+        self.members = travel.members
+    }
+    func selectMember(_ index: Int) {
+        selectedmemberIndex = index
     }
     
     func saveMemeber() async {
@@ -38,19 +42,19 @@ class SampleMemeberStore: ObservableObject {
     func addMember() {
         let newMemeber = TravelCalculation.Member(name: "인원\(members.count + 1)", advancePayment: 0, payment: 0)
         members.append(newMemeber)
-        isEdited = true
-        print(isEdited)
+        isSelectedMember = true
+        print(isSelectedMember)
     }
     
     func removeMember(memberId: String) {
         guard let index = members.firstIndex(where: { $0.id == memberId }) else { return }
         guard members[index].userId != nil else { return }
         members.remove(at: index)
-        isEdited = true
+        isSelectedMember = true
     }
     
-    func getURL(userId: String) -> URL {
-        let urlString = "\(URLSchemeBase.scheme.rawValue).//travel?id=\(travel.id)/userId=\(userId)"
+    func getURL() -> URL {
+        let urlString = "\(URLSchemeBase.scheme.rawValue).//travel?id=\(travel.id)/userId=\(members[selectedmemberIndex].id)"
         guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return URL(string: "실패!")! }
         guard let url = URL(string: encodeString) else { return URL(string: "실패!")! }
         

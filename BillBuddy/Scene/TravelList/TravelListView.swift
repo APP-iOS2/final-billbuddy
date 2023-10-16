@@ -20,7 +20,7 @@ struct TravelListView: View {
                 List {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(travelCalculation: travel)
+                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
                         } label: {
                             Text(travel.travelTitle)
                         }
@@ -84,6 +84,9 @@ extension TravelListView {
 }
 
 #Preview {
-    TravelListView()
+    NavigationStack{
+        TravelListView()
+            .environmentObject(UserTravelStore())
+    }
 }
 

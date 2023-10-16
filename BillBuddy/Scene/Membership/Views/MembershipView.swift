@@ -2,17 +2,28 @@
 //  MembershipView.swift
 //  BillBuddy
 //
-//  Created by 윤지호 on 2023/09/22.
+//  Created by SIKim on 10/12/23.
 //
 
 import SwiftUI
 
 struct MembershipView: View {
+    @State private var isShowingFullScreen: Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Button("구독 결제") {
+                isShowingFullScreen = true
+            }
+            .fullScreenCover(isPresented: $isShowingFullScreen, content: {
+                TossPaymentsView(isShowingFullScreen: $isShowingFullScreen)
+            })
+        }
     }
 }
 
 #Preview {
-    MembershipView()
+    NavigationStack {
+        MembershipView()
+    }
 }

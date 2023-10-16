@@ -42,4 +42,6 @@ struct TravelCalculation: Identifiable, Codable {
         var bankName: String = ""
         var bankAccountNum: String = ""
     }
+    
+    static let sampletravel = TravelCalculation(id: "4eB3HvBvH6jXYDLu9irl", hostId: "hostId", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [])
 }

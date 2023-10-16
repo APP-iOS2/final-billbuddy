@@ -10,28 +10,28 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-   
-    @State var travelCalculation: TravelCalculation
     
-    @State var selection: Int = 0
+    @StateObject var paymentStore: PaymentStore
+    @StateObject private var locationManager = LocationManager()
+    
+    @State var travelCalculation: TravelCalculation
+    @State private var selection: Int = 0
+    
     
     var body: some View {
         VStack {
             SliderView(items: ["내역", "지도"], selection: $selection, defaultXSpace: 12)
             
+            
             if selection == 0 {
-                PaymentMainView(travelCalculation: $travelCalculation, paymentStore: PaymentStore(travelCalculationId: travelCalculation.id))
+                PaymentMainView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
             }
             else if selection == 1 {
-                VStack{
-                    Text("지도 뷰")
-                    Spacer()
-                }
+                MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelCalculation: $travelCalculation)
             }
             
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle(travelCalculation.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
@@ -56,7 +56,7 @@ struct DetailMainView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    MoreView()
+                    MoreView(travelCalculation: travelCalculation)
                         .navigationTitle("더보기")
                 } label: {
                     Image("steps-1 3")

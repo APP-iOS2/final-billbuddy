@@ -22,7 +22,7 @@ struct MemberCell: View {
                 .padding(.leading, 8)
 
             
-            VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text(member.name)
                     .font(.body04)
                     .frame(height: 20)
