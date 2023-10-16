@@ -31,7 +31,7 @@ struct PaymentListView: View {
                                 .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 18, height: 18)
-                                .foregroundStyle(Color(hex: "858899"))
+                                .foregroundStyle(Color.gray600)
                             
                         }
                         else if payment.participants.count > 1 {
@@ -39,11 +39,11 @@ struct PaymentListView: View {
                                 .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 18, height: 18)
-                                .foregroundStyle(Color(hex: "858899"))
+                                .foregroundStyle(Color.gray600)
                         }
                         Text("\(payment.participants.count)명")
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                 })
                 
@@ -56,12 +56,12 @@ struct PaymentListView: View {
                     
                     if payment.participants.isEmpty {
                         Text("\(payment.payment)원")
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }
                     else {
                         Text("\(payment.payment / payment.participants.count)원")
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }
                     

@@ -62,7 +62,7 @@ struct SelectCategoryView: View {
                                     .frame(width: 24, height: 24)
                                 Text(type.rawValue)
                                     .font(.custom("Pretendard-Medium", size: 12))
-                                    .foregroundStyle(Color(hex: "A9ABB8"))
+                                    .foregroundStyle(Color.gray500)
                                 
                             }
                         }
@@ -72,7 +72,7 @@ struct SelectCategoryView: View {
                                 .frame(width: 24, height: 24)
                             Text(type.rawValue)
                                 .font(.custom("Pretendard-Medium", size: 12))
-                                .foregroundStyle(Color(hex: "A9ABB8"))
+                                .foregroundStyle(Color.gray500)
                             
                         }
                         

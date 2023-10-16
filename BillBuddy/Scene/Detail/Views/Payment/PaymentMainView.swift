@@ -43,7 +43,7 @@ struct PaymentMainView: View {
                             } label: {
                                 Text("총 지출")
                                     .font(.custom("Pretendard-Medium", size: 14))
-                                    .foregroundStyle(Color(hex: "858899"))
+                                    .foregroundStyle(Color.gray600)
                                 Image("chevron_right")
                                     .resizable()
                                     .frame(width: 24, height: 24)
@@ -63,7 +63,7 @@ struct PaymentMainView: View {
                     } label: {
                         Text("정산하기")
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     
                     .frame(width: 71, height: 30, alignment: .center)
@@ -77,7 +77,7 @@ struct PaymentMainView: View {
             .frame(height: 80)
             .background {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(hex: "F7F7FA"))
+                    .fill(Color.gray050)
             }
             .padding(.leading, 16)
             .padding(.trailing, 16)
@@ -111,7 +111,7 @@ struct PaymentMainView: View {
                     
                     Text("지출 내역 추가")
                         .font(.custom("Pretendard-Medium", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
+                        .foregroundStyle(Color.gray600)
                     
                     Spacer()
                 }
@@ -122,7 +122,7 @@ struct PaymentMainView: View {
             
             .background {
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color(hex: "F0F0F5"), lineWidth: 1)
+                    .stroke(Color.gray100, lineWidth: 1)
                 
             }
             .padding(.leading, 16)
@@ -139,12 +139,12 @@ struct PaymentMainView: View {
                     if let category = selectedCategory {
                         Text(category.rawValue)
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     else {
                         Text("전체내역")
                             .font(.custom("Pretendard-Medium", size: 14))
-                            .foregroundStyle(Color(hex: "858899"))
+                            .foregroundStyle(Color.gray600)
                     }
                     Image("expand_more")
                         .resizable()
@@ -178,7 +178,7 @@ struct PaymentMainView: View {
                 
                 Text("편집")
                     .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color(hex: "858899"))
+                    .foregroundStyle(Color.gray600)
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
@@ -213,7 +213,7 @@ struct PaymentMainView: View {
                         .foregroundStyle(.black)
                     Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
                         .font(.custom("Pretendard-Semibold", size: 14))
-                        .foregroundStyle(Color(hex: "858899"))
+                        .foregroundStyle(Color.gray600)
                     Image("expand_more")
                         .resizable()
                         .frame(width: 24, height: 24)
