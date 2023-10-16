@@ -66,7 +66,8 @@ struct TravelListView: View {
         }
         .navigationTitle("BillBuddy")
         .onAppear {
-            userTravelStore.fetchTravelCalculation()
+            if !AuthStore.shared.userUid.isEmpty {
+                            userTravelStore.fetchTravelCalculation()}
         }
     }
     
