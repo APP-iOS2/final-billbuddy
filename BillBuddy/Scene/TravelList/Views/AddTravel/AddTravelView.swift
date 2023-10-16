@@ -23,55 +23,63 @@ struct AddTravelView: View {
     var body: some View {
         // 전체적인 디자인 수정 예정
         VStack {
-            VStack(alignment: .leading) {
-                TextField("여행 제목을 입력해주세요.", text: $travelTitle)
-                    .padding(.bottom, 15)
+            List {
+                Section {
+                    TextField("여행 이름을 입력해주세요.", text: $travelTitle)
+                }
+                //                .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                HStack {
-                    Text("일정")
-                    
-                    Spacer()
-                    
-                    Button {
-                        isShowingCalendarView.toggle()
-                    } label: {
-                        Image("calendar-add-4")
+                Section {
+                    HStack {
+                        Text("일정")
+                        
+                        Spacer()
+                        
+                        Button {
+                            isShowingCalendarView.toggle()
+                        } label: {
+                            Image("calendar-add-4")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        .sheet(isPresented: $isShowingCalendarView) {
+                            CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
+                                .presentationDetents([.height(500)])
+                                .presentationDragIndicator(.visible)
+                        }
+                        
                     }
-                    .sheet(isPresented: $isShowingCalendarView) {
-                        CalendarSheetView()
-                            .presentationDetents([.height(500)])
-                            .presentationDragIndicator(.visible)
+                }
+                
+                Section {
+                    HStack {
+                        Text("인원")
+                        
+                        Spacer()
+                        
+                        Button {
+                            selectedMember = max(0, selectedMember - 1)
+                        } label: {
+                            Image("Group 1171275315")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        
+                        Text("\(selectedMember)")
+                        
+                        Button {
+                            selectedMember += 1
+                        } label: {
+                            Image("Group 1171275314")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        
                     }
-                    
                 }
             }
-            .padding([.leading, .trailing], 12)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            
-            HStack {
-                Text("인원")
-                
-                Spacer()
-                
-                Button {
-                    selectedMember = max(0, selectedMember - 1)
-                } label: {
-                    Image("Group 1171275315")
-                }
-                
-                Text("\(selectedMember)")
-                
-                Button {
-                    selectedMember += 1
-                } label: {
-                    Image("Group 1171275314")
-                }
-                
-            }
-            .padding([.leading, .trailing], 12)
-            
-            
+            .font(.body04)
+            .listStyle(.insetGrouped)
             
             Spacer()
             
@@ -81,11 +89,20 @@ struct AddTravelView: View {
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("개설하기")
+                    .font(.title05)
             }
+            .frame(width: 500, height: 60)
+            .background(Color.myPrimary)
+            //            .edgesIgnoringSafeArea(.bottom)
+            .foregroundColor(.white)
         }
+        .navigationBarTitle("여행 추가하기")
+        .navigationBarTitleDisplayMode(.inline)
     }
+    
 }
 
 #Preview {
     AddTravelView()
+        .environmentObject(UserTravelStore())
 }

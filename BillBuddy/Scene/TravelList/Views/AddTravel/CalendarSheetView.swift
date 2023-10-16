@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct CalendarSheetView: View {
+    @EnvironmentObject var userTravleStroe : UserTravelStore
     @StateObject var calendarStore = CalendarStore()
+    @Binding var startDate: Date
+    @Binding var endDate: Date
+    @Binding var isShowingCalendarView: Bool
     
     var body: some View {
         VStack(spacing: 8) {
@@ -66,9 +70,9 @@ struct CalendarSheetView: View {
                                                     .offset(y: 13)
                                             }
                                             .frame(width: 40, height: 40)
-                                            .contentShape(Rectangle())
+                                            .clipShape(Circle())
                                         }
-                                        .background(calendarStore.isDateInRange(day: day) ? (calendarStore.isDateSelected(day: day) ? Color.myPrimary.cornerRadius(4) : Color.clear.cornerRadius(4)) : Color.clear.cornerRadius(4))
+                                        .background(calendarStore.isDateInRange(day: day) ? (calendarStore.isDateSelected(day: day) ? Color.myPrimary.cornerRadius(30) : Color.clear.cornerRadius(30)) : Color.clear.cornerRadius(30))
                                     }
                                     .frame(height: 36)
                                     .frame(maxWidth: .infinity)
@@ -84,10 +88,18 @@ struct CalendarSheetView: View {
                 }
             }
             
-            Text(calendarStore.instructionText)
-                .font(.system(size: 14))
-                .foregroundColor(Color.gray600)
-                .padding(.top, 30)
+            Button(action: {
+                saveSelectedDate()
+            }) {
+                Text(calendarStore.instructionText)
+                    .font(Font.body02)
+                
+            }
+            .disabled(calendarStore.instructionText != "여행 일정 선택 완료")
+            .frame(width: 335, height: 52)
+            .background(Color.myPrimary.cornerRadius(12))
+            .foregroundColor(.white)
+            .padding(.top, 30)
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 20)
@@ -144,8 +156,23 @@ struct CalendarSheetView: View {
             }
         }
     }
+    
+    func saveSelectedDate() {
+        guard let firstDate = calendarStore.firstDate, let secondDate = calendarStore.secondDate else {
+            return
+        }
+        
+        startDate = firstDate
+        endDate = secondDate
+        
+        isShowingCalendarView = false
+        print("시작일: \(firstDate)")
+        print("종료일: \(secondDate)")
+        
+    }
 }
 
 #Preview {
-    CalendarSheetView()
+    CalendarSheetView(startDate: .constant(Date()), endDate: .constant(Date()), isShowingCalendarView: .constant(false))
+    
 }
