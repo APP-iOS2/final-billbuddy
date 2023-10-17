@@ -16,7 +16,7 @@ struct SignUpView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Spacer().frame(height: 123)
+            Spacer()
             Text("간편하게 가입하고\n서비스를 이용해보세요.")
                 .font(.title05)
                 .padding(.bottom, 24)
@@ -25,7 +25,7 @@ struct SignUpView: View {
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
+                        .stroke(Color.gray300, lineWidth: 1))
                 
                 Text("이름은 2자리 이상 입력해주세요.")
                     .font(.system(size: 10))
@@ -35,7 +35,7 @@ struct SignUpView: View {
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
+                        .stroke(Color.gray300, lineWidth: 1))
                 
                 Text("정확한 이메일을 입력해주세요")
                     .font(.system(size: 10))
@@ -45,7 +45,7 @@ struct SignUpView: View {
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
+                        .stroke(Color.gray300, lineWidth: 1))
                 
                 Text("비밀번호는 6자리 이상 입력해주세요.")
                     .font(.system(size: 10))
@@ -55,7 +55,7 @@ struct SignUpView: View {
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
+                        .stroke(Color.gray300, lineWidth: 1))
                 
                 Text("비밀번호가 서로 다릅니다.")
                     .font(.system(size: 10))
@@ -65,15 +65,15 @@ struct SignUpView: View {
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
+                        .stroke(Color.gray300, lineWidth: 1))
                 
                 Text("휴대폰 번호 11자리 입력해주세요.")
                     .font(.system(size: 10))
                     .foregroundColor(signUpStore.isPhoneNumError ? .red : .clear)
             }
-    
-                AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
-                AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
+            
+            AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
+            AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
             
             Spacer()
             
@@ -86,7 +86,7 @@ struct SignUpView: View {
                     let isPasswordValid = signUpStore.signUpData.password.count >= 6
                     let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
                     let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11
-
+                    
                     if isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isPhoneNumValid {
                         isShowingAlert = true
                         
