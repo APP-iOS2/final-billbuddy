@@ -93,10 +93,10 @@ struct PaymentMainView: View {
                 PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets())
             }
-            .listStyle(.grouped)
-            // MARK: 이 부분 나중에 수정
-//            .scrollContentBackground(.hidden)
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
             
             NavigationLink {
                 AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
