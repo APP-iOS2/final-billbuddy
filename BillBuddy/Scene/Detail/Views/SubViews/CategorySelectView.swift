@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectCategoryView: View {
+struct CategorySelectView: View {
     
     enum Mode {
         case category // 전체 x

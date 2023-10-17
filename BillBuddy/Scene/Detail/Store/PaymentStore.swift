@@ -28,9 +28,6 @@ final class PaymentStore: ObservableObject {
                 var tempPayment: [Payment] = []
                 
                 for doc in snapshot.documents {
-                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
-                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
-                    //                    tempPayment.append(newPayment)
                     
                     let id: String = doc.documentID
                     let docData = doc.data()
@@ -105,14 +102,9 @@ final class PaymentStore: ObservableObject {
         if let id = payment.id {
             dbRef.document(id).delete()
             
-            /// fetchAll 해주니까 순간적으로 사라졌다가 다 다시 불러오는게 로딩이 느려서
-            /// payments 자체에서 삭제하도록 해줌
             if let index = payments.firstIndex(where: { $0.id == payment.id }) {
                 payments.remove(at: index)
             }
-
-            
         }
-        
     }
 }
