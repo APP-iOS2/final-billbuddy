@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditPaymentMemberView: View {
-    @Binding var payment: Payment
+    @Binding var payment: Payment?
     @Binding var travelCalculation: TravelCalculation
     
     @State private var isShowingEditSheet: Bool = false
@@ -16,7 +16,7 @@ struct EditPaymentMemberView: View {
     @State private var existingMembers: [TravelCalculation.Member] = []
     
     var body: some View {
-        Section {
+        VStack(spacing: 0) {
             HStack {
                 Text("인원")
                     .font(.custom("Pretendard-Bold", size: 14))
@@ -28,27 +28,29 @@ struct EditPaymentMemberView: View {
                     isShowingEditSheet = true
                 }, label: {
                     HStack(spacing: 0){
-                        if payment.participants.count == 0 {
-                            Text("추가하기")
-                                .font(.custom("Pretendard-Medium", size: 14))
-                                .foregroundStyle(Color.gray500)
-                            
-                            Image("chevron_right")
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundStyle(Color.gray500)
-                        }
-                        else {
-                            Text("수정하기")
-                                .font(.custom("Pretendard-Medium", size: 14))
-                                .foregroundStyle(.black)
-                            
-                            Image("chevron_right")
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundStyle(.black)
+                        if let payment = payment {
+                            if payment.participants.isEmpty {
+                                Text("추가하기")
+                                    .font(.custom("Pretendard-Medium", size: 14))
+                                    .foregroundStyle(Color.gray500)
+                                
+                                Image("chevron_right")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundStyle(Color.gray500)
+                            }
+                            else {
+                                Text("수정하기")
+                                    .font(.custom("Pretendard-Medium", size: 14))
+                                    .foregroundStyle(.black)
+                                
+                                Image("chevron_right")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .foregroundStyle(.black)
+                            }
                         }
                     }
                     .padding(.top, 14)
@@ -110,7 +112,8 @@ struct EditPaymentMemberView: View {
                     for m in tempMembers {
                         participants.append(Payment.Participant(memberId: m.id , payment: m.payment))
                     }
-                    payment.participants = participants
+                    payment?.participants = participants
+                    
                     existingMembers = tempMembers
                 }, label: {
                     HStack {
@@ -148,18 +151,18 @@ struct EditPaymentMemberView: View {
                 .padding(.leading, 15)
                 .listRowSeparator(.hidden)
             }
-            
-            
         }
         .onAppear {
-            for participant in payment.participants {
-                if let existMember = travelCalculation.members.firstIndex(where: { m in
-                    m.id == participant.memberId
-                }) {
-                    if let _ = existingMembers.firstIndex(of: travelCalculation.members[existMember]) {
-                        continue
+            if let payment = payment {
+                for participant in payment.participants {
+                    if let existMember = travelCalculation.members.firstIndex(where: { m in
+                        m.id == participant.memberId
+                    }) {
+                        if let _ = existingMembers.firstIndex(of: travelCalculation.members[existMember]) {
+                            continue
+                        }
+                        existingMembers.append(travelCalculation.members[existMember])
                     }
-                    existingMembers.append(travelCalculation.members[existMember])
                 }
             }
         }

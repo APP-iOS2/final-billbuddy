@@ -8,8 +8,9 @@
 import Foundation
 import FirebaseFirestore
 
-class PaymentStore: ObservableObject {
+final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
+    @Published var filteredPayments: [Payment] = []
     
     var travelCalculationId: String
     var dbRef: CollectionReference
@@ -60,171 +61,33 @@ class PaymentStore: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.payments = tempPayment
+                    self.filteredPayments = tempPayment
                 }
                 
             }
         }
     }
     
-    func fetchDate(date: Double) {
-        payments.removeAll()
-        
-        dbRef.getDocuments { snapshot, error in
-            if let snapshot {
-                var tempPayment: [Payment] = []
-                
-                for doc in snapshot.documents {
-                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
-                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
-                    //                    tempPayment.append(newPayment)
-                    
-                    let id: String = doc.documentID
-                    let docData = doc.data()
-                    
-                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
-                    
-                    if (date.todayRange() ~= paymentDate) {
-                        
-                        let typeString: String = docData["type"] as? String ?? ""
-                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-                        
-                        let content: String = docData["content"] as? String ?? ""
-                        let price: Int = docData["payment"] as? Int ?? 0
-                        
-                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
-                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
-                        
-                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
-                        var participants: [Payment.Participant] = []
-                        for p in participantsDict {
-                            let memberId = p["memberId"] as? String ?? ""
-                            let payment = p["payment"] as? Int ?? 0
-                            
-                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
-                        }
-                        
-                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
-                        
-                        tempPayment.append(newPayment)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.payments = tempPayment
-                }
-                
-            }
-        }
+    func resetFilter() {
+        filteredPayments = payments
     }
     
-    func fetchDateCategory(date: Double, category: Payment.PaymentType) {
-        payments.removeAll()
-        
-        dbRef.getDocuments { snapshot, error in
-            if let snapshot {
-                var tempPayment: [Payment] = []
-                
-                for doc in snapshot.documents {
-                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
-                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
-                    //                    tempPayment.append(newPayment)
-                    
-                    let id: String = doc.documentID
-                    let docData = doc.data()
-                    
-                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
-                    let typeString: String = docData["type"] as? String ?? ""
-                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-
-                    if type == category && (date.todayRange() ~= paymentDate) {
-                        
-                        let typeString: String = docData["type"] as? String ?? ""
-                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-                        
-                        let content: String = docData["content"] as? String ?? ""
-                        let price: Int = docData["payment"] as? Int ?? 0
-                        
-                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
-                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
-                        
-                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
-                        var participants: [Payment.Participant] = []
-                        for p in participantsDict {
-                            let memberId = p["memberId"] as? String ?? ""
-                            let payment = p["payment"] as? Int ?? 0
-                            
-                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
-                        }
-                        
-                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
-                        
-                        tempPayment.append(newPayment)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.payments = tempPayment
-                }
-                
-            }
-        }
+    func filterDate(date: Double) {
+        filteredPayments = payments.filter({ (payment: Payment) in
+            return payment.paymentDate.todayRange() == date.todayRange()
+        })
     }
     
-    func fetchCategory(category: Payment.PaymentType) {
-        payments.removeAll()
-        
-        dbRef.getDocuments { snapshot, error in
-            if let snapshot {
-                var tempPayment: [Payment] = []
-                
-                for doc in snapshot.documents {
-                    /// 아래의 코드는 struct가 확정이 나면 쓸것!
-                    //                    guard let newPayment = try? Firestore.Decoder().decode(Payment.self, from: doc.data()) else { continue }
-                    //                    tempPayment.append(newPayment)
-                    
-                    let id: String = doc.documentID
-                    let docData = doc.data()
-                    
-                    let typeString: String = docData["type"] as? String ?? ""
-                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-                    
-                    if type == category {
-                        let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
-                        
-                        let typeString: String = docData["type"] as? String ?? ""
-                        let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-                        
-                        let content: String = docData["content"] as? String ?? ""
-                        let price: Int = docData["payment"] as? Int ?? 0
-                        
-                        let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
-                        let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
-                        
-                        let participantsDict = docData["participants"] as? [[String: Any]] ?? []
-                        var participants: [Payment.Participant] = []
-                        for p in participantsDict {
-                            let memberId = p["memberId"] as? String ?? ""
-                            let payment = p["payment"] as? Int ?? 0
-                            
-                            participants.append(Payment.Participant(memberId: memberId, payment: payment))
-                        }
-                        
-                        let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
-                        
-                        tempPayment.append(newPayment)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.payments = tempPayment
-                }
-                
-            }
-        }
+    func filterDateCategory(date: Double, category: Payment.PaymentType) {
+        filteredPayments = payments.filter({ (payment: Payment) in
+            return payment.paymentDate.todayRange() == date.todayRange() && payment.type == category
+        })
     }
     
-    func fetchAPayment(payment: Payment) {
-//        payments.firstIndex(of: payment)
+    func filterCategory(category: Payment.PaymentType) {
+        filteredPayments = payments.filter({ (payment: Payment) in
+            return payment.type == category
+        })
     }
     
     func addPayment(newPayment: Payment) {

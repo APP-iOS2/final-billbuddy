@@ -14,7 +14,7 @@ struct PaymentListView: View {
     
     var body: some View {
         
-        ForEach(paymentStore.payments) { payment in
+        ForEach(paymentStore.filteredPayments) { payment in
             HStack(spacing: 12){
                 Image(payment.type.getImageString(type: .badge))
                     .resizable()
@@ -50,17 +50,17 @@ struct PaymentListView: View {
                 Spacer()
                 
                 VStack(alignment: .trailing) {
-                    Text("\(payment.payment)원")
+                    Text("₩\(payment.payment)")
                         .foregroundStyle(Color.black)
                         .font(.custom("Pretendard-Bold", size: 14))
                     
                     if payment.participants.isEmpty {
-                        Text("\(payment.payment)원")
+                        Text("₩\(payment.payment)")
                             .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }
                     else {
-                        Text("\(payment.payment / payment.participants.count)원")
+                        Text("₩\(payment.payment / payment.participants.count)")
                             .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }
@@ -70,20 +70,26 @@ struct PaymentListView: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 24)
+            
+            // TODO: Swipe 폭 각각 88
             .swipeActions {
                 Button(role: .destructive) {
                     paymentStore.deletePayment(payment: payment)
                 } label: {
                     Text("삭제")
                 }
+                .frame(width: 88)
                 
                 NavigationLink {
-                    EditPaymentView(payment: payment, travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: $travelCalculation)
+                        .environmentObject(paymentStore)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {
                     Text("수정")
                 }
+                .frame(width: 88)
+                .background(Color.gray500)
             }
         }
         .listRowInsets(nil)
