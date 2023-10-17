@@ -64,6 +64,7 @@
 		278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */; };
 		278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */; };
 		278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */; };
+		278CC7342ADF2E2D004CAABA /* DeepLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CC7332ADF2E2D004CAABA /* DeepLinkView.swift */; };
 		278CE1752AD508E700B8C16E /* ChatNotifincationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */; };
 		278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC152ACC396D00B2EC50 /* FirestoreService.swift */; };
 		278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */; };
@@ -167,6 +168,7 @@
 		278BA6022AC25EA800761B0B /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		278BA6032AC25EA800761B0B /* Pretendard-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraLight.otf"; sourceTree = "<group>"; };
 		278BA6042AC25EA800761B0B /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		278CC7332ADF2E2D004CAABA /* DeepLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkView.swift; sourceTree = "<group>"; };
 		278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatNotifincationCell.swift; sourceTree = "<group>"; };
 		278DDC152ACC396D00B2EC50 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
@@ -190,7 +192,7 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
-		C470318E2ADE898D00352DFD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		C470318E2ADE898D00352DFD /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "BillBuddy/Config/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillInPaymentInfoView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		C47F6C762AD51878006B77D6 /* PaymentMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMainView.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 			children = (
 				276648162ABD55B7000F8A10 /* App */,
 				276648172ABD55C2000F8A10 /* Content */,
+				278CC7322ADF2E0A004CAABA /* DeepLink */,
 				2766484C2ABD8E37000F8A10 /* Detail */,
 				276648402ABD8D7E000F8A10 /* Map */,
 				2766483D2ABD8D30000F8A10 /* TravelList */,
@@ -654,6 +657,14 @@
 			path = Pretendard;
 			sourceTree = "<group>";
 		};
+		278CC7322ADF2E0A004CAABA /* DeepLink */ = {
+			isa = PBXGroup;
+			children = (
+				278CC7332ADF2E2D004CAABA /* DeepLinkView.swift */,
+			);
+			path = DeepLink;
+			sourceTree = "<group>";
+		};
 		27933F6B2AD3402300E6A545 /* SettledAccount */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +894,7 @@
 				C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */,
 				638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
+				278CC7342ADF2E2D004CAABA /* DeepLinkView.swift in Sources */,
 				278CE1752AD508E700B8C16E /* ChatNotifincationCell.swift in Sources */,
 				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,

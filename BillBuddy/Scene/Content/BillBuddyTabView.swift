@@ -9,28 +9,54 @@ import SwiftUI
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-  
+    
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
+    }
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
                 TravelListView()
             }
-            .tabItem { Text("홈") }
+            .tabItem {
+                Image(.hometap)
+                    .renderingMode(.template)
+                Text("test")
+            }
+            .frame(width: 50, height: 44)
             .tag(0)
+            
             NavigationStack {
                 ChattingView()
             }
-            .tabItem { Text("채팅") }
+            .tabItem {
+                Image(.chattap)
+                    .renderingMode(.template)
+                Text("test")
+            }
             .tag(1)
+            
             NavigationStack {
                 MyPageView()
             }
-            .tabItem { Text("마이페이지") }
+            .tabItem {
+                Image(.mypagetap)
+                    .renderingMode(.template)
+                Text("test")
+            }
+            .frame(width: 50, height: 44)
+
             .tag(2)
         }
+        .accentColor(.systemBlack)
     }
 }
 
 #Preview {
     BillBuddyTabView()
+        .environmentObject(SettlementExpensesStore())
+        .environmentObject(UserService.shared)
+        .environmentObject(MessageStore())
+        .environmentObject(UserService.shared)
 }
