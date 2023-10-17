@@ -23,8 +23,7 @@ struct EditPaymentView: View {
 
     var body: some View {
         VStack {
-            
-            List {
+            ScrollView {
                 SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
                     .onAppear {
                         selectedCategory = payment.type
@@ -34,6 +33,12 @@ struct EditPaymentView: View {
                     }
                 
                 EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
                 
                 Section {
                     HStack {
@@ -44,7 +49,15 @@ struct EditPaymentView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 16)
                 }
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
             }
+            
+            .background(Color.gray100)
             
             Button(action: {
                 let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)

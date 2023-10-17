@@ -70,12 +70,16 @@ struct PaymentListView: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 24)
+            
+            // TODO: Swipe 폭 각각 88
             .swipeActions {
                 Button(role: .destructive) {
                     paymentStore.deletePayment(payment: payment)
                 } label: {
                     Text("삭제")
                 }
+                .frame(width: 88)
+//                .background(Color.gray500)
                 
                 NavigationLink {
                     EditPaymentView(payment: payment, travelCalculation: $travelCalculation, paymentStore: paymentStore)
@@ -84,6 +88,8 @@ struct PaymentListView: View {
                 } label: {
                     Text("수정")
                 }
+                .frame(width: 88)
+                .background(Color.gray500)
             }
         }
         .listRowInsets(nil)

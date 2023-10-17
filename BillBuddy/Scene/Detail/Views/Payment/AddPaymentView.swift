@@ -22,13 +22,19 @@ struct AddPaymentView: View {
 
     var body: some View {
         VStack {
-            List {
+            ScrollView {
                 SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
                 
                 AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
                 
                 Section {
                     // 위치
@@ -38,8 +44,15 @@ struct AddPaymentView: View {
                     Spacer()
                         // Payment.Address(address: "", latitude: 0, longitude: 0)
                 }
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
                 
             }
+            .background(Color.gray100)
             .onAppear{
                 paymentDate = travelCalculation.startDate.toDate()
             }

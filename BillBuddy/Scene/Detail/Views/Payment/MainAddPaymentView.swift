@@ -32,23 +32,37 @@ struct MainAddPaymentView: View {
     
     var body: some View {
         VStack {
-            List {
+            ScrollView {
                 Section{
                     HStack {
                         Text("여행")
+                            .font(.custom("Pretendard-Bold", size: 14))
+                        
                         Spacer()
                         Button(action: {
                             isShowingSelectTripSheet = true
                         }, label: {
                             Text(travelCalculation.travelTitle)
+                            
                         })
                     }
+                    .padding(.leading, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 16)
+                    .padding(.trailing, 16)
                 }
                 .sheet(isPresented: $isShowingSelectTripSheet, content: {
                     
                     SelectTripSheet(userTravelStore: userTravelStore, travelCalculation: $travelCalculation)
                         .presentationDetents([.fraction(0.4)])
                 })
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+                .padding(.top, 16)
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
                 
                 SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
                     .onAppear {
@@ -62,9 +76,22 @@ struct MainAddPaymentView: View {
                         // Payment.Address(address: "", latitude: 0, longitude: 0)
                     }
                 }
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+                .padding(.leading, 16)
+                .padding(.trailing, 16)
                 
                 AddPaymentMemberView(newMembers: $newMembers, travelCalculation: $travelCalculation)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
             }
+            .background(Color.gray100)
             .onAppear {
                 if let first = userTravelStore.travels.first {
                     travelCalculation = first
@@ -111,8 +138,8 @@ struct MainAddPaymentView: View {
         .navigationBarBackButtonHidden()
         .navigationTitle(
             Text("지출 항목 추가")
-                .font(.custom("Pretendard-Bold", size: 18))
         )
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

@@ -17,7 +17,7 @@ struct SubPaymentView: View {
     @Binding var paymentDate: Date
     
     var body: some View {
-        Group {
+        VStack(spacing: 16) {
             Section {
                 // TODO: 이 부분 한국식으로 어떻게할지 고민
                 // MARK: Date Picker에서 시간까지 다 받아야할듯 ,, 10분 단위나 ,, 그런 너낌으로 / 아님 순서를 정해줘야함
@@ -26,15 +26,25 @@ struct SubPaymentView: View {
                 /// 1. paymentDate에 끼워넣는다
                 /// 2. order를 사용자가 스크롤하면서 할 수 있게해서 순서를 payment에 var order 등으로 생성해서 넣어준다
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
-                    Text("일자")
+                    Text("날짜")
                         .font(.custom("Pretendard-Bold", size: 14))
                 })
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 16)
+                .padding(.trailing, 16)
             }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+            }
+            .padding(.leading, 16)
+            .padding(.top, 16)
+            .padding(.trailing, 16)
             
-            Section {
+            
+            
+            VStack {
                 
                 HStack{
                     Text("분류")
@@ -53,6 +63,12 @@ struct SubPaymentView: View {
                 .padding(.bottom, 30)
                 .listRowSeparator(.hidden)
             }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
             
             Section {
                 
@@ -66,7 +82,14 @@ struct SubPaymentView: View {
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 16)
+                .padding(.trailing, 16)
             }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
             
             Section {
                 
@@ -83,9 +106,17 @@ struct SubPaymentView: View {
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 16)
+                .padding(.trailing, 16)
             }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+            }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
             
         }
+        
     }
 }
 

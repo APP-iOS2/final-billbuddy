@@ -16,7 +16,7 @@ struct EditPaymentMemberView: View {
     @State private var existingMembers: [TravelCalculation.Member] = []
     
     var body: some View {
-        Section {
+        VStack(spacing: 0) {
             HStack {
                 Text("인원")
                     .font(.custom("Pretendard-Bold", size: 14))

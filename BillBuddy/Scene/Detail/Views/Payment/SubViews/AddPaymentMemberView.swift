@@ -15,7 +15,7 @@ struct AddPaymentMemberView: View {
     @State private var tempMembers: [TravelCalculation.Member] = []
     
     var body: some View {
-        Section {
+        VStack(spacing: 0) {
             HStack {
                 Text("인원")
                     .font(.custom("Pretendard-Bold", size: 14))
@@ -54,7 +54,7 @@ struct AddPaymentMemberView: View {
                     .padding(.trailing, 16)
                     .padding(.bottom, 15)
                 })
-            
+                
                 
             }
             .sheet(isPresented: $isShowingAddSheet, content: {
@@ -79,7 +79,7 @@ struct AddPaymentMemberView: View {
                             Text(member.name)
                                 .font(.custom("Pretendard-Semibold", size: 14))
                                 .foregroundStyle(Color.black)
-                                
+                            
                             Spacer()
                         }
                         .padding(.leading, 32)
@@ -145,8 +145,8 @@ struct AddPaymentMemberView: View {
                 .padding(.leading, 15)
                 .listRowSeparator(.hidden)
             }
-
         }
     }
 }
+
 
