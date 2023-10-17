@@ -28,7 +28,7 @@ struct EditPaymentMemberView: View {
                     isShowingEditSheet = true
                 }, label: {
                     HStack(spacing: 0){
-                        if payment.participants.count == 0 {
+                        if payment.participants.isEmpty {
                             Text("추가하기")
                                 .font(.custom("Pretendard-Medium", size: 14))
                                 .foregroundStyle(Color.gray500)

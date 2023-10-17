@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-class PaymentStore: ObservableObject {
+final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     
     var travelCalculationId: String

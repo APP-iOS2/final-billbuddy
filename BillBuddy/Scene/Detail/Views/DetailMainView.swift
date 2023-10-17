@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailMainView: View {
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
     
     @StateObject var paymentStore: PaymentStore
     @StateObject private var locationManager = LocationManager()
@@ -36,7 +36,7 @@ struct DetailMainView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }, label: {
                     Image("arrow_back")
                         .resizable()

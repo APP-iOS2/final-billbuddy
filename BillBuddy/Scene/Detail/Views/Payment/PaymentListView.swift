@@ -50,17 +50,17 @@ struct PaymentListView: View {
                 Spacer()
                 
                 VStack(alignment: .trailing) {
-                    Text("\(payment.payment)원")
+                    Text("₩\(payment.payment)")
                         .foregroundStyle(Color.black)
                         .font(.custom("Pretendard-Bold", size: 14))
                     
                     if payment.participants.isEmpty {
-                        Text("\(payment.payment)원")
+                        Text("₩\(payment.payment)")
                             .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }
                     else {
-                        Text("\(payment.payment / payment.participants.count)원")
+                        Text("₩\(payment.payment / payment.participants.count)")
                             .foregroundStyle(Color.gray600)
                             .font(.custom("Pretendard-Medium", size: 12))
                     }

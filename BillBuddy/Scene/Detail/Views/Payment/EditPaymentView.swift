@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct EditPaymentView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
     
     @State var payment: Payment
     
@@ -49,7 +49,7 @@ struct EditPaymentView: View {
             Button(action: {
                 let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.editPayment(payment: newPayment)
-                self.presentationMode.wrappedValue.dismiss()
+                dismiss()
             }, label: {
                 HStack {
                     Spacer()
@@ -67,7 +67,7 @@ struct EditPaymentView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }, label: {
                     Image("arrow_back")
                         .resizable()

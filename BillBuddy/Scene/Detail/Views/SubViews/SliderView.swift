@@ -73,7 +73,7 @@ public struct SliderView: View {
                     
                     // bottom line
                     Rectangle()
-                        .foregroundColor(.primary)
+                        .foregroundColor(.myPrimary)
                         .frame(width: 160, height: 3)
                         .offset(x: selectedItemHorizontalOffset(), y: 0)
                 }
@@ -92,7 +92,7 @@ public struct SliderView: View {
         
         Text(items[index])
             .font(.custom("Pretendard-SemiBold", size: 16))
-            .foregroundColor(isSelected ? .primary : .gray)
+            .foregroundColor(isSelected ? .myPrimary : .gray)
             .background(BackgroundGeometryReader())
             .onPreferenceChange(SizePreferenceKey.self) {_ in 
                 itemTitleSizes[index] = CGSize(width: 160, height: 0)

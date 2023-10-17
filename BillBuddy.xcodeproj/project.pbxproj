@@ -712,6 +712,7 @@
 		C48F7C392ACE8F4300466308 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */,
 				C47F6C7A2AD52F1A006B77D6 /* SubViews */,
 				C48F7C3D2ACEA5F800466308 /* Payment */,
 				278544692AC413AF009032CE /* MemberManagement */,
@@ -719,7 +720,6 @@
 				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
 				C493894E2ACD32A7008115FA /* NotificationListView.swift */,
 				278193C22ADBDD750041A6BF /* More */,
-				C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

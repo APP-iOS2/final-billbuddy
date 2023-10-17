@@ -27,7 +27,7 @@ struct AddPaymentMemberView: View {
                     isShowingAddSheet = true
                 }, label: {
                     HStack (spacing: 0) {
-                        if newMembers.count == 0 {
+                        if newMembers.isEmpty {
                             Text("추가하기")
                                 .font(.custom("Pretendard-Medium", size: 14))
                                 .foregroundStyle(Color.gray500)
