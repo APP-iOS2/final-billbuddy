@@ -85,7 +85,6 @@
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		C404A5C52ADD06AB00B9858C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */; };
-		C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */; };
 		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* SelectCategoryView.swift */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
@@ -95,13 +94,11 @@
 		C4849A6F2AD3C50E00DFFF81 /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */; };
 		C4849A712AD3D49900DFFF81 /* DateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A702AD3D49900DFFF81 /* DateSheet.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
-		C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */; };
 		C49389492ACD030F008115FA /* AddPaymentMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49389482ACD030F008115FA /* AddPaymentMemberView.swift */; };
 		C493894B2ACD034F008115FA /* EditPaymentMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */; };
 		C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894C2ACD2EE5008115FA /* MoreView.swift */; };
 		C493894F2ACD32A7008115FA /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894E2ACD32A7008115FA /* NotificationListView.swift */; };
 		C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */; };
-		C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C092AC1457D00472876 /* AddPaymentView.swift */; };
 		C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C0B2AC160FE00472876 /* PaymentStore.swift */; };
 		D21BD5EF2AD62E590074FA80 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21BD5EE2AD62E590074FA80 /* ProfileView.swift */; };
 		D2713EF72AD78C980020B2F4 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */; };
@@ -192,7 +189,6 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAddPaymentView.swift; sourceTree = "<group>"; };
 		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
@@ -202,13 +198,11 @@
 		C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
-		C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentView.swift; sourceTree = "<group>"; };
 		C49389482ACD030F008115FA /* AddPaymentMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentMemberView.swift; sourceTree = "<group>"; };
 		C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentMemberView.swift; sourceTree = "<group>"; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		C493894E2ACD32A7008115FA /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
-		C4F87C092AC1457D00472876 /* AddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentView.swift; sourceTree = "<group>"; };
 		C4F87C0B2AC160FE00472876 /* PaymentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStore.swift; sourceTree = "<group>"; };
 		D21BD5EE2AD62E590074FA80 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
@@ -745,9 +739,6 @@
 				C47F6C762AD51878006B77D6 /* PaymentMainView.swift */,
 				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */,
-				C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */,
-				C4F87C092AC1457D00472876 /* AddPaymentView.swift */,
-				C48C36702AC3B1DA009991C8 /* EditPaymentView.swift */,
 				C48F7C3A2ACE8F6400466308 /* SubViews */,
 			);
 			path = Payment;
@@ -918,7 +909,6 @@
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */,
-				C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */,
 				FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */,
 				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
@@ -934,7 +924,6 @@
 				2766483A2ABD8D13000F8A10 /* SignUpView.swift in Sources */,
 				C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */,
 				273201242ADAF01100AE528B /* MemberEditSheet.swift in Sources */,
-				C48C36712AC3B1DA009991C8 /* EditPaymentView.swift in Sources */,
 				C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */,
 				C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */,
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
@@ -962,7 +951,6 @@
 				C47F6C792AD524FE006B77D6 /* SliderView.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				273201282ADB09BA00AE528B /* MemberShareSheet.swift in Sources */,
-				C4F87C0A2AC1457D00472876 /* AddPaymentView.swift in Sources */,
 				2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */,
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
