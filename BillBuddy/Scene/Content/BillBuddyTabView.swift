@@ -9,13 +9,11 @@ import SwiftUI
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    @StateObject private var userTravelStore = UserTravelStore()
   
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
                 TravelListView()
-                    .environmentObject(userTravelStore)
             }
             .tabItem { Text("홈") }
             .tag(0)
