@@ -25,7 +25,6 @@ struct AddTravelButtonView: View {
                         PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
-//                        MainAddPaymentView(userTravelStore: userTravelStore, travelCalculation: travelCalculation)
                     } label: {
                         
                         Text("지출 추가하기")
@@ -35,7 +34,12 @@ struct AddTravelButtonView: View {
                     }
                     .onAppear {
                         if let travel = userTravelStore.userTravels.first {
-                            travelCalculation.travelTitle = travel.travelName
+                            // TODO: userTravel로 travelCalculation 찾아오기 !
+                            // member 때문에 필요함
+                            travelCalculation = userTravelStore.findTravelCalculation(userTravel: travel) ?? TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
+//                            travelCalculation.travelTitle = travel.travelName
+//                            travelCalculation.startDate = travel.startDate
+//                            travelCalculation.endDate = travel.endDate
                         }
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
