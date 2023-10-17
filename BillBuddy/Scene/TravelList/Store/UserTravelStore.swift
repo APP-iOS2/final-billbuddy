@@ -96,5 +96,12 @@ final class UserTravelStore: ObservableObject {
     func addPayment(travelCalculation: TravelCalculation, payment: Payment) {
         try! service.collection("TravelCalculation").document(travelCalculation.id).collection("Payment").addDocument(from: payment.self)
     }
+    
+    func findTravelCalculation(userTravel: UserTravel) -> TravelCalculation? {
+        
+        return travels.first { travel in
+            userTravel.travelId == travel.id
+        }
+    }
 }
 
