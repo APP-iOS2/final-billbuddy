@@ -18,71 +18,123 @@ struct AddTravelView: View {
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var isShowingCalendarView = false
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         // 전체적인 디자인 수정 예정
-        VStack {
-            VStack(alignment: .leading) {
-                TextField("여행 제목을 입력해주세요.", text: $travelTitle)
-                    .padding(.bottom, 15)
-                
-                HStack {
-                    Text("일정")
+        ZStack {
+            VStack {
+                ScrollView {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                        .overlay(
+                            TextField("여행 이름을 입력해주세요.", text: $travelTitle)
+                                .padding(12)
+                        )
+                        .frame(width: 360, height: 50)
                     
-                    Spacer()
-                    
-                    Button {
-                        isShowingCalendarView.toggle()
-                    } label: {
-                        Image("calendar-add-4")
+                    HStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                            .overlay(
+                                HStack {
+                                    Text("일정")
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        isShowingCalendarView.toggle()
+                                    }) {
+                                        if startDate != endDate {
+                                            Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
+                                                .font(.body04)
+                                                .frame(width: 110, height: 30)
+                                                .foregroundColor(Color.myPrimary)
+                                                .background(Color.lightBlue)
+                                                .cornerRadius(8)
+                                        } else {
+                                            Image("calendar-add-4")
+                                                .resizable()
+                                                .frame(width: 24, height: 24)
+                                        }
+                                    }
+                                    .sheet(isPresented: $isShowingCalendarView) {
+                                        CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
+                                            .presentationDetents([.height(500)])
+                                            .presentationDragIndicator(.visible)
+                                    }
+                                }
+                                
+                                    .padding(12)
+                            )
+                            .frame(width: 360, height: 50)
                     }
-                    .sheet(isPresented: $isShowingCalendarView) {
-                        CalendarSheetView()
-                            .presentationDetents([.height(500)])
-                            .presentationDragIndicator(.visible)
-                    }
                     
+                    HStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                            .overlay(
+                                HStack {
+                                    Text("인원")
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        selectedMember = max(0, selectedMember - 1)
+                                    }) {
+                                        Image("Group 1171275315")
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    .buttonStyle(.plain)
+                                    
+                                    Text("\(selectedMember)")
+                                    
+                                    Button(action: {
+                                        selectedMember += 1
+                                    }) {
+                                        Image("Group 1171275314")
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                    .padding(12)
+                            )
+                            .frame(width: 360, height: 50)
+                    }
                 }
-            }
-            .padding([.leading, .trailing], 12)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-            
-            HStack {
-                Text("인원")
+                .font(.body04)
                 
                 Spacer()
                 
                 Button {
-                    selectedMember = max(0, selectedMember - 1)
+                    userTravelStore.addTravel(travelTitle, memberCount: selectedMember, startDate: startDate, endDate: endDate)
+                    dismiss()
                 } label: {
-                    Image("Group 1171275315")
+                    Text("개설하기")
+                        .font(.title05)
                 }
-                
-                Text("\(selectedMember)")
-                
-                Button {
-                    selectedMember += 1
-                } label: {
-                    Image("Group 1171275314")
-                }
-                
+                .frame(width: 500, height: 60)
+                .background(Color.myPrimary)
+                //            .edgesIgnoringSafeArea(.bottom)
+                .foregroundColor(.white)
             }
-            .padding([.leading, .trailing], 12)
             
+            .background(Color.gray1000)
             
-            
-            Spacer()
-            
-            Button {
-                userTravelStore.addTravel(travelTitle, memberCount: selectedMember, startDate: startDate, endDate: endDate)
-                
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                Text("개설하기")
-            }
         }
+        .navigationBarTitle("여행 추가하기")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+extension Date {
+    func toFormattedMonthandDay() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM.dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        return dateFormatter.string(from: self)
     }
 }
 

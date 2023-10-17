@@ -10,6 +10,7 @@ import SwiftUI
 struct AddTravelButtonView: View {
     @ObservedObject var userTravelStore: UserTravelStore
     
+    @State private var backgroundColor: Color = .gray700
     @State private var showMenuItem1 = false
     @State private var showMenuItem2 = false
     @State private var buttonImage = "plus.circle.fill"
@@ -37,6 +38,7 @@ struct AddTravelButtonView: View {
                             travelCalculation.travelTitle = travel.travelName
                         }
                     }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
             
@@ -52,9 +54,8 @@ struct AddTravelButtonView: View {
                         MenuItem(icon: "add")
                             .padding(.trailing, 12)
                     }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                
-                
             }
             
             
@@ -66,6 +67,7 @@ struct AddTravelButtonView: View {
                     Image(systemName: buttonImage)
                         .font(.system(size: 50))
                         .frame(width: 60, height: 60)
+                        .animation(nil, value: UUID())
                     
                 }
                 .padding(.trailing, 12)
@@ -74,16 +76,27 @@ struct AddTravelButtonView: View {
     }
     
     func showMenu() {
-        showMenuItem1.toggle()
-        showMenuItem2.toggle()
-        // 다은님이 주신 심볼로는 버튼을 하얀색으로 만들지 못함
-        buttonImage = showMenuItem1 || showMenuItem2 ? "xmark.circle.fill" : "plus.circle.fill"
+        if showMenuItem1 || showMenuItem2 {
+            showMenuItem1 = false
+            showMenuItem2 = false
+            buttonImage = "plus.circle.fill"
+        } else {
+            withAnimation(.bouncy) {
+                showMenuItem1 = true
+                showMenuItem2 = true
+            }
+            buttonImage = "xmark.circle.fill"
+        }
     }
     
-    func closeMenu() {
-        showMenuItem1.toggle()
-        showMenuItem2.toggle()
-    }
+//    func showMenu() {
+//        showMenuItem1 = true
+//        showMenuItem2 = true
+//        // 다은님이 주신 심볼로는 버튼을 하얀색으로 만들지 못함
+//        
+//        buttonImage = showMenuItem1 || showMenuItem2 ? "xmark.circle.fill" : "plus.circle.fill"
+//    }
+
 }
 
 struct MenuItem: View {
@@ -98,7 +111,7 @@ struct MenuItem: View {
         }
     }
 }
-//
-//#Preview {
-//    AddTravelButtonView()
-//}
+
+#Preview {
+    AddTravelButtonView(userTravelStore: UserTravelStore())
+}

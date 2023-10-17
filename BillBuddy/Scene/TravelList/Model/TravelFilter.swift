@@ -13,8 +13,8 @@ enum TravelFilter: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .paymentInProgress: return "정산 중"
-        case .paymentSettled: return "정산 완료"
+        case .paymentInProgress: return "정산 중 여행"
+        case .paymentSettled: return "정산 완료 여행"
         }
     }
 }

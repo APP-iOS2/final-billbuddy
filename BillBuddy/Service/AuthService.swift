@@ -28,6 +28,7 @@ enum SignInCase {
 
 public class AuthStore {
     @AppStorage("userId") var userUid: String = ""
+    @Published var currentUser: User?
     
     static let shared = AuthStore()
     private init() { }
@@ -62,6 +63,7 @@ public class AuthStore {
         do {
             try Auth.auth().signOut()
             userUid = ""
+            currentUser = nil
             print("Log out successful")
             return true
         } catch {

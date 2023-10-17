@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ProfileEditView: View {
     
-    @EnvironmentObject var userService: UserService
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject private var userService: UserService
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
@@ -84,7 +84,7 @@ struct ProfileEditView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Image("arrow_back")
                         .resizable()

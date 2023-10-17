@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ChattingView: View {
-    @EnvironmentObject var travelStore: UserTravelStore
+    @EnvironmentObject private var travelStore: UserTravelStore
     
     var body: some View {
         NavigationStack {
@@ -24,7 +24,9 @@ struct ChattingView: View {
                 }
             }
             .onAppear {
-                travelStore.fetchTravelCalculation()
+                if !AuthStore.shared.userUid.isEmpty {
+                    travelStore.fetchTravelCalculation()
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -36,7 +38,7 @@ struct ChattingView: View {
                     NavigationLink {
                         NotificationListView()
                     } label: {
-                        Image("ringing-bell-notification-3")
+                        Image(.ringingBellNotification3)
                             .resizable()
                             .frame(width: 24, height: 24)
                             .foregroundColor(.systemBlack)
@@ -103,3 +105,4 @@ struct ChattingView: View {
             .environmentObject(UserTravelStore())
     }
 }
+
