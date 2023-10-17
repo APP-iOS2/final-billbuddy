@@ -44,7 +44,6 @@ struct DetailMainView: View {
         .onAppear {
             if selectedDate == 0 {
                 paymentStore.fetchAll()
-                paymentStore.resetFilter()
             }
             else {
                 paymentStore.filterDate(date: selectedDate)

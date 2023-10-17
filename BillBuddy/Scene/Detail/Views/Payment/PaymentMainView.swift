@@ -44,7 +44,7 @@ struct PaymentMainView: View {
                                     .frame(width: 24, height: 24)
                             }
                         }
-                        Text("₩0")
+                        Text("₩\(paymentStore.sumAllPayment)")
                             .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     .padding(.top, 18)
@@ -157,7 +157,7 @@ struct PaymentMainView: View {
                             paymentStore.filterCategory(category: category)
                         }
                         else {
-                            paymentStore.fetchAll()
+                            paymentStore.resetFilter()
                         }
                     }
                     else {
