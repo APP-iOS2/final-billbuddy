@@ -11,11 +11,10 @@ import SwiftUI
 struct PaymentMainView: View {
     
     @Binding var travelCalculation: TravelCalculation
+    @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
     
-    @State var isShowingDateSheet: Bool = false
     @State var isShowingSelectCategorySheet: Bool = false
-    @State var selectedDate: Double = 0
     @State var selectedCategory: Payment.PaymentType?
     
     var body: some View {
@@ -28,10 +27,6 @@ struct PaymentMainView: View {
     
     var header: some View {
         VStack(spacing: 0) {
-            
-            /// 2023년 9월 21일 1일차
-            date
-                .frame(height: 52)
             
             /// 총 지출 >
             Group {
@@ -101,8 +96,6 @@ struct PaymentMainView: View {
             NavigationLink {
                 PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
                     .environmentObject(paymentStore)
-//                PaymentManageView(mode: .add, travelCalculation: $travelCalculation, paymentStore: paymentStore)
-//                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
                     .navigationTitle("지출 항목 추가")
                     .navigationBarBackButtonHidden()
             } label: {
@@ -158,9 +151,10 @@ struct PaymentMainView: View {
                         .presentationDetents([.fraction(0.3)])
                 }
                 .onChange(of: selectedCategory, perform: { category in
+                    
                     if selectedDate == 0 {
                         if let category = selectedCategory {
-                            paymentStore.fetchCategory(category: category)
+                            paymentStore.filterCategory(category: category)
                         }
                         else {
                             paymentStore.fetchAll()
@@ -168,20 +162,19 @@ struct PaymentMainView: View {
                     }
                     else {
                         if let category = selectedCategory{
-                            paymentStore.fetchDateCategory(date: selectedDate, category: category)
+                            paymentStore.filterDateCategory(date: selectedDate, category: category)
                         }
                         else {
-                            paymentStore.fetchDate(date: selectedDate)
+                            paymentStore.filterDate(date: selectedDate)
                         }
-                        
                     }
                 })
                 
                 Spacer()
                 
-//                Text("편집")
-//                    .font(.custom("Pretendard-Medium", size: 14))
-//                    .foregroundStyle(Color.gray600)
+                Text("편집")
+                    .font(.custom("Pretendard-Medium", size: 14))
+                    .foregroundStyle(Color.gray600)
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
@@ -194,81 +187,5 @@ struct PaymentMainView: View {
         }
     }
     
-    var date: some View {
-        
-        HStack {
-            Button {
-                isShowingDateSheet = true
-            } label: {
-                
-                if selectedDate == 0 {
-                    Text("전체")
-                        .font(.custom("Pretendard-Semibold", size: 16))
-                        .foregroundStyle(.black)
-                    Image("expand_more")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-                
-                else {
-                    Text(selectedDate.toDate().dateWeekYear)
-                        .font(.custom("Pretendard-Semibold", size: 16))
-                        .foregroundStyle(.black)
-                    Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
-                        .font(.custom("Pretendard-Semibold", size: 14))
-                        .foregroundStyle(Color.gray600)
-                    Image("expand_more")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
-            .padding(.leading, 16)
-            .padding(.bottom, 13)
-            .padding(.top, 15)
-            
-            
-            Spacer()
-        }
-        
-        .sheet(isPresented: $isShowingDateSheet, content: {
-            DateSheet(selectedDate: $selectedDate, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
-                .presentationDetents([.fraction(0.4)])
-        })
-        
-        .onChange(of: selectedDate, perform: { date in
-            // MARK: 1번만 fetch되게 하는 방법이 없을지 ,,
-            if selectedDate == 0 {
-                paymentStore.fetchAll()
-            }
-            else {
-                paymentStore.fetchDate(date: date)
-            }
-            selectedCategory = nil
-        })
-        .onAppear {
-            if selectedDate == 0 {
-                paymentStore.fetchAll()
-            }
-            else {
-                paymentStore.fetchDate(date: selectedDate)
-            }
-        }
+    
     }
-}
-
-/*
-// MainAddPaymentView
-@ObservedObject var userTravelStore: UserTravelStore
-@State var travelCalculation: TravelCalculation
-
-// AddPaymentView
-@Binding var travelCalculation: TravelCalculation
-@ObservedObject var paymentStore: PaymentStore
-
-// EditPaymentView
-@State var payment: Payment
-@Binding var travelCalculation: TravelCalculation
-@ObservedObject var paymentStore: PaymentStore
- */
-
-

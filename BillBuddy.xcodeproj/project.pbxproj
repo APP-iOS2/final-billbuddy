@@ -85,7 +85,6 @@
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		C404A5C52ADD06AB00B9858C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */; };
-		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* SelectCategoryView.swift */; };
 		C478B1922AC6BAE8005EE427 /* SubPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */; };
 		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
@@ -189,7 +188,6 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		C404A5C42ADD06AB00B9858C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* SubPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubPaymentView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
@@ -727,7 +725,6 @@
 				C49389482ACD030F008115FA /* AddPaymentMemberView.swift */,
 				C493894A2ACD034F008115FA /* EditPaymentMemberView.swift */,
 				C4849A702AD3D49900DFFF81 /* DateSheet.swift */,
-				C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */,
 				C45A4D432AD7958800904D89 /* SelectCategoryView.swift */,
 			);
 			path = SubViews;
@@ -933,7 +930,6 @@
 				2729F3312AD427960089147E /* MemberCell.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
-				C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */,
 				C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */,
 				278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */,
 				2663484B2AD8DD6C002CCCF4 /* NotificationView.swift in Sources */,

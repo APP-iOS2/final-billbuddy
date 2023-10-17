@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-/*
-// MainAddPaymentView
-@ObservedObject var userTravelStore: UserTravelStore
-@State var travelCalculation: TravelCalculation
-
-// AddPaymentView
-@Binding var travelCalculation: TravelCalculation
-@ObservedObject var paymentStore: PaymentStore
-
-// EditPaymentView
-@State var payment: Payment
-@Binding var travelCalculation: TravelCalculation
-@ObservedObject var paymentStore: PaymentStore
- */
-
 struct PaymentManageView: View {
     
     enum Mode {
@@ -99,9 +84,16 @@ struct PaymentManageView: View {
             .padding(.trailing, 16)
             
             .sheet(isPresented: $isShowingSelectTripSheet, content: {
-                
-                SelectTripSheet(userTravelStore: userTravelStore, travelCalculation: $travelCalculation)
-                    .presentationDetents([.fraction(0.4)])
+                VStack {
+                    ForEach(userTravelStore.travels) { travel in
+                        Button(action: {
+                            travelCalculation = travel
+                        }, label: {
+                            Text(travel.travelTitle)
+                        })
+                    }
+                }
+                .presentationDetents([.fraction(0.4)])
             })
         }
         

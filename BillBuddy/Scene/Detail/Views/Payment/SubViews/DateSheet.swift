@@ -70,7 +70,3 @@ struct DateSheet: View {
         return dates
     }
 }
-
-//#Preview {
-//    DateSheet(selectedDate: .constant(1675186400), userTravel: UserTravel(travelId: "", travelName: "", startDate: 1675186400, endDate: 1681094400))
-//}

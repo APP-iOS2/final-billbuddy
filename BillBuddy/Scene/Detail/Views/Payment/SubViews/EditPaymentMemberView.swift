@@ -151,8 +151,6 @@ struct EditPaymentMemberView: View {
                 .padding(.leading, 15)
                 .listRowSeparator(.hidden)
             }
-            
-            
         }
         .onAppear {
             if let payment = payment {

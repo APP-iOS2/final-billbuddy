@@ -14,7 +14,7 @@ struct PaymentListView: View {
     
     var body: some View {
         
-        ForEach(paymentStore.payments) { payment in
+        ForEach(paymentStore.filteredPayments) { payment in
             HStack(spacing: 12){
                 Image(payment.type.getImageString(type: .badge))
                     .resizable()
@@ -79,12 +79,10 @@ struct PaymentListView: View {
                     Text("삭제")
                 }
                 .frame(width: 88)
-//                .background(Color.gray500)
                 
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: $travelCalculation)
                         .environmentObject(paymentStore)
-//                    EditPaymentView(payment: payment, travelCalculation: $travelCalculation, paymentStore: paymentStore)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {
