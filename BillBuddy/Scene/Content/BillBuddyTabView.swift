@@ -9,7 +9,8 @@ import SwiftUI
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    
+    @State var tabBarVisivility: Visibility = .visible
+
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
     }
@@ -17,18 +18,20 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView()
+                TravelListView(tabBarVisivility: $tabBarVisivility)
+                    .toolbar(tabBarVisivility, for: .tabBar)
             }
             .tabItem {
                 Image(.hometap)
                     .renderingMode(.template)
                 Text("test")
             }
-            .frame(width: 50, height: 44)
             .tag(0)
             
             NavigationStack {
-                ChattingView()
+                ChattingView(tabBarVisivility: $tabBarVisivility)
+                    .toolbar(tabBarVisivility, for: .tabBar)
+
             }
             .tabItem {
                 Image(.chattap)
@@ -45,7 +48,6 @@ struct BillBuddyTabView: View {
                     .renderingMode(.template)
                 Text("test")
             }
-            .frame(width: 50, height: 44)
 
             .tag(2)
         }
@@ -55,8 +57,4 @@ struct BillBuddyTabView: View {
 
 #Preview {
     BillBuddyTabView()
-        .environmentObject(SettlementExpensesStore())
-        .environmentObject(UserService.shared)
-        .environmentObject(MessageStore())
-        .environmentObject(UserService.shared)
 }

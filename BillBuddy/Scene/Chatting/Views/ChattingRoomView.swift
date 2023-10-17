@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
+    @Binding var tabBarVisivility: Visibility       
     @EnvironmentObject private var messageStore: MessageStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
@@ -30,6 +31,7 @@ struct ChattingRoomView: View {
             }
         }
         .onAppear {
+            tabBarVisivility = .hidden
             messageStore.fetchMessages(travelCalculation: travel)
         }
         .navigationTitle(travel.travelTitle)
@@ -160,7 +162,7 @@ struct ChattingRoomView: View {
 
 #Preview {
     NavigationStack {
-        ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+        ChattingRoomView(tabBarVisivility: .constant(.visible), travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
     }
 }
