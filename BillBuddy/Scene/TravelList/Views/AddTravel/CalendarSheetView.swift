@@ -164,13 +164,14 @@ struct CalendarSheetView: View {
         
         startDate = firstDate
         endDate = secondDate
-        
+
         isShowingCalendarView = false
         print("시작일: \(firstDate)")
         print("종료일: \(secondDate)")
         
     }
 }
+
 
 #Preview {
     CalendarSheetView(startDate: .constant(Date()), endDate: .constant(Date()), isShowingCalendarView: .constant(false))

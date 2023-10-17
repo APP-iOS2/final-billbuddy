@@ -55,5 +55,7 @@ extension Color {
     static let gray1000 = Color(hex: "F5F6FE")
     /// black / 252730
     static let systemBlack = Color(hex: "#252730")
+    /// EEF5FB
+    static let lightBlue = Color(hex: "EEF5FB")
 
 }

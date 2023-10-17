@@ -56,7 +56,7 @@ struct EditTravelSheetView: View {
                 
                 Spacer()
             }
-            .padding([.bottom, .leading], 30)
+            .padding(.leading, 30)
         }
     }
 }
