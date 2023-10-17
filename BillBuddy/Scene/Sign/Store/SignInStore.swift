@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 final class SignInStore: ObservableObject {
+    @Published var signInData = SignInData()
+    
     @Published var emailText: String = ""
     @Published var passwordText: String = ""
     
@@ -34,5 +36,12 @@ final class SignInStore: ObservableObject {
             isShowingAlert = true
             return false
         }
+    }
+    
+    func checkSignIn() -> Bool {
+        if signInData.email.isEmpty || signInData.password.isEmpty {
+            return false
+        }
+        return true
     }
 }

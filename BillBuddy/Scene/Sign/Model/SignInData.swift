@@ -9,8 +9,8 @@ import Foundation
 
 struct SignInData {
     var id: String = UUID().uuidString
-    var email: String
-    var password: String
+    var email: String = ""
+    var password: String = ""
     
     func changeToUserModel(id: String) -> User {
         return User(id: id, email: email, name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date())
