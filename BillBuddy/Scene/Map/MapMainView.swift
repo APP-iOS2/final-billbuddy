@@ -71,9 +71,12 @@ struct MapMainView: View {
             
             MapSubView(locationManager: locationManager, paymentStore: paymentStore)
                 .frame(height: 400)
- 
+            Button(action: {
+                locationManager.setAnnotations(paymentStore: paymentStore)
+            }, label: {
+                Text("어노테이션 테스트")
+            })
             MapDetailView(paymentStore: paymentStore)
-            Spacer()
         }
     }
 }

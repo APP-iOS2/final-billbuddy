@@ -82,6 +82,7 @@
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		638A9F592ADA88AA00C931DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638A9F582ADA88AA00C931DD /* GoogleService-Info.plist */; };
+		63FCF18E2ADE78E900A9C8D7 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FCF18D2ADE78E900A9C8D7 /* CustomAnnotationView.swift */; };
 		C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */; };
 		C445FB932AD68D4E00A1B727 /* SelectTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */; };
 		C45A4D442AD7958800904D89 /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* SelectCategoryView.swift */; };
@@ -183,6 +184,7 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		638A9F582ADA88AA00C931DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63FCF18D2ADE78E900A9C8D7 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		C445FB902AD67D2900A1B727 /* MainAddPaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAddPaymentView.swift; sourceTree = "<group>"; };
 		C445FB922AD68D4E00A1B727 /* SelectTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTripSheet.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
@@ -527,6 +529,7 @@
 				2717D0EB2ACD76C90002D620 /* Model */,
 				2717D0EC2ACD76DF0002D620 /* Store */,
 				2717D0ED2ACD76EF0002D620 /* Views */,
+				63B390482ADE7C5B00127377 /* CustomAnnotation */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -668,6 +671,14 @@
 				46B8E2262AD8295F001B3A6C /* MessageStore.swift */,
 			);
 			path = Store;
+			sourceTree = "<group>";
+		};
+		63B390482ADE7C5B00127377 /* CustomAnnotation */ = {
+			isa = PBXGroup;
+			children = (
+				63FCF18D2ADE78E900A9C8D7 /* CustomAnnotationView.swift */,
+			);
+			name = CustomAnnotation;
 			sourceTree = "<group>";
 		};
 		C47F6C7A2AD52F1A006B77D6 /* SubViews */ = {
@@ -870,6 +881,7 @@
 				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,
 				023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */,
+				63FCF18E2ADE78E900A9C8D7 /* CustomAnnotationView.swift in Sources */,
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				C445FB912AD67D2900A1B727 /* MainAddPaymentView.swift in Sources */,

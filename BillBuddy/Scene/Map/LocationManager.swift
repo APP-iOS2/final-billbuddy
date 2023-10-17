@@ -15,8 +15,8 @@ final class LocationManager: NSObject, ObservableObject {
     @Published var mapView: MKMapView = .init()
     @Published var isChaging: Bool = false
     @Published var selectedAddress: String = ""
-    @Published var userLatitude: Double = 0.0
-    @Published var userLongitude: Double = 0.0
+    @Published var selectedLatitude: Double = 0.0
+    @Published var selectedLongitude: Double = 0.0
     
     private var userLocalcity: String = ""
     private var seletedPlace: MKAnnotation?
@@ -31,7 +31,7 @@ final class LocationManager: NSObject, ObservableObject {
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
     /// 위치 승인
     func requestAuthorizqtion() {
@@ -74,8 +74,8 @@ extension LocationManager {
             print("입력된 주소: \(searchAddress)")
             
             selectedAddress = searchAddress
-            userLatitude = location.coordinate.latitude
-            userLongitude = location.coordinate.longitude
+            selectedLatitude = location.coordinate.latitude
+            selectedLongitude = location.coordinate.longitude
             
             moveFocusChange(location: location.coordinate)
         }
@@ -102,16 +102,19 @@ extension LocationManager {
         })
     }
     
+    // MARK: - 커스텀한 어노테이션 셋팅
+    
     func setAnnotations(paymentStore: PaymentStore) {
         mapView.removeAnnotations(mapView.annotations)
         
         for payment in paymentStore.payments {
-            let annotation = MKPointAnnotation()
-            annotation.title = payment.address.address
-            annotation.coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
-            mapView.addAnnotation(annotation)
+            
+            var customPinImage: UIImage = UIImage(named: "customPinImage")!
+            var coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
+            
+            let pin = CustomAnnotation(customPinImage: customPinImage, coordinate: coordinate)
+             mapView.addAnnotation(pin)
         }
-        
     }
 }
 
@@ -144,9 +147,10 @@ extension LocationManager: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        userLatitude = mapView.centerCoordinate.latitude
-        userLongitude = mapView.centerCoordinate.longitude
-        let location: CLLocation = CLLocation(latitude: userLatitude, longitude: userLongitude)
+        selectedLatitude = mapView.centerCoordinate.latitude
+        selectedLongitude = mapView.centerCoordinate.longitude
+        
+        let location: CLLocation = CLLocation(latitude: selectedLatitude, longitude: selectedLongitude)
         
         findAddr(location: location)
         
@@ -154,4 +158,36 @@ extension LocationManager: MKMapViewDelegate {
             self.isChaging = false
         }
     }
+
+    // MARK: - Annotaion Delegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        guard let annotation = annotation as? CustomAnnotation else {
+            return nil
+        }
+           
+        var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: CustomAnnotationView.identifier)
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CustomAnnotationView.identifier)
+            annotationView?.canShowCallout = false
+            annotationView?.contentMode = .scaleAspectFit
+            
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        let customPinImage: UIImage!
+        let size = CGSize(width: 46, height: 54)
+        UIGraphicsBeginImageContext(size)
+        
+        customPinImage = UIImage(named: "customPinImage")
+        
+        customPinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        annotationView?.image = resizedImage
+        
+        return annotationView
+    }
 }
+

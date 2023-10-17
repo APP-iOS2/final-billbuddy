@@ -8,44 +8,43 @@
 import SwiftUI
 
 struct MapDetailView: View {
-    @ObservedObject var paymentStore: PaymentStore
+    @StateObject var paymentStore: PaymentStore
     
     var body: some View {
-        ForEach(Array(zip(0..<paymentStore.payments.count, paymentStore.payments)), id: \.0) { index, payment in
-            
-            HStack(spacing: 10) {
-                ZStack {
-                    Circle()
-                        .fill(Color.blue)
-                        .frame(height: 25)
-                    Text("\(index + 1)")
-                        .font(.custom("Pretendard-Semibold", size: 16))
-                        .foregroundStyle(Color.white)
-                }
-                Spacer()
-                
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(payment.content)
-                        .font(.custom("Pretendard-Semibold", size: 16))
-                    HStack {
-                        Image(systemName: "mappin.circle")
-                        Text(payment.address.address)
+        VStack {
+            ForEach(Array(zip(0..<paymentStore.payments.count, paymentStore.payments)), id: \.0) { index, payment in
+                HStack(spacing: 12) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.primary2)
+                            .frame(height: 20)
+                        Text("\(index + 1)")
+                            .font(.custom("Pretendard-Semibold", size: 14))
+                            .foregroundStyle(Color.white)
                     }
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color(hex: "858899"))
-                }
-                .frame(width: 300, height: 80)
-                .background {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(hex: "F7F7FA"))
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(payment.content)
+                                .font(.custom("Pretendard-Semibold", size: 16))
+                            Label(payment.address.address, systemImage: "mappin.circle")
+                                .font(.custom("Pretendard-Medium", size: 14))
+                                .foregroundStyle(Color(hex: "858899"))
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, minHeight: 70)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(hex: "F7F7FA"))
+                    }
                 }
             }
-            .padding()
         }
-        
+        .padding()
     }
 }
 
 #Preview {
-    MapDetailView(paymentStore: PaymentStore(travelCalculationId: ""))
+    MapDetailView(paymentStore: PaymentStore(travelCalculationId: "MukBang"))
 }

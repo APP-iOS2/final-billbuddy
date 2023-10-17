@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapSubView: View {
     
-    @ObservedObject var locationManager: LocationManager
+    @StateObject var locationManager: LocationManager
     @ObservedObject var paymentStore: PaymentStore
     
     var body: some View {
@@ -31,13 +31,11 @@ struct MapSubView: View {
                         }
                 }
                 .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height - 70))
-                
             }
         }
-
     }
 }
 
 #Preview {
-    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travelCalculationId: ""))
+    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travelCalculationId: "MukBang"))
 }

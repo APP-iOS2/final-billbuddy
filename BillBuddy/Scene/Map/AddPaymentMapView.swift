@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddPaymentMapView: View {
-    @ObservedObject var locationManager: LocationManager
+    @StateObject var locationManager: LocationManager
     
     @State private var isShowingAddress: Bool = false
     

@@ -48,7 +48,7 @@ struct EditPaymentView: View {
             }
             
             Button(action: {
-                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.userLatitude, longitude: locationManager.userLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
                 paymentStore.editPayment(payment: newPayment)
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {
