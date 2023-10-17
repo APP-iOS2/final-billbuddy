@@ -9,12 +9,21 @@ import SwiftUI
 
 struct SubPaymentView: View {
     
+    enum Mode {
+        case add
+        case edit
+    }
+    
+    @State var mode: Mode = .add
+    
     @Binding var travelCalculation: TravelCalculation
     
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var selectedCategory: Payment.PaymentType?
     @Binding var paymentDate: Date
+    @Binding var members: [TravelCalculation.Member]
+    @Binding var payment: Payment?
     
     var body: some View {
         VStack(spacing: 16) {
@@ -90,6 +99,25 @@ struct SubPaymentView: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 16)
+            
+            switch(mode) {
+            case .add:
+                AddPaymentMemberView(newMembers: $members, travelCalculation: $travelCalculation)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
+            case .edit:
+                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                    }
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16) 
+            }
             
             Section {
                 

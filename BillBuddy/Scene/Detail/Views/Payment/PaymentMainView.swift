@@ -99,7 +99,10 @@ struct PaymentMainView: View {
             .scrollContentBackground(.hidden)
             
             NavigationLink {
-                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
+                    .environmentObject(paymentStore)
+//                PaymentManageView(mode: .add, travelCalculation: $travelCalculation, paymentStore: paymentStore)
+//                AddPaymentView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
                     .navigationTitle("지출 항목 추가")
                     .navigationBarBackButtonHidden()
             } label: {
@@ -252,3 +255,20 @@ struct PaymentMainView: View {
         }
     }
 }
+
+/*
+// MainAddPaymentView
+@ObservedObject var userTravelStore: UserTravelStore
+@State var travelCalculation: TravelCalculation
+
+// AddPaymentView
+@Binding var travelCalculation: TravelCalculation
+@ObservedObject var paymentStore: PaymentStore
+
+// EditPaymentView
+@State var payment: Payment
+@Binding var travelCalculation: TravelCalculation
+@ObservedObject var paymentStore: PaymentStore
+ */
+
+

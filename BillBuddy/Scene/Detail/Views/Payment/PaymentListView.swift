@@ -82,7 +82,9 @@ struct PaymentListView: View {
 //                .background(Color.gray500)
                 
                 NavigationLink {
-                    EditPaymentView(payment: payment, travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: $travelCalculation)
+                        .environmentObject(paymentStore)
+//                    EditPaymentView(payment: payment, travelCalculation: $travelCalculation, paymentStore: paymentStore)
                         .navigationTitle("지출 항목 수정")
                         .navigationBarBackButtonHidden()
                 } label: {

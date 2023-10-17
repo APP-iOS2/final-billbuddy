@@ -21,13 +21,21 @@ struct AddTravelButtonView: View {
                 Spacer()
                 if showMenuItem1 {
                     NavigationLink {
-                        MainAddPaymentView(userTravelStore: userTravelStore, travelCalculation: travelCalculation)
+                        PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
+                            .navigationBarBackButtonHidden()
+                            .environmentObject(userTravelStore)
+//                        MainAddPaymentView(userTravelStore: userTravelStore, travelCalculation: travelCalculation)
                     } label: {
                         
                         Text("지출 추가하기")
                             .foregroundColor(Color.black)
                         MenuItem(icon: "wallet")
                             .padding(.trailing, 12)
+                    }
+                    .onAppear {
+                        if let travel = userTravelStore.userTravels.first {
+                            travelCalculation.travelTitle = travel.travelName
+                        }
                     }
                 }
             }

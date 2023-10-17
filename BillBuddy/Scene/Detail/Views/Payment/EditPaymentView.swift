@@ -10,7 +10,7 @@ import SwiftUI
 struct EditPaymentView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @State var payment: Payment
+    @State var payment: Payment?
     
     @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
@@ -20,25 +20,20 @@ struct EditPaymentView: View {
     @State private var priceString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date()
+    @State private var members: [TravelCalculation.Member] = []
 
     var body: some View {
         VStack {
             ScrollView {
-                SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate)
+                SubPaymentView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
                     .onAppear {
-                        selectedCategory = payment.type
-                        expandDetails = payment.content
-                        priceString = String(payment.payment)
-                        paymentDate = payment.paymentDate.toDate()
+                        if let payment = payment {
+                            selectedCategory = payment.type
+                            expandDetails = payment.content
+                            priceString = String(payment.payment)
+                            paymentDate = payment.paymentDate.toDate()
+                        }
                     }
-                
-                EditPaymentMemberView(payment: $payment, travelCalculation: $travelCalculation)
-                    .background {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                    }
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
                 
                 Section {
                     HStack {
@@ -60,9 +55,11 @@ struct EditPaymentView: View {
             .background(Color.gray100)
             
             Button(action: {
-                let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
-                paymentStore.editPayment(payment: newPayment)
-                dismiss()
+                if let payment = payment {
+                    let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+                    paymentStore.editPayment(payment: newPayment)
+                    dismiss()
+                }
             }, label: {
                 HStack {
                     Spacer()
