@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SignUpView: View {
     
+    @Environment(\.dismiss) private var dismiss
+    
     @ObservedObject var signUpStore: SignUpStore
     
     @State private var isShowingProgressView: Bool = false
@@ -123,6 +125,19 @@ struct SignUpView: View {
             }
         }
         .padding(.horizontal, 24)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
+                }
+            }
+        }
     }
 }
 
