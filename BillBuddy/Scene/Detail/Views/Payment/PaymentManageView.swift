@@ -109,12 +109,12 @@ struct PaymentManageView: View {
     var subPaymentViewSection: some View {
         switch(mode) {
         case .add:
-            SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
                 .onAppear {
                     paymentDate = travelCalculation.startDate.toDate()
                 }
         case .edit:
-            SubPaymentView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
+            FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
                 .onAppear {
                     if let payment = payment {
                         selectedCategory = payment.type
@@ -124,7 +124,7 @@ struct PaymentManageView: View {
                     }
                 }
         case .mainAdd:
-            SubPaymentView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
                 .onAppear {
                     paymentDate = travelCalculation.startDate.toDate()
                 }

@@ -147,7 +147,7 @@ struct PaymentMainView: View {
                         .frame(width: 24, height: 24)
                 })
                 .sheet(isPresented: $isShowingSelectCategorySheet) {
-                    SelectCategoryView(mode: .sheet, selectedCategory: $selectedCategory)
+                    CategorySelectView(mode: .sheet, selectedCategory: $selectedCategory)
                         .presentationDetents([.fraction(0.3)])
                 }
                 .onChange(of: selectedCategory, perform: { category in
