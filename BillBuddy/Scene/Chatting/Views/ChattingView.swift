@@ -24,7 +24,9 @@ struct ChattingView: View {
                 }
             }
             .onAppear {
-                travelStore.fetchTravelCalculation()
+                if !AuthStore.shared.userUid.isEmpty {
+                    travelStore.fetchTravelCalculation()
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
