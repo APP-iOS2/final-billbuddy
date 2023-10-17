@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.dismiss) private var dismiss
-    
+    @Binding var tabBarVisivility: Visibility
     @StateObject var paymentStore: PaymentStore
     @StateObject private var locationManager = LocationManager()
     
@@ -42,6 +42,7 @@ struct DetailMainView: View {
             }
         })
         .onAppear {
+            tabBarVisivility = .hidden
             if selectedDate == 0 {
                 paymentStore.fetchAll()
                 paymentStore.resetFilter()

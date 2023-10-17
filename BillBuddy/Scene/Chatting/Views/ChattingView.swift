@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
-    
+    @Binding var tabBarVisivility: Visibility
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -24,6 +25,7 @@ struct ChattingView: View {
                 }
             }
             .onAppear {
+                tabBarVisivility = .visible
                 if !AuthStore.shared.userUid.isEmpty {
                     travelStore.fetchTravelCalculation()
                 }
@@ -51,7 +53,9 @@ struct ChattingView: View {
     private var chattingItems: some View {
         ForEach(travelStore.travels) { travel in
             NavigationLink {
-                ChattingRoomView(travel: travel)
+                ChattingRoomView(tabBarVisivility: $tabBarVisivility, travel: travel)
+                    .toolbar(tabBarVisivility, for: .tabBar)
+
             } label: {
                 HStack {
                     Circle()
@@ -101,7 +105,7 @@ struct ChattingView: View {
 
 #Preview {
     NavigationStack {
-        ChattingView()
+        ChattingView(tabBarVisivility: .constant(.visible))
             .environmentObject(UserTravelStore())
     }
 }
