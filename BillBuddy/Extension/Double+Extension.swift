@@ -28,6 +28,15 @@ extension Double {
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
     
+    func toFormattedYearandMonthandDay() -> String {
+        let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
+        
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.dateFormat = "YYYY.MM.dd"
+        
+        return Self.dateFormatter.string(from: dateCreatedAt)
+    }
+    
     func toFormattedDate() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         
