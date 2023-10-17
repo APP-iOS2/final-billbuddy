@@ -14,17 +14,14 @@ struct SignUpView: View {
     @State private var isShowingProgressView: Bool = false
     @State private var isShowingAlert: Bool = false
     
-    @Binding private var agreement: Bool
-    
-    
     var body: some View {
         VStack(alignment: .leading) {
-            Spacer()
+            Spacer().frame(height: 123)
             Text("간편하게 가입하고\n서비스를 이용해보세요.")
                 .font(.title05)
                 .padding(.bottom, 24)
             VStack {
-                TextField("이름", text: $signUpStore.signUpData.name)
+                TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
@@ -34,7 +31,7 @@ struct SignUpView: View {
                     .font(.system(size: 10))
                     .foregroundColor(signUpStore.isNameTextError ? .red : .clear)
                 
-                TextField("이메일", text: $signUpStore.signUpData.email)
+                TextField("이메일을 입력해주세요.", text: $signUpStore.signUpData.email)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
@@ -44,7 +41,7 @@ struct SignUpView: View {
                     .font(.system(size: 10))
                     .foregroundColor(signUpStore.isEmailTextError ? .red : .clear)
                 
-                SecureField("비밀번호를 6자리 이상 입력해주세요", text: $signUpStore.signUpData.password)
+                SecureField("비밀번호를 입력해주세요", text: $signUpStore.signUpData.password)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
@@ -59,13 +56,12 @@ struct SignUpView: View {
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
                     .stroke(Color.gray300, lineWidth: 1))
-//                    .border(.red, width: signUpStore.signUpData.passwordConfirm != signUpStore.signUpData.password ? 1 : 0)
                 
                 Text("비밀번호가 서로 다릅니다.")
-                    .font(.system(size: 9))
+                    .font(.system(size: 10))
                     .foregroundColor(signUpStore.isPasswordUnCorrectError ? .red : .clear)
                 
-                TextField("전화번호", text: $signUpStore.signUpData.phoneNum)
+                TextField("전화번호를 입력해주세요", text: $signUpStore.signUpData.phoneNum)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
@@ -75,6 +71,9 @@ struct SignUpView: View {
                     .font(.system(size: 10))
                     .foregroundColor(signUpStore.isPhoneNumError ? .red : .clear)
             }
+    
+                AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
+                AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
             
             Spacer()
             
@@ -87,7 +86,7 @@ struct SignUpView: View {
                     let isPasswordValid = signUpStore.signUpData.password.count >= 6
                     let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
                     let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11
-                    
+
                     if isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isPhoneNumValid {
                         isShowingAlert = true
                         
@@ -109,12 +108,12 @@ struct SignUpView: View {
                     Text("가입하기")
                         .font(.body02)
                         .foregroundColor(.white)
-                                                .background(!signUpStore.checkSignUp() ? .gray : .blue)
                 })
                 .frame(width: 351, height: 52)
                 .background(Color.myPrimary)
                 .cornerRadius(12)
                 .disabled(!signUpStore.checkSignUp() ? true : false)
+                .disabled(!signUpStore.signUpData.isPrivacyAgree && signUpStore.signUpData.isTermOfUseAgree)
                 .alert(isPresented: $isShowingAlert) {
                     Alert(
                         title: Text("회원가입 완료"),
