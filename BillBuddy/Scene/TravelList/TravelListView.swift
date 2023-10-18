@@ -7,16 +7,15 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
+    @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @Binding var tabBarVisivility: Visibility
-    @Binding var isDimmedBackground: Bool
+//    @Binding var isDimmedBackground: Bool
+    
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
     @State private var isAddingTravel = false
-    //    @State private var isDimmedBackground = false
     @Namespace var animation
     
     
@@ -84,13 +83,16 @@ struct TravelListView: View {
 //        .background(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
         .overlay(
             Rectangle()
-                .fill(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
+                .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    floatingButtonMenuStore.isDimmedBackground = false
+                    floatingButtonMenuStore.closeMenu()
+                }
         )
         .overlay(
-            AddTravelButtonView(userTravelStore: userTravelStore, isDimmedBackground: $isDimmedBackground)
+            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
                 .onTapGesture {
-                    isDimmedBackground = true
-                    
+                    floatingButtonMenuStore.isDimmedBackground = true
                 }
         )
         
@@ -115,7 +117,7 @@ struct TravelListView: View {
             }
         }
         .onDisappear {
-            isDimmedBackground = false
+            floatingButtonMenuStore.isDimmedBackground = false
         }
         
     }
@@ -175,10 +177,10 @@ extension TravelListView {
 }
 //
 
-#Preview {
-    NavigationStack {
-        TravelListView(tabBarVisivility: .constant(.visible), isDimmedBackground: .constant(false))
-            .environmentObject(UserTravelStore())
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        TravelListView(tabBarVisivility: .constant(.visible))
+//            .environmentObject(UserTravelStore())
+//    }
+//}
 

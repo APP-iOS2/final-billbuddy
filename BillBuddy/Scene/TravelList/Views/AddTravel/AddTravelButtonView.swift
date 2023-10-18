@@ -9,11 +9,12 @@ import SwiftUI
 
 struct AddTravelButtonView: View {
     @ObservedObject var userTravelStore: UserTravelStore
-    @Binding var isDimmedBackground: Bool
+//    @Binding var isDimmedBackground: Bool
+    @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
-    @State private var showMenuItem1 = false
-    @State private var showMenuItem2 = false
-    @State private var buttonImage = "openButton"
+//    @State private var showMenuItem1 = false
+//    @State private var showMenuItem2 = false
+//    @State private var buttonImage = "openButton"
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     
     var body: some View {
@@ -21,13 +22,13 @@ struct AddTravelButtonView: View {
             Spacer()
             HStack {
                 Spacer()
-                if showMenuItem1 {
+                if floatingButtonMenuStore.showMenuItem1 {
                     NavigationLink {
                         PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
                             .onDisappear {
-                                closeMenu()
+                                floatingButtonMenuStore.closeMenu()
                             }
                     } label: {
                         
@@ -51,11 +52,11 @@ struct AddTravelButtonView: View {
             
             HStack {
                 Spacer()
-                if showMenuItem2 {
+                if floatingButtonMenuStore.showMenuItem2 {
                     NavigationLink {
                         AddTravelView()
                             .onDisappear {
-                                closeMenu()
+                                floatingButtonMenuStore.closeMenu()
                             }
                     } label: {
                         
@@ -74,10 +75,11 @@ struct AddTravelButtonView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    showMenu()
+                    floatingButtonMenuStore.showMenu()
+                    print(floatingButtonMenuStore.isDimmedBackground.description)
                         
                 }) {
-                    Image(buttonImage)
+                    Image(floatingButtonMenuStore.buttonImage)
                         .resizable()
                         .frame(width: 56, height: 56)
                         .shadow(color: Color.gray.opacity(0.2), radius: 0, y: 5)
@@ -90,29 +92,28 @@ struct AddTravelButtonView: View {
         }
     }
     
-    func showMenu() {
-        if showMenuItem1 || showMenuItem2 {
-            showMenuItem1 = false
-            showMenuItem2 = false
-            buttonImage = "openButton"
-            isDimmedBackground = false
-        } else {
-            withAnimation(.bouncy) {
-                showMenuItem1 = true
-                showMenuItem2 = true
-            }
-            buttonImage = "closeButton"
-            isDimmedBackground = true
-        }
+//    func showMenu() {
+//        if showMenuItem1 || showMenuItem2 {
+//            showMenuItem1 = false
+//            showMenuItem2 = false
+//            buttonImage = "openButton"
+//            isDimmedBackground = false
+//        } else {
+//            withAnimation(.bouncy) {
+//                showMenuItem1 = true
+//                showMenuItem2 = true
+//            }
+//            buttonImage = "closeButton"
+//            isDimmedBackground = true
+//        }
+//    }
+//
+//    func closeMenu() {
+//        showMenuItem1 = false
+//        showMenuItem2 = false
 //        isDimmedBackground = false
-    }
-    
-    func closeMenu() {
-        showMenuItem1 = false
-        showMenuItem2 = false
-        isDimmedBackground = false
-        buttonImage = "openButton"
-    }
+//        buttonImage = "openButton"
+//    }
 }
 
 struct MenuItem: View {
@@ -127,7 +128,7 @@ struct MenuItem: View {
         }
     }
 }
-
-#Preview {
-    AddTravelButtonView(userTravelStore: UserTravelStore(), isDimmedBackground: .constant(false))
-}
+//
+//#Preview {
+//    AddTravelButtonView(userTravelStore: UserTravelStore())
+//}
