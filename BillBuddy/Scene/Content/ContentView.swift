@@ -16,28 +16,21 @@ struct ContentView: View {
     @StateObject private var messageStore = MessageStore()
     
     var body: some View {
-        VStack {
-         
-            if userService.isSignIn {
-                if schemeServie.url == nil {
-                    BillBuddyTabView()
-                        .environmentObject(settlementExpensesStore)
-                        .environmentObject(userTravelStore)
-                        .environmentObject(messageStore)
-                        .environmentObject(userService)
-                } else {
-                    BillBuddyTabView()
-                        .environmentObject(settlementExpensesStore)
-                        .environmentObject(userTravelStore)
-                        .environmentObject(messageStore)
-                        .environmentObject(userService)
-                }
+        if userService.isSignIn {
+            if schemeServie.url == nil {
+                BillBuddyTabView()
+                    .environmentObject(settlementExpensesStore)
+                    .environmentObject(userTravelStore)
+                    .environmentObject(messageStore)
+                    .environmentObject(userService)
             } else {
-                NavigationStack {
-                    SignInView(signInStore: signInStore)
-                        .environmentObject(signInStore)
-                        .environmentObject(userService)
-                }
+                DeepLinkView()
+            }
+        } else {
+            NavigationStack {
+                SignInView(signInStore: signInStore)
+                    .environmentObject(signInStore)
+                    .environmentObject(userService)
             }
         }
     }

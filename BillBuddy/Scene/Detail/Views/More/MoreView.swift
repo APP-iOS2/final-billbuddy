@@ -53,7 +53,7 @@ struct MoreView: View {
                 NavigationLink {
                     switch item {
                     case .chat:
-                        ChattingRoomView(travel: travelCalculation)
+                        ChattingRoomView(tabBarVisivility: .constant(.hidden), travel: travelCalculation)
                     case .editDate:
                         SpendingListView()
                     case .mamberManagement:

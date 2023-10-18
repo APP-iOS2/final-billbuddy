@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
+    @Binding var tabBarVisivility: Visibility
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
     @Namespace var animation
@@ -24,7 +25,9 @@ struct TravelListView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
-                                DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
+                                DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
+                                    .toolbar(tabBarVisivility, for: .tabBar)
+
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading) {
@@ -66,6 +69,7 @@ struct TravelListView: View {
         }
         .navigationTitle("BillBuddy")
         .onAppear {
+            tabBarVisivility = .visible
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
             }
@@ -128,7 +132,7 @@ extension TravelListView {
 
 #Preview {
     NavigationStack {
-        TravelListView()
+        TravelListView(tabBarVisivility: .constant(.visible))
             .environmentObject(UserTravelStore())
     }
 }

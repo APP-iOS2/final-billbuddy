@@ -9,25 +9,49 @@ import SwiftUI
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-  
+    @State var tabBarVisivility: Visibility = .visible
+
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
+    }
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView()
+                TravelListView(tabBarVisivility: $tabBarVisivility)
+                    .toolbar(tabBarVisivility, for: .tabBar)
             }
-            .tabItem { Text("홈") }
+            .tabItem {
+                Image(.hometap)
+                    .renderingMode(.template)
+                Text("test")
+            }
             .tag(0)
+            
             NavigationStack {
-                ChattingView()
+                ChattingView(tabBarVisivility: $tabBarVisivility)
+                    .toolbar(tabBarVisivility, for: .tabBar)
+
             }
-            .tabItem { Text("채팅") }
+            .tabItem {
+                Image(.chattap)
+                    .renderingMode(.template)
+                Text("test")
+            }
             .tag(1)
+            
             NavigationStack {
                 MyPageView()
             }
-            .tabItem { Text("마이페이지") }
+            .tabItem {
+                Image(.mypagetap)
+                    .renderingMode(.template)
+                Text("test")
+            }
+
             .tag(2)
         }
+        .accentColor(.systemBlack)
     }
 }
 
