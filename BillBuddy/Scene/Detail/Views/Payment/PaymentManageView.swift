@@ -23,6 +23,7 @@ struct PaymentManageView: View {
     
     @StateObject var locationManager = LocationManager()
     
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
 //    @EnvironmentObject var travelDetailStore: TravelDetailStore
@@ -58,6 +59,7 @@ struct PaymentManageView: View {
             }
             button
         }
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
@@ -74,6 +76,7 @@ struct PaymentManageView: View {
             }
         })
         .onAppear {
+            tabBarVisivilyStore.hideTabBar()
             if mode == .edit {
                 navigationTitleString = "지출 항목 수정"
             }
@@ -315,7 +318,8 @@ extension PaymentManageView {
         }
     }
 }
-//
+
 //#Preview {
 //    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+//        .environmentObject(TabBarVisivilyStore())
 //}

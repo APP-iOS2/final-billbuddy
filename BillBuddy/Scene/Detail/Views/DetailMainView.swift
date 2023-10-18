@@ -10,7 +10,8 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.dismiss) private var dismiss
-    @Binding var tabBarVisivility: Visibility
+
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @StateObject var paymentStore: PaymentStore
     @StateObject var travelDetailStore: TravelDetailStore
     @StateObject private var locationManager = LocationManager()
@@ -42,7 +43,7 @@ struct DetailMainView: View {
             }
         })
         .onAppear {
-            tabBarVisivility = .hidden
+            tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
                 travelDetailStore.listenTravelDate()
                 paymentStore.fetchAll()
@@ -56,6 +57,7 @@ struct DetailMainView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
