@@ -9,15 +9,16 @@ import SwiftUI
 
 struct AddTravelButtonView: View {
     @ObservedObject var userTravelStore: UserTravelStore
-    
+    @Binding var isDimmedBackground: Bool
     @State private var backgroundColor: Color = .gray700
     @State private var showMenuItem1 = false
     @State private var showMenuItem2 = false
-    @State private var buttonImage = "plus.circle.fill"
+    @State private var buttonImage = "openButton"
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Spacer()
                 if showMenuItem1 {
@@ -25,10 +26,15 @@ struct AddTravelButtonView: View {
                         PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
+                            .onDisappear {
+                                closeMenu()
+                            }
                     } label: {
                         
                         Text("지출 추가하기")
-                            .foregroundColor(Color.black)
+                            .padding(.trailing, 16)
+                            .font(Font.body01)
+                            .foregroundColor(.white)
                         MenuItem(icon: "wallet")
                             .padding(.trailing, 12)
                     }
@@ -37,9 +43,6 @@ struct AddTravelButtonView: View {
                             // TODO: userTravel로 travelCalculation 찾아오기 !
                             // member 때문에 필요함
                             travelCalculation = userTravelStore.findTravelCalculation(userTravel: travel) ?? TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
-//                            travelCalculation.travelTitle = travel.travelName
-//                            travelCalculation.startDate = travel.startDate
-//                            travelCalculation.endDate = travel.endDate
                         }
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -51,11 +54,16 @@ struct AddTravelButtonView: View {
                 if showMenuItem2 {
                     NavigationLink {
                         AddTravelView()
+                            .onDisappear {
+                                closeMenu()
+                            }
                     } label: {
                         
                         Text("여행 추가하기")
-                            .foregroundColor(Color.black)
-                        MenuItem(icon: "add")
+                            .padding(.trailing, 16)
+                            .font(Font.body01)
+                            .foregroundColor(.white)
+                        MenuItem(icon: "add_room")
                             .padding(.trailing, 12)
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -67,13 +75,16 @@ struct AddTravelButtonView: View {
                 Spacer()
                 Button(action: {
                     showMenu()
+                        
                 }) {
-                    Image(systemName: buttonImage)
-                        .font(.system(size: 50))
-                        .frame(width: 60, height: 60)
+                    Image(buttonImage)
+                        .resizable()
+                        .frame(width: 56, height: 56)
+                        .shadow(color: Color.gray.opacity(0.2), radius: 0, y: 5)
                         .animation(nil, value: UUID())
                     
                 }
+                
                 .padding(.trailing, 12)
             }
         }
@@ -83,24 +94,25 @@ struct AddTravelButtonView: View {
         if showMenuItem1 || showMenuItem2 {
             showMenuItem1 = false
             showMenuItem2 = false
-            buttonImage = "plus.circle.fill"
+            buttonImage = "openButton"
+            isDimmedBackground = false
         } else {
             withAnimation(.bouncy) {
                 showMenuItem1 = true
                 showMenuItem2 = true
             }
-            buttonImage = "xmark.circle.fill"
+            buttonImage = "closeButton"
+            isDimmedBackground = true
         }
+//        isDimmedBackground = false
     }
     
-//    func showMenu() {
-//        showMenuItem1 = true
-//        showMenuItem2 = true
-//        // 다은님이 주신 심볼로는 버튼을 하얀색으로 만들지 못함
-//        
-//        buttonImage = showMenuItem1 || showMenuItem2 ? "xmark.circle.fill" : "plus.circle.fill"
-//    }
-
+    func closeMenu() {
+        showMenuItem1 = false
+        showMenuItem2 = false
+        isDimmedBackground = false
+        buttonImage = "openButton"
+    }
 }
 
 struct MenuItem: View {
@@ -108,14 +120,14 @@ struct MenuItem: View {
     
     var body: some View {
         ZStack {
-            Circle()
-                .foregroundColor(Color.gray300)
-                .frame(width: 60, height: 60)
+                
             Image(icon)
+                .resizable()
+                .frame(width: 56, height: 56)
         }
     }
 }
 
 #Preview {
-    AddTravelButtonView(userTravelStore: UserTravelStore())
+    AddTravelButtonView(userTravelStore: UserTravelStore(), isDimmedBackground: .constant(false))
 }

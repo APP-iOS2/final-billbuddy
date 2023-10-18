@@ -107,27 +107,29 @@ struct PaymentManageView: View {
     }
     
     var subPaymentViewSection: some View {
-        switch(mode) {
-        case .add:
-            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
-                .onAppear {
-                    paymentDate = travelCalculation.startDate.toDate()
-                }
-        case .edit:
-            FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
-                .onAppear {
-                    if let payment = payment {
-                        selectedCategory = payment.type
-                        expandDetails = payment.content
-                        priceString = String(payment.payment)
-                        paymentDate = payment.paymentDate.toDate()
+        Section {
+            switch(mode) {
+            case .add:
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+                    .onAppear {
+                        paymentDate = travelCalculation.startDate.toDate()
                     }
-                }
-        case .mainAdd:
-            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
-                .onAppear {
-                    paymentDate = travelCalculation.startDate.toDate()
-                }
+            case .edit:
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
+                    .onAppear {
+                        if let payment = payment {
+                            selectedCategory = payment.type
+                            expandDetails = payment.content
+                            priceString = String(payment.payment)
+                            paymentDate = payment.paymentDate.toDate()
+                        }
+                    }
+            case .mainAdd:
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+                    .onAppear {
+                        paymentDate = travelCalculation.startDate.toDate()
+                    }
+            }
         }
     }
     

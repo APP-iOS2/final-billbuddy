@@ -46,17 +46,17 @@ struct EditTravelSheetView: View {
             }
             .padding([.bottom, .leading], 30)
             
-            HStack {
-                Image("recycle-bin-2-10")
-                    .resizable()
-                    .frame(width: 18, height: 18)
-                Text("여행 삭제")
-                    .font(.body04)
-                    .foregroundColor(Color.black)
-                
-                Spacer()
-            }
-            .padding(.leading, 30)
+//            HStack {
+//                Image("recycle-bin-2-10")
+//                    .resizable()
+//                    .frame(width: 18, height: 18)
+//                Text("여행 삭제")
+//                    .font(.body04)
+//                    .foregroundColor(Color.black)
+//                
+//                Spacer()
+//            }
+//            .padding(.leading, 30)
         }
     }
 }
