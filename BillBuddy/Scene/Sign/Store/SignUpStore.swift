@@ -26,7 +26,7 @@ final class SignUpStore: ObservableObject {
     var showError = false
     
     func checkSignUp() -> Bool {
-        if signUpData.name.isEmpty || signUpData.email.isEmpty || signUpData.password.isEmpty || signUpData.passwordConfirm.isEmpty || signUpData.phoneNum.isEmpty {
+        if signUpData.name.isEmpty || signUpData.email.isEmpty || signUpData.password.isEmpty || signUpData.passwordConfirm.isEmpty || signUpData.phoneNum.isEmpty || signUpData.isPrivacyAgree == false || signUpData.isTermOfUseAgree == false {
             return false
         }
         return true
@@ -84,4 +84,12 @@ final class SignUpStore: ObservableObject {
         }
         return false
     }
+    
+    func deleteUser() async throws {
+           do {
+               try await UserService.shared.removeUserData(userId: AuthStore.shared.userUid)
+           } catch {
+               print("deleteUser \(error)")
+           }
+       }
 }

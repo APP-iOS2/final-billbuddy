@@ -10,6 +10,8 @@ import SwiftUI
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
     @State var tabBarVisivility: Visibility = .visible
+    @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
+//    @State var isDimmedBackground = false
 
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
@@ -18,14 +20,17 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(tabBarVisivility: $tabBarVisivility)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: $tabBarVisivility)
                     .toolbar(tabBarVisivility, for: .tabBar)
+                    
             }
             .tabItem {
                 Image(.hometap)
                     .renderingMode(.template)
                 Text("test")
             }
+//            .brightness(isDimmedBackground ? -0.5 : 0)
+            .toolbarBackground(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0), for: .tabBar)
             .tag(0)
             
             NavigationStack {
