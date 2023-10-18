@@ -33,22 +33,24 @@ struct PaymentManageView: View {
     @State private var paymentDate: Date = Date()
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
+    @State private var isFirstSelected: Bool = true
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView {
-                if mode == .mainAdd {
-                    selectTravelSection
+                VStack(spacing: 0) {
+                    if mode == .mainAdd {
+                        selectTravelSection
+                    }
+                    
+                    subPaymentViewSection
+                        .padding(.bottom, 16)
+                    
+                    mapViewSection
                 }
-                
-                subPaymentViewSection
-                
-                mapViewSection
+                .background(Color.gray100)
             }
-            .background(Color.gray100)
-            
             button
-            
         }
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
@@ -62,6 +64,8 @@ struct PaymentManageView: View {
             }
             
         })
+        .navigationTitle("지출 항목 추가")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     var selectTravelSection: some View {
@@ -73,9 +77,18 @@ struct PaymentManageView: View {
                 Spacer()
                 Button(action: {
                     isShowingSelectTripSheet = true
+                    isFirstSelected = false
                 }, label: {
-                    Text(travelCalculation.travelTitle)
-                    Text("button")
+                    if isFirstSelected {
+                        Text("여행을 선택해주세요")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray500)
+                    }
+                    else {
+                        Text(travelCalculation.travelTitle)
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
                 })
             }
             .padding(.leading, 16)
@@ -107,27 +120,29 @@ struct PaymentManageView: View {
     }
     
     var subPaymentViewSection: some View {
-        switch(mode) {
-        case .add:
-            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
-                .onAppear {
-                    paymentDate = travelCalculation.startDate.toDate()
-                }
-        case .edit:
-            FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
-                .onAppear {
-                    if let payment = payment {
-                        selectedCategory = payment.type
-                        expandDetails = payment.content
-                        priceString = String(payment.payment)
-                        paymentDate = payment.paymentDate.toDate()
+        Section {
+            switch mode {
+            case .add:
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+                    .onAppear {
+                        paymentDate = travelCalculation.startDate.toDate()
                     }
-                }
-        case .mainAdd:
-            FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
-                .onAppear {
-                    paymentDate = travelCalculation.startDate.toDate()
-                }
+            case .edit:
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment)
+                    .onAppear {
+                        if let payment = payment {
+                            selectedCategory = payment.type
+                            expandDetails = payment.content
+                            priceString = String(payment.payment)
+                            paymentDate = payment.paymentDate.toDate()
+                        }
+                    }
+            case .mainAdd:
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+                    .onAppear {
+                        paymentDate = travelCalculation.startDate.toDate()
+                    }
+            }
         }
     }
     
@@ -139,9 +154,6 @@ struct PaymentManageView: View {
                     EditPaymentMapView(locationManager: locationManager)
                         .frame(height: 500)
                 }
-                .padding(.leading, 16)
-                .padding(.top, 16)
-                .padding(.bottom, 16)
             case .mainAdd:
                 AddPaymentMapView()
                     .frame(height: 500)
@@ -241,6 +253,6 @@ extension PaymentManageView {
     }
 }
 
-//#Preview {
-//    PaymentManageView(travelCalculation: <#Binding<TravelCalculation>#>, paymentStore: <#PaymentStore#>)
-//}
+#Preview {
+    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+}

@@ -12,6 +12,7 @@ struct DetailMainView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var tabBarVisivility: Visibility
     @StateObject var paymentStore: PaymentStore
+//    @StateObject var travelDetailStore: TravelDetailStore
     @StateObject private var locationManager = LocationManager()
     
     @State var travelCalculation: TravelCalculation

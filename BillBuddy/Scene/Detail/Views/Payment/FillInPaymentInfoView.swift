@@ -341,8 +341,11 @@ struct FillInPaymentInfoView: View {
                     .fill(Color.gray050)
             }
             .padding(.leading, 15)
+            .padding(.trailing, 14)
+//            .padding(.bottom, 8)
             .listRowSeparator(.hidden)
         }
+        .padding(.bottom, 13)
     }
     var memberSelectSection: some View {
         Section {
@@ -394,5 +397,5 @@ struct FillInPaymentInfoView: View {
 }
 
 //#Preview {
-//    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
+//    
 //}
