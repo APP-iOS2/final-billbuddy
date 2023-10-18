@@ -20,12 +20,14 @@ struct PaymentManageView: View {
     @State var mode: Mode
     
     @State var payment: Payment?
-    @Binding var travelCalculation: TravelCalculation
     
     @StateObject var locationManager = LocationManager()
     
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
+//    @EnvironmentObject var travelDetailStore: TravelDetailStore
+    
+    @State var travelCalculation: TravelCalculation
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -49,7 +51,7 @@ struct PaymentManageView: View {
                     
                     subPaymentViewSection
                         .padding(.bottom, 16)
-                    
+
                     mapViewSection
                 }
                 .background(Color.gray100)
@@ -66,21 +68,25 @@ struct PaymentManageView: View {
                         .frame(width: 24, height: 24)
                 })
             }
-            
-        })
-        .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(navigationTitleString)
                     .font(.title05)
             }
-        }
+        })
         .onAppear {
             if mode == .edit {
                 navigationTitleString = "지출 항목 수정"
             }
+            
+            if mode == .mainAdd{
+                if let first =  userTravelStore.travels.first {
+                    travelCalculation = first
+                }
+            }
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        
     }
     
     var selectTravelSection: some View {
@@ -215,7 +221,7 @@ struct PaymentManageView: View {
     var button: some View {
         Button(action: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
-                // FIXME: alert 띄우고 곧바로 Sheet 띄우고 싶음 
+                // FIXME: alert 띄우고 곧바로 Sheet 띄우고 싶음
                 isShowingAlert = true
                 isShowingSelectTripSheet = true
             }
@@ -309,7 +315,7 @@ extension PaymentManageView {
         }
     }
 }
-
-#Preview {
-    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
-}
+//
+//#Preview {
+//    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+//}

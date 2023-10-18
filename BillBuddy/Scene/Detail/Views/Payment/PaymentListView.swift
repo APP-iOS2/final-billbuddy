@@ -9,8 +9,8 @@ import SwiftUI
 
 
 struct PaymentListView: View {
-    @Binding var travelCalculation: TravelCalculation
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var travelDetailStore: TravelDetailStore
     
     var body: some View {
         
@@ -81,7 +81,7 @@ struct PaymentListView: View {
                 .frame(width: 88)
                 
                 NavigationLink {
-                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: $travelCalculation)
+                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
                         .environmentObject(paymentStore)
                 } label: {
                     Text("수정")

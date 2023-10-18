@@ -10,9 +10,9 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    @Binding var travelCalculation: TravelCalculation
     @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var travelDetailStore: TravelDetailStore
     
     @State var isShowingSelectCategorySheet: Bool = false
     @State var selectedCategory: Payment.PaymentType?
@@ -85,7 +85,7 @@ struct PaymentMainView: View {
     var paymentList: some View {
         VStack(spacing: 0) {
             List {
-                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
@@ -94,7 +94,7 @@ struct PaymentMainView: View {
             .scrollContentBackground(.hidden)
             
             NavigationLink {
-                PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
+                PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                     .environmentObject(paymentStore)
             } label: {
                 HStack(spacing: 12) {

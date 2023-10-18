@@ -12,10 +12,9 @@ struct DetailMainView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var tabBarVisivility: Visibility
     @StateObject var paymentStore: PaymentStore
-//    @StateObject var travelDetailStore: TravelDetailStore
+    @StateObject var travelDetailStore: TravelDetailStore
     @StateObject private var locationManager = LocationManager()
     
-    @State var travelCalculation: TravelCalculation
     @State private var selection: Int = 0
     @State private var selectedDate: Double = 0
     @State var isShowingDateSheet: Bool = false
@@ -28,10 +27,10 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == 0 {
-                PaymentMainView(travelCalculation: $travelCalculation, selectedDate: $selectedDate, paymentStore: paymentStore)
+                PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
             else if selection == 1 {
-                MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelCalculation: $travelCalculation, selectedDate: $selectedDate)
+                MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
             }
         }
         .onChange(of: selectedDate, perform: { date in
@@ -45,11 +44,15 @@ struct DetailMainView: View {
         .onAppear {
             tabBarVisivility = .hidden
             if selectedDate == 0 {
+                travelDetailStore.listenTravelDate()
                 paymentStore.fetchAll()
             }
             else {
                 paymentStore.filterDate(date: selectedDate)
             }
+        }
+        .onDisappear {
+            travelDetailStore.stoplistening()
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -74,7 +77,7 @@ struct DetailMainView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    MoreView(travelCalculation: travelCalculation)
+                    MoreView(travelDetailStore: travelDetailStore)
                 } label: {
                     Image("steps-1 3")
                         .resizable()
@@ -82,7 +85,7 @@ struct DetailMainView: View {
                 }
             }
             ToolbarItem(placement: .principal) {
-                Text(travelCalculation.travelTitle)
+                Text(travelDetailStore.travel.travelTitle)
                     .font(.title05)
             }
             
@@ -111,7 +114,7 @@ struct DetailMainView: View {
                     Text(selectedDate.toDate().dateWeekYear)
                         .font(.custom("Pretendard-Semibold", size: 16))
                         .foregroundStyle(.black)
-                    Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelCalculation.startDate))일차")
+                    Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelDetailStore.travel.startDate))일차")
                         .font(.custom("Pretendard-Semibold", size: 14))
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
@@ -128,7 +131,7 @@ struct DetailMainView: View {
         }
         
         .sheet(isPresented: $isShowingDateSheet, content: {
-            DateSheet(selectedDate: $selectedDate, startDate: travelCalculation.startDate, endDate: travelCalculation.endDate)
+            DateSheet(selectedDate: $selectedDate, startDate: travelDetailStore.travel.startDate, endDate: travelDetailStore.travel.endDate)
                 .presentationDetents([.fraction(0.4)])
         })
         

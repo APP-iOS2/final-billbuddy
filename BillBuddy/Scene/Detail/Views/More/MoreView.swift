@@ -43,7 +43,7 @@ enum ListItem: String, CaseIterable {
 struct MoreView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    var travelCalculation: TravelCalculation
+    @ObservedObject var travelDetailStore: TravelDetailStore
     
     var body: some View {
         Divider()
@@ -53,11 +53,11 @@ struct MoreView: View {
                 NavigationLink {
                     switch item {
                     case .chat:
-                        ChattingRoomView(tabBarVisivility: .constant(.hidden), travel: travelCalculation)
+                        ChattingRoomView(tabBarVisivility: .constant(.hidden), travel: travelDetailStore.travel)
                     case .editDate:
                         SpendingListView()
                     case .mamberManagement:
-                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelCalculation))
+                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelDetailStore.travel))
                     case .settledAccount:
                         SettledAccountView()
                     }
@@ -94,6 +94,6 @@ struct MoreView: View {
 
 #Preview {
     NavigationStack {
-        MoreView(travelCalculation: TravelCalculation.sampletravel)
+        MoreView(travelDetailStore: TravelDetailStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])))
     }
 }
