@@ -44,4 +44,11 @@ final class SignInStore: ObservableObject {
         }
         return true
     }
+    
+    @MainActor
+    func deleteUser() {
+        Task {
+            try await AuthStore.shared.deleteUser()
+        }
+    }
 }
