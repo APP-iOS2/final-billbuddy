@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
-    
+
     @ObservedObject var userTravelStore: UserTravelStore
 //    @Binding var isDimmedBackground: Bool
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
