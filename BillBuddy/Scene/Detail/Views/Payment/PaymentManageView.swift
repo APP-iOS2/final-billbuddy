@@ -159,7 +159,7 @@ struct PaymentManageView: View {
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil))
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }

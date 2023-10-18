@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
+    @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @Binding var tabBarVisivility: Visibility
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
@@ -64,7 +65,7 @@ struct TravelListView: View {
                 
                 //                .padding(.leading, 15)
                 
-                AddTravelButtonView(userTravelStore: userTravelStore)
+                AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
             }
         }
         .navigationTitle("BillBuddy")
