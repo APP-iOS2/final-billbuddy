@@ -34,6 +34,7 @@ struct PaymentManageView: View {
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
     @State private var isFirstSelected: Bool = true
+    @State private var navigationTitleString: String = "지출 항목 추가"
     
     var body: some View {
         VStack(spacing: 0) {
@@ -64,7 +65,18 @@ struct PaymentManageView: View {
             }
             
         })
-        .navigationTitle("지출 항목 추가")
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text(navigationTitleString)
+                    .font(.title05)
+            }
+        }
+        .onAppear {
+            if mode == .edit {
+                navigationTitleString = "지출 항목 수정"
+            }
+        }
+        .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
     }
     

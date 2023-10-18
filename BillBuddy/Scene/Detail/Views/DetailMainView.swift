@@ -81,6 +81,10 @@ struct DetailMainView: View {
                         .frame(width: 24, height: 24)
                 }
             }
+            ToolbarItem(placement: .principal) {
+                Text(travelCalculation.travelTitle)
+                    .font(.title05)
+            }
             
         })
         
@@ -96,7 +100,6 @@ struct DetailMainView: View {
                 
                 if selectedDate == 0 {
                     Text("전체")
-//                        .font(Font.)
                         .font(.custom("Pretendard-Semibold", size: 16))
                         .foregroundStyle(.black)
                     Image("expand_more")

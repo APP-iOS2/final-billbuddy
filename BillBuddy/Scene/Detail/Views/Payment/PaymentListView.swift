@@ -83,8 +83,6 @@ struct PaymentListView: View {
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: $travelCalculation)
                         .environmentObject(paymentStore)
-                        .navigationTitle("지출 항목 수정")
-                        .navigationBarBackButtonHidden()
                 } label: {
                     Text("수정")
                 }

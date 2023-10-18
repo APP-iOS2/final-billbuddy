@@ -96,8 +96,6 @@ struct PaymentMainView: View {
             NavigationLink {
                 PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
                     .environmentObject(paymentStore)
-                    .navigationTitle("지출 항목 추가")
-                    .navigationBarBackButtonHidden()
             } label: {
                 HStack(spacing: 12) {
                     Spacer()
