@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TravelListView: View {
-    @EnvironmentObject var userTravelStore: UserTravelStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
-    @Binding var tabBarVisivility: Visibility
 //    @Binding var isDimmedBackground: Bool
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -30,10 +30,7 @@ struct TravelListView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelDetailStore: TravelDetailStore(travel: travel))
-
-                                .toolbar(tabBarVisivility, for: .tabBar)
-                            
+                            DetailMainView(paymentStore: PaymentStore(travelCalculationId: travel.id), travelDetailStore: TravelDetailStore(travel: travel))                            
                         } label: {
                             HStack {
                                 VStack(alignment: .leading) {
@@ -96,7 +93,7 @@ struct TravelListView: View {
                 }
         )
         
-        
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("BillBuddy")
@@ -111,7 +108,7 @@ struct TravelListView: View {
             }
         }
         .onAppear {
-            tabBarVisivility = .visible
+            tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
             }
@@ -176,11 +173,13 @@ extension TravelListView {
     }
 }
 //
-
+//
 //#Preview {
 //    NavigationStack {
 //        TravelListView(tabBarVisivility: .constant(.visible))
 //            .environmentObject(UserTravelStore())
+//            .environmentObject(TabBarVisivilyStore())
 //    }
 //}
 
+    

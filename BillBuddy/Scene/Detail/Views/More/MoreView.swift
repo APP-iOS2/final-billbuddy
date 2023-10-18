@@ -44,16 +44,17 @@ struct MoreView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @ObservedObject var travelDetailStore: TravelDetailStore
+    @State var itemList: [ListItem] = ListItem.allCases
     
     var body: some View {
         Divider()
             .padding(.bottom, 16)
         VStack {
-            ForEach(ListItem.allCases, id:\.self) { item in
+            ForEach(itemList, id:\.self) { item in
                 NavigationLink {
                     switch item {
                     case .chat:
-                        ChattingRoomView(tabBarVisivility: .constant(.hidden), travel: travelDetailStore.travel)
+                        ChattingRoomView(travel: travelDetailStore.travel)
                     case .editDate:
                         SpendingListView()
                     case .mamberManagement:

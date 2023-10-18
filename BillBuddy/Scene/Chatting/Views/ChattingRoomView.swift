@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
-    @Binding var tabBarVisivility: Visibility       
     @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
     
@@ -31,12 +31,13 @@ struct ChattingRoomView: View {
             }
         }
         .onAppear {
-            tabBarVisivility = .hidden
+            tabBarVisivilyStore.hideTabBar()
             messageStore.fetchMessages(travelCalculation: travel)
         }
         .navigationTitle(travel.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
@@ -162,7 +163,8 @@ struct ChattingRoomView: View {
 
 #Preview {
     NavigationStack {
-        ChattingRoomView(tabBarVisivility: .constant(.visible), travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+        ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
+            .environmentObject(TabBarVisivilyStore())
     }
 }

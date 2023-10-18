@@ -12,6 +12,7 @@ struct AddTravelView: View {
     //    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
     //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
     
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var travelTitle: String = ""
     @State private var selectedMember = 0
@@ -134,6 +135,10 @@ struct AddTravelView: View {
         
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .onAppear {
+            tabBarVisivilyStore.hideTabBar()
+        }
     }
     
 }
