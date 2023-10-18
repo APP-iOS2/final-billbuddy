@@ -17,10 +17,15 @@ struct MapMainView: View {
     
     var body: some View {
         ScrollView {
-  
-            MapSubView()
+            Text("카테고리셀렉뷰 추가")
+            MapSubView(locationManager: locationManager, paymentStore: paymentStore)
                 .frame(height: 400)
-            MapDetailView()
+            Button(action: {
+                locationManager.setAnnotations(paymentStore: paymentStore)
+            }, label: {
+                Text("어노테이션 테스트")
+            })
+            MapDetailView(paymentStore: paymentStore)
             Spacer()
         }
     }
