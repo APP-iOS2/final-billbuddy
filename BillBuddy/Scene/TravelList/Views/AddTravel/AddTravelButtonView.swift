@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
+
     @ObservedObject var userTravelStore: UserTravelStore
 //    @Binding var isDimmedBackground: Bool
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
@@ -16,6 +17,7 @@ struct AddTravelButtonView: View {
 //    @State private var showMenuItem2 = false
 //    @State private var buttonImage = "openButton"
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
+    @State private var isShowingNoTravelAlert: Bool = false
     
     var body: some View {
         VStack {
@@ -24,27 +26,27 @@ struct AddTravelButtonView: View {
                 Spacer()
                 if floatingButtonMenuStore.showMenuItem1 {
                     NavigationLink {
-                        PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
+                        PaymentManageView(mode: .mainAdd, travelCalculation: travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
+                            .onAppear {
+                                if userTravelStore.userTravels.first == nil {
+                                    isShowingNoTravelAlert = true
+                                }
+                            }
+                            .alert(isPresented: $isShowingNoTravelAlert, content: {
+                                return Alert(title: Text("생성된 여행이 없습니다"))
+                            })
                             .onDisappear {
                                 floatingButtonMenuStore.closeMenu()
                             }
                     } label: {
-                        
                         Text("지출 추가하기")
                             .padding(.trailing, 16)
                             .font(Font.body01)
                             .foregroundColor(.white)
                         MenuItem(icon: "wallet")
                             .padding(.trailing, 12)
-                    }
-                    .onAppear {
-                        if let travel = userTravelStore.userTravels.first {
-                            // TODO: userTravel로 travelCalculation 찾아오기 !
-                            // member 때문에 필요함
-                            travelCalculation = userTravelStore.findTravelCalculation(userTravel: travel) ?? TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
-                        }
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
@@ -91,7 +93,6 @@ struct AddTravelButtonView: View {
             }
         }
     }
-    
 //    func showMenu() {
 //        if showMenuItem1 || showMenuItem2 {
 //            showMenuItem1 = false
@@ -128,7 +129,6 @@ struct MenuItem: View {
         }
     }
 }
-//
 //#Preview {
 //    AddTravelButtonView(userTravelStore: UserTravelStore())
 //}

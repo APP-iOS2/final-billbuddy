@@ -10,9 +10,9 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    @Binding var travelCalculation: TravelCalculation
     @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
+    @ObservedObject var travelDetailStore: TravelDetailStore
     
     @State var isShowingSelectCategorySheet: Bool = false
     @State var selectedCategory: Payment.PaymentType?
@@ -44,7 +44,7 @@ struct PaymentMainView: View {
                                     .frame(width: 24, height: 24)
                             }
                         }
-                        Text("₩0")
+                        Text("₩\(paymentStore.sumAllPayment)")
                             .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     .padding(.top, 18)
@@ -85,7 +85,7 @@ struct PaymentMainView: View {
     var paymentList: some View {
         VStack(spacing: 0) {
             List {
-                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
@@ -94,10 +94,8 @@ struct PaymentMainView: View {
             .scrollContentBackground(.hidden)
             
             NavigationLink {
-                PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
+                PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                     .environmentObject(paymentStore)
-                    .navigationTitle("지출 항목 추가")
-                    .navigationBarBackButtonHidden()
             } label: {
                 HStack(spacing: 12) {
                     Spacer()
@@ -157,7 +155,7 @@ struct PaymentMainView: View {
                             paymentStore.filterCategory(category: category)
                         }
                         else {
-                            paymentStore.fetchAll()
+                            paymentStore.resetFilter()
                         }
                     }
                     else {

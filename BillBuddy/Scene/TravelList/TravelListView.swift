@@ -27,11 +27,11 @@ struct TravelListView: View {
                     travelFilterButton
                     Spacer()
                 }
-                
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
+                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelDetailStore: TravelDetailStore(travel: travel))
+
                                 .toolbar(tabBarVisivility, for: .tabBar)
                             
                         } label: {

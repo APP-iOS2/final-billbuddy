@@ -10,8 +10,7 @@ import SwiftUI
 struct MapMainView: View {
     @StateObject var locationManager = LocationManager()
     @ObservedObject var paymentStore: PaymentStore
-    
-    @Binding var travelCalculation: TravelCalculation
+    @ObservedObject var travelDetailStore: TravelDetailStore
     
     @Binding var selectedDate: Double
     

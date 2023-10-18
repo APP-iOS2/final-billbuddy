@@ -24,9 +24,11 @@ struct FillInPaymentInfoView: View {
     @Binding var paymentDate: Date
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
+    var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
+    
     
     var body: some View {
         VStack(spacing: 16) {
@@ -44,6 +46,7 @@ struct FillInPaymentInfoView: View {
                 Text("날짜")
                     .font(.custom("Pretendard-Bold", size: 14))
             })
+            .focused(focusedField, equals: .date)
             .padding(.leading, 16)
             .padding(.top, 16)
             .padding(.bottom, 16)
@@ -72,6 +75,7 @@ struct FillInPaymentInfoView: View {
             HStack {
                 Spacer()
                 CategorySelectView(mode: .category, selectedCategory: $selectedCategory)
+                    .focused(focusedField, equals: .type)
                 Spacer()
             }
             .padding(.bottom, 30)
@@ -94,6 +98,7 @@ struct FillInPaymentInfoView: View {
                 TextField("내용을 입력해주세요", text: $expandDetails)
                     .multilineTextAlignment(.trailing)
                     .font(.custom("Pretendard-Medium", size: 14))
+                    .focused(focusedField, equals: .content)
             }
             .padding(.leading, 16)
             .padding(.top, 16)
@@ -341,8 +346,11 @@ struct FillInPaymentInfoView: View {
                     .fill(Color.gray050)
             }
             .padding(.leading, 15)
+            .padding(.trailing, 14)
+//            .padding(.bottom, 8)
             .listRowSeparator(.hidden)
         }
+        .padding(.bottom, 13)
     }
     var memberSelectSection: some View {
         Section {
@@ -378,6 +386,7 @@ struct FillInPaymentInfoView: View {
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .font(.custom("Pretendard-Medium", size: 14))
+                    .focused(focusedField, equals: .price)
             }
             .padding(.leading, 16)
             .padding(.top, 16)
@@ -394,5 +403,5 @@ struct FillInPaymentInfoView: View {
 }
 
 //#Preview {
-//    SubPaymentView(userTravel: UserTravel(travelId: "", travelName: "신나는 유럽 여행", startDate: 0, endDate: 0), expandDetails: .constant(""), priceString: .constant(""), headCountString: .constant(""), selectedCategory: .constant(.accommodation), category: .constant(""), paymentDate: .constant(Date()), isSelectedCategory: false, isVisibleCategorySelectPicker: false)
+//    
 //}

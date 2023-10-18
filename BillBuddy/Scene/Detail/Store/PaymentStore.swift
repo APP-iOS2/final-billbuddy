@@ -15,6 +15,8 @@ final class PaymentStore: ObservableObject {
     var travelCalculationId: String
     var dbRef: CollectionReference
     
+    var sumAllPayment: Int = 0
+    
     init(travelCalculationId: String) {
         self.travelCalculationId = travelCalculationId
         self.dbRef = Firestore.firestore().collection("TravelCalculation").document(travelCalculationId).collection("Payment")
@@ -22,6 +24,7 @@ final class PaymentStore: ObservableObject {
     
     func fetchAll() {
         payments.removeAll()
+        sumAllPayment = 0
         
         dbRef.getDocuments { snapshot, error in
             if let snapshot {
@@ -54,6 +57,8 @@ final class PaymentStore: ObservableObject {
                     let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
                     
                     tempPayment.append(newPayment)
+                    
+                    self.sumAllPayment += price
                 }
                 
                 DispatchQueue.main.async {
