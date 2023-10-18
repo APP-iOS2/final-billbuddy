@@ -13,7 +13,7 @@ struct PaymentMainView: View {
     @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
-    
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @State var isShowingSelectCategorySheet: Bool = false
     @State var selectedCategory: Payment.PaymentType?
     
@@ -44,7 +44,7 @@ struct PaymentMainView: View {
                                     .frame(width: 24, height: 24)
                             }
                         }
-                        Text("₩\(paymentStore.sumAllPayment)")
+                        Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     .padding(.top, 18)

@@ -7,14 +7,8 @@
 
 import Foundation
 
-class SettlementExpensesStore: ObservableObject {
+final class SettlementExpensesStore: ObservableObject {
     @Published var settlementExpenses = SettlementExpenses()
-    
-    init() {
-        for _ in 0..<2 {
-            self.settlementExpenses.members.append(SettlementExpenses.MemberPayment())
-        }
-    }
     
     func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
         settlementExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
