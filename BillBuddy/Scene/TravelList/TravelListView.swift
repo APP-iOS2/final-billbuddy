@@ -9,29 +9,23 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
-    @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @Binding var tabBarVisivility: Visibility
-//    @Binding var isDimmedBackground: Bool
-    
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
-    @State private var isAddingTravel = false
     @Namespace var animation
     
     
     var body: some View {
-        
-        ZStack {
+        NavigationStack{
             VStack(alignment: .center) {
                 HStack {
                     travelFilterButton
                     Spacer()
                 }
-                
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
+                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelDetailStore: TravelDetailStore(travel: travel))
                                 .toolbar(tabBarVisivility, for: .tabBar)
                             
                         } label: {
@@ -51,7 +45,7 @@ struct TravelListView: View {
                                 Button {
                                     isShowingEditTravelView.toggle()
                                 } label: {
-                                    Image(.steps13)
+                                    Image("steps-1 3")
                                         .resizable()
                                         .frame(width: 24, height: 24)
                                 }
@@ -65,61 +59,21 @@ struct TravelListView: View {
                             .frame(width: 361, height: 95)
                             .background(Color.gray1000.cornerRadius(12))
                         }
-                        
-                    } //MARK: LIST
-                    
-                } //MARK: SCROLLVIEW
-                
-                
-            } //MARK: VSTACK
-            
-            
-            
-//            Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0).edgesIgnoringSafeArea(.all)
-//            .background(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0))
-//
-            
-        } //MARK: ZSTACK
-//        .background(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
-        .overlay(
-            Rectangle()
-                .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    floatingButtonMenuStore.isDimmedBackground = false
-                    floatingButtonMenuStore.closeMenu()
+                    }
                 }
-        )
-        .overlay(
-            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
-                .onTapGesture {
-                    floatingButtonMenuStore.isDimmedBackground = true
-                }
-        )
-        
-        
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Text("BillBuddy")
-                    .font(.title04)
-                    .foregroundColor(.myPrimary)
-            }
-            
-            ToolbarItem(placement: .topBarTrailing) {
-                Image(.ringingBellNotification3)
-                    .resizable()
-                    .frame(width: 24, height: 24)
+                
+                //                .padding(.leading, 15)
+                
+                AddTravelButtonView(userTravelStore: userTravelStore)
             }
         }
+        .navigationTitle("BillBuddy")
         .onAppear {
             tabBarVisivility = .visible
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
             }
         }
-        .onDisappear {
-            floatingButtonMenuStore.isDimmedBackground = false
-        }
-        
     }
     
     func createTravelList() -> [TravelCalculation] {
@@ -175,7 +129,6 @@ extension TravelListView {
         }
     }
 }
-//
 
 //#Preview {
 //    NavigationStack {
