@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct MyPageSettingView: View {
+    
+    @EnvironmentObject var signInStore: SignInStore
+    @EnvironmentObject var signUpStore: SignUpStore
+    
     @State private var isShowingLogoutAlert: Bool = false
+    @State private var isPresentedAlert: Bool = false
     
     var body: some View {
         ScrollView {
@@ -82,30 +87,42 @@ struct MyPageSettingView: View {
                 })
                 .padding(.top, 32)
                 .padding(.bottom, 36)
+                .alert("로그아웃", isPresented: $isShowingLogoutAlert) {
+                    Button("취소", role: .cancel) {}
+                    Button("로그아웃", role: .destructive) {
+                        do {
+                            if try AuthStore.shared.signOut() {
+                                UserService.shared.isSignIn = false
+                            }
+                        } catch {
+                            print("Error signing out: \(error.localizedDescription)")
+                        }
+                    }
+                } message: {
+                    Text("로그아웃을 합니다.")
+                }
                 
                 Button(action: {
-                    //
+                    isPresentedAlert.toggle()
                 }, label: {
                     Text("서비스 탈퇴")
                         .font(.body04)
-                        .foregroundColor(.red)
+                        .foregroundColor(.error)
                 })
-            }
-            .padding(.horizontal, 24)
-            .alert("로그아웃", isPresented: $isShowingLogoutAlert) {
-                Button("취소", role: .cancel) {}
-                Button("로그아웃", role: .destructive) {
-                    do {
-                        if try AuthStore.shared.signOut() {
+                .alert("서비스 탈퇴", isPresented: $isPresentedAlert) {
+                    Button("취소", role: .cancel) {}
+                    Button("탈퇴", role: .destructive) {
+                        Task {
+                            try await signUpStore.deleteUser()
+                            signInStore.deleteUser()
                             UserService.shared.isSignIn = false
                         }
-                    } catch {
-                        print("Error signing out: \(error.localizedDescription)")
                     }
+                } message: {
+                    Text("서비스 탈퇴를 합니다.")
                 }
-            } message: {
-                Text("로그아웃을 합니다.")
             }
+            .padding(.horizontal, 24)
         }
     }
 }

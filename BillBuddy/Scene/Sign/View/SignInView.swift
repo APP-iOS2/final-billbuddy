@@ -22,6 +22,8 @@ struct SignInView: View {
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.gray300, lineWidth: 1))
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
                 SecureField("비밀번호", text: $signInStore.passwordText)
                     .padding(16)
                     .frame(width: 351, height: 52)
@@ -43,12 +45,13 @@ struct SignInView: View {
                     .font(.body02)
                     .foregroundColor(.white)
             })
-            .alert(isPresented: $signInStore.isShowingAlert) {
-                Alert(
-                    title: Text("로그인 결과"),
-                    message: Text("로그인에 실패했습니다."),
-                    dismissButton: .default(Text("확인"))
-                )
+            .alert("로그인 결과", isPresented: $signInStore.isShowingAlert) {
+                Button("확인") {
+                    signInStore.emailText = ""
+                    signInStore.passwordText = ""
+                }
+            } message: {
+                Text("로그인에 실패했습니다.")
             }
             .frame(width: 351, height: 52)
             .background(signInStore.emailText.isEmpty || signInStore.passwordText.isEmpty ? Color.gray400 : Color.myPrimary)
@@ -65,6 +68,10 @@ struct SignInView: View {
             .padding()
         }
         .padding(24)
+        .onAppear {
+            signInStore.emailText = ""
+            signInStore.passwordText = ""
+        }
     }
 }
 

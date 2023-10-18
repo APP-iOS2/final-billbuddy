@@ -22,56 +22,98 @@ struct SignUpView: View {
             Text("간편하게 가입하고\n서비스를 이용해보세요.")
                 .font(.title05)
                 .padding(.bottom, 24)
-            VStack {
+            
+            VStack(alignment: .leading) {
                 TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
                     .padding(16)
+                    .font(.body04)
+                    .autocapitalization(.none)
                     .frame(width: 351, height: 52)
-                    .overlay(RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray300, lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(signUpStore.isNameTextError ? Color.error : Color.gray300, lineWidth: 2))
+                    .cornerRadius(12)
+                    .padding(.bottom, signUpStore.isNameTextError ? 0 : 12)
                 
-                Text("이름은 2자리 이상 입력해주세요.")
-                    .font(.system(size: 10))
-                    .foregroundColor(signUpStore.isNameTextError ? .red : .clear)
+                if signUpStore.isNameTextError {
+                    Text("이름은 2자리 이상 입력해주세요.")
+                        .font(.caption03)
+                        .foregroundColor(.error)
+                        .padding(.leading, 3)
+                        .padding(.bottom, 12)
+                }
                 
-                TextField("이메일을 입력해주세요.", text: $signUpStore.signUpData.email)
+                TextField("이메일을 입력해주세요", text: $signUpStore.signUpData.email)
                     .padding(16)
+                    .font(.body04)
+                    .keyboardType(.emailAddress)
+                    .autocapitalization(.none)
                     .frame(width: 351, height: 52)
-                    .overlay(RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray300, lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(signUpStore.isEmailTextError ? Color.error : Color.gray300, lineWidth: 2))
+                    .cornerRadius(12)
+                    .padding(.bottom, signUpStore.isEmailTextError ? 0 : 12)
                 
-                Text("정확한 이메일을 입력해주세요")
-                    .font(.system(size: 10))
-                    .foregroundColor(signUpStore.isEmailTextError ? .red : .clear)
+                if signUpStore.isEmailTextError {
+                    Text("정확한 이메일을 입력해주세요")
+                        .font(.caption03)
+                        .foregroundColor(.error)
+                        .padding(.leading, 3)
+                        .padding(.bottom, 12)
+                }
                 
                 SecureField("비밀번호를 입력해주세요", text: $signUpStore.signUpData.password)
                     .padding(16)
+                    .font(.body04)
+                    .autocapitalization(.none)
                     .frame(width: 351, height: 52)
-                    .overlay(RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray300, lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(signUpStore.isPasswordCountError ? Color.error : Color.gray300, lineWidth: 2))
+                    .cornerRadius(12)
+                    .padding(.bottom, signUpStore.isPasswordCountError ? 0 : 12)
                 
-                Text("비밀번호는 6자리 이상 입력해주세요.")
-                    .font(.system(size: 10))
-                    .foregroundColor(signUpStore.isPasswordCountError ? .red : .clear)
+                if signUpStore.isPasswordCountError {
+                    Text("비밀번호는 6자리 이상 입력해주세요")
+                        .font(.caption03)
+                        .foregroundColor(.error)
+                        .padding(.leading, 3)
+                        .padding(.bottom, 12)
+                }
                 
                 SecureField("비밀번호 확인", text:$signUpStore.signUpData.passwordConfirm)
                     .padding(16)
+                    .font(.body04)
+                    .autocapitalization(.none)
                     .frame(width: 351, height: 52)
-                    .overlay(RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray300, lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(signUpStore.isPasswordUnCorrectError ? Color.error : Color.gray300, lineWidth: 2))
+                    .cornerRadius(12)
+                    .padding(.bottom, signUpStore.isPasswordUnCorrectError ? 0 : 12)
                 
-                Text("비밀번호가 서로 다릅니다.")
-                    .font(.system(size: 10))
-                    .foregroundColor(signUpStore.isPasswordUnCorrectError ? .red : .clear)
+                if signUpStore.isPasswordUnCorrectError {
+                    Text("비밀번호가 서로 다릅니다")
+                        .font(.caption03)
+                        .foregroundColor(.error)
+                        .padding(.leading, 3)
+                        .padding(.bottom, 12)
+                }
                 
                 TextField("전화번호를 입력해주세요", text: $signUpStore.signUpData.phoneNum)
                     .padding(16)
+                    .font(.body04)
+                    .autocapitalization(.none)
                     .frame(width: 351, height: 52)
-                    .overlay(RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray300, lineWidth: 1))
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(signUpStore.isPhoneNumError ? Color.error : Color.gray300, lineWidth: 2))
+                    .cornerRadius(12)
+                    .padding(.bottom, signUpStore.isPhoneNumError ? 0 : 12)
                 
-                Text("휴대폰 번호 11자리 입력해주세요.")
-                    .font(.system(size: 10))
-                    .foregroundColor(signUpStore.isPhoneNumError ? .red : .clear)
+                if signUpStore.isPhoneNumError {
+                    Text("휴대폰 번호 11자리 입력해주세요")
+                        .font(.caption03)
+                        .foregroundColor(.error)
+                        .padding(.leading, 3)
+                        .padding(.bottom, 12)
+                }
             }
             
             AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
@@ -88,8 +130,10 @@ struct SignUpView: View {
                     let isPasswordValid = signUpStore.signUpData.password.count >= 6
                     let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
                     let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11
+                    let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
+                    let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
                     
-                    if isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isPhoneNumValid {
+                    if isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
                         isShowingAlert = true
                         
                         Task {
@@ -115,12 +159,10 @@ struct SignUpView: View {
                 .background(Color.myPrimary)
                 .cornerRadius(12)
                 .disabled(!signUpStore.checkSignUp() ? true : false)
-                .disabled(!signUpStore.signUpData.isPrivacyAgree && signUpStore.signUpData.isTermOfUseAgree)
-                .alert(isPresented: $isShowingAlert) {
-                    Alert(
-                        title: Text("회원가입 완료"),
-                        dismissButton: .default(Text("확인"))
-                    )
+                .alert("회원가입 완료", isPresented: $isShowingAlert) {
+                    Button("확인") {
+                        dismiss()
+                    }
                 }
             }
         }
@@ -137,6 +179,9 @@ struct SignUpView: View {
                         .foregroundColor(.systemBlack)
                 }
             }
+        }
+        .onAppear {
+            signUpStore.signUpData = SignUpData()
         }
     }
 }
