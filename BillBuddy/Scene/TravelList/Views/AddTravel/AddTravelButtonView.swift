@@ -12,10 +12,6 @@ struct AddTravelButtonView: View {
     @ObservedObject var userTravelStore: UserTravelStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
-    //    @Binding var isDimmedBackground: Bool
-//    @State private var showMenuItem1 = false
-//    @State private var showMenuItem2 = false
-//    @State private var buttonImage = "openButton"
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     @State private var isShowingNoTravelAlert: Bool = false
     
@@ -95,7 +91,6 @@ struct AddTravelButtonView: View {
         
     } //MARK: BODY
     
-
 }
 
 struct MenuItem: View {
