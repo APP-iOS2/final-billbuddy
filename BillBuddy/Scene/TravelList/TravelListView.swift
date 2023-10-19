@@ -11,7 +11,6 @@ struct TravelListView: View {
     @EnvironmentObject var userTravelStore: UserTravelStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @Binding var tabBarVisivility: Visibility
-//    @Binding var isDimmedBackground: Bool
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
@@ -20,7 +19,6 @@ struct TravelListView: View {
     
     
     var body: some View {
-        
         ZStack {
             VStack(alignment: .center) {
                 HStack {
@@ -41,7 +39,7 @@ struct TravelListView: View {
                                         .font(.body01)
                                         .foregroundColor(.black)
                                         .padding(.bottom, 5)
-                                    Text("\(travel.startDate.toFormattedMonthandDay()) - \(travel.endDate.toFormattedMonthandDay())")
+                                    Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
                                         .font(.caption02)
                                         .foregroundColor(Color.gray600)
                                 }
@@ -70,17 +68,9 @@ struct TravelListView: View {
                     
                 } //MARK: SCROLLVIEW
                 
-                
             } //MARK: VSTACK
             
-            
-            
-//            Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0).edgesIgnoringSafeArea(.all)
-//            .background(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0))
-//
-            
         } //MARK: ZSTACK
-//        .background(Color.systemBlack.opacity(isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
         .overlay(
             Rectangle()
                 .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
@@ -100,7 +90,7 @@ struct TravelListView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("BillBuddy")
-                    .font(.title04)
+                    .font(Font.semibold03)
                     .foregroundColor(.myPrimary)
             }
             
@@ -120,7 +110,7 @@ struct TravelListView: View {
             floatingButtonMenuStore.isDimmedBackground = false
         }
         
-    }
+    } //MARK: BODY
     
     func createTravelList() -> [TravelCalculation] {
         var sortedTravels: [TravelCalculation]
@@ -175,12 +165,12 @@ extension TravelListView {
         }
     }
 }
-//
 
-//#Preview {
-//    NavigationStack {
-//        TravelListView(tabBarVisivility: .constant(.visible))
-//            .environmentObject(UserTravelStore())
-//    }
-//}
+
+#Preview {
+    NavigationStack {
+        TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore(), tabBarVisivility: .constant(.visible))
+            .environmentObject(UserTravelStore())
+    }
+}
 

@@ -9,13 +9,14 @@ import SwiftUI
 
 struct AddTravelButtonView: View {
     @ObservedObject var userTravelStore: UserTravelStore
-//    @Binding var isDimmedBackground: Bool
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
+    @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
+//    @Binding var isDimmedBackground: Bool
 //    @State private var showMenuItem1 = false
 //    @State private var showMenuItem2 = false
 //    @State private var buttonImage = "openButton"
-    @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
+    
     
     var body: some View {
         VStack {
@@ -71,7 +72,6 @@ struct AddTravelButtonView: View {
                 }
             }
             
-            
             HStack{
                 Spacer()
                 Button(action: {
@@ -88,32 +88,12 @@ struct AddTravelButtonView: View {
                 }
                 
                 .padding(.trailing, 12)
-            }
-        }
-    }
+            } //MARK: HSTACK
+            
+        } //MARK: VSTACK
+        
+    } //MARK: BODY
     
-//    func showMenu() {
-//        if showMenuItem1 || showMenuItem2 {
-//            showMenuItem1 = false
-//            showMenuItem2 = false
-//            buttonImage = "openButton"
-//            isDimmedBackground = false
-//        } else {
-//            withAnimation(.bouncy) {
-//                showMenuItem1 = true
-//                showMenuItem2 = true
-//            }
-//            buttonImage = "closeButton"
-//            isDimmedBackground = true
-//        }
-//    }
-//
-//    func closeMenu() {
-//        showMenuItem1 = false
-//        showMenuItem2 = false
-//        isDimmedBackground = false
-//        buttonImage = "openButton"
-//    }
 }
 
 struct MenuItem: View {
@@ -128,7 +108,7 @@ struct MenuItem: View {
         }
     }
 }
-//
-//#Preview {
-//    AddTravelButtonView(userTravelStore: UserTravelStore())
-//}
+
+#Preview {
+    AddTravelButtonView(userTravelStore: UserTravelStore(), floatingButtonMenuStore: FloatingButtonMenuStore())
+}
