@@ -57,7 +57,8 @@ struct MyPageDetailView: View {
                         })
                     }
                     .padding(12)
-                    .frame(width: 240, height: 32, alignment: .leading)
+                    .frame(height: 32)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(Color.gray050)
                     .cornerRadius(12)
                 }
@@ -67,7 +68,8 @@ struct MyPageDetailView: View {
             
             Rectangle()
                 .fill(Color.gray050)
-                .frame(width: 393, height: 8)
+                .frame(height: 8)
+                .frame(maxWidth: .infinity)
         }
     }
 }
