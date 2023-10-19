@@ -76,7 +76,8 @@ struct MyPageSettingView: View {
                 
                 Rectangle()
                     .fill(Color.gray050)
-                    .frame(width: 361, height: 1)
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
                 
                 Button(action: {
                     isShowingLogoutAlert.toggle()
