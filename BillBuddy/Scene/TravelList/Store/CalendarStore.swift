@@ -5,7 +5,7 @@
 //  Created by Ari on 10/12/23.
 //
 
-import Foundation
+import SwiftUI
 
 final class CalendarStore: ObservableObject {
     
@@ -15,36 +15,90 @@ final class CalendarStore: ObservableObject {
     @Published var firstDate: Date?
     @Published var secondDate: Date?
     @Published var instructionText: String = "시작일을 선택해주세요"
+    @Published var buttonBackgroundColor = Color.gray100
+    @Published var buttonFontColor = Color.gray600
     
-    // 각 주의 날짜들을 반환
     var weeks: [[Date]] {
-        
-        // 일주일의 첫 번째 요일을 월요일로 지정(일요일은 1)
-        calendar.firstWeekday = 2
+        calendar.firstWeekday = -5
         var weeks = [[Date]]()
-        let range = calendar.range(of: .weekOfYear, in: .month, for: date)!
-        for week in range {
-            var weekDays = [Date]()
-            for day in 1...7 {
-                let date = calendar.date(byAdding: .day, value: day-1, to: date.startOfMonth(calendar).startOfWeek(week, calendar: calendar))!
-                weekDays.append(date)
+
+        let components = calendar.dateComponents([.year, .month], from: date)
+        if let firstDayOfMonth = calendar.date(from: components) {
+            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
+            var offsetComponent = DateComponents()
+            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
+            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
+                for week in 0..<6 {
+                    var weekDays = [Date]()
+                    for day in 0..<7 {
+                        let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth)!
+                            weekDays.append(date)
+                        
+                    }
+                    weeks.append(weekDays)
+                }
             }
-            weeks.append(weekDays)
         }
-        
-        // 해당 월이 5주로 되어있을 경우 마지막 주에 날짜 추가
-        if weeks.count == 5 {
-            let startDate = calendar.date(byAdding: .day, value: 1, to: weeks.last!.last!)!
-            var weekDays = [startDate]
-            for day in 1...6 {
-                let date = calendar.date(byAdding: .day, value: day, to: startDate)!
-                weekDays.append(date)
-            }
-            weeks.append(weekDays)
-        }
-        
+
         return weeks
     }
+    
+    
+    //    var weeks: [[Date]] {
+    //        calendar.firstWeekday = 1
+    //        var weeks = [[Date]]()
+    //
+    //        let components = calendar.dateComponents([.year, .month], from: date)
+    //        if let firstDayOfMonth = calendar.date(from: components) {
+    //            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
+    //            var offsetComponent = DateComponents()
+    //            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
+    //            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
+    //                for week in 0..<6 {
+    //                    var weekDays = [Date]()
+    //                    for day in 0..<7 {
+    //                        if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth) {
+    //                            weekDays.append(date)
+    //                        }
+    //                    }
+    //                    weeks.append(weekDays)
+    //                }
+    //            }
+    //        }
+    //
+    //        return weeks
+    //    }
+    
+    //    // 각 주의 날짜들을 반환
+    //    var weeks: [[Date]] {
+    //
+    //        // 일주일의 첫 번째 요일을 월요일로 지정(일요일은 1)
+    //        calendar.firstWeekday = 2
+    //        var weeks = [[Date]]()
+    //        let range = calendar.range(of: .weekOfYear, in: .month, for: date)!
+    //        for week in range {
+    //            var weekDays = [Date]()
+    //            for day in 1...7 {
+    //                let date = calendar.date(byAdding: .day, value: day-1, to: date.startOfMonth(calendar).startOfWeek(week, calendar: calendar))!
+    //                weekDays.append(date)
+    //            }
+    //            weeks.append(weekDays)
+    //        }
+    //
+    //        // 해당 월이 5주로 되어있을 경우 마지막 주에 날짜 추가
+    //        if weeks.count == 5 {
+    //            let startDate = calendar.date(byAdding: .day, value: 1, to: weeks.last!.last!)!
+    //            var weekDays = [startDate]
+    //            for day in 1...6 {
+    //                let date = calendar.date(byAdding: .day, value: day, to: startDate)!
+    //                weekDays.append(date)
+    //            }
+    //            weeks.append(weekDays)
+    //        }
+    //
+    //
+    //        return weeks
+    //    }
     
     var days: [String] {
         ["월", "화", "수", "목", "금", "토", "일"]
@@ -74,6 +128,14 @@ final class CalendarStore: ObservableObject {
             firstDate = day
             secondDate = nil
             instructionText = "시작일을 선택해주세요"
+        }
+        
+        if instructionText == "여행 일정 선택 완료" {
+            buttonBackgroundColor = Color.myPrimary
+            buttonFontColor = Color.white
+        } else {
+            buttonBackgroundColor = Color.gray100
+            buttonFontColor = Color.gray600
         }
     }
     
@@ -152,17 +214,23 @@ final class CalendarStore: ObservableObject {
     }
 }
 
-extension Date {
-    // 해당 월의 첫 번째 날짜 반환
-    func startOfMonth(_ calendar: Calendar) -> Date {
-        return calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self)))!
-    }
-    
-    // 해당 월의 첫 번째 주 반환
-    func startOfWeek(_ week: Int, calendar: Calendar) -> Date {
-        var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
-        components.weekOfYear = week
-        components.weekday = calendar.firstWeekday
-        return calendar.date(from: components)!
-    }
-}
+//extension Date {
+//    // 해당 월의 첫 번째 날짜 반환
+//    func startOfMonth(_ calendar: Calendar) -> Date {
+//        return calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self)))!
+//    }
+//    
+//    // 해당 월의 첫 번째 주 반환
+//    func startOfWeek(_ week: Int, calendar: Calendar) -> Date {
+//        var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+//        components.weekOfYear = week
+//        components.weekday = calendar.firstWeekday
+//        return calendar.date(from: components)!
+//    }
+//    
+//    func endOfMonth(calendar: Calendar) -> Date {
+//        let components = calendar.dateComponents([.year, .month], from: self)
+//        let startOfMonth = calendar.date(from: components)!
+//        return calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth)!
+//    }
+//}

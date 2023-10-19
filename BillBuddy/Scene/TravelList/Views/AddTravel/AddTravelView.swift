@@ -25,19 +25,28 @@ struct AddTravelView: View {
         ZStack {
             Color.gray1000
             VStack {
+                // 리스트간 간격이 너무 넓음, 그림자 효과 맞게 넣은건가?
                 ScrollView {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white)
-                        .overlay(
-                            TextField("여행 이름을 입력해주세요.", text: $travelTitle)
-                                .padding(12)
-                        )
-                        .padding(.top, 24)
-                        .frame(width: 360, height: 70)
+                    HStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                            .overlay(
+                                TextField("여행 이름을 입력해주세요.", text: $travelTitle)
+                                    .padding(12)
+                            )
+                    }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 24)
+                    .shadow(color: Color.gray.opacity(0.3), radius: 8)
+                    //                    .padding([.top, .horizontal], 12)
+                    
                     
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.white)
+                            .shadow(color: Color.gray.opacity(0.3), radius: 8)
                             .overlay(
                                 HStack {
                                     Text("일정")
@@ -47,10 +56,13 @@ struct AddTravelView: View {
                                     Button(action: {
                                         isShowingCalendarView.toggle()
                                     }) {
-                                        if startDate != endDate {
+                                        
+                                        if startDate != nil && endDate != nil {
                                             Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
                                                 .font(.body04)
                                                 .frame(width: 110, height: 30)
+                                                .shadow(color: Color.clear, radius: 0)
+                                            
                                                 .foregroundColor(Color.myPrimary)
                                                 .background(Color.lightBlue100)
                                                 .cornerRadius(8)
@@ -58,24 +70,29 @@ struct AddTravelView: View {
                                             Image("calendar-add-4")
                                                 .resizable()
                                                 .frame(width: 24, height: 24)
+                                            
                                         }
                                     }
+                                    .shadow(color: Color.gray, radius: 0)
                                     .sheet(isPresented: $isShowingCalendarView) {
                                         CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
                                             .presentationDetents([.height(500)])
-                                            .presentationDragIndicator(.visible)
                                     }
+                                    
                                 }
-                                
                                     .padding(12)
                             )
-                            .padding(.top, 24)
-                            .frame(width: 360, height: 70)
                     }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 24)
+                    //                    .padding([.top, .horizontal], 12)
                     
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.white)
+                            .shadow(color: Color.gray.opacity(0.3), radius: 8)
                             .overlay(
                                 HStack {
                                     Text("인원")
@@ -104,12 +121,14 @@ struct AddTravelView: View {
                                 }
                                     .padding(12)
                             )
-                            .padding(.top, 24)
-                            .frame(width: 360, height: 70)
                     }
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .padding(.horizontal, 12)
+                    .padding(.top, 24)
+                    //                    .padding([.top, .horizontal], 12)
                     
                 } //MARK: SCROLLVIEW
-                
                 .font(.body04)
                 
                 Spacer()
@@ -121,21 +140,42 @@ struct AddTravelView: View {
                     Text("개설하기")
                         .font(.title05)
                 }
-                .frame(width: 500, height: 60)
+                .frame(maxWidth: .infinity)
+                .frame(height: 60)
                 .background(Color.myPrimary)
                 .foregroundColor(.white)
                 
             } //MARK: VSTACK
             
         } //MARK: ZSTACK
+        .overlay(
+            Rectangle()
+                .fill(Color.systemBlack.opacity(isShowingCalendarView ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    isShowingCalendarView = false
+                }
+        )
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
         .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(.arrowBack)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+                
+            }
+        }
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
         }
     } //MARK: BODY
-        
+    
 }
 
 
@@ -152,5 +192,7 @@ extension Date {
 #Preview {
     NavigationStack {
         AddTravelView()
+            .environmentObject(TabBarVisivilyStore())
+            .environmentObject(UserTravelStore())
     }
 }
