@@ -28,7 +28,7 @@ final class UserTravelStore: ObservableObject {
                 for document in snapshot.documents {
                     do {
                         let snapshot = try document.data(as: UserTravel.self)
-                        self.userTravels.append(snapshot)
+//                        self.userTravels.append(snapshot)
                         
                         let snapshotData = try await self.service.collection("TravelCalculation").document(snapshot.travelId).getDocument()
                         let travel = try snapshotData.data(as: TravelCalculation.self)
