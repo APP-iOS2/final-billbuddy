@@ -27,6 +27,7 @@ struct FillInPaymentInfoView: View {
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
+    @State private var isShowingDatePickerSheet: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     
     
@@ -41,16 +42,21 @@ struct FillInPaymentInfoView: View {
     }
     
     var datePickerSection: some View {
-        Section {
-            DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
-                Text("날짜")
+        HStack {
+            Text("날짜")
+                .font(.custom("Pretendard-Bold", size: 14))
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 20)
+            Spacer()
+            Button(action: {
+                isShowingDatePickerSheet = true
+            }, label: {
+                Text("\(paymentDate.dateAndTime)")
                     .font(.custom("Pretendard-Bold", size: 14))
+                    .padding(.trailing, 16)
+                
             })
-            .focused(focusedField, equals: .date)
-            .padding(.leading, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 16)
-            .padding(.trailing, 16)
         }
         .background {
             RoundedRectangle(cornerRadius: 12)
@@ -59,6 +65,24 @@ struct FillInPaymentInfoView: View {
         .padding(.leading, 16)
         .padding(.top, 16)
         .padding(.trailing, 16)
+        
+        .sheet(isPresented: $isShowingDatePickerSheet, content: {
+            VStack {
+                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
+                    Text("날짜")
+                        .font(.custom("Pretendard-Bold", size: 14))
+                })
+                
+            }
+            .focused(focusedField, equals: .date)
+            .padding(.leading, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 16)
+            .padding(.trailing, 16)
+            
+            .presentationDetents([.fraction(0.3)])
+            
+        })
     }
     var typePickerSection: some View {
         VStack {
@@ -393,7 +417,3 @@ struct FillInPaymentInfoView: View {
         .padding(.trailing, 16)
     }
 }
-
-//#Preview {
-//    
-//}

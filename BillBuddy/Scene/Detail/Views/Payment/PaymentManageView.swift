@@ -33,7 +33,7 @@ struct PaymentManageView: View {
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var paymentDate: Date = Date()
+    @State private var paymentDate: Date = Date.now
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
     @State private var isFirstSelected: Bool = true
@@ -149,7 +149,7 @@ struct PaymentManageView: View {
             case .add:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.toDate()
+                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
                     }
             case .edit:
                 FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField)
@@ -158,13 +158,13 @@ struct PaymentManageView: View {
                             selectedCategory = payment.type
                             expandDetails = payment.content
                             priceString = String(payment.payment)
-                            paymentDate = payment.paymentDate.toDate()
+                            paymentDate = payment.paymentDate.timeTo00_00_00().toDate()
                         }
                     }
             case .mainAdd:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.toDate()
+                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
                     }
             }
         }

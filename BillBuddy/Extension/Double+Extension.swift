@@ -66,6 +66,10 @@ extension Double {
         return today_00_00_00...today_11_59_59
     }
     
+    func timeTo00_00_00() -> Double {
+        return 86400 * floor(self / 86400)
+    }
+    
     func toFormattedChatDate() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         let distanceHour = Calendar.current.dateComponents([.hour], from: dateCreatedAt, to: Date()).hour
