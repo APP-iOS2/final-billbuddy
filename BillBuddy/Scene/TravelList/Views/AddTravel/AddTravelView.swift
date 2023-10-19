@@ -40,7 +40,7 @@ struct AddTravelView: View {
                     .padding(.horizontal, 12)
                     .padding(.top, 24)
                     .shadow(color: Color.gray.opacity(0.3), radius: 8)
-//                    .padding([.top, .horizontal], 12)
+                    //                    .padding([.top, .horizontal], 12)
                     
                     
                     HStack {
@@ -56,12 +56,13 @@ struct AddTravelView: View {
                                     Button(action: {
                                         isShowingCalendarView.toggle()
                                     }) {
-                                        if startDate != endDate {
+                                        
+                                        if startDate != nil && endDate != nil {
                                             Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
                                                 .font(.body04)
                                                 .frame(width: 110, height: 30)
                                                 .shadow(color: Color.clear, radius: 0)
-
+                                            
                                                 .foregroundColor(Color.myPrimary)
                                                 .background(Color.lightBlue100)
                                                 .cornerRadius(8)
@@ -148,11 +149,11 @@ struct AddTravelView: View {
             
         } //MARK: ZSTACK
         .overlay(
-        Rectangle()
-            .fill(Color.systemBlack.opacity(isShowingCalendarView ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
-            .onTapGesture {
-                isShowingCalendarView = false
-            }
+            Rectangle()
+                .fill(Color.systemBlack.opacity(isShowingCalendarView ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    isShowingCalendarView = false
+                }
         )
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
@@ -167,7 +168,7 @@ struct AddTravelView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                 }
-
+                
             }
         }
         .onAppear {
