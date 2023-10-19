@@ -26,7 +26,7 @@ struct PaymentManageView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
-//    @EnvironmentObject var travelDetailStore: TravelDetailStore
+    //    @EnvironmentObject var travelDetailStore: TravelDetailStore
     
     @State var travelCalculation: TravelCalculation
     
@@ -37,7 +37,6 @@ struct PaymentManageView: View {
     @State private var paymentDate: Date = Date.now
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
-    @State private var isFirstSelected: Bool = true
     @State private var navigationTitleString: String = "지출 항목 추가"
     @State private var isShowingAlert: Bool = false
     
@@ -53,7 +52,7 @@ struct PaymentManageView: View {
                     
                     subPaymentViewSection
                         .padding(.bottom, 16)
-
+                    
                     mapViewSection
                 }
                 .background(Color.gray100)
@@ -83,6 +82,7 @@ struct PaymentManageView: View {
             }
             
             if mode == .mainAdd{
+                isShowingSelectTripSheet = true
                 if let first =  userTravelStore.travels.first {
                     travelCalculation = first
                 }
@@ -102,18 +102,12 @@ struct PaymentManageView: View {
                 Spacer()
                 Button(action: {
                     isShowingSelectTripSheet = true
-                    isFirstSelected = false
                 }, label: {
-                    if isFirstSelected {
-                        Text("여행을 선택해주세요")
-                            .font(.body04)
-                            .foregroundStyle(Color.gray500)
-                    }
-                    else {
-                        Text(travelCalculation.travelTitle)
-                            .font(.body04)
-                            .foregroundStyle(Color.gray600)
-                    }
+                    
+                    Text(travelCalculation.travelTitle)
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                    
                 })
             }
             .padding(.leading, 16)
