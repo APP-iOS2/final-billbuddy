@@ -108,17 +108,18 @@ extension LocationManager {
         mapView.removeAnnotations(mapView.annotations)
         
         for payment in filteredPayments {
+            let pinIndex: Int = 1
             let customPinImage: UIImage = UIImage(named: "customPinImage")!
             let coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
             
-            let pin = CustomAnnotation(customPinImage: customPinImage, coordinate: coordinate)
-             mapView.addAnnotation(pin)
+            let pin = CustomAnnotation(pinIndex: pinIndex, customPinImage: customPinImage, coordinate: coordinate)
+            mapView.addAnnotation(pin)
         }
     }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-
+    
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         guard manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways else { return }
         locationManager.requestLocation()
@@ -157,14 +158,14 @@ extension LocationManager: MKMapViewDelegate {
             self.isChaging = false
         }
     }
-
+    
     // MARK: - Annotaion Delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         guard let annotation = annotation as? CustomAnnotation else {
             return nil
         }
-           
+        
         var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: CustomAnnotationView.identifier)
         
         if annotationView == nil {
@@ -176,17 +177,30 @@ extension LocationManager: MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         
+        // 커스텀 이미지
         let customPinImage: UIImage!
-        let size = CGSize(width: 46, height: 54)
-        UIGraphicsBeginImageContext(size)
+        let pinSize = CGSize(width: 46, height: 54)
+        UIGraphicsBeginImageContext(pinSize)
         
         customPinImage = UIImage(named: "customPinImage")
         
-        customPinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+        customPinImage.draw(in: CGRect(x: 0, y: 0, width: pinSize.width, height: pinSize.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
         
+        
         return annotationView
     }
+    
+//    // 라인 뷰 제공
+//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+//        if let polyline = overlay as? MKPolyline {
+//            let renderer = MKPolylineRenderer(polyline: polyline)
+//            renderer.strokeColor = .red
+//            renderer.lineWidth = 5
+//            return renderer
+//        }
+//        return MKOverlayRenderer()
+//    }
 }
 

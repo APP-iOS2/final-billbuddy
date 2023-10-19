@@ -10,7 +10,7 @@ import MapKit
 
 final class CustomAnnotationView: MKAnnotationView {
     static let identifier = "CustomAnnotationView"
-    
+
     override init(annotation: MKAnnotation?, reuseIdentifier: String?){
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         frame = CGRect(x: 0, y: 0, width: 40, height: 50)
@@ -28,17 +28,20 @@ final class CustomAnnotationView: MKAnnotationView {
 }
 
 final class CustomAnnotation: NSObject, MKAnnotation {
-  let customPinImage: UIImage?
-  let coordinate: CLLocationCoordinate2D
-
-  init(
-    customPinImage: UIImage?,
-    coordinate: CLLocationCoordinate2D
-  ) {
-    self.customPinImage = customPinImage
-    self.coordinate = coordinate
-
-    super.init()
-  }
+    let pinIndex: Int
+    let customPinImage: UIImage?
+    let coordinate: CLLocationCoordinate2D
+    
+    init(
+        pinIndex: Int,
+        customPinImage: UIImage?,
+        coordinate: CLLocationCoordinate2D
+    ) {
+        self.pinIndex = pinIndex
+        self.customPinImage = customPinImage
+        self.coordinate = coordinate
+        
+        super.init()
+    }
 }
 
