@@ -15,6 +15,7 @@ struct CalendarSheetView: View {
     @Binding var isShowingCalendarView: Bool
     
     var body: some View {
+        // 달력부분 글씨가 너무 작음
         VStack(spacing: 8) {
             HStack {
                 Button(action: {
@@ -40,11 +41,13 @@ struct CalendarSheetView: View {
                 }
                 .padding(.leading, 27)
             } //MARK: HSTACK
+            .padding(.top, 10)
             
             VStack(spacing: 3) {
                 HStack(spacing: 0) {
                     ForEach(calendarStore.days, id: \.self) { day in
                         Text(day)
+                            .font(.body04)
                             .foregroundColor(.gray500)
                             .frame(height: 36)
                             .frame(maxWidth: .infinity)
@@ -97,14 +100,16 @@ struct CalendarSheetView: View {
                 saveSelectedDate()
             }) {
                 Text(calendarStore.instructionText)
+                    .foregroundColor(calendarStore.buttonFontColor)
                     .font(Font.body02)
                 
             }
             .disabled(calendarStore.instructionText != "여행 일정 선택 완료")
             .frame(width: 335, height: 52)
-            .background(Color.myPrimary.cornerRadius(12))
+            .background(calendarStore.buttonBackgroundColor.cornerRadius(8))
             .foregroundColor(.white)
             .padding(.top, 30)
+            
             
         } //MARK: VSTACK
         .padding(.vertical, 10)
