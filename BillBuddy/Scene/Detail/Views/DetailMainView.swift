@@ -11,6 +11,7 @@ struct DetailMainView: View {
     
     @Environment(\.dismiss) private var dismiss
 
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @StateObject var paymentStore: PaymentStore
     @StateObject var travelDetailStore: TravelDetailStore
@@ -46,7 +47,13 @@ struct DetailMainView: View {
             tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
                 travelDetailStore.listenTravelDate()
-                paymentStore.fetchAll()
+                Task {
+                    if travelDetailStore.isFirstFetch {
+                        await paymentStore.fetchAll()
+                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                        travelDetailStore.isFirstFetch = false
+                    }
+                }
             }
             else {
                 paymentStore.filterDate(date: selectedDate)
@@ -133,7 +140,7 @@ struct DetailMainView: View {
         }
         
         .sheet(isPresented: $isShowingDateSheet, content: {
-            DateSheet(selectedDate: $selectedDate, startDate: travelDetailStore.travel.startDate, endDate: travelDetailStore.travel.endDate)
+            DateSheet(locationManager: locationManager, paymentStore: paymentStore,isShowingDateSheet: $isShowingDateSheet, selectedDate: $selectedDate, startDate: travelDetailStore.travel.startDate, endDate: travelDetailStore.travel.endDate)
                 .presentationDetents([.fraction(0.4)])
         })
         

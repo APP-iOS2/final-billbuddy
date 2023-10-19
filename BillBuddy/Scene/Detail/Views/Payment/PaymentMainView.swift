@@ -13,9 +13,11 @@ struct PaymentMainView: View {
     @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
-    
-    @State var isShowingSelectCategorySheet: Bool = false
-    @State var selectedCategory: Payment.PaymentType?
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+    @State private var isShowingSelectCategorySheet: Bool = false
+    @State private var selectedCategory: Payment.PaymentType?
+    @State private var isEditing: Bool = false
+    @State private var selection = Set<String>()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -44,7 +46,7 @@ struct PaymentMainView: View {
                                     .frame(width: 24, height: 24)
                             }
                         }
-                        Text("₩\(paymentStore.sumAllPayment)")
+                        Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     .padding(.top, 18)
@@ -54,7 +56,7 @@ struct PaymentMainView: View {
                     Spacer()
                     
                     NavigationLink {
-                        Text("정산 뷰")
+                        SettledAccountView()
                     } label: {
                         Text("정산하기")
                             .font(.custom("Pretendard-Medium", size: 14))
@@ -170,9 +172,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Text("편집")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color.gray600)
+                Button(action: {
+                    isEditing.toggle()
+                }, label: {
+                    if isEditing {
+                        Text("편집 완료")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("편집")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)

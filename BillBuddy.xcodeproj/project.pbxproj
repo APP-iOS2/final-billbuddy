@@ -57,7 +57,6 @@
 		278544682AC413A2009032CE /* MemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278544672AC413A2009032CE /* MemberManagementView.swift */; };
 		2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785446A2AC41CE0009032CE /* SchemeService.swift */; };
 		2785ECC12AE046D1003E8D9D /* TravelDetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */; };
-		2785ECC32AE046E5003E8D9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2785ECC22AE046E5003E8D9D /* GoogleService-Info.plist */; };
 		2785ECC52AE053EB003E8D9D /* TabBarVisivilyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785ECC42AE053EA003E8D9D /* TabBarVisivilyStore.swift */; };
 		278BA6052AC25EA800761B0B /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */; };
 		278BA6062AC25EA800761B0B /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */; };
@@ -91,6 +90,7 @@
 		638A9F4F2ADA816E00C931DD /* MapMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F4E2ADA816E00C931DD /* MapMainView.swift */; };
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
+		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
 		C478B1922AC6BAE8005EE427 /* FillInPaymentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */; };
 		C478B1942AC6C5BD005EE427 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1932AC6C5BD005EE427 /* Double+Extension.swift */; };
@@ -99,6 +99,7 @@
 		C4849A6F2AD3C50E00DFFF81 /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */; };
 		C4849A712AD3D49900DFFF81 /* DateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A702AD3D49900DFFF81 /* DateSheet.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
+		C49248D82AE0EA4600CF5689 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */; };
 		C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894C2ACD2EE5008115FA /* MoreView.swift */; };
 		C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */; };
 		C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */; };
@@ -128,6 +129,9 @@
 		023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelButtonView.swift; sourceTree = "<group>"; };
 		023EF92D2ACC0731005C3F30 /* AddTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelView.swift; sourceTree = "<group>"; };
 		0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetView.swift; sourceTree = "<group>"; };
+		02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
+		02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonMenuStore.swift; sourceTree = "<group>"; };
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		2655B7032ADD972A002E051B /* BillBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BillBuddy.entitlements; sourceTree = "<group>"; };
@@ -165,7 +169,6 @@
 		278544672AC413A2009032CE /* MemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementView.swift; sourceTree = "<group>"; };
 		2785446A2AC41CE0009032CE /* SchemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeService.swift; sourceTree = "<group>"; };
 		2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelDetailStore.swift; sourceTree = "<group>"; };
-		2785ECC22AE046E5003E8D9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2785ECC42AE053EA003E8D9D /* TabBarVisivilyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarVisivilyStore.swift; sourceTree = "<group>"; };
 		278BA5FC2AC25EA800761B0B /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		278BA5FD2AC25EA800761B0B /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
@@ -199,6 +202,7 @@
 		638A9F4E2ADA816E00C931DD /* MapMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMainView.swift; sourceTree = "<group>"; };
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
+		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillInPaymentInfoView.swift; sourceTree = "<group>"; };
 		C478B1932AC6C5BD005EE427 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 		C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
+		C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentFocusField.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
@@ -248,6 +253,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02B06CAF2AE0C91A00486005 /* SF-Pro */ = {
+			isa = PBXGroup;
+			children = (
+				02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */,
+				02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */,
+				02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */,
+			);
+			path = "SF-Pro";
+			sourceTree = "<group>";
+		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,7 +465,7 @@
 		2766480C2ABD54F2000F8A10 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				2785ECC22AE046E5003E8D9D /* GoogleService-Info.plist */,
+				C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -541,6 +556,7 @@
 				2717D0EB2ACD76C90002D620 /* Model */,
 				2717D0EC2ACD76DF0002D620 /* Store */,
 				2717D0ED2ACD76EF0002D620 /* Views */,
+				63A3F1742ADF7888006EE206 /* CustomAnnotation */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -646,6 +662,7 @@
 		278BA5FA2AC25EA800761B0B /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				02B06CAF2AE0C91A00486005 /* SF-Pro */,
 				278BA5FB2AC25EA800761B0B /* Pretendard */,
 			);
 			path = fonts;
@@ -708,6 +725,14 @@
 				46B8E2262AD8295F001B3A6C /* MessageStore.swift */,
 			);
 			path = Store;
+			sourceTree = "<group>";
+		};
+		63A3F1742ADF7888006EE206 /* CustomAnnotation */ = {
+			isa = PBXGroup;
+			children = (
+				63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */,
+			);
+			name = CustomAnnotation;
 			sourceTree = "<group>";
 		};
 		C47F6C7A2AD52F1A006B77D6 /* SubViews */ = {
@@ -864,7 +889,7 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
-				2785ECC32AE046E5003E8D9D /* GoogleService-Info.plist in Resources */,
+				C49248D82AE0EA4600CF5689 /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
@@ -921,6 +946,7 @@
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
 				C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */,
 				635A3A322ACD3E3700737B9F /* Place.swift in Sources */,
+				63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */,
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */,

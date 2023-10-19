@@ -62,4 +62,16 @@ extension Font {
     static var caption03: Font {
         return Font.custom("Pretendard-Bold", size: 10)
     }
+    /// SFPro / 20
+    static var semibold01: Font {
+        return Font.custom("SF-Pro-Display-Semibold", size: 20)
+    }
+    /// SFPro / 20
+    static var semibold02: Font {
+        return Font.custom("SF-Pro-Rounded-Semibold", size: 20)
+    }
+    /// SFPro / 20
+    static var semibold03: Font {
+        return Font.custom("SF-Pro-Text-Semibold", size: 20)
+    }
 }

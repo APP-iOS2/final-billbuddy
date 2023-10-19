@@ -39,7 +39,7 @@ struct CalendarSheetView: View {
                         .frame(width: 20, height: 20)
                 }
                 .padding(.leading, 27)
-            }
+            } //MARK: HSTACK
             
             VStack(spacing: 3) {
                 HStack(spacing: 0) {
@@ -105,10 +105,12 @@ struct CalendarSheetView: View {
             .background(Color.myPrimary.cornerRadius(12))
             .foregroundColor(.white)
             .padding(.top, 30)
-        }
+            
+        } //MARK: VSTACK
         .padding(.vertical, 10)
         .padding(.horizontal, 20)
-    }
+        
+    } //MARK: BODY
     
     func fillRange(day: Date, week: [Date], index: Int) -> some View {
         HStack(spacing: 0) {

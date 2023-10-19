@@ -12,7 +12,8 @@ import FirebaseFirestoreSwift
 final class TravelDetailStore: ObservableObject {
     @Published var travel: TravelCalculation
     @Published var isChangedTravel: Bool = false
-        
+    @Published var isFirstFetch: Bool = true
+
     var travelId : String = ""
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil

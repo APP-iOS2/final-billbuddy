@@ -12,6 +12,7 @@ struct BillBuddyTabView: View {
     @State private var selectedTab = 0
     @State private var isShowingAdScreen: Bool = false
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
+    @State var tabBarVisivility: Visibility = .visible
 //    @State var isDimmedBackground = false
     @EnvironmentObject private var userService: UserService
     

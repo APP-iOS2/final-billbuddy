@@ -27,6 +27,7 @@ struct FillInPaymentInfoView: View {
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
+    @State private var isShowingDatePickerSheet: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     
     
@@ -41,16 +42,21 @@ struct FillInPaymentInfoView: View {
     }
     
     var datePickerSection: some View {
-        Section {
-            DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: .date, label: {
-                Text("날짜")
+        HStack {
+            Text("날짜")
+                .font(.custom("Pretendard-Bold", size: 14))
+                .padding(.leading, 16)
+                .padding(.top, 16)
+                .padding(.bottom, 20)
+            Spacer()
+            Button(action: {
+                isShowingDatePickerSheet = true
+            }, label: {
+                Text("\(paymentDate.dateAndTime)")
                     .font(.custom("Pretendard-Bold", size: 14))
+                    .padding(.trailing, 16)
+                
             })
-            .focused(focusedField, equals: .date)
-            .padding(.leading, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 16)
-            .padding(.trailing, 16)
         }
         .background {
             RoundedRectangle(cornerRadius: 12)
@@ -59,6 +65,24 @@ struct FillInPaymentInfoView: View {
         .padding(.leading, 16)
         .padding(.top, 16)
         .padding(.trailing, 16)
+        
+        .sheet(isPresented: $isShowingDatePickerSheet, content: {
+            VStack {
+                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
+                    Text("날짜")
+                        .font(.custom("Pretendard-Bold", size: 14))
+                })
+                
+            }
+            .focused(focusedField, equals: .date)
+            .padding(.leading, 16)
+            .padding(.top, 16)
+            .padding(.bottom, 16)
+            .padding(.trailing, 16)
+            
+            .presentationDetents([.fraction(0.3)])
+            
+        })
     }
     var typePickerSection: some View {
         VStack {
@@ -154,43 +178,56 @@ struct FillInPaymentInfoView: View {
             
         }
     }
-    var addPaymentMember: some View {
-        VStack(spacing: 0) {
-            memberSection
-            .sheet(isPresented: $isShowingMemberSheet, content: {
-                addPaymentMemberSheet
-            })
+    var memberSheet: some View {
+        VStack(spacing: 0, content: {
+            HStack {
+                Spacer()
+                
+                Button(action: {
+                    tempMembers = travelCalculation.members
+                }, label: {
+                    Text("전체 선택")
+                })
+                .font(.custom("Pretendard-SemiBold", size: 14))
+                .foregroundStyle(Color.myPrimary)
+                
+                Text("/")
+                
+                Button(action: {
+                    tempMembers = []
+                }, label: {
+                    Text("전체 해제")
+                })
+                .font(.custom("Pretendard-SemiBold", size: 14))
+                .foregroundStyle(Color.myPrimary)
+            }
+            .padding(.trailing, 32)
+            .padding(.top, 32)
             
-            memberListSection
-        }
-    }
-    var addPaymentMemberSheet: some View {
-        VStack {
             ScrollView {
                 ForEach(travelCalculation.members) { member in
                     HStack {
-                        if tempMembers.firstIndex(where: { m in
-                            m.name == member.name
-                        }) != nil {
-                            /// 해당 멤버가 없는 경우
-                            Image("form-checked-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        else {
-                            /// 해당 멤버가 있는 경우
-                            Image("form-check-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        
                         Text(member.name)
                             .font(.custom("Pretendard-Semibold", size: 14))
                             .foregroundStyle(Color.black)
                         
                         Spacer()
+                        
+                        if tempMembers.firstIndex(where: { m in
+                            m.name == member.name
+                        }) != nil {
+                            Image(.checked)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        else {
+                            Image(.noneChecked)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
                     }
                     .padding(.leading, 32)
+                    .padding(.trailing, 46)
                     .padding(.top, 36)
                     .onTapGesture {
                         // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
@@ -208,10 +245,31 @@ struct FillInPaymentInfoView: View {
                 .onAppear {
                     tempMembers = members
                 }
-                .presentationDetents([.fraction(0.4)])
+                .presentationDetents([.fraction(0.45)])
             }
+            
             .padding(.top, 8)
             .padding(.bottom, 36)
+        })
+        
+        
+    }
+    var addPaymentMember: some View {
+        VStack(spacing: 0) {
+            memberSection
+            .sheet(isPresented: $isShowingMemberSheet, content: {
+                addPaymentMemberSheet
+            })
+            
+            memberListSection
+        }
+    }
+    var addPaymentMemberSheet: some View {
+        VStack {
+            
+            
+            memberSheet
+            
             Button(action: {
                 isShowingMemberSheet = false
                 members = tempMembers
@@ -257,49 +315,7 @@ struct FillInPaymentInfoView: View {
     }
     var editPaymentMemberSheet: some View {
         VStack {
-            ScrollView {
-                ForEach(travelCalculation.members) { member in
-                    HStack {
-                        if tempMembers.firstIndex(where: { m in
-                            m.name == member.name
-                        }) != nil {
-                            Image("form-checked-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        else {
-                            Image("form-check-input radio")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                        }
-                        
-                        Text(member.name)
-                            .font(.custom("Pretendard-Semibold", size: 14))
-                            .foregroundStyle(Color.black)
-                            .onTapGesture {
-                                // TODO: firstIndex로 두번이나 찾으면 메모리 너무 많이 먹는거 아닌가
-                                // 각각에 대해서 배열로 만들수도 없고 이걸 어뚜케 해야하지? 나중에 Refactoring 고민해보기!
-                                if let existMember = tempMembers.firstIndex(where: { m in
-                                    m.name == member.name
-                                }) {
-                                    tempMembers.remove(at: existMember)
-                                }
-                                else {
-                                    tempMembers.append(member)
-                                }
-                            }
-                        Spacer()
-                    }
-                    .padding(.leading, 32)
-                    .padding(.top, 36)
-                    .onAppear {
-                        tempMembers = members
-                    }
-                }
-                .presentationDetents([.fraction(0.4)])
-            }
-            .padding(.top, 8)
-            .padding(.bottom, 36)
+            memberSheet
             
             Button(action: {
                 isShowingMemberSheet = false
@@ -336,10 +352,10 @@ struct FillInPaymentInfoView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
-                Text("0원")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color.gray600)
-                    .padding(.trailing, 16)
+//                Text("0원")
+//                    .font(.custom("Pretendard-Medium", size: 14))
+//                    .foregroundStyle(Color.gray600)
+//                    .padding(.trailing, 16)
             }
             .background {
                 RoundedRectangle(cornerRadius: 12)
@@ -401,7 +417,3 @@ struct FillInPaymentInfoView: View {
         .padding(.trailing, 16)
     }
 }
-
-//#Preview {
-//    
-//}

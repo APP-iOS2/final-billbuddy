@@ -19,14 +19,13 @@ extension Double {
         return Date(timeIntervalSince1970: self)
     }
     
-    func toFormattedMonthandDay() -> String {
-        let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
-        
-        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        Self.dateFormatter.dateFormat = "YYYY.MM.dd"
-        
-        return Self.dateFormatter.string(from: dateCreatedAt)
-    }
+    func timeTo00_00_00() -> Double {
+            return 86400 * floor(self / 86400)
+        }
+
+        func timeTo11_59_59() -> Double {
+            return 86400 * ceil(self / 86400) - 1
+        }
     
     func toFormattedYearandMonthandDay() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)

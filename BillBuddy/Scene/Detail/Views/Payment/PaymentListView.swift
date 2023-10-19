@@ -70,8 +70,6 @@ struct PaymentListView: View {
             }
             .padding(.leading, 16)
             .padding(.trailing, 24)
-            
-            // TODO: Swipe 폭 각각 88
             .swipeActions {
                 Button(role: .destructive) {
                     paymentStore.deletePayment(payment: payment)
