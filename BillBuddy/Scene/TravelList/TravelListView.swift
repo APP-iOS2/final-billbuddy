@@ -11,7 +11,6 @@ struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
-    @Binding var tabBarVisivility: Visibility
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
@@ -165,8 +164,9 @@ extension TravelListView {
 }
 #Preview {
     NavigationStack {
-        TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore(), tabBarVisivility: .constant(.visible))
+        TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
             .environmentObject(UserTravelStore())
+            .environmentObject(TabBarVisivilyStore())
     }
 }
 
