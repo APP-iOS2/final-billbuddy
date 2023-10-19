@@ -46,5 +46,5 @@ struct MapDetailView: View {
 }
 
 #Preview {
-    MapDetailView(paymentStore: PaymentStore(travelCalculationId: "MukBang"))
+    MapDetailView(paymentStore: PaymentStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0.0, endDate: 0.0, updateContentDate: 0.0, members: [])))
 }
