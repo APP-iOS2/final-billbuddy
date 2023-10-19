@@ -134,9 +134,11 @@ struct AddTravelView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
         }
-    }
-    
+    } //MARK: BODY
+        
 }
+
+
 
 extension Date {
     func toFormattedMonthandDay() -> String {
