@@ -43,49 +43,6 @@ final class PaymentStore: ObservableObject {
         } catch {
             print("payment fetch false \(error)")
         }
-        
-//        dbRef.getDocuments { snapshot, error in
-//            if let snapshot {
-//                var tempPayment: [Payment] = []
-//                
-//                for doc in snapshot.documents {
-//                    
-//                    let id: String = doc.documentID
-//                    let docData = doc.data()
-//                    
-//                    let typeString: String = docData["type"] as? String ?? ""
-//                    let type: Payment.PaymentType = Payment.PaymentType.fromRawString(typeString)
-//                    
-//                    let content: String = docData["content"] as? String ?? ""
-//                    let price: Int = docData["payment"] as? Int ?? 0
-//                    let paymentDate: Double = docData["paymentDate"] as? Double ?? 0
-//                    
-//                    let addressDict = docData["address"] as? [String: Any] ?? ["address": "", "latitude": 0, "longitude": 0]
-//                    let address: Payment.Address = Payment.Address(address: addressDict["address"] as? String ?? "", latitude: addressDict["latitude"] as? Double ?? 0, longitude: addressDict["longitude"] as? Double ?? 0)
-//                    
-//                    let participantsDict = docData["participants"] as? [[String: Any]] ?? []
-//                    var participants: [Payment.Participant] = []
-//                    for p in participantsDict {
-//                        let memberId = p["memberId"] as? String ?? ""
-//                        let payment = p["payment"] as? Int ?? 0
-//                        
-//                        participants.append(Payment.Participant(memberId: memberId, payment: payment))
-//                    }
-//                    
-//                    let newPayment = Payment(id: id, type: type, content: content, payment: price, address: address, participants: participants, paymentDate: paymentDate)
-//                    
-//                    tempPayment.append(newPayment)
-//                    
-//                    self.sumAllPayment += price
-//                }
-//                
-//                DispatchQueue.main.async {
-//                    self.payments = tempPayment
-//                    self.filteredPayments = tempPayment
-//                }
-//                
-//            }
-//        }
     }
     
     func resetFilter() {
@@ -121,6 +78,15 @@ final class PaymentStore: ObservableObject {
     func editPayment(payment: Payment) {
         if let id = payment.id {
             try? dbRef.document(id).setData(from: payment)
+            
+            Task {
+                //FIXME: fetchAll -> fetch 안하도록 ..
+                await fetchAll()
+            }
+            
+//            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+//                payments[index] = payment
+//            }
         }
     }
     
