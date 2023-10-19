@@ -12,6 +12,7 @@ struct AddTravelView: View {
     //    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
     //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
     
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var travelTitle: String = ""
     @State private var selectedMember = 0
@@ -21,8 +22,8 @@ struct AddTravelView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        // 전체적인 디자인 수정 예정
         ZStack {
+            Color.gray1000
             VStack {
                 ScrollView {
                     RoundedRectangle(cornerRadius: 12)
@@ -31,7 +32,8 @@ struct AddTravelView: View {
                             TextField("여행 이름을 입력해주세요.", text: $travelTitle)
                                 .padding(12)
                         )
-                        .frame(width: 360, height: 50)
+                        .padding(.top, 24)
+                        .frame(width: 360, height: 70)
                     
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
@@ -50,7 +52,7 @@ struct AddTravelView: View {
                                                 .font(.body04)
                                                 .frame(width: 110, height: 30)
                                                 .foregroundColor(Color.myPrimary)
-                                                .background(Color.lightBlue)
+                                                .background(Color.lightBlue100)
                                                 .cornerRadius(8)
                                         } else {
                                             Image("calendar-add-4")
@@ -67,7 +69,8 @@ struct AddTravelView: View {
                                 
                                     .padding(12)
                             )
-                            .frame(width: 360, height: 50)
+                            .padding(.top, 24)
+                            .frame(width: 360, height: 70)
                     }
                     
                     HStack {
@@ -76,7 +79,6 @@ struct AddTravelView: View {
                             .overlay(
                                 HStack {
                                     Text("인원")
-                                    
                                     Spacer()
                                     
                                     Button(action: {
@@ -89,6 +91,7 @@ struct AddTravelView: View {
                                     .buttonStyle(.plain)
                                     
                                     Text("\(selectedMember)")
+                                        .font(.body01)
                                     
                                     Button(action: {
                                         selectedMember += 1
@@ -101,9 +104,12 @@ struct AddTravelView: View {
                                 }
                                     .padding(12)
                             )
-                            .frame(width: 360, height: 50)
+                            .padding(.top, 24)
+                            .frame(width: 360, height: 70)
                     }
-                }
+                    
+                } //MARK: SCROLLVIEW
+                
                 .font(.body04)
                 
                 Spacer()
@@ -117,17 +123,22 @@ struct AddTravelView: View {
                 }
                 .frame(width: 500, height: 60)
                 .background(Color.myPrimary)
-                //            .edgesIgnoringSafeArea(.bottom)
                 .foregroundColor(.white)
-            }
+                
+            } //MARK: VSTACK
             
-            .background(Color.gray1000)
-            
-        }
+        } //MARK: ZSTACK
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
-    }
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .onAppear {
+            tabBarVisivilyStore.hideTabBar()
+        }
+    } //MARK: BODY
+        
 }
+
+
 
 extension Date {
     func toFormattedMonthandDay() -> String {
@@ -139,5 +150,7 @@ extension Date {
 }
 
 #Preview {
-    AddTravelView()
+    NavigationStack {
+        AddTravelView()
+    }
 }

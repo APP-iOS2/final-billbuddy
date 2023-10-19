@@ -23,11 +23,12 @@ struct CalendarSheetView: View {
                     Image("arrow_back")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                        .frame(width: 20, height: 20)
                 }
+                .padding(.trailing, 27)
                 
                 Text("\(calendarStore.titleForYear())   \(calendarStore.titleForMonth())")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.body01)
                 
                 Button(action: {
                     calendarStore.selectForwardMonth()
@@ -35,17 +36,20 @@ struct CalendarSheetView: View {
                     Image("arrow_forward_ios")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                        .frame(width: 20, height: 20)
                 }
-            }
+                .padding(.leading, 27)
+            } //MARK: HSTACK
             
             VStack(spacing: 3) {
                 HStack(spacing: 0) {
                     ForEach(calendarStore.days, id: \.self) { day in
                         Text(day)
+                            .foregroundColor(.gray500)
                             .frame(height: 36)
                             .frame(maxWidth: .infinity)
                     }
+                    .padding(.top, 37)
                 }
             }
             
@@ -83,6 +87,7 @@ struct CalendarSheetView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                             }
+                            .font(.caption02)
                         }
                     }
                 }
@@ -100,10 +105,12 @@ struct CalendarSheetView: View {
             .background(Color.myPrimary.cornerRadius(12))
             .foregroundColor(.white)
             .padding(.top, 30)
-        }
+            
+        } //MARK: VSTACK
         .padding(.vertical, 10)
         .padding(.horizontal, 20)
-    }
+        
+    } //MARK: BODY
     
     func fillRange(day: Date, week: [Date], index: Int) -> some View {
         HStack(spacing: 0) {
@@ -111,17 +118,17 @@ struct CalendarSheetView: View {
                 if day == calendarStore.firstDate {
                     Color.clear
                 } else {
-                    Color.myPrimary.opacity(0.2)
+                    Color.lightBlue200
                 }
             } else {
                 if calendarStore.isDateInRange(day: day) {
                     if index == 0 {
-                        Color.myPrimary.opacity(0.2)
+                        Color.lightBlue200
                     } else {
                         if calendarStore.isFirstDayOfMonth(date: day) {
-                            Color.myPrimary.opacity(0.2)
+                            Color.lightBlue200
                         } else {
-                            Color.myPrimary.opacity(0.2)
+                            Color.lightBlue200
                         }
                     }
                 } else {
@@ -136,18 +143,18 @@ struct CalendarSheetView: View {
                     if calendarStore.secondDate == nil {
                         Color.clear
                     } else {
-                        Color.myPrimary.opacity(0.2)
+                        Color.lightBlue200
                     }
                 }
             } else {
                 if calendarStore.isDateInRange(day: day) {
                     if index == week.count - 1 {
-                        Color.myPrimary.opacity(0.2)
+                        Color.lightBlue200
                     } else {
                         if calendarStore.isLastDayOfMonth(date: day) {
-                            Color.myPrimary.opacity(0.2)
+                            Color.lightBlue200
                         } else {
-                            Color.myPrimary.opacity(0.2)
+                            Color.lightBlue200
                         }
                     }
                 } else {

@@ -22,6 +22,7 @@ struct MapViewCoordinater: UIViewRepresentable {
 //        locationManager.mapView.removeAnnotation(locationManager.mapView.annotations)
 //        locationManager.mapView.removeOverlays(locationManager.mapView.overlays)
         
+
 //        // 새로운 핀 추가
 //        locationManager.mapView.addAnnotations(locationManager.annotations)
 //

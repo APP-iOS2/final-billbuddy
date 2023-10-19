@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct DateSheet: View {
+    
+    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var paymentStore: PaymentStore
+    
+    @Binding var isShowingDateSheet: Bool
     @Binding var selectedDate: Double
     
     @State var startDate: Double
@@ -25,6 +30,8 @@ struct DateSheet: View {
                 HStack {
                     Button(action: {
                         selectedDate = 0
+                        locationManager.setAnnotations(filteredPayments: paymentStore.filteredPayments)
+                        isShowingDateSheet.toggle()
                     }, label: {
                         Text("전체")
                             .font(.custom("Pretendard-Semibold", size: 16))
@@ -39,6 +46,8 @@ struct DateSheet: View {
                     HStack {
                         Button(action: {
                             selectedDate = date.date.timeIntervalSince1970
+                            locationManager.setAnnotations(filteredPayments: paymentStore.filteredPayments)
+                            isShowingDateSheet.toggle()
                         }, label: {
                             Text(date.date.dateWeek + " " + date.dateNum)
                                 .font(.custom("Pretendard-Semibold", size: 16))

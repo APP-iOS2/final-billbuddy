@@ -17,6 +17,9 @@
 	<string>ca-app-pub-4634552659933346~7460949431</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SF-Pro-Display-Semibold.otf</string>
+		<string>SF-Pro-Rounded-Semibold.otf</string>
+		<string>SF-Pro-Text-SemiboldItalic.otf</string>
 		<string>Pretendard-Medium.otf</string>
 		<string>Pretendard-Black.otf</string>
 		<string>Pretendard-SemiBold.otf</string>
