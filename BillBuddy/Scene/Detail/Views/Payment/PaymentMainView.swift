@@ -54,7 +54,7 @@ struct PaymentMainView: View {
                     Spacer()
                     
                     NavigationLink {
-                        Text("정산 뷰")
+                        SettledAccountView()
                     } label: {
                         Text("정산하기")
                             .font(.custom("Pretendard-Medium", size: 14))

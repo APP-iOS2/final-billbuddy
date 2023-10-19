@@ -25,8 +25,7 @@ final class PaymentStore: ObservableObject {
     }
     
     @MainActor
-    func fetchAll(member: [TravelCalculation.Member] = []) async {
-        var member = member.isEmpty ? self.members : member
+    func fetchAll() async {
         payments.removeAll()
         sumAllPayment = 0
         
@@ -106,6 +105,7 @@ final class PaymentStore: ObservableObject {
     }
     
     func filterCategory(category: Payment.PaymentType) {
+    
         filteredPayments = payments.filter({ (payment: Payment) in
             return payment.type == category
         })
