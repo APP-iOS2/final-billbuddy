@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var signInStore: SignInStore = SignInStore()
+    @StateObject private var signUpStore: SignUpStore = SignUpStore()
     @StateObject private var userService: UserService = .shared
     @StateObject private var schemeServie: SchemeService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
     @StateObject private var messageStore = MessageStore()
+    @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
     
     var body: some View {
         if userService.isSignIn {
@@ -23,6 +25,9 @@ struct ContentView: View {
                     .environmentObject(userTravelStore)
                     .environmentObject(messageStore)
                     .environmentObject(userService)
+                    .environmentObject(signInStore)
+                    .environmentObject(signUpStore)
+                    .environmentObject(tabBarVisivilyStore)
             } else {
                 DeepLinkView()
             }

@@ -8,39 +8,45 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
+
     @ObservedObject var userTravelStore: UserTravelStore
-    
+//    @Binding var isDimmedBackground: Bool
+    @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
-    @State private var showMenuItem1 = false
-    @State private var showMenuItem2 = false
-    @State private var buttonImage = "plus.circle.fill"
+//    @State private var showMenuItem1 = false
+//    @State private var showMenuItem2 = false
+//    @State private var buttonImage = "openButton"
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
+    @State private var isShowingNoTravelAlert: Bool = false
     
     var body: some View {
         VStack {
+            Spacer()
             HStack {
                 Spacer()
-                if showMenuItem1 {
+                if floatingButtonMenuStore.showMenuItem1 {
                     NavigationLink {
-                        PaymentManageView(mode: .mainAdd, travelCalculation: $travelCalculation)
+                        PaymentManageView(mode: .mainAdd, travelCalculation: travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
+                            .onAppear {
+                                if userTravelStore.userTravels.first == nil {
+                                    isShowingNoTravelAlert = true
+                                }
+                            }
+                            .alert(isPresented: $isShowingNoTravelAlert, content: {
+                                return Alert(title: Text("생성된 여행이 없습니다"))
+                            })
+                            .onDisappear {
+                                floatingButtonMenuStore.closeMenu()
+                            }
                     } label: {
-                        
                         Text("지출 추가하기")
-                            .foregroundColor(Color.black)
+                            .padding(.trailing, 16)
+                            .font(Font.body01)
+                            .foregroundColor(.white)
                         MenuItem(icon: "wallet")
                             .padding(.trailing, 12)
-                    }
-                    .onAppear {
-                        if let travel = userTravelStore.userTravels.first {
-                            // TODO: userTravel로 travelCalculation 찾아오기 !
-                            // member 때문에 필요함
-                            travelCalculation = userTravelStore.findTravelCalculation(userTravel: travel) ?? TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
-//                            travelCalculation.travelTitle = travel.travelName
-//                            travelCalculation.startDate = travel.startDate
-//                            travelCalculation.endDate = travel.endDate
-                        }
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
@@ -48,14 +54,19 @@ struct AddTravelButtonView: View {
             
             HStack {
                 Spacer()
-                if showMenuItem2 {
+                if floatingButtonMenuStore.showMenuItem2 {
                     NavigationLink {
                         AddTravelView()
+                            .onDisappear {
+                                floatingButtonMenuStore.closeMenu()
+                            }
                     } label: {
                         
                         Text("여행 추가하기")
-                            .foregroundColor(Color.black)
-                        MenuItem(icon: "add")
+                            .padding(.trailing, 16)
+                            .font(Font.body01)
+                            .foregroundColor(.white)
+                        MenuItem(icon: "add_room")
                             .padding(.trailing, 12)
                     }
                     .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -66,41 +77,44 @@ struct AddTravelButtonView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    showMenu()
+                    floatingButtonMenuStore.showMenu()
+                    print(floatingButtonMenuStore.isDimmedBackground.description)
+                        
                 }) {
-                    Image(systemName: buttonImage)
-                        .font(.system(size: 50))
-                        .frame(width: 60, height: 60)
+                    Image(floatingButtonMenuStore.buttonImage)
+                        .resizable()
+                        .frame(width: 56, height: 56)
+                        .shadow(color: Color.gray.opacity(0.2), radius: 0, y: 5)
                         .animation(nil, value: UUID())
                     
                 }
+                
                 .padding(.trailing, 12)
             }
         }
     }
-    
-    func showMenu() {
-        if showMenuItem1 || showMenuItem2 {
-            showMenuItem1 = false
-            showMenuItem2 = false
-            buttonImage = "plus.circle.fill"
-        } else {
-            withAnimation(.bouncy) {
-                showMenuItem1 = true
-                showMenuItem2 = true
-            }
-            buttonImage = "xmark.circle.fill"
-        }
-    }
-    
 //    func showMenu() {
-//        showMenuItem1 = true
-//        showMenuItem2 = true
-//        // 다은님이 주신 심볼로는 버튼을 하얀색으로 만들지 못함
-//        
-//        buttonImage = showMenuItem1 || showMenuItem2 ? "xmark.circle.fill" : "plus.circle.fill"
+//        if showMenuItem1 || showMenuItem2 {
+//            showMenuItem1 = false
+//            showMenuItem2 = false
+//            buttonImage = "openButton"
+//            isDimmedBackground = false
+//        } else {
+//            withAnimation(.bouncy) {
+//                showMenuItem1 = true
+//                showMenuItem2 = true
+//            }
+//            buttonImage = "closeButton"
+//            isDimmedBackground = true
+//        }
 //    }
-
+//
+//    func closeMenu() {
+//        showMenuItem1 = false
+//        showMenuItem2 = false
+//        isDimmedBackground = false
+//        buttonImage = "openButton"
+//    }
 }
 
 struct MenuItem: View {
@@ -108,14 +122,13 @@ struct MenuItem: View {
     
     var body: some View {
         ZStack {
-            Circle()
-                .foregroundColor(Color.gray300)
-                .frame(width: 60, height: 60)
+                
             Image(icon)
+                .resizable()
+                .frame(width: 56, height: 56)
         }
     }
 }
-
-#Preview {
-    AddTravelButtonView(userTravelStore: UserTravelStore())
-}
+//#Preview {
+//    AddTravelButtonView(userTravelStore: UserTravelStore())
+//}

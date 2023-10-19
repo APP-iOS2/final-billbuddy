@@ -11,4 +11,8 @@ enum StoreCollection: String {
     case user = "User"
     case travel = "TravelCalculation"
     case payment = "Payment"
+    
+    var path: String {
+        return self.rawValue
+    }
 }

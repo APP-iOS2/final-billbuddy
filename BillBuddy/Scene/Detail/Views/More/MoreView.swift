@@ -43,21 +43,22 @@ enum ListItem: String, CaseIterable {
 struct MoreView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    var travelCalculation: TravelCalculation
+    @ObservedObject var travelDetailStore: TravelDetailStore
+    @State var itemList: [ListItem] = ListItem.allCases
     
     var body: some View {
         Divider()
             .padding(.bottom, 16)
         VStack {
-            ForEach(ListItem.allCases, id:\.self) { item in
+            ForEach(itemList, id:\.self) { item in
                 NavigationLink {
                     switch item {
                     case .chat:
-                        ChattingRoomView(tabBarVisivility: .constant(.hidden), travel: travelCalculation)
+                        ChattingRoomView(travel: travelDetailStore.travel)
                     case .editDate:
                         SpendingListView()
                     case .mamberManagement:
-                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelCalculation))
+                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelDetailStore.travel))
                     case .settledAccount:
                         SettledAccountView()
                     }
@@ -94,6 +95,6 @@ struct MoreView: View {
 
 #Preview {
     NavigationStack {
-        MoreView(travelCalculation: TravelCalculation.sampletravel)
+        MoreView(travelDetailStore: TravelDetailStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])))
     }
 }

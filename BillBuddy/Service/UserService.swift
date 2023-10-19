@@ -42,4 +42,12 @@ final class UserService: ObservableObject {
             throw error
         }
     }
+    
+    func removeUserData(userId: String) async throws {
+            do {
+                try await FirestoreService.shared.deleteDocument(collectionId: .user, documentId: userId)
+            } catch {
+                throw error
+            }
+        }
 }
