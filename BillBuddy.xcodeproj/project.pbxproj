@@ -129,6 +129,10 @@
 		023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelButtonView.swift; sourceTree = "<group>"; };
 		023EF92D2ACC0731005C3F30 /* AddTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelView.swift; sourceTree = "<group>"; };
 		0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetView.swift; sourceTree = "<group>"; };
+		02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
+		02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
+		02C5A7D62ADFFE4100CBD8D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonMenuStore.swift; sourceTree = "<group>"; };
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		2655B7032ADD972A002E051B /* BillBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BillBuddy.entitlements; sourceTree = "<group>"; };
@@ -250,6 +254,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02B06CAF2AE0C91A00486005 /* SF-Pro */ = {
+			isa = PBXGroup;
+			children = (
+				02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */,
+				02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */,
+				02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */,
+			);
+			path = "SF-Pro";
+			sourceTree = "<group>";
+		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,6 +663,7 @@
 		278BA5FA2AC25EA800761B0B /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				02B06CAF2AE0C91A00486005 /* SF-Pro */,
 				278BA5FB2AC25EA800761B0B /* Pretendard */,
 			);
 			path = fonts;

@@ -37,5 +37,5 @@ struct MapSubView: View {
 }
 
 #Preview {
-    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0.0, endDate: 0.0, updateContentDate: 0.0, members: [])))
+    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation.sampletravel))
 }
