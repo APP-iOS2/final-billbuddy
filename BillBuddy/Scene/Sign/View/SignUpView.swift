@@ -18,10 +18,10 @@ struct SignUpView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Spacer()
             Text("간편하게 가입하고\n서비스를 이용해보세요.")
                 .font(.title05)
                 .padding(.bottom, 24)
+                .padding(.top, 17)
             
             VStack(alignment: .leading) {
                 TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
