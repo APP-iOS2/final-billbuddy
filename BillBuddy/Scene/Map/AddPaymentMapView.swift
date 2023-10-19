@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct AddPaymentMapView: View {
-    @StateObject var locationManager = LocationManager()
+    @StateObject var locationManager: LocationManager
     
-    @State private var searchAddress: String = ""
     @State private var isShowingAddress: Bool = false
+    
+    @Binding var searchAddress: String
+//    @Binding var searchlatitude: Double
+//    @Binding var searchlongitude: Double
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 HStack {
                     Text("위치")
-                        .font(.custom("Pretendard-Bold", size: 14))
+                        .font(.custom("Pretendard-Bold", size: 18))
                     Spacer()
                     if isShowingAddress {
                         Text("입력된 주소 : \(locationManager.selectedAddress)")
@@ -35,7 +38,7 @@ struct AddPaymentMapView: View {
                                     .padding()
                                 Button(action: {
                                     locationManager.searchAddress(searchAddress: searchAddress)
-                                    locationManager.selectedAddress = searchAddress
+//                                    locationManager.selectedAddress = searchAddress
                                     isShowingAddress = true
                                     
                                 }, label: {
@@ -73,5 +76,5 @@ struct AddPaymentMapView: View {
 }
 
 #Preview {
-    AddPaymentMapView()
+    AddPaymentMapView(locationManager: LocationManager(), searchAddress: .constant("cheonan"))
 }
