@@ -14,8 +14,10 @@ struct PaymentMainView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
-    @State var isShowingSelectCategorySheet: Bool = false
-    @State var selectedCategory: Payment.PaymentType?
+    @State private var isShowingSelectCategorySheet: Bool = false
+    @State private var selectedCategory: Payment.PaymentType?
+    @State private var isEditing: Bool = false
+    @State private var selection = Set<String>()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -170,9 +172,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Text("편집")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color.gray600)
+                Button(action: {
+                    isEditing.toggle()
+                }, label: {
+                    if isEditing {
+                        Text("편집 완료")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("편집")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
