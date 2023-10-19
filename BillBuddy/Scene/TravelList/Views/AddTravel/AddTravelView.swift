@@ -22,12 +22,10 @@ struct AddTravelView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        // 전체적인 디자인 수정 예정
         ZStack {
             Color.gray1000
             VStack {
                 ScrollView {
-                    
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.white)
                         .overlay(
@@ -129,19 +127,18 @@ struct AddTravelView: View {
                 
             } //MARK: VSTACK
             
-            
         } //MARK: ZSTACK
-        
-        
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
         }
-    }
-    
+    } //MARK: BODY
+        
 }
+
+
 
 extension Date {
     func toFormattedMonthandDay() -> String {

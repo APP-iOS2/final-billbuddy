@@ -32,6 +32,7 @@ struct PaymentManageView: View {
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
+    @State private var searchAddress: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date.now
     @State private var members: [TravelCalculation.Member] = []
@@ -175,15 +176,15 @@ struct PaymentManageView: View {
             switch(mode) {
             case .edit:
                 HStack {
-                    EditPaymentMapView(locationManager: locationManager)
+                    EditPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
                         .frame(height: 500)
                 }
             case .mainAdd:
-                AddPaymentMapView()
+                AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
                     .frame(height: 500)
                 Spacer()
             case .add:
-                AddPaymentMapView()
+                AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
                     .frame(height: 500)
                 Spacer()
             }
@@ -293,7 +294,7 @@ extension PaymentManageView {
         }
         
         let newPayment =
-        Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+        Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         
         //
         paymentStore.addPayment(newPayment: newPayment)
@@ -307,13 +308,13 @@ extension PaymentManageView {
         }
         
         let newPayment =
-        Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
+        Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
     }
     
     func editPayment() {
         if let payment = payment {
-            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: "", latitude: 0, longitude: 0), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
             paymentStore.editPayment(payment: newPayment)
         }
     }

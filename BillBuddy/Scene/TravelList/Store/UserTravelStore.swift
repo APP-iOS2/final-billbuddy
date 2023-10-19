@@ -59,8 +59,8 @@ final class UserTravelStore: ObservableObject {
             hostId: userId,
             travelTitle: title,
             managerId: userId,
-            startDate: startDate.timeIntervalSince1970,
-            endDate: endDate.timeIntervalSince1970,
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59(),
             updateContentDate: 0,
             isPaymentSettled: false,
             members: tempMembers
@@ -69,8 +69,8 @@ final class UserTravelStore: ObservableObject {
         let userTravel = UserTravel(
             travelId: tempTravel.id,
             travelName: title,
-            startDate: startDate.timeIntervalSince1970,
-            endDate: endDate.timeIntervalSince1970
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59()
         )
         
         do {
@@ -92,6 +92,8 @@ final class UserTravelStore: ObservableObject {
             print("Error adding travel: \(error)")
         }
     }
+    
+    
     
     func addPayment(travelCalculation: TravelCalculation, payment: Payment) {
         try! service.collection("TravelCalculation").document(travelCalculation.id).collection("Payment").addDocument(from: payment.self)
