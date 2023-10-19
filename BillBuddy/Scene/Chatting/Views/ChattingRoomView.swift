@@ -46,13 +46,13 @@ struct ChattingRoomView: View {
                     .foregroundColor(.systemBlack)
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    
-                }, label: {
+                NavigationLink {
+                    ChattingMenuView(travel: travel)
+                } label: {
                     Image(.steps13)
                         .resizable()
                         .frame(width: 24, height: 24)
-                })
+                }
             }
         }
     }
