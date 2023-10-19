@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TravelListView: View {
-    @EnvironmentObject var userTravelStore: UserTravelStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @Binding var tabBarVisivility: Visibility
     
@@ -25,13 +26,10 @@ struct TravelListView: View {
                     travelFilterButton
                     Spacer()
                 }
-                
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(tabBarVisivility: $tabBarVisivility, paymentStore: PaymentStore(travelCalculationId: travel.id), travelCalculation: travel)
-                                .toolbar(tabBarVisivility, for: .tabBar)
-                            
+                            DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))                            
                         } label: {
                             HStack {
                                 VStack(alignment: .leading) {
@@ -86,7 +84,7 @@ struct TravelListView: View {
                 }
         )
         
-        
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Text("BillBuddy")
@@ -101,7 +99,7 @@ struct TravelListView: View {
             }
         }
         .onAppear {
-            tabBarVisivility = .visible
+            tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
             }
@@ -165,8 +163,6 @@ extension TravelListView {
         }
     }
 }
-
-
 #Preview {
     NavigationStack {
         TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore(), tabBarVisivility: .constant(.visible))
@@ -174,3 +170,4 @@ extension TravelListView {
     }
 }
 
+    

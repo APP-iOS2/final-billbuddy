@@ -6,42 +6,40 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    @State var tabBarVisivility: Visibility = .visible
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
 //    @State var isDimmedBackground = false
 
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
+        UITabBarItem.appearance().setTitleTextAttributes([.font:UIFont(name: "Pretendard-Bold", size: 10)!], for: .normal)
     }
     
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: $tabBarVisivility)
-                    .toolbar(tabBarVisivility, for: .tabBar)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
                     
             }
             .tabItem {
                 Image(.hometap)
                     .renderingMode(.template)
-                Text("test")
+                Text("홈")
             }
 //            .brightness(isDimmedBackground ? -0.5 : 0)
             .toolbarBackground(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0), for: .tabBar)
             .tag(0)
             
             NavigationStack {
-                ChattingView(tabBarVisivility: $tabBarVisivility)
-                    .toolbar(tabBarVisivility, for: .tabBar)
-
+                ChattingView()
             }
             .tabItem {
                 Image(.chattap)
                     .renderingMode(.template)
-                Text("test")
+                Text("채팅")
             }
             .tag(1)
             
@@ -51,7 +49,7 @@ struct BillBuddyTabView: View {
             .tabItem {
                 Image(.mypagetap)
                     .renderingMode(.template)
-                Text("test")
+                Text("마이페이지")
             }
 
             .tag(2)

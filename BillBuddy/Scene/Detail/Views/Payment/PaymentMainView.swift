@@ -10,12 +10,14 @@ import SwiftUI
 
 struct PaymentMainView: View {
     
-    @Binding var travelCalculation: TravelCalculation
     @Binding var selectedDate: Double
     @ObservedObject var paymentStore: PaymentStore
-    
-    @State var isShowingSelectCategorySheet: Bool = false
-    @State var selectedCategory: Payment.PaymentType?
+    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+    @State private var isShowingSelectCategorySheet: Bool = false
+    @State private var selectedCategory: Payment.PaymentType?
+    @State private var isEditing: Bool = false
+    @State private var selection = Set<String>()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -44,7 +46,7 @@ struct PaymentMainView: View {
                                     .frame(width: 24, height: 24)
                             }
                         }
-                        Text("₩0")
+                        Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.custom("Pretendard-Semibold", size: 16))
                     })
                     .padding(.top, 18)
@@ -54,7 +56,7 @@ struct PaymentMainView: View {
                     Spacer()
                     
                     NavigationLink {
-                        Text("정산 뷰")
+                        SettledAccountView()
                     } label: {
                         Text("정산하기")
                             .font(.custom("Pretendard-Medium", size: 14))
@@ -85,7 +87,7 @@ struct PaymentMainView: View {
     var paymentList: some View {
         VStack(spacing: 0) {
             List {
-                PaymentListView(travelCalculation: $travelCalculation, paymentStore: paymentStore)
+                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
@@ -94,10 +96,8 @@ struct PaymentMainView: View {
             .scrollContentBackground(.hidden)
             
             NavigationLink {
-                PaymentManageView(mode: .add, travelCalculation: $travelCalculation)
+                PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                     .environmentObject(paymentStore)
-                    .navigationTitle("지출 항목 추가")
-                    .navigationBarBackButtonHidden()
             } label: {
                 HStack(spacing: 12) {
                     Spacer()
@@ -157,7 +157,7 @@ struct PaymentMainView: View {
                             paymentStore.filterCategory(category: category)
                         }
                         else {
-                            paymentStore.fetchAll()
+                            paymentStore.resetFilter()
                         }
                     }
                     else {
@@ -172,9 +172,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Text("편집")
-                    .font(.custom("Pretendard-Medium", size: 14))
-                    .foregroundStyle(Color.gray600)
+                Button(action: {
+                    isEditing.toggle()
+                }, label: {
+                    if isEditing {
+                        Text("편집 완료")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("편집")
+                            .font(.custom("Pretendard-Medium", size: 14))
+                            .foregroundStyle(Color.gray600)
+                    }
+                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)

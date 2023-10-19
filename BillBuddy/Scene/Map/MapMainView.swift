@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct MapMainView: View {
-    @StateObject var locationManager = LocationManager()
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var paymentStore: PaymentStore
-    
-    @Binding var travelCalculation: TravelCalculation
-    
+    @ObservedObject var travelDetailStore: TravelDetailStore
     @Binding var selectedDate: Double
     
     var body: some View {
         ScrollView {
-  
-            MapSubView()
+            MapSubView(locationManager: locationManager, paymentStore: paymentStore)
                 .frame(height: 400)
-            MapDetailView()
+            Button(action: {
+                locationManager.setAnnotations(filteredPayments: paymentStore.filteredPayments)
+            }, label: {
+                Text("어노테이션 테스트") 
+            })
+            MapDetailView(paymentStore: paymentStore)
             Spacer()
         }
     }
