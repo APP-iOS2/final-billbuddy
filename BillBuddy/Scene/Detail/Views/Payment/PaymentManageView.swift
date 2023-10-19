@@ -26,7 +26,7 @@ struct PaymentManageView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
-//    @EnvironmentObject var travelDetailStore: TravelDetailStore
+    //    @EnvironmentObject var travelDetailStore: TravelDetailStore
     
     @State var travelCalculation: TravelCalculation
     
@@ -34,10 +34,9 @@ struct PaymentManageView: View {
     @State private var priceString: String = ""
     @State private var searchAddress: String = ""
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var paymentDate: Date = Date()
+    @State private var paymentDate: Date = Date.now
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
-    @State private var isFirstSelected: Bool = true
     @State private var navigationTitleString: String = "지출 항목 추가"
     @State private var isShowingAlert: Bool = false
     
@@ -53,7 +52,7 @@ struct PaymentManageView: View {
                     
                     subPaymentViewSection
                         .padding(.bottom, 16)
-
+                    
                     mapViewSection
                 }
                 .background(Color.gray100)
@@ -83,6 +82,7 @@ struct PaymentManageView: View {
             }
             
             if mode == .mainAdd{
+                isShowingSelectTripSheet = true
                 if let first =  userTravelStore.travels.first {
                     travelCalculation = first
                 }
@@ -102,18 +102,12 @@ struct PaymentManageView: View {
                 Spacer()
                 Button(action: {
                     isShowingSelectTripSheet = true
-                    isFirstSelected = false
                 }, label: {
-                    if isFirstSelected {
-                        Text("여행을 선택해주세요")
-                            .font(.body04)
-                            .foregroundStyle(Color.gray500)
-                    }
-                    else {
-                        Text(travelCalculation.travelTitle)
-                            .font(.body04)
-                            .foregroundStyle(Color.gray600)
-                    }
+                    
+                    Text(travelCalculation.travelTitle)
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                    
                 })
             }
             .padding(.leading, 16)
@@ -150,7 +144,7 @@ struct PaymentManageView: View {
             case .add:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.toDate()
+                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
                     }
             case .edit:
                 FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField)
@@ -159,13 +153,13 @@ struct PaymentManageView: View {
                             selectedCategory = payment.type
                             expandDetails = payment.content
                             priceString = String(payment.payment)
-                            paymentDate = payment.paymentDate.toDate()
+                            paymentDate = payment.paymentDate.timeTo00_00_00().toDate()
                         }
                     }
             case .mainAdd:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.toDate()
+                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
                     }
             }
         }
