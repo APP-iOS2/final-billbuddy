@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MapDetailView: View {
-    @StateObject var paymentStore: PaymentStore
+    @ObservedObject var paymentStore: PaymentStore
     
     var body: some View {
         VStack {
-            ForEach(Array(zip(0..<paymentStore.payments.count, paymentStore.payments)), id: \.0) { index, payment in
+            ForEach(Array(zip(0..<paymentStore.payments.count, paymentStore.filteredPayments)), id: \.0) { index, payment in
                 HStack(spacing: 12) {
                     ZStack {
                         Circle()

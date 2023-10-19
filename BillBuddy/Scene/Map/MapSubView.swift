@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapSubView: View {
     
-    @StateObject var locationManager: LocationManager
+    @ObservedObject var locationManager: LocationManager
     @ObservedObject var paymentStore: PaymentStore
     
     var body: some View {

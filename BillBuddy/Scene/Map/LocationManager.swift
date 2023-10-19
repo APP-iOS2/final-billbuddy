@@ -10,6 +10,7 @@ import CoreLocation
 import MapKit
 
 final class LocationManager: NSObject, ObservableObject {
+    
     private let locationManager = CLLocationManager()
     
     @Published var mapView: MKMapView = .init()
@@ -103,14 +104,12 @@ extension LocationManager {
     }
     
     // MARK: - 커스텀한 어노테이션 셋팅
-    
-    func setAnnotations(paymentStore: PaymentStore) {
+    func setAnnotations(filteredPayments: [Payment]) {
         mapView.removeAnnotations(mapView.annotations)
         
-        for payment in paymentStore.payments {
-            
-            var customPinImage: UIImage = UIImage(named: "customPinImage")!
-            var coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
+        for payment in filteredPayments {
+            let customPinImage: UIImage = UIImage(named: "customPinImage")!
+            let coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
             
             let pin = CustomAnnotation(customPinImage: customPinImage, coordinate: coordinate)
              mapView.addAnnotation(pin)
