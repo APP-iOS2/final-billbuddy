@@ -37,5 +37,5 @@ struct MapSubView: View {
 }
 
 #Preview {
-    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travelCalculationId: "MukBang"))
+    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation.sampletravel))
 }
