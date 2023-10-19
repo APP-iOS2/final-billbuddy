@@ -11,6 +11,8 @@ import UIKit
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
+    @State var tabBarVisivility: Visibility = .visible
+
 //    @State var isDimmedBackground = false
 
     init() {
@@ -21,7 +23,7 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: <#Binding<Visibility>#>)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: $tabBarVisivility)
                     
             }
             .tabItem {
