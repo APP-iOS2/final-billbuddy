@@ -21,7 +21,7 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: <#Binding<Visibility>#>)
                     
             }
             .tabItem {

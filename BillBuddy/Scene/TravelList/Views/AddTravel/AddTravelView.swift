@@ -130,8 +130,6 @@ struct AddTravelView: View {
         } //MARK: ZSTACK
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
-        
-    } //MARK: BODY
         .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
