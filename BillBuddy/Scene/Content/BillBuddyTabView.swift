@@ -47,7 +47,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(0)
@@ -71,7 +75,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(1)
@@ -95,7 +103,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(2)
