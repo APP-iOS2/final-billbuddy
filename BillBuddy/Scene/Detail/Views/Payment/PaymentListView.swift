@@ -12,6 +12,8 @@ struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
     
+    @State private var isShowingDeletePayment: Bool = false
+    
     var body: some View {
         
         ForEach(paymentStore.filteredPayments) { payment in
@@ -72,11 +74,17 @@ struct PaymentListView: View {
             .padding(.trailing, 24)
             .swipeActions {
                 Button(role: .destructive) {
-                    paymentStore.deletePayment(payment: payment)
+                    isShowingDeletePayment = true
                 } label: {
                     Text("삭제")
                 }
                 .frame(width: 88)
+                .alert(isPresented: $isShowingDeletePayment) {
+                    // FIXME: Alert가 안뜸!
+                    return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                        paymentStore.deletePayment(payment: payment)
+                    }), secondaryButton: .cancel(Text("아니오")))
+                }
                 
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)

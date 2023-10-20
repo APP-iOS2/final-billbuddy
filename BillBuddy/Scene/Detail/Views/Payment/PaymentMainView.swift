@@ -23,7 +23,7 @@ struct PaymentMainView: View {
         VStack(spacing: 0) {
             header
             paymentList
-            Spacer()
+            addPaymentButton
         }
     }
     
@@ -84,6 +84,37 @@ struct PaymentMainView: View {
         }
     }
     
+    var addPaymentButton: some View {
+        NavigationLink {
+            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
+                .environmentObject(paymentStore)
+        } label: {
+            HStack(spacing: 12) {
+                Spacer()
+                Image("add payment")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                
+                Text("지출 내역 추가")
+                    .font(.body04)
+                    .foregroundStyle(Color.gray600)
+                
+                Spacer()
+            }
+            .padding(.top, 12)
+            .padding(.bottom, 12)
+        }
+        
+        
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray100, lineWidth: 1)
+            
+        }
+        .padding(.leading, 16)
+        .padding(.trailing, 16)
+    }
+    
     var paymentList: some View {
         VStack(spacing: 0) {
             List {
@@ -94,35 +125,6 @@ struct PaymentMainView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            
-            NavigationLink {
-                PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
-                    .environmentObject(paymentStore)
-            } label: {
-                HStack(spacing: 12) {
-                    Spacer()
-                    Image("add payment")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                    
-                    Text("지출 내역 추가")
-                        .font(.body04)
-                        .foregroundStyle(Color.gray600)
-                    
-                    Spacer()
-                }
-                .padding(.top, 12)
-                .padding(.bottom, 12)
-            }
-            
-            
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray100, lineWidth: 1)
-                
-            }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
         }
     }
     
@@ -199,4 +201,4 @@ struct PaymentMainView: View {
     }
     
     
-    }
+}

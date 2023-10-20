@@ -38,7 +38,7 @@ struct PaymentManageView: View {
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
     @State private var isShowingNoTravelAlert: Bool = false
-    @State private var navigationTitleString: String = "지출 항목 추가"
+    @State private var navigationTitleString: String = "지출 내역 추가"
     @State private var isShowingAlert: Bool = false
     
     @FocusState private var focusedField: PaymentFocusField?
@@ -78,7 +78,7 @@ struct PaymentManageView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             if mode == .edit {
-                navigationTitleString = "지출 항목 수정"
+                navigationTitleString = "지출 내역 수정"
             }
             
             if mode == .mainAdd{
@@ -118,15 +118,24 @@ struct PaymentManageView: View {
             .sheet(isPresented: $isShowingSelectTripSheet, content: {
                 VStack {
                     ForEach(userTravelStore.travels) { travel in
-                        Button(action: {
-                            travelCalculation = travel
-                            paymentDate = travel.startDate.toDate()
-                            isShowingSelectTripSheet = false
-                        }, label: {
-                            Text(travel.travelTitle)
-                        })
+                        HStack {
+                            Button(action: {
+                                travelCalculation = travel
+                                paymentDate = travel.startDate.toDate()
+                                isShowingSelectTripSheet = false
+                            }, label: {
+                                Text(travel.travelTitle)
+                                    .font(.body01)
+                            })
+                            .buttonStyle(.plain)
+                            .padding(.bottom, 32)
+                            
+                            Spacer()
+                        }
                     }
                 }
+                .padding(.top, 48)
+                .padding(.leading, 30)
                 .presentationDetents([.fraction(0.4)])
             })
         }
@@ -234,38 +243,23 @@ struct PaymentManageView: View {
     var button: some View {
         Button(action: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
-                isShowingAlert = true
                 isShowingSelectTripSheet = true
             }
             else if selectedCategory == nil {
                 focusedField = .type
-                isShowingAlert = true
             }
             else if expandDetails.isEmpty {
                 focusedField = .content
-                isShowingAlert = true
             }
             else if members.isEmpty {
                 // alert 멤버를 선택하라하고 member select view 띄우기
                 focusedField = .member
-                isShowingAlert = true
             }
             else if priceString.isEmpty {
                 focusedField = .price
-                isShowingAlert = true
             }
-            else {
-                switch(mode) {
-                case .add:
-                    addPayment()
-                case .mainAdd:
-                    mainAddPayment()
-                case .edit:
-                    editPayment()
-                }
-                
-                dismiss()
-            }
+            
+            isShowingAlert = true
             
         }, label: {
             buttonLabel
@@ -286,8 +280,25 @@ struct PaymentManageView: View {
             else if priceString.isEmpty {
                 return Alert(title: Text("쓴 돈을 입력해주세요"))
             }
-            
-            return Alert(title: Text(""))
+            else {
+                switch(mode) {
+                case .add:
+                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                        addPayment()
+                        dismiss()
+                    }))
+                case .mainAdd:
+                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                        mainAddPayment()
+                        dismiss()
+                    }))
+                case .edit:
+                    return Alert(title: Text("수정하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                        editPayment()
+                        dismiss()
+                    }))
+                }
+            }
         })
         .background(Color.myPrimary)
     }
