@@ -54,6 +54,8 @@
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
 		278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278193C32ADBDD900041A6BF /* MoreListCell.swift */; };
+		278266472AE2008400118C21 /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278266462AE2008400118C21 /* NotificationStore.swift */; };
+		278266492AE2008D00118C21 /* UserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278266482AE2008D00118C21 /* UserNotification.swift */; };
 		278544682AC413A2009032CE /* MemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278544672AC413A2009032CE /* MemberManagementView.swift */; };
 		2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785446A2AC41CE0009032CE /* SchemeService.swift */; };
 		2785ECC12AE046D1003E8D9D /* TravelDetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */; };
@@ -166,6 +168,8 @@
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
 		278193C32ADBDD900041A6BF /* MoreListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListCell.swift; sourceTree = "<group>"; };
+		278266462AE2008400118C21 /* NotificationStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
+		278266482AE2008D00118C21 /* UserNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNotification.swift; sourceTree = "<group>"; };
 		278544672AC413A2009032CE /* MemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementView.swift; sourceTree = "<group>"; };
 		2785446A2AC41CE0009032CE /* SchemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeService.swift; sourceTree = "<group>"; };
 		2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelDetailStore.swift; sourceTree = "<group>"; };
@@ -211,7 +215,7 @@
 		C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
-		C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "BillBuddy/Config/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentFocusField.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
@@ -435,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				276648082ABD54AE000F8A10 /* User.swift */,
+				278266482AE2008D00118C21 /* UserNotification.swift */,
 				277C99A12AC08F9C006DFCFC /* UserTravel.swift */,
 				277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */,
 				276648302ABD8B6E000F8A10 /* TravelCalculation.swift */,
@@ -573,6 +578,7 @@
 		276648462ABD8DD7000F8A10 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				278266452AE2008400118C21 /* Store */,
 				2717D0F12ACD77A30002D620 /* Views */,
 			);
 			name = Notification;
@@ -639,6 +645,14 @@
 				278193C32ADBDD900041A6BF /* MoreListCell.swift */,
 			);
 			path = SubView;
+			sourceTree = "<group>";
+		};
+		278266452AE2008400118C21 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				278266462AE2008400118C21 /* NotificationStore.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 		278544692AC413AF009032CE /* MemberManagement */ = {
@@ -983,10 +997,12 @@
 				27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */,
 				D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
+				278266492AE2008D00118C21 /* UserNotification.swift in Sources */,
 				C47F6C792AD524FE006B77D6 /* SliderView.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				273201282ADB09BA00AE528B /* MemberShareSheet.swift in Sources */,
 				2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */,
+				278266472AE2008400118C21 /* NotificationStore.swift in Sources */,
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
 				D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */,
