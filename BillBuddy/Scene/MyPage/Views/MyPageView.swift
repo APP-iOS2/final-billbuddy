@@ -11,8 +11,9 @@ import SwiftUI
 
 struct MyPageView: View {
     
-    @EnvironmentObject var userService: UserService
-    
+    @EnvironmentObject private var userService: UserService
+    @EnvironmentObject private var notificationStore: NotificationStore
+
     var body: some View {
         VStack {
             MyPageDetailView()
@@ -25,10 +26,14 @@ struct MyPageView: View {
                     .font(.title05)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Image("ringing-bell-notification-3")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.systemBlack)
+                NavigationLink {
+                    NotificationListView()
+                }label: {
+                    Image("ringing-bell-notification-3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
+                }
             }
         }
     }
@@ -38,5 +43,6 @@ struct MyPageView: View {
     NavigationStack {
         MyPageView()
             .environmentObject(UserService.shared)
+            .environmentObject(NotificationStore())
     }
 }

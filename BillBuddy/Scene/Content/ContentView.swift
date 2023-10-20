@@ -16,6 +16,7 @@ struct ContentView: View {
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
     @StateObject private var messageStore = MessageStore()
     @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
+    @StateObject private var notificationStore = NotificationStore()
     
     var body: some View {
         if userService.isSignIn {
@@ -28,6 +29,7 @@ struct ContentView: View {
                     .environmentObject(signInStore)
                     .environmentObject(signUpStore)
                     .environmentObject(tabBarVisivilyStore)
+                    .environmentObject(notificationStore)
             } else {
                 DeepLinkView()
             }

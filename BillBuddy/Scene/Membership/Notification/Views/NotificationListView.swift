@@ -15,6 +15,8 @@ struct NotificationListView: View {
     @State private var isNoticeRead = false
     @State private var isExpenseRead = false
     
+    @EnvironmentObject private var notificationStore: NotificationStore
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -64,4 +66,5 @@ struct NotificationListView: View {
 
 #Preview {
     NotificationListView()
+        .environmentObject(NotificationStore())
 }
