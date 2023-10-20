@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
@@ -190,6 +191,7 @@ extension TravelListView {
         TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 

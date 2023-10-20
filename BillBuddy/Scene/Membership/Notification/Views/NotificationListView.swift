@@ -8,32 +8,63 @@
 import SwiftUI
 
 struct NotificationListView: View {
+    @StateObject var notificationManager = NotificationManager()
+    @Environment(\.dismiss) private var dismiss
     @State private var isAllRead = false
+    @State private var isChatRead = false
+    @State private var isNoticeRead = false
+    @State private var isExpenseRead = false
     
+    @EnvironmentObject private var notificationStore: NotificationStore
+
     var body: some View {
-        ZStack {
-            ScrollView {
-                ForEach(0..<10) { _ in
-                    ChatNotifincationCell()
+        ScrollView {
+            VStack(spacing: 20) {
+                NavigationLink(destination: ChatNotifincationCell(isRead: $isChatRead)) {
+                    ChatNotifincationCell(isRead: $isChatRead)
+                }
+                NavigationLink(destination: ChatNoticeAlarmCell(isRead: $isNoticeRead)) {
+                    ChatNoticeAlarmCell(isRead: $isNoticeRead)
+                }
+                NavigationLink(destination: TravelExpenseCell(isRead: $isExpenseRead)) {
+                    TravelExpenseCell(isRead: $isExpenseRead)
                 }
             }
         }
-        .navigationBarTitle("알림")
+        .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
+        .toolbar(content: {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Image(.arrowBack)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    
+                    isAllRead.toggle()
+                    isChatRead = isAllRead
+                    isNoticeRead = isAllRead
+                    isExpenseRead = isAllRead
                 }, label: {
                     Text("모두읽음")
                         .font(.body01)
-                        .foregroundColor(Color.myPrimary)
+                        .foregroundColor(isAllRead ? Color.gray : Color.myPrimary)
                 })
+                .disabled(isAllRead)
             }
-        }
+            ToolbarItem(placement: .principal) {
+                Text("알림")
+                    .font(.title05)
+            }
+        })
     }
 }
 
 #Preview {
     NotificationListView()
+        .environmentObject(NotificationStore())
 }
