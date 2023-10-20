@@ -24,9 +24,9 @@ final class UserService: ObservableObject {
             try await self.fetchUser()
             try await self.updateUserPremium()
         }
-        if currentUser != nil {
-            isSignIn = true
-        }
+//        if currentUser != nil {
+//            isSignIn = true
+//        }
     }
     
     // 현재 유저 패치작업

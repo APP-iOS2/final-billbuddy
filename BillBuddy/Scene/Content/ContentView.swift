@@ -19,7 +19,7 @@ struct ContentView: View {
     @StateObject private var notificationStore = NotificationStore()
     
     var body: some View {
-        if userService.isSignIn {
+        if AuthStore.shared.userUid != "" {
             if schemeServie.url == nil {
                 BillBuddyTabView()
                     .environmentObject(settlementExpensesStore)
