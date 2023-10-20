@@ -19,15 +19,15 @@ struct MapDetailView: View {
                             .fill(Color.primary2)
                             .frame(height: 20)
                         Text("\(index + 1)")
-                            .font(.custom("Pretendard-Semibold", size: 14))
+                            .font(.body03)
                             .foregroundStyle(Color.white)
                     }
                     HStack {
                         VStack(alignment: .leading) {
                             Text(payment.content)
-                                .font(.custom("Pretendard-Semibold", size: 16))
+                                .font(.body01)
                             Label(payment.address.address, systemImage: "mappin.circle")
-                                .font(.custom("Pretendard-Medium", size: 14))
+                                .font(.body04)
                                 .foregroundStyle(Color(hex: "858899"))
                         }
                         Spacer()

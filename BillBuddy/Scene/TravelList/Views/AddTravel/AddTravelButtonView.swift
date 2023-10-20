@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
-
+    
     @ObservedObject var userTravelStore: UserTravelStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
@@ -26,13 +26,10 @@ struct AddTravelButtonView: View {
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
                             .onAppear {
-                                if userTravelStore.userTravels.first == nil {
+                                if userTravelStore.travels.first == nil {
                                     isShowingNoTravelAlert = true
                                 }
                             }
-                            .alert(isPresented: $isShowingNoTravelAlert, content: {
-                                return Alert(title: Text("생성된 여행이 없습니다"))
-                            })
                             .onDisappear {
                                 floatingButtonMenuStore.closeMenu()
                             }

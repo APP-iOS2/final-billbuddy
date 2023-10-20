@@ -17,21 +17,27 @@ struct DetailMainView: View {
     @StateObject var travelDetailStore: TravelDetailStore
     @StateObject private var locationManager = LocationManager()
     
-    @State private var selection: Int = 0
+    @State private var selection: String = "내역"
     @State private var selectedDate: Double = 0
-    @State var isShowingDateSheet: Bool = false
+    @State private var isShowingDateSheet: Bool = false
+    
+    let menus: [String] = ["내역", "지도"]
     
     var body: some View {
-        VStack {
-            SliderView(items: ["내역", "지도"], selection: $selection, defaultXSpace: 12)
+        VStack(spacing: 0) {
+            sliderSection
+            
+            Capsule()
+                .frame(height: 1)
+                .foregroundStyle(Color.gray400)
             
             dateSelectSection
                 .frame(height: 52)
             
-            if selection == 0 {
+            if selection == "내역" {
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
-            else if selection == 1 {
+            else if selection == "지도" {
                 MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
             }
         }
@@ -101,6 +107,38 @@ struct DetailMainView: View {
         })
         
     }
+    
+    var sliderSection: some View {
+        HStack(spacing: 12, content: {
+            ForEach(menus, id: \.self) { menu in
+                Button(action: {
+                    withAnimation(Animation.default) {
+                        selection = menu
+                    }
+                }, label: {
+                    VStack(spacing: 0) {
+                        if selection == menu {
+                            Text(menu)
+                                .frame(width: 160, height: 41)
+                                .font(.body01)
+                                .foregroundStyle(Color.myPrimary)
+                            Capsule()
+                                .frame(width: 160, height: 3)
+                                .foregroundStyle(Color.myPrimary)
+                        }
+                        else {
+                            Text(menu)
+                                .frame(width: 160, height: 41)
+                                .font(.body01)
+                                .foregroundStyle(Color.gray400)
+                        }
+                    }
+                })
+                
+            }
+        })
+        
+    }
         
     
     var dateSelectSection: some View {
@@ -112,7 +150,8 @@ struct DetailMainView: View {
                 
                 if selectedDate == 0 {
                     Text("전체")
-                        .font(.custom("Pretendard-Semibold", size: 16))
+                        .font(.body01)
+                        
                         .foregroundStyle(.black)
                     Image("expand_more")
                         .resizable()
@@ -121,10 +160,10 @@ struct DetailMainView: View {
                 
                 else {
                     Text(selectedDate.toDate().dateWeekYear)
-                        .font(.custom("Pretendard-Semibold", size: 16))
+                        .font(.body01)
                         .foregroundStyle(.black)
                     Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelDetailStore.travel.startDate))일차")
-                        .font(.custom("Pretendard-Semibold", size: 14))
+                        .font(.body03)
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
                         .resizable()
