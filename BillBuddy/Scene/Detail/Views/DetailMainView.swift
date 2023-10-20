@@ -150,7 +150,8 @@ struct DetailMainView: View {
                 
                 if selectedDate == 0 {
                     Text("전체")
-                        .font(.custom("Pretendard-Semibold", size: 16))
+                        .font(.body01)
+                        
                         .foregroundStyle(.black)
                     Image("expand_more")
                         .resizable()
@@ -159,10 +160,10 @@ struct DetailMainView: View {
                 
                 else {
                     Text(selectedDate.toDate().dateWeekYear)
-                        .font(.custom("Pretendard-Semibold", size: 16))
+                        .font(.body01)
                         .foregroundStyle(.black)
                     Text("\(selectedDate.howManyDaysFromStartDate(startDate: travelDetailStore.travel.startDate))일차")
-                        .font(.custom("Pretendard-Semibold", size: 14))
+                        .font(.body03)
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
                         .resizable()

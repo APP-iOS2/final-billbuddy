@@ -44,7 +44,7 @@ struct FillInPaymentInfoView: View {
     var datePickerSection: some View {
         HStack {
             Text("날짜")
-                .font(.custom("Pretendard-Bold", size: 14))
+                .font(.body02)
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 20)
@@ -53,7 +53,7 @@ struct FillInPaymentInfoView: View {
                 isShowingDatePickerSheet = true
             }, label: {
                 Text("\(paymentDate.dateAndTime)")
-                    .font(.custom("Pretendard-Bold", size: 14))
+                    .font(.body02)
                     .padding(.trailing, 16)
                 
             })
@@ -71,7 +71,7 @@ struct FillInPaymentInfoView: View {
             VStack {
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
                     Text("날짜")
-                        .font(.custom("Pretendard-Bold", size: 14))
+                        .font(.body02)
                 })
                 
             }
@@ -90,7 +90,7 @@ struct FillInPaymentInfoView: View {
             
             HStack{
                 Text("분류")
-                    .font(.custom("Pretendard-Bold", size: 14))
+                    .font(.body02)
                 Spacer()
             }
             .padding(.leading, 16)
@@ -119,10 +119,10 @@ struct FillInPaymentInfoView: View {
             
             HStack {
                 Text("내용")
-                    .font(.custom("Pretendard-Bold", size: 14))
+                    .font(.body02)
                 TextField("내용을 입력해주세요", text: $expandDetails)
                     .multilineTextAlignment(.trailing)
-                    .font(.custom("Pretendard-Medium", size: 14))
+                    .font(.body04)
                     .focused(focusedField, equals: .content)
             }
             .padding(.leading, 16)
@@ -140,7 +140,7 @@ struct FillInPaymentInfoView: View {
     var memberSection: some View {
         HStack {
             Text("인원")
-                .font(.custom("Pretendard-Bold", size: 14))
+                .font(.body02)
                 .padding(.top, 16)
                 .padding(.leading, 16)
                 .padding(.bottom, 17)
@@ -151,7 +151,7 @@ struct FillInPaymentInfoView: View {
                 HStack (spacing: 0) {
                     if members.isEmpty {
                         Text("추가하기")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray500)
                         
                         Image("chevron_right")
@@ -162,7 +162,7 @@ struct FillInPaymentInfoView: View {
                     }
                     else {
                         Text("수정하기")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(.black)
                         
                         Image("chevron_right")
@@ -189,7 +189,7 @@ struct FillInPaymentInfoView: View {
                 }, label: {
                     Text("전체 선택")
                 })
-                .font(.custom("Pretendard-SemiBold", size: 14))
+                .font(.body03)
                 .foregroundStyle(Color.myPrimary)
                 
                 Text("/")
@@ -199,7 +199,7 @@ struct FillInPaymentInfoView: View {
                 }, label: {
                     Text("전체 해제")
                 })
-                .font(.custom("Pretendard-SemiBold", size: 14))
+                .font(.body03)
                 .foregroundStyle(Color.myPrimary)
             }
             .padding(.trailing, 32)
@@ -209,7 +209,7 @@ struct FillInPaymentInfoView: View {
                 ForEach(travelCalculation.members) { member in
                     HStack {
                         Text(member.name)
-                            .font(.custom("Pretendard-Semibold", size: 14))
+                            .font(.body03)
                             .foregroundStyle(Color.black)
                         
                         Spacer()
@@ -278,7 +278,7 @@ struct FillInPaymentInfoView: View {
                 HStack {
                     Spacer()
                     Text("인원 추가")
-                        .font(.custom("Pretendard-Bold", size: 14))
+                        .font(.body02)
                         .padding(.top, 16)
                         .padding(.bottom, 16)
                     Spacer()
@@ -332,7 +332,7 @@ struct FillInPaymentInfoView: View {
                 HStack {
                     Spacer()
                     Text("인원 수정")
-                        .font(.custom("Pretendard-Bold", size: 14))
+                        .font(.body02)
                         .padding(.top, 16)
                         .padding(.bottom, 16)
                     Spacer()
@@ -348,13 +348,13 @@ struct FillInPaymentInfoView: View {
         ForEach(members) { member in
             HStack {
                 Text(member.name)
-                    .font(.custom("Pretendard-Medium", size: 14))
+                    .font(.body04)
                     .padding(.leading, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
 //                Text("0원")
-//                    .font(.custom("Pretendard-Medium", size: 14))
+//                    .font(.body04)
 //                    .foregroundStyle(Color.gray600)
 //                    .padding(.trailing, 16)
             }
@@ -396,13 +396,13 @@ struct FillInPaymentInfoView: View {
             
             HStack {
                 Text("결제금액")
-                    .font(.custom("Pretendard-Bold", size: 14))
+                    .font(.body02)
                 Spacer()
                 
                 TextField("결제금액을 입력해주세요", text: $priceString)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
-                    .font(.custom("Pretendard-Medium", size: 14))
+                    .font(.body04)
                     .focused(focusedField, equals: .price)
             }
             .padding(.leading, 16)

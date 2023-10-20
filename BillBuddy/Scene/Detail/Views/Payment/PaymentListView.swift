@@ -22,7 +22,7 @@ struct PaymentListView: View {
                 VStack(alignment: .leading, spacing: 0, content: {
                     
                     Text(payment.content)
-                        .font(.custom("Pretendard-Semibold", size: 14))
+                        .font(.body03)
                         .foregroundStyle(Color.black)
                     HStack(spacing: 4) {
                         // MARK: Rendering 이미지가 전체를 뒤엎음
@@ -42,7 +42,7 @@ struct PaymentListView: View {
                                 .foregroundStyle(Color.gray600)
                         }
                         Text("\(payment.participants.count)명")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                 })
@@ -52,17 +52,17 @@ struct PaymentListView: View {
                 VStack(alignment: .trailing) {
                     Text("₩\(payment.payment)")
                         .foregroundStyle(Color.black)
-                        .font(.custom("Pretendard-Bold", size: 14))
+                        .font(.body02)
                     
                     if payment.participants.isEmpty {
                         Text("₩\(payment.payment)")
                             .foregroundStyle(Color.gray600)
-                            .font(.custom("Pretendard-Medium", size: 12))
+                            .font(.caption02)
                     }
                     else {
                         Text("₩\(payment.payment / payment.participants.count)")
                             .foregroundStyle(Color.gray600)
-                            .font(.custom("Pretendard-Medium", size: 12))
+                            .font(.caption02)
                     }
                     
                 }

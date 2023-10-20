@@ -97,7 +97,7 @@ struct PaymentManageView: View {
         Group {
             HStack {
                 Text("여행")
-                    .font(.custom("Pretendard-Bold", size: 14))
+                    .font(.body02)
                 
                 Spacer()
                 Button(action: {
@@ -208,7 +208,7 @@ struct PaymentManageView: View {
     
     func buttonText(text: String) -> Text {
         return Text(text)
-            .font(.custom("Pretendard-Bold", size: 18))
+            .font(.title05)
             .foregroundColor(.white)
     }
     
