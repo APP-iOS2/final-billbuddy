@@ -67,10 +67,7 @@ final class UserTravelStore: ObservableObject {
         )
         
         let userTravel = UserTravel(
-            travelId: tempTravel.id,
-            travelName: title,
-            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
-            endDate: endDate.timeIntervalSince1970.timeTo11_59_59()
+            travelId: tempTravel.id
         )
         
         do {
@@ -103,6 +100,25 @@ final class UserTravelStore: ObservableObject {
         
         return travels.first { travel in
             userTravel.travelId == travel.id
+        }
+    }
+    
+    func goOutTravel(travel: TravelCalculation) {
+        let userId = AuthStore.shared.userUid
+        let travelId = travel.id
+        guard let travelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId}) else { return }
+        let userTravel = userTravels[travelArrayIndex]
+        let members = travel.members.filter { $0.userId != userId }
+        
+        Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "").delete { error in
+            guard error != nil else { return }
+            Firestore.firestore().collection("TravelCalculation").document(travelId)
+                .setData(
+                    [
+                        "updateContentDate" : Date.now.timeIntervalSince1970,
+                        "members" : members
+                    ]
+                )
         }
     }
 }

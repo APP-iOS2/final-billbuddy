@@ -14,7 +14,7 @@ struct UserNotification: Identifiable, Codable {
 
     var content: String
     var addDate: Date
-    var isChecked: Bool
+    var isChecked: Bool = false
     
     enum NotiType: String, Codable {
         case chatting
