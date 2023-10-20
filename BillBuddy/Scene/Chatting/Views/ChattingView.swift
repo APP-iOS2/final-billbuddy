@@ -72,6 +72,8 @@ struct ChattingView: View {
                         }
                         if let messagePreview = travel.lastMessage {
                             Text(messagePreview)
+                                .frame(alignment: .leading)
+                                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                                 .font(Font.body04)
                                 .foregroundColor(.gray700)
                         }
