@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     
     var body: some View {
@@ -71,6 +72,8 @@ struct ChattingView: View {
                         }
                         if let messagePreview = travel.lastMessage {
                             Text(messagePreview)
+                                .frame(alignment: .leading)
+                                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                                 .font(Font.body04)
                                 .foregroundColor(.gray700)
                         }
@@ -106,6 +109,7 @@ struct ChattingView: View {
         ChattingView()
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 

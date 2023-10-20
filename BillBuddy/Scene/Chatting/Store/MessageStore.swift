@@ -18,6 +18,7 @@ final class MessageStore: ObservableObject {
         do {
             try db.collection("TravelCalculation").document(travelCalculation.id)
                 .collection("Message").addDocument(from: message.self)
+            updateLastMessage(travelCalculation: travelCalculation, message: message)
         } catch {
             print("Failed send message: \(error)")
         }
@@ -57,4 +58,15 @@ final class MessageStore: ObservableObject {
             }
     }
     
+    private func updateLastMessage(travelCalculation: TravelCalculation, message: Message) {
+        let data = [
+            "lastMessage" : message.message,
+            "lastMessageDate" : message.sendDate
+        ] as [String : Any]
+        Task {
+            try await db.collection("TravelCalculation").document(travelCalculation.id)
+                .setData(data, merge: true)
+        }
+    }
 }
+

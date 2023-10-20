@@ -16,6 +16,9 @@
 		0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */; };
 		02C5A7D92AE0239800CBD8D1 /* FloatingButtonMenuStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */; };
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
+		261DC11D2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */; };
+		261DC1212AE108A700EBE149 /* TravelExpenseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */; };
+		261DC1232AE14A9A00EBE149 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1222AE14A9A00EBE149 /* NotificationManager.swift */; };
 		2655B7052ADD976D002E051B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2655B7042ADD976D002E051B /* FirebaseMessaging */; };
 		2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */; };
 		2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0E62ACD75210002D620 /* AdmobBannerView.swift */; };
@@ -54,6 +57,8 @@
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
 		278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278193C32ADBDD900041A6BF /* MoreListCell.swift */; };
+		278266472AE2008400118C21 /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278266462AE2008400118C21 /* NotificationStore.swift */; };
+		278266492AE2008D00118C21 /* UserNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278266482AE2008D00118C21 /* UserNotification.swift */; };
 		278544682AC413A2009032CE /* MemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278544672AC413A2009032CE /* MemberManagementView.swift */; };
 		2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785446A2AC41CE0009032CE /* SchemeService.swift */; };
 		2785ECC12AE046D1003E8D9D /* TravelDetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */; };
@@ -98,8 +103,8 @@
 		C4849A6F2AD3C50E00DFFF81 /* DetailMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */; };
 		C4849A712AD3D49900DFFF81 /* DateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A702AD3D49900DFFF81 /* DateSheet.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
-		C49248DA2AE1FF7100CF5689 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49248D92AE1FF7100CF5689 /* GoogleService-Info.plist */; };
 		C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894C2ACD2EE5008115FA /* MoreView.swift */; };
+		C49608932AE247AE00E73983 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C49608922AE247AE00E73983 /* GoogleService-Info.plist */; };
 		C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */; };
 		C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */; };
 		C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C0B2AC160FE00472876 /* PaymentStore.swift */; };
@@ -133,6 +138,9 @@
 		02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonMenuStore.swift; sourceTree = "<group>"; };
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
+		261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNoticeAlarmCell.swift; sourceTree = "<group>"; };
+		261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelExpenseCell.swift; sourceTree = "<group>"; };
+		261DC1222AE14A9A00EBE149 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		2655B7032ADD972A002E051B /* BillBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BillBuddy.entitlements; sourceTree = "<group>"; };
 		2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		2717D0E62ACD75210002D620 /* AdmobBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobBannerView.swift; sourceTree = "<group>"; };
@@ -165,6 +173,8 @@
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
 		278193C32ADBDD900041A6BF /* MoreListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListCell.swift; sourceTree = "<group>"; };
+		278266462AE2008400118C21 /* NotificationStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
+		278266482AE2008D00118C21 /* UserNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNotification.swift; sourceTree = "<group>"; };
 		278544672AC413A2009032CE /* MemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberManagementView.swift; sourceTree = "<group>"; };
 		2785446A2AC41CE0009032CE /* SchemeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeService.swift; sourceTree = "<group>"; };
 		2785ECC02AE046D0003E8D9D /* TravelDetailStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelDetailStore.swift; sourceTree = "<group>"; };
@@ -209,8 +219,8 @@
 		C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
-		C49248D92AE1FF7100CF5689 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		C49608922AE247AE00E73983 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentFocusField.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
 		C4F87C0B2AC160FE00472876 /* PaymentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStore.swift; sourceTree = "<group>"; };
@@ -321,7 +331,10 @@
 			isa = PBXGroup;
 			children = (
 				278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */,
+				261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */,
+				261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */,
 				2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */,
+				261DC1222AE14A9A00EBE149 /* NotificationManager.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,7 +430,6 @@
 		276647F92ABD53F8000F8A10 /* BillBuddy */ = {
 			isa = PBXGroup;
 			children = (
-				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				2766480C2ABD54F2000F8A10 /* Config */,
 				2766480A2ABD54BD000F8A10 /* Model */,
 				276648152ABD5586000F8A10 /* Service */,
@@ -433,6 +445,7 @@
 			isa = PBXGroup;
 			children = (
 				276648082ABD54AE000F8A10 /* User.swift */,
+				278266482AE2008D00118C21 /* UserNotification.swift */,
 				277C99A12AC08F9C006DFCFC /* UserTravel.swift */,
 				277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */,
 				276648302ABD8B6E000F8A10 /* TravelCalculation.swift */,
@@ -463,7 +476,8 @@
 		2766480C2ABD54F2000F8A10 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				C49248D92AE1FF7100CF5689 /* GoogleService-Info.plist */,
+				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
+				C49608922AE247AE00E73983 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -571,6 +585,7 @@
 		276648462ABD8DD7000F8A10 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
+				278266452AE2008400118C21 /* Store */,
 				2717D0F12ACD77A30002D620 /* Views */,
 			);
 			name = Notification;
@@ -637,6 +652,14 @@
 				278193C32ADBDD900041A6BF /* MoreListCell.swift */,
 			);
 			path = SubView;
+			sourceTree = "<group>";
+		};
+		278266452AE2008400118C21 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				278266462AE2008400118C21 /* NotificationStore.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 		278544692AC413AF009032CE /* MemberManagement */ = {
@@ -886,7 +909,7 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
-				C49248DA2AE1FF7100CF5689 /* GoogleService-Info.plist in Resources */,
+				C49608932AE247AE00E73983 /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
@@ -942,6 +965,7 @@
 				D2A8B6E02ADE481800A469D7 /* AgreementCheckButton.swift in Sources */,
 				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
+				261DC11D2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift in Sources */,
 				C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */,
 				63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */,
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,
@@ -960,6 +984,7 @@
 				C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */,
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
 				46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */,
+				261DC1212AE108A700EBE149 /* TravelExpenseCell.swift in Sources */,
 				46AA65712AD6796C00988491 /* Message.swift in Sources */,
 				2729F3312AD427960089147E /* MemberCell.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
@@ -973,6 +998,7 @@
 				2785ECC52AE053EB003E8D9D /* TabBarVisivilyStore.swift in Sources */,
 				02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
+				261DC1232AE14A9A00EBE149 /* NotificationManager.swift in Sources */,
 				022B2EED2ADD394F001B8C4D /* EditTravelSheetView.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
 				FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */,
@@ -980,9 +1006,11 @@
 				27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */,
 				D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
+				278266492AE2008D00118C21 /* UserNotification.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				273201282ADB09BA00AE528B /* MemberShareSheet.swift in Sources */,
 				2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */,
+				278266472AE2008400118C21 /* NotificationStore.swift in Sources */,
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
 				D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */,
@@ -1124,7 +1152,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BillBuddy/BillBuddy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
@@ -1156,7 +1184,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BillBuddy/BillBuddy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
