@@ -17,7 +17,7 @@ struct AgreementCheckButton: View {
                 agreement.toggle()
             }, label: {
                 HStack {
-                    Image(systemName: agreement ? "checkmark.square.fill" : "checkmark.square")
+                    Image(agreement ? "selected" : "enabled")
                         .resizable()
                         .foregroundColor(.gray300)
                         .frame(width: 24, height: 24)

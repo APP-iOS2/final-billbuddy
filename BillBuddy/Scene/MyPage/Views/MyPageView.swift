@@ -26,10 +26,14 @@ struct MyPageView: View {
                     .font(.title05)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Image("ringing-bell-notification-3")
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.systemBlack)
+                NavigationLink {
+                    NotificationListView()
+                }label: {
+                    Image("ringing-bell-notification-3")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
+                }
             }
         }
     }
