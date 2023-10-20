@@ -1,27 +1,27 @@
 //
-//  ChatNotifincationCell.swift
+//  TravelExpenseCell.swift
 //  BillBuddy
 //
-//  Created by hj on 2023/10/10.
+//  Created by hj on 2023/10/19.
 //
 
 import SwiftUI
 
-struct ChatNotifincationCell: View {
+struct TravelExpenseCell: View {
     @Binding var isRead: Bool
-    
-    var userNameId: String = "여행돈독방-채팅"
-    var chatContent: String = "읽지 않은 메세지를 확인해보세요."
-    var timeAgo: String = "1 시간 전"
+
+    var expenseTitle: String = "여행돈독방-지출"
+    var expenseContent: String = "식비 지출이 추가되었습니다."
+    var expenseTimeAgo: String = "1 시간 전"
     
     var body: some View {
         HStack(spacing: 16) {
             ZStack {
                 if isRead {
-                    Image(.chatReadBadge)
+                    Image(.notificationReadBadge) /// 아이콘 변경
                         .frame(width: 40, height: 40)
                 } else {
-                    Image(.chatBadge)
+                    Image(.notificationBadge) /// 아이콘 변경
                         .frame(width: 40, height: 40)
                 }
             }
@@ -34,11 +34,11 @@ struct ChatNotifincationCell: View {
     private var chatNotificationLabel: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
-                Text(userNameId)
+                Text(expenseTitle)
                     .font(.caption02)
                     .foregroundColor(isRead ? Color(hex: "AFB0B7") : Color.gray600)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text(chatContent)
+                Text(expenseContent)
                     .font(.body04)
                     .foregroundColor(isRead ? Color(hex: "A8A9AC") : Color.systemBlack)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -46,7 +46,7 @@ struct ChatNotifincationCell: View {
             
             Spacer()
             
-            Text(timeAgo)
+            Text(expenseTimeAgo)
                 .font(.caption02)
                 .foregroundColor(isRead ? Color(hex: "AFB0B7") : Color.gray600)
                 .multilineTextAlignment(.trailing)
@@ -55,5 +55,5 @@ struct ChatNotifincationCell: View {
 }
 
 ///#Preview {
-///    ChatNotifincationCell()
+///    TravelExpenseCell()
 ///}

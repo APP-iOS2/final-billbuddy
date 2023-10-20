@@ -16,6 +16,10 @@
 		0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */; };
 		02C5A7D92AE0239800CBD8D1 /* FloatingButtonMenuStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */; };
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
+		261DC11B2AE0F62B00EBE149 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 261DC11A2AE0F62B00EBE149 /* GoogleService-Info.plist */; };
+		261DC11D2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */; };
+		261DC1212AE108A700EBE149 /* TravelExpenseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */; };
+		261DC1232AE14A9A00EBE149 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1222AE14A9A00EBE149 /* NotificationManager.swift */; };
 		2655B7052ADD976D002E051B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2655B7042ADD976D002E051B /* FirebaseMessaging */; };
 		2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */; };
 		2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0E62ACD75210002D620 /* AdmobBannerView.swift */; };
@@ -136,6 +140,10 @@
 		02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingButtonMenuStore.swift; sourceTree = "<group>"; };
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
+		261DC11A2AE0F62B00EBE149 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatNoticeAlarmCell.swift; sourceTree = "<group>"; };
+		261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelExpenseCell.swift; sourceTree = "<group>"; };
+		261DC1222AE14A9A00EBE149 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		2655B7032ADD972A002E051B /* BillBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BillBuddy.entitlements; sourceTree = "<group>"; };
 		2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		2717D0E62ACD75210002D620 /* AdmobBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobBannerView.swift; sourceTree = "<group>"; };
@@ -216,7 +224,6 @@
 		C4849A6E2AD3C50E00DFFF81 /* DetailMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMainView.swift; sourceTree = "<group>"; };
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
-		C49248D72AE0EA4600CF5689 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "BillBuddy/Config/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
 		C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentFocusField.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
@@ -328,7 +335,10 @@
 			isa = PBXGroup;
 			children = (
 				278CE1732AD508E700B8C16E /* ChatNotifincationCell.swift */,
+				261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */,
+				261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */,
 				2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */,
+				261DC1222AE14A9A00EBE149 /* NotificationManager.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -424,7 +434,6 @@
 		276647F92ABD53F8000F8A10 /* BillBuddy */ = {
 			isa = PBXGroup;
 			children = (
-				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				2766480C2ABD54F2000F8A10 /* Config */,
 				2766480A2ABD54BD000F8A10 /* Model */,
 				276648152ABD5586000F8A10 /* Service */,
@@ -471,8 +480,9 @@
 		2766480C2ABD54F2000F8A10 /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				46C09CD02AE1BA21001E34E6 /* GoogleService-Info.plist */,
+				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
+				261DC11A2AE0F62B00EBE149 /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -904,7 +914,6 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
-				46C09CD12AE1BA21001E34E6 /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
@@ -960,6 +969,7 @@
 				D2A8B6E02ADE481800A469D7 /* AgreementCheckButton.swift in Sources */,
 				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
 				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
+				261DC11D2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift in Sources */,
 				C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */,
 				63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */,
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,
@@ -978,6 +988,7 @@
 				C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */,
 				278544682AC413A2009032CE /* MemberManagementView.swift in Sources */,
 				46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */,
+				261DC1212AE108A700EBE149 /* TravelExpenseCell.swift in Sources */,
 				46AA65712AD6796C00988491 /* Message.swift in Sources */,
 				2729F3312AD427960089147E /* MemberCell.swift in Sources */,
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
@@ -991,6 +1002,7 @@
 				2785ECC52AE053EB003E8D9D /* TabBarVisivilyStore.swift in Sources */,
 				02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
+				261DC1232AE14A9A00EBE149 /* NotificationManager.swift in Sources */,
 				022B2EED2ADD394F001B8C4D /* EditTravelSheetView.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
 				FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */,
