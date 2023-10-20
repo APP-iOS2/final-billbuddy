@@ -44,6 +44,9 @@ struct SignInView: View {
                 Text("로그인")
                     .font(.body02)
                     .foregroundColor(.white)
+                    .frame(width: 351, height: 52)
+                    .background(signInStore.emailText.isEmpty || signInStore.passwordText.isEmpty ? Color.gray400 : Color.myPrimary)
+                    .cornerRadius(12)
             })
             .alert("로그인 결과", isPresented: $signInStore.isShowingAlert) {
                 Button("확인") {
@@ -53,9 +56,6 @@ struct SignInView: View {
             } message: {
                 Text("로그인에 실패했습니다.")
             }
-            .frame(width: 351, height: 52)
-            .background(signInStore.emailText.isEmpty || signInStore.passwordText.isEmpty ? Color.gray400 : Color.myPrimary)
-            .cornerRadius(12)
             .padding(.top, 20)
             
             NavigationLink {

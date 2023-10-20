@@ -154,10 +154,10 @@ struct SignUpView: View {
                     Text("가입하기")
                         .font(.body02)
                         .foregroundColor(.white)
+                        .frame(width: 351, height: 52)
+                        .background(Color.myPrimary)
+                        .cornerRadius(12)
                 })
-                .frame(width: 351, height: 52)
-                .background(Color.myPrimary)
-                .cornerRadius(12)
                 .disabled(!signUpStore.checkSignUp() ? true : false)
                 .alert("회원가입 완료", isPresented: $isShowingAlert) {
                     Button("확인") {

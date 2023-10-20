@@ -10,10 +10,12 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import _PhotosUI_SwiftUI
 
 final class UserService: ObservableObject {
     @Published var currentUser: User?
     @Published var isSignIn: Bool = false
+    @Published var selectedItem: PhotosPickerItem?
     
     static let shared = UserService()
     
@@ -42,6 +44,28 @@ final class UserService: ObservableObject {
             throw error
         }
     }
+    
+    @MainActor
+    func updateUser() async throws {
+        guard let user = currentUser else {
+            return
+        }
+        do {
+            let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
+            let updatedData = [
+                "phoneNum": user.phoneNum,
+                "email": user.email,
+                "bankName": user.bankName,
+                "bankAccountNum": user.bankAccountNum
+            ]
+            try await userRef.setData(updatedData, merge: true)
+            print("업데이트 성공")
+        } catch {
+            print("업데이트 실패: \(error)")
+            throw error
+        }
+    }
+
     
     func removeUserData(userId: String) async throws {
             do {
