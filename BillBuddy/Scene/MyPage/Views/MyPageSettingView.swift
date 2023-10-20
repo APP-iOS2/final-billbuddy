@@ -61,6 +61,16 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
+                    NavigationLink(destination: MembershipView()){
+                        HStack {
+                            Text("멤버십 테스트")
+                            Spacer()
+                            Image("chevron_right")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                    }
+                    .padding(.bottom, 36)
                     NavigationLink(destination: ProfileView()){
                         HStack {
                             Text("오픈소스 라이센스")
