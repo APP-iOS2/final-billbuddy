@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct MyPageView: View {
     
     @EnvironmentObject var userService: UserService
