@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     
     var body: some View {
@@ -106,6 +107,7 @@ struct ChattingView: View {
         ChattingView()
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 

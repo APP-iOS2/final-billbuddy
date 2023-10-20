@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailMainView: View {
     
     @Environment(\.dismiss) private var dismiss
-
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @StateObject var paymentStore: PaymentStore

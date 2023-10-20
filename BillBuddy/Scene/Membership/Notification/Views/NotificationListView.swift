@@ -9,7 +9,8 @@ import SwiftUI
 
 struct NotificationListView: View {
     @State private var isAllRead = false
-    
+    @EnvironmentObject private var notificationStore: NotificationStore
+
     var body: some View {
         ZStack {
             ScrollView {
@@ -36,4 +37,5 @@ struct NotificationListView: View {
 
 #Preview {
     NotificationListView()
+        .environmentObject(NotificationStore())
 }
