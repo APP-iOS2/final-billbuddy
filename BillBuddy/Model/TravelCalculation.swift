@@ -33,6 +33,10 @@ struct TravelCalculation: Identifiable, Codable {
         /// uid / nil이면 user가 들어와있지않은 임시 맴버
         var userId: String?
         var name: String
+        /// 참여중인지 아닌지 (Payment에서 선택 제외)
+        var isParticipated: Bool = true
+        /// 초대중인지
+        var isInvited: Bool = false
         /// 선금
         var advancePayment: Int
         /// 쓴비용 중간중간 + - << 추가 할지 말지 고민해야함.
