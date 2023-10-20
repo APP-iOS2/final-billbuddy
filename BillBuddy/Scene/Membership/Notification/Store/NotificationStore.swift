@@ -14,19 +14,29 @@ final class NotificationStore: ObservableObject {
         return notifications.filter { $0.isChecked == false }.isEmpty
     }
     
+    var didFetched: Bool = false
     private var dbRef: CollectionReference?
     
     init() {
         let userId = AuthStore.shared.userUid
         if !userId.isEmpty {
             self.dbRef = Firestore.firestore().collection("User").document(userId).collection("Notification")
+            self.didFetched = true
             self.fetchNotification()
         }
+    }
+    
+    func resetStore() {
+        notifications = []
+        dbRef = nil
+        didFetched = false
     }
     
     func getUserUid() {
         let userId = AuthStore.shared.userUid
         self.dbRef = Firestore.firestore().collection("User").document(userId).collection("Notification")
+        self.didFetched = true
+        self.fetchNotification()
     }
     
     func fetchNotification() {
@@ -57,6 +67,15 @@ final class NotificationStore: ObservableObject {
                     print("false send notification to \(member.name) - \(error)")
                 }
             }
+        }
+    }
+    
+    func setNotificationChecked(notiId: String) {
+        guard let index = notifications.firstIndex(where: { $0.id == notiId} ) else { return }
+        if notifications[index].isChecked == false {
+            guard let dbRef = dbRef else { return }
+            dbRef.document(notiId).setData(["isChecked": true])
+            notifications[index].isChecked = true
         }
     }
 }

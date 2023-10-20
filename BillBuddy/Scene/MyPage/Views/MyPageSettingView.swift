@@ -11,6 +11,7 @@ struct MyPageSettingView: View {
     
     @EnvironmentObject var signInStore: SignInStore
     @EnvironmentObject var signUpStore: SignUpStore
+    @EnvironmentObject var notificationStore: NotificationStore
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
@@ -94,6 +95,7 @@ struct MyPageSettingView: View {
                         do {
                             if try AuthStore.shared.signOut() {
                                 UserService.shared.isSignIn = false
+                                notificationStore.resetStore()
                             }
                         } catch {
                             print("Error signing out: \(error.localizedDescription)")
@@ -117,6 +119,7 @@ struct MyPageSettingView: View {
                             try await signUpStore.deleteUser()
                             signInStore.deleteUser()
                             UserService.shared.isSignIn = false
+                            notificationStore.resetStore()
                         }
                     }
                 } message: {
@@ -131,5 +134,8 @@ struct MyPageSettingView: View {
 #Preview {
     NavigationStack {
         MyPageSettingView()
+            .environmentObject(SignInStore())
+            .environmentObject(SignUpStore())
+            .environmentObject(NotificationStore())
     }
 }

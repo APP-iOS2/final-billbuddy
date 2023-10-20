@@ -120,7 +120,11 @@ struct TravelListView: View {
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
+                if notificationStore.didFetched == false {
+                    notificationStore.getUserUid()
+                }
             }
+            
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false
