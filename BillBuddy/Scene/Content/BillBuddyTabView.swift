@@ -24,7 +24,7 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: $tabBarVisivility)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
                 if let isPremium = userService.currentUser?.isPremium {
                     if isPremium == false {
                         BannerView().frame(height: 65)

@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CategorySelectView: View {
     
+    
+    @Environment(\.dismiss) private var dismiss
+    
     enum Mode {
         case category // 전체 x
         case sheet    // 전체 o
@@ -82,5 +85,10 @@ struct CategorySelectView: View {
                 .buttonStyle(.plain)
             }
         }
+        .onChange(of: selectedCategory, perform: { _ in
+            if mode == .sheet {
+                dismiss()
+            }
+        })
     }
 }

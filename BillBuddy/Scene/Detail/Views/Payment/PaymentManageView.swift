@@ -37,6 +37,7 @@ struct PaymentManageView: View {
     @State private var paymentDate: Date = Date.now
     @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
+    @State private var isShowingNoTravelAlert: Bool = false
     @State private var navigationTitleString: String = "지출 항목 추가"
     @State private var isShowingAlert: Bool = false
     
@@ -49,7 +50,6 @@ struct PaymentManageView: View {
                     if mode == .mainAdd {
                         selectTravelSection
                     }
-                    
                     subPaymentViewSection
                         .padding(.bottom, 16)
                     
@@ -120,6 +120,8 @@ struct PaymentManageView: View {
                     ForEach(userTravelStore.travels) { travel in
                         Button(action: {
                             travelCalculation = travel
+                            paymentDate = travel.startDate.toDate()
+                            isShowingSelectTripSheet = false
                         }, label: {
                             Text(travel.travelTitle)
                         })
@@ -128,6 +130,19 @@ struct PaymentManageView: View {
                 .presentationDetents([.fraction(0.4)])
             })
         }
+        .onAppear {
+            if userTravelStore.travels.isEmpty {
+                isShowingNoTravelAlert = true
+            }
+            else {
+                isShowingSelectTripSheet = true
+            }
+        }
+        .alert(isPresented: $isShowingNoTravelAlert, content: {
+            
+            return Alert(title: Text("생성된 여행이 없습니다"),
+                         dismissButton: .default(Text("확인"), action: { dismiss()}))
+        })
         
         .background {
             RoundedRectangle(cornerRadius: 12)
@@ -144,7 +159,7 @@ struct PaymentManageView: View {
             case .add:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
+                        paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
                 FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField)
@@ -153,13 +168,13 @@ struct PaymentManageView: View {
                             selectedCategory = payment.type
                             expandDetails = payment.content
                             priceString = String(payment.payment)
-                            paymentDate = payment.paymentDate.timeTo00_00_00().toDate()
+                            paymentDate = payment.paymentDate.toDate()
                         }
                     }
             case .mainAdd:
                 FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
-                        paymentDate = travelCalculation.startDate.timeTo00_00_00().toDate()
+                        paymentDate = travelCalculation.startDate.toDate()
                     }
             }
         }
@@ -219,7 +234,6 @@ struct PaymentManageView: View {
     var button: some View {
         Button(action: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
-                // FIXME: alert 띄우고 곧바로 Sheet 띄우고 싶음
                 isShowingAlert = true
                 isShowingSelectTripSheet = true
             }

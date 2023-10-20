@@ -57,6 +57,7 @@ struct FillInPaymentInfoView: View {
                     .padding(.trailing, 16)
                 
             })
+            
         }
         .background {
             RoundedRectangle(cornerRadius: 12)
