@@ -74,17 +74,12 @@ struct PaymentListView: View {
             .padding(.trailing, 24)
             .swipeActions {
                 Button(role: .destructive) {
-                    isShowingDeletePayment = true
+                    paymentStore.deletePayment(payment: payment)
                 } label: {
                     Text("삭제")
                 }
                 .frame(width: 88)
-                .alert(isPresented: $isShowingDeletePayment) {
-                    // FIXME: Alert가 안뜸!
-                    return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
-                        paymentStore.deletePayment(payment: payment)
-                    }), secondaryButton: .cancel(Text("아니오")))
-                }
+                
                 
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
@@ -94,6 +89,11 @@ struct PaymentListView: View {
                 }
                 .frame(width: 88)
                 .background(Color.gray500)
+            }
+            .alert(isPresented: $isShowingDeletePayment) {
+                return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                    
+                }), secondaryButton: .cancel(Text("아니오")))
             }
         }
         .listRowInsets(nil)
