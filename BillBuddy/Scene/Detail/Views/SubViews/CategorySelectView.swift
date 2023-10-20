@@ -9,6 +9,9 @@ import SwiftUI
 
 struct CategorySelectView: View {
     
+    
+    @Environment(\.dismiss) private var dismiss
+    
     enum Mode {
         case category // 전체 x
         case sheet    // 전체 o
@@ -27,12 +30,12 @@ struct CategorySelectView: View {
                 }, label: {
                     if selectedCategory == nil {
                         Text("전체")
-                            .font(.custom("Pretendard-Medium", size: 12))
+                            .font(.caption02)
                             .foregroundStyle(Color.myPrimary)
                     }
                     else {
                         Text("전체")
-                            .font(.custom("Pretendard-Medium", size: 12))
+                            .font(.caption02)
                             .foregroundStyle(Color.black)
                     }
                 })
@@ -52,7 +55,7 @@ struct CategorySelectView: View {
                                     .frame(width: 24, height: 24)
                                     .foregroundStyle(Color.myPrimary)
                                 Text(type.rawValue)
-                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .font(.caption02)
                                     .foregroundStyle(Color.myPrimary)
                                     
                             }
@@ -61,7 +64,7 @@ struct CategorySelectView: View {
                                     .resizable()
                                     .frame(width: 24, height: 24)
                                 Text(type.rawValue)
-                                    .font(.custom("Pretendard-Medium", size: 12))
+                                    .font(.caption02)
                                     .foregroundStyle(Color.gray500)
                                 
                             }
@@ -71,7 +74,7 @@ struct CategorySelectView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                             Text(type.rawValue)
-                                .font(.custom("Pretendard-Medium", size: 12))
+                                .font(.caption02)
                                 .foregroundStyle(Color.gray500)
                             
                         }
@@ -82,5 +85,10 @@ struct CategorySelectView: View {
                 .buttonStyle(.plain)
             }
         }
+        .onChange(of: selectedCategory, perform: { _ in
+            if mode == .sheet {
+                dismiss()
+            }
+        })
     }
 }

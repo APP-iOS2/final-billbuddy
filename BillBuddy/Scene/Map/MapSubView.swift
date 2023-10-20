@@ -9,8 +9,10 @@ import SwiftUI
 
 struct MapSubView: View {
     
-    @ObservedObject var locationManager: LocationManager
-    @ObservedObject var paymentStore: PaymentStore
+    @StateObject var locationManager: LocationManager
+    @StateObject var paymentStore: PaymentStore
+    
+    @Binding var selectedDate: Double
     
     var body: some View {
         VStack {
@@ -33,9 +35,27 @@ struct MapSubView: View {
                 .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height - 70))
             }
         }
+        .onChange(of: selectedDate, perform: { date in
+            if selectedDate == 0 {
+                paymentStore.resetFilter()
+            }
+            else {
+                paymentStore.filterDate(date: date)
+            }
+            locationManager.setAnnotations(filteredPayments: paymentStore.filteredPayments)
+        })
+        .onAppear {
+            if selectedDate == 0 {
+                paymentStore.resetFilter()
+            }
+            else {
+                paymentStore.filterDate(date: selectedDate)
+            }
+            locationManager.setAnnotations(filteredPayments: paymentStore.filteredPayments)
+        }
     }
 }
 
 #Preview {
-    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation.sampletravel))
+    MapSubView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation.sampletravel), selectedDate: .constant(0.0))
 }

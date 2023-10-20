@@ -69,13 +69,12 @@ extension Double {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         let distanceHour = Calendar.current.dateComponents([.hour], from: dateCreatedAt, to: Date()).hour
         Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier:"ko_KR")
         
         if distanceHour ?? 0 < 24 {
             Self.dateFormatter.dateFormat = "a h:mm"
             return Self.dateFormatter.string(from: dateCreatedAt)
-        } else if distanceHour ?? 0 > 24 && distanceHour ?? 0 < 48 {
-            return "1일 전"
-        } else {            
+        } else {
             Self.dateFormatter.dateFormat = "M월 d일"
             return Self.dateFormatter.string(from: dateCreatedAt)
         }

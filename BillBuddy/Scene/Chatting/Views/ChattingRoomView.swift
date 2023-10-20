@@ -16,25 +16,17 @@ struct ChattingRoomView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                if messageStore.messages.isEmpty {
-                    Text("여행 친구들과 대화를 시작해보세요")
-                        .font(Font.body04)
-                        .foregroundColor(.gray500)
-                        .padding()
-                } else {
-                    chattingItem
-                }
+            if messageStore.messages.isEmpty {
+                emptyChat
+            } else {
+                chattingItem
             }
-            VStack {
-                chattingInputBar
-            }
+            chattingInputBar
         }
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             messageStore.fetchMessages(travelCalculation: travel)
         }
-        .navigationTitle(travel.travelTitle)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
@@ -48,85 +40,113 @@ struct ChattingRoomView: View {
                         .frame(width: 24, height: 24)
                 })
             }
+            ToolbarItem(placement: .principal) {
+                Text(travel.travelTitle)
+                    .font(.title05)
+                    .foregroundColor(.systemBlack)
+            }
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    
-                }, label: {
+                NavigationLink {
+                    ChattingMenuView(travel: travel)
+                } label: {
                     Image(.steps13)
                         .resizable()
                         .frame(width: 24, height: 24)
-                })
+                }
             }
         }
     }
     
+    private var emptyChat: some View {
+        VStack {
+            Text("여행 친구들과 대화를 시작해보세요")
+                .font(Font.body04)
+                .foregroundColor(.gray500)
+                .padding()
+            Spacer()
+        }
+    }
+    
     private var chattingItem: some View {
-        ForEach(messageStore.messages) { message in
-            if message.senderId == AuthStore.shared.userUid {
-                HStack {
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text(message.senderId)
-                            .font(Font.caption02)
-                            .foregroundColor(.systemBlack)
+        ScrollViewReader { scrollProxy in
+            ScrollView {
+                ForEach(messageStore.messages) { message in
+                    if message.senderId == AuthStore.shared.userUid {
                         HStack {
-                            VStack {
-                                Spacer()
-                                Text(message.sendDate.toFormattedChatDate())
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text(message.senderId)
                                     .font(Font.caption02)
-                                    .foregroundColor(.gray500)
+                                    .foregroundColor(.systemBlack)
+                                HStack {
+                                    VStack {
+                                        Spacer()
+                                        Text(message.sendDate.toFormattedChatDate())
+                                            .font(Font.caption02)
+                                            .foregroundColor(.gray500)
+                                    }
+                                    Text(message.message)
+                                        .font(Font.body04)
+                                        .foregroundColor(.systemBlack)
+                                        .padding(.horizontal)
+                                        .padding(.vertical, 10)
+                                        .background(Color(hex: "#DEEBFF"))
+                                        .cornerRadius(12)
+                                }
                             }
-                            Text(message.message)
-                                .font(Font.body04)
-                                .foregroundColor(.systemBlack)
-                                .padding(.horizontal)
-                                .padding(.vertical, 10)
-                                .background(Color(hex: "#DEEBFF"))
-                                .cornerRadius(12)
-                        }
-                    }
-                    VStack {
-                        Circle()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray500)
-                        Spacer()
-                    }
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
-            } else {
-                HStack {
-                    VStack {
-                        Circle()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray500)
-                        Spacer()
-                    }
-                    VStack(alignment: .leading) {
-                        Text(message.senderId)
-                            .font(Font.caption02)
-                            .foregroundColor(.systemBlack)
-                        HStack {
-                            Text(message.message)
-                                .font(Font.body04)
-                                .foregroundColor(.systemBlack)
-                                .padding(.horizontal)
-                                .padding(.vertical, 10)
-                                .background(Color.gray050)
-                                .cornerRadius(12)
                             VStack {
-                                Spacer()
-                                Text(message.sendDate.toFormattedChatDate())
-                                    .font(Font.caption02)
+                                Circle()
+                                    .frame(width: 40, height: 40)
                                     .foregroundColor(.gray500)
+                                Spacer()
                             }
                         }
+                        .padding(.horizontal)
+                        .padding(.vertical, 5)
+                    } else {
+                        HStack {
+                            VStack {
+                                Circle()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.gray500)
+                                Spacer()
+                            }
+                            VStack(alignment: .leading) {
+                                Text(message.senderId)
+                                    .font(Font.caption02)
+                                    .foregroundColor(.systemBlack)
+                                HStack {
+                                    Text(message.message)
+                                        .font(Font.body04)
+                                        .foregroundColor(.systemBlack)
+                                        .padding(.horizontal)
+                                        .padding(.vertical, 10)
+                                        .background(Color.gray050)
+                                        .cornerRadius(12)
+                                    VStack {
+                                        Spacer()
+                                        Text(message.sendDate.toFormattedChatDate())
+                                            .font(Font.caption02)
+                                            .foregroundColor(.gray500)
+                                    }
+                                }
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 5)
                     }
-                    Spacer()
                 }
-                .padding(.horizontal)
-                .padding(.vertical, 5)
+                HStack { }
+                    .id("last")
             }
+            .onReceive(messageStore.$isAddedNewMessage, perform: { _ in
+                if !messageStore.messages.isEmpty {
+                    withAnimation {
+                        scrollProxy.scrollTo("last", anchor: .bottom)
+                    }
+                }
+            })
         }
     }
     

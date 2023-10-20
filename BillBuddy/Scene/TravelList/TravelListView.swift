@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
@@ -20,15 +21,19 @@ struct TravelListView: View {
     
     var body: some View {
         ZStack {
-            VStack(alignment: .center) {
+            
+            VStack(alignment: .leading) {
                 HStack {
                     travelFilterButton
                     Spacer()
                 }
+                .padding(.leading, 12)
+                
+                // 리스트간 간격이 너무 넓음
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(createTravelList()) { travel in
                         NavigationLink {
-                            DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))                            
+                            DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
                         } label: {
                             HStack {
                                 VStack(alignment: .leading) {
@@ -56,18 +61,28 @@ struct TravelListView: View {
                                 }
                                 
                             }
-                            .padding([.leading, .trailing], 26)
-                            .frame(width: 361, height: 95)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 94)
+                            .padding([.leading, .trailing], 25)
                             .background(Color.gray1000.cornerRadius(12))
                         }
+                        .padding(.top, 16) // 간격 너무 멀어보임
                         
                     } //MARK: LIST
+                    .padding([.leading, .trailing], 12)
                     
                 } //MARK: SCROLLVIEW
                 
             } //MARK: VSTACK
             
         } //MARK: ZSTACK
+        .overlay(
+        Rectangle()
+            .fill(Color.systemBlack.opacity(isShowingEditTravelView ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
+            .onTapGesture {
+                isShowingEditTravelView = false
+            }
+        )
         .overlay(
             Rectangle()
                 .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
@@ -86,22 +101,30 @@ struct TravelListView: View {
         .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Text("BillBuddy")
-                    .font(Font.semibold03)
-                    .foregroundColor(.myPrimary)
+                Image(.mainBillBuddy)
+                    .resizable()
+                    .frame(width: 116, height: 23)
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Image(.ringingBellNotification3)
-                    .resizable()
-                    .frame(width: 24, height: 24)
+                Button {
+                    //알림 뷰 자리
+                } label: {
+                    Image(.ringingBellNotification3)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
             }
         }
         .onAppear {
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
+                if notificationStore.didFetched == false {
+                    notificationStore.getUserUid()
+                }
             }
+            
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false
@@ -114,28 +137,34 @@ struct TravelListView: View {
         
         switch selectedFilter {
         case .paymentInProgress:
-            return userTravelStore.travels.filter { userTravel in
+            sortedTravels = userTravelStore.travels.filter { userTravel in
                 return !userTravel.isPaymentSettled
             }
         case .paymentSettled:
-            return userTravelStore.travels.filter { userTravel in
+            sortedTravels = userTravelStore.travels.filter { userTravel in
                 return userTravel.isPaymentSettled
             }
         }
         
-        sortedTravels.sort { $0.startDate < $1.startDate}
+        let sortingTravels = sortedTravels.sorted { travel1, travel2 in
+            if travel1.startDate != travel2.startDate {
+                return travel1.startDate < travel2.startDate
+            } else {
+                return travel1.endDate < travel2.endDate
+            }
+        }
         
-        return sortedTravels
+        return sortingTravels
     }
 }
 
 extension TravelListView {
     var travelFilterButton: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(TravelFilter.allCases, id: \.rawValue) { filter in
                 VStack {
                     Text(filter.title)
-                        .padding(.top, 30)
+                        .padding(.top, 25)
                         .font(Font.body02)
                         .fontWeight(selectedFilter == filter ? .bold : .regular)
                         .foregroundColor(selectedFilter == filter ? .myPrimary : .gray500)
@@ -147,14 +176,13 @@ extension TravelListView {
                             .matchedGeometryEffect(id: "filter", in: animation)
                     } else {
                         Capsule()
-                            .foregroundColor(.clear)
+                            .foregroundColor(.gray100)
                             .frame(width: 100, height: 3)
                     }
                 }
                 .onTapGesture {
                     withAnimation(Animation.default) {
                         self.selectedFilter = filter
-                        //                        userTravelStore.fetchTravelCalculation()
                         print(self.selectedFilter)
                     }
                 }
@@ -167,7 +195,8 @@ extension TravelListView {
         TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 
-    
+

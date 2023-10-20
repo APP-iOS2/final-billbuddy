@@ -97,6 +97,11 @@ final class PaymentStore: ObservableObject {
             if let index = payments.firstIndex(where: { $0.id == payment.id }) {
                 payments.remove(at: index)
             }
+            
+            Task {
+                //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
+                await fetchAll()
+            }
         }
     }
 }

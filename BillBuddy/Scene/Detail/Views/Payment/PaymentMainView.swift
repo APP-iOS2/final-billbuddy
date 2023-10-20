@@ -39,7 +39,7 @@ struct PaymentMainView: View {
                                 SpendingListView()
                             } label: {
                                 Text("총 지출")
-                                    .font(.custom("Pretendard-Medium", size: 14))
+                                    .font(.body04)
                                     .foregroundStyle(Color.gray600)
                                 Image("chevron_right")
                                     .resizable()
@@ -47,7 +47,7 @@ struct PaymentMainView: View {
                             }
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
-                            .font(.custom("Pretendard-Semibold", size: 16))
+                            .font(.body01)
                     })
                     .padding(.top, 18)
                     .padding(.leading, 15)
@@ -59,7 +59,7 @@ struct PaymentMainView: View {
                         SettledAccountView()
                     } label: {
                         Text("정산하기")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                     
@@ -106,7 +106,7 @@ struct PaymentMainView: View {
                         .frame(width: 28, height: 28)
                     
                     Text("지출 내역 추가")
-                        .font(.custom("Pretendard-Medium", size: 14))
+                        .font(.body04)
                         .foregroundStyle(Color.gray600)
                     
                     Spacer()
@@ -134,12 +134,12 @@ struct PaymentMainView: View {
                 }, label: {
                     if let category = selectedCategory {
                         Text(category.rawValue)
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                     else {
                         Text("전체내역")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                     Image("expand_more")
@@ -177,12 +177,12 @@ struct PaymentMainView: View {
                 }, label: {
                     if isEditing {
                         Text("편집 완료")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                     else {
                         Text("편집")
-                            .font(.custom("Pretendard-Medium", size: 14))
+                            .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
                 })

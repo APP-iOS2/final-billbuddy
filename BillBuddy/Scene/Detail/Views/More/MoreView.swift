@@ -41,7 +41,7 @@ enum ListItem: String, CaseIterable {
 }
 
 struct MoreView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
 
     @ObservedObject var travelDetailStore: TravelDetailStore
     @State var itemList: [ListItem] = ListItem.allCases
@@ -75,7 +75,7 @@ struct MoreView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }, label: {
                     Image("arrow_back")
                         .resizable()

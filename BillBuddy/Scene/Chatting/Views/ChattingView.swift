@@ -9,43 +9,42 @@ import SwiftUI
 
 struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
-
+    
     var body: some View {
-        NavigationStack {
-            VStack {
-                ScrollView {
-                    chattingItems
-                        .padding(.top, 5)
-                        .overlay(
-                            Rectangle()
-                                .frame(height: 1, alignment: .top)
-                                .foregroundColor(.gray100), alignment: .top
-                        )
-                }
+        VStack {
+            ScrollView {
+                chattingItems
+                    .padding(.top, 5)
+                    .overlay(
+                        Rectangle()
+                            .frame(height: 1, alignment: .top)
+                            .foregroundColor(.gray100), alignment: .top
+                    )
             }
-            .onAppear {
-                tabBarVisivilyStore.showTabBar()
-                if !AuthStore.shared.userUid.isEmpty {
-                    travelStore.fetchTravelCalculation()
-                }
+        }
+        .onAppear {
+            tabBarVisivilyStore.showTabBar()
+            if !AuthStore.shared.userUid.isEmpty {
+                travelStore.fetchTravelCalculation()
             }
-            .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("채팅")
-                        .font(.title05)
+        }
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Text("채팅")
+                    .font(.title05)
+                    .foregroundColor(.systemBlack)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    NotificationListView()
+                } label: {
+                    Image(.ringingBellNotification3)
+                        .resizable()
+                        .frame(width: 24, height: 24)
                         .foregroundColor(.systemBlack)
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        NotificationListView()
-                    } label: {
-                        Image(.ringingBellNotification3)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.systemBlack)
-                    }
                 }
             }
         }
@@ -73,6 +72,8 @@ struct ChattingView: View {
                         }
                         if let messagePreview = travel.lastMessage {
                             Text(messagePreview)
+                                .frame(alignment: .leading)
+                                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                                 .font(Font.body04)
                                 .foregroundColor(.gray700)
                         }
@@ -108,6 +109,7 @@ struct ChattingView: View {
         ChattingView()
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 
