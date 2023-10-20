@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
@@ -119,7 +120,11 @@ struct TravelListView: View {
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
+                if notificationStore.didFetched == false {
+                    notificationStore.getUserUid()
+                }
             }
+            
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false
@@ -190,6 +195,7 @@ extension TravelListView {
         TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
 

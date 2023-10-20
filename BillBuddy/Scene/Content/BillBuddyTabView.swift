@@ -10,10 +10,10 @@ import UIKit
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    @State private var isShowingAdScreen: Bool = false
+    @State private var isShowingAdScreen: Bool = false    
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
     @EnvironmentObject private var userService: UserService
-    
+
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
         UITabBarItem.appearance().setTitleTextAttributes([.font:UIFont(name: "Pretendard-Bold", size: 10)!], for: .normal)
@@ -46,7 +46,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(0)
@@ -70,7 +74,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(1)
@@ -94,7 +102,11 @@ struct BillBuddyTabView: View {
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
-                    isShowingAdScreen = Bool.random()
+                    if !isPremium {
+                        isShowingAdScreen = Bool.random()
+                    } else {
+                        isShowingAdScreen = false
+                    }
                 }
             }
             .tag(2)
