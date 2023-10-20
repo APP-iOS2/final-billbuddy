@@ -16,7 +16,6 @@
 		0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */; };
 		02C5A7D92AE0239800CBD8D1 /* FloatingButtonMenuStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */; };
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
-		261DC11B2AE0F62B00EBE149 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 261DC11A2AE0F62B00EBE149 /* GoogleService-Info.plist */; };
 		261DC11D2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC11C2AE1064E00EBE149 /* ChatNoticeAlarmCell.swift */; };
 		261DC1212AE108A700EBE149 /* TravelExpenseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1202AE108A700EBE149 /* TravelExpenseCell.swift */; };
 		261DC1232AE14A9A00EBE149 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DC1222AE14A9A00EBE149 /* NotificationManager.swift */; };
@@ -88,7 +87,6 @@
 		46AA65712AD6796C00988491 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA65702AD6796C00988491 /* Message.swift */; };
 		46B8E2272AD8295F001B3A6C /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8E2262AD8295F001B3A6C /* MessageStore.swift */; };
 		46C09CD32AE1C65D001E34E6 /* ChattingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C09CD22AE1C65D001E34E6 /* ChattingMenuView.swift */; };
-		635A3A322ACD3E3700737B9F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635A3A312ACD3E3700737B9F /* Place.swift */; };
 		636CE5FB2AC3B27400BF7730 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FA2AC3B27400BF7730 /* LocationManager.swift */; };
 		636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636CE5FE2AC3BA1E00BF7730 /* Line.swift */; };
 		638A9F492ADA812100C931DD /* MapViewCoordinater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F482ADA812100C931DD /* MapViewCoordinater.swift */; };
@@ -206,7 +204,6 @@
 		46AA65702AD6796C00988491 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		46B8E2262AD8295F001B3A6C /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
 		46C09CD22AE1C65D001E34E6 /* ChattingMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingMenuView.swift; sourceTree = "<group>"; };
-		635A3A312ACD3E3700737B9F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		636CE5FA2AC3B27400BF7730 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		636CE5FE2AC3BA1E00BF7730 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		638A9F482ADA812100C931DD /* MapViewCoordinater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinater.swift; sourceTree = "<group>"; };
@@ -1157,7 +1154,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BillBuddy/BillBuddy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;
@@ -1189,7 +1186,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = BillBuddy/BillBuddy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6R3M7VGRP2;

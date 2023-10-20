@@ -10,9 +10,7 @@ import UIKit
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    @State private var isShowingAdScreen: Bool = false
-    @State var tabBarVisivility: Visibility = .visible
-    
+    @State private var isShowingAdScreen: Bool = false    
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
     @EnvironmentObject private var userService: UserService
 
@@ -24,7 +22,7 @@ struct BillBuddyTabView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore, tabBarVisivility: $tabBarVisivility)
+                TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
                 if let isPremium = userService.currentUser?.isPremium {
                     if isPremium == false {
                         BannerView().frame(height: 65)
