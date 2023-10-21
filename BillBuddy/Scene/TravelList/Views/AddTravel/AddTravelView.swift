@@ -15,7 +15,7 @@ struct AddTravelView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var travelTitle: String = ""
-    @State private var selectedMember = 0
+    @State private var selectedMember = 1
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var isShowingCalendarView = false
@@ -41,7 +41,6 @@ struct AddTravelView: View {
                     .padding(.top, 24)
                     .shadow(color: Color.gray.opacity(0.3), radius: 8)
                     //                    .padding([.top, .horizontal], 12)
-                    
                     
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
@@ -99,7 +98,7 @@ struct AddTravelView: View {
                                     Spacer()
                                     
                                     Button(action: {
-                                        selectedMember = max(0, selectedMember - 1)
+                                        selectedMember = max(1, selectedMember - 1)
                                     }) {
                                         Image("Group 1171275315")
                                             .resizable()

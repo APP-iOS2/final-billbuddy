@@ -51,7 +51,7 @@ struct ChattingMenuView: View {
             Spacer()
             VStack {
                 NavigationLink {
-                    MoreView(travelDetailStore: TravelDetailStore(travel: travel))
+                    MoreView(travel: travel)
                 } label: {
                     Image(.steps13)
                         .resizable()

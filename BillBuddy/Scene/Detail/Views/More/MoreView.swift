@@ -43,32 +43,41 @@ enum ListItem: String, CaseIterable {
 struct MoreView: View {
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    var travel: TravelCalculation
     @State var itemList: [ListItem] = ListItem.allCases
     
     var body: some View {
         Divider()
             .padding(.bottom, 16)
-        VStack {
-            ForEach(itemList, id:\.self) { item in
+        ScrollView {
+            VStack {
                 NavigationLink {
-                    switch item {
-                    case .chat:
-                        ChattingRoomView(travel: travelDetailStore.travel)
-                    case .editDate:
-                        SpendingListView()
-                    case .mamberManagement:
-                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelDetailStore.travel))
-                    case .settledAccount:
-                        SettledAccountView()
-                    }
+                    ChattingRoomView(travel: travel)
                 } label: {
-                   MoreListCell(item: item)
+                    MoreListCell(item: .chat)
                 }
                 .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                NavigationLink {
+                    SpendingListView()
+                } label: {
+                    MoreListCell(item: .editDate)
+                }
+                .listRowSeparator(.hidden, edges: .all)
+                NavigationLink {
+                    MemberManagementView(travel: travel)
+                } label: {
+                    MoreListCell(item: .mamberManagement)
+                }
+                .listRowSeparator(.hidden, edges: .all)
+                NavigationLink {
+                    SettledAccountView()
+                } label: {
+                    MoreListCell(item: .settledAccount)
+                }
+                .listRowSeparator(.hidden, edges: .all)
+//                .listStyle(.plain)
+                Spacer()
             }
-            .listStyle(.plain)
-            Spacer()
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -95,6 +104,6 @@ struct MoreView: View {
 
 #Preview {
     NavigationStack {
-        MoreView(travelDetailStore: TravelDetailStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])))
+        MoreView(travel: .sampletravel)
     }
 }

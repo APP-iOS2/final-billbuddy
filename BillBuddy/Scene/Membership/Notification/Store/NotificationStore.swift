@@ -70,6 +70,19 @@ final class NotificationStore: ObservableObject {
         }
     }
     
+    func sendNotification(users: [User], notification: UserNotification) {
+        let users = users.filter { $0.id != nil }
+        Task {
+            for user in users {
+                do {
+                    try Firestore.firestore().collection("User").document(user.id ?? "").collection("Notification").addDocument(from: notification.self)
+                } catch {
+                    print("false send notification to \(user.name) - \(error)")
+                }
+            }
+        }
+    }
+    
     func setNotificationChecked(notiId: String) {
         guard let index = notifications.firstIndex(where: { $0.id == notiId} ) else { return }
         if notifications[index].isChecked == false {

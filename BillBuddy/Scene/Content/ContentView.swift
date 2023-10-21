@@ -30,8 +30,20 @@ struct ContentView: View {
                     .environmentObject(signUpStore)
                     .environmentObject(tabBarVisivilyStore)
                     .environmentObject(notificationStore)
+                    .environmentObject(schemeServie)
             } else {
-                DeepLinkView()
+                NavigationStack {
+                    DeepLinkView()
+                        .environmentObject(settlementExpensesStore)
+                        .environmentObject(userTravelStore)
+                        .environmentObject(messageStore)
+                        .environmentObject(userService)
+                        .environmentObject(signInStore)
+                        .environmentObject(signUpStore)
+                        .environmentObject(tabBarVisivilyStore)
+                        .environmentObject(notificationStore)
+                        .environmentObject(schemeServie)
+                }
             }
         } else {
             NavigationStack {
