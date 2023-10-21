@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
@@ -13,6 +14,9 @@ struct ChattingRoomView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
+    @State private var selectedPhoto: PhotosPickerItem? = nil
+    @State private var imageData: Data?
+    @State private var imagePath: String?
     
     var body: some View {
         VStack {
@@ -26,6 +30,23 @@ struct ChattingRoomView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             messageStore.fetchMessages(travelCalculation: travel)
+        }
+        .onChange(of: selectedPhoto) { newValue in
+            guard let item = selectedPhoto else {
+                return
+            }
+            item.loadTransferable(type: Data.self) { result in
+                switch result {
+                case .success(let data):
+                    if let data = data {
+                        self.imageData = data
+                    } else {
+                        print("no image")
+                    }
+                case .failure(let failure):
+                    fatalError("\(failure)")
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -86,19 +107,33 @@ struct ChattingRoomView: View {
                                             .font(Font.caption02)
                                             .foregroundColor(.gray500)
                                     }
-                                    Text(message.message)
-                                        .font(Font.body04)
-                                        .foregroundColor(.systemBlack)
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 10)
-                                        .background(Color(hex: "#DEEBFF"))
-                                        .cornerRadius(12)
+                                    VStack(alignment: .trailing) {
+                                        if let imageMessage = message.imageString {
+                                            AsyncImage(url: URL(string: imageMessage)) { image in
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width:120, height: 120)
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                        }
+                                        if message.message != "" {
+                                            Text(message.message)
+                                                .font(Font.body04)
+                                                .foregroundColor(.systemBlack)
+                                                .padding(.horizontal)
+                                                .padding(.vertical, 10)
+                                                .background(Color.lightBlue300)
+                                                .cornerRadius(12)
+                                        }
+                                    }
                                 }
                             }
                             VStack {
-                                Circle()
+                                Image(.defaultUser)
+                                    .resizable()
                                     .frame(width: 40, height: 40)
-                                    .foregroundColor(.gray500)
                                 Spacer()
                             }
                         }
@@ -107,9 +142,9 @@ struct ChattingRoomView: View {
                     } else {
                         HStack {
                             VStack {
-                                Circle()
+                                Image(.defaultUser)
+                                    .resizable()
                                     .frame(width: 40, height: 40)
-                                    .foregroundColor(.gray500)
                                 Spacer()
                             }
                             VStack(alignment: .leading) {
@@ -117,13 +152,27 @@ struct ChattingRoomView: View {
                                     .font(Font.caption02)
                                     .foregroundColor(.systemBlack)
                                 HStack {
-                                    Text(message.message)
-                                        .font(Font.body04)
-                                        .foregroundColor(.systemBlack)
-                                        .padding(.horizontal)
-                                        .padding(.vertical, 10)
-                                        .background(Color.gray050)
-                                        .cornerRadius(12)
+                                    VStack(alignment: .leading) {
+                                        if let imageMessage = message.imageString {
+                                            AsyncImage(url: URL(string: imageMessage)) { image in
+                                                image
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width:120, height: 120)
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                        }
+                                        if message.message != ""  {
+                                            Text(message.message)
+                                                .font(Font.body04)
+                                                .foregroundColor(.systemBlack)
+                                                .padding(.horizontal)
+                                                .padding(.vertical, 10)
+                                                .background(Color.gray050)
+                                                .cornerRadius(12)
+                                        }
+                                    }
                                     VStack {
                                         Spacer()
                                         Text(message.sendDate.toFormattedChatDate())
@@ -152,33 +201,83 @@ struct ChattingRoomView: View {
     }
     
     private var chattingInputBar: some View {
-        HStack() {
-            TextField("내용을 입력해주세요", text: $inputText)
-                .padding()
-            Button {
-                
-            } label: {
-                Image(.emoji)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray600)
+        VStack {
+            if let photoImage = imageData, let uiImage = UIImage(data: photoImage) {
+                HStack {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                        .padding(.horizontal, 10)
+                        .overlay(alignment: .topTrailing) {
+                            Button(action: {
+                                imageData?.removeAll()
+                                selectedPhoto = nil
+                            }, label: {
+                                Image(.close)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            })
+                        }
+                    Spacer()
+                }
             }
-            Button {
-                let newMessage = Message(senderId: AuthStore.shared.userUid, message: inputText, sendDate: Date().timeIntervalSince1970, isRead: false)
-                messageStore.sendMessage(travelCalculation: travel, message: newMessage)
-                inputText.removeAll()
-            } label: {
-                Image(.mailSendEmailMessage35)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray600)
+            HStack() {
+                TextField("내용을 입력해주세요", text: $inputText)
+                    .padding()
+                PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                    Image(.gallery)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.gray600)
+                }
+                Button {
+                    sendChat()
+                    selectedPhoto = nil
+                    imageData?.removeAll()
+                    inputText.removeAll()
+                } label: {
+                    Image(.mailSendEmailMessage35)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.gray600)
+                }
+                .padding(.trailing, 10)
             }
-            .padding(.trailing, 10)
+            .frame(height: 50)
+            .background(Color.gray050)
+            .cornerRadius(12)
+            .padding(.horizontal, 10)
         }
-        .frame(height: 50)
-        .background(Color.gray050)
-        .cornerRadius(12)
-        .padding(.horizontal, 10)
+    }
+    
+    // TODO: 1. 이미지 전송 후 채팅방을 벗어나기 전까지 같은 이미지가 반복 전송됨
+    // TODO: 2. 이미지와 텍스트를 같이 전송할 때 처음은 텍스트가 nil 두번째부터는 텍스트는 정상적으로 들어감
+    private func sendChat() {
+        if let photoItem = selectedPhoto {
+            Task {
+                imagePath = await messageStore.getImagePath(item: photoItem)
+                let newMessage = Message(
+                    senderId: AuthStore.shared.userUid,
+                    message: inputText, 
+                    imageString: imagePath,
+                    sendDate: Date().timeIntervalSince1970,
+                    isRead: false
+                )
+                messageStore.sendMessage(travelCalculation: travel, message: newMessage)
+                imageData?.removeAll()
+            }
+        } else {
+            imageData?.removeAll()
+            let newMessage = Message(
+                senderId: AuthStore.shared.userUid,
+                message: inputText,
+                imageString: imagePath,
+                sendDate: Date().timeIntervalSince1970,
+                isRead: false
+            )
+            messageStore.sendMessage(travelCalculation: travel, message: newMessage)
+        }
     }
 }
 
