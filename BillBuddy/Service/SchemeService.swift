@@ -66,6 +66,7 @@ final class SchemeService: ObservableObject {
                 let userTravel = UserTravel(travelId: travelId)
                 try dbRef.collection("User").document(AuthStore.shared.userUid).collection("UserTravel").addDocument(from: userTravel)
                 try dbRef.collection("TravelCalculation").document(travelId).setData(from: travel)
+                self.travel = travel
             } catch {
                 print("제발 제발 제발 제발 제발 제발 제발 ")
             }
