@@ -112,6 +112,7 @@ struct BillBuddyTabView: View {
             .tag(2)
         }
         .accentColor(.systemBlack)
+        
     }
 }
 

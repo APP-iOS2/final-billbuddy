@@ -12,6 +12,7 @@ struct EditPaymentMapView: View {
     
     @Binding var searchAddress: String
     @State private var isShowingAddress: Bool = false
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -33,6 +34,7 @@ struct EditPaymentMapView: View {
                             HStack {
                                 TextField("주소를 입력하세요", text: $searchAddress)
                                     .padding()
+                                    .focused($isKeyboardUp)
                                 Button(action: {
                                     locationManager.searchAddress(searchAddress: searchAddress)
                                     locationManager.selectedAddress = searchAddress
@@ -49,6 +51,9 @@ struct EditPaymentMapView: View {
                 MapViewCoordinater(locationManager: locationManager)
             }
             .padding()
+            .onTapGesture {
+                isKeyboardUp = false
+            }
             
             Button {
                 locationManager.moveFocusOnUserLocation()

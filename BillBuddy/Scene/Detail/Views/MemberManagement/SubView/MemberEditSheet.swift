@@ -13,6 +13,7 @@ struct MemberEditSheet: View {
     @State var isExcluded: Bool
     @State var nickName: String = ""
     @State var advancePayment: String = ""
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         VStack(alignment: .center) {
@@ -29,6 +30,7 @@ struct MemberEditSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .font(Font.body04)
+                            .focused($isKeyboardUp)
                     }
                     .padding([.leading, .trailing], 16)
                 }
@@ -48,6 +50,7 @@ struct MemberEditSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .font(Font.body04)
+                            .focused($isKeyboardUp)
                     }
                     .padding([.leading, .trailing], 16)
                 }
@@ -88,6 +91,9 @@ struct MemberEditSheet: View {
             .cornerRadius(12)
             .foregroundColor(.white)
             .padding(.bottom, 59)
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
     }
 }
