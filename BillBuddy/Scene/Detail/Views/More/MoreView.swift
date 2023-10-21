@@ -9,7 +9,7 @@ import SwiftUI
 
 enum ListItem: String, CaseIterable {
     case chat
-    case editDate
+//    case editDate
     case mamberManagement
     case settledAccount
     
@@ -17,8 +17,8 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "채팅"
-        case .editDate:
-            "지도"
+//        case .editDate:
+//            "날짜 수정"
         case .mamberManagement:
             "인원관리"
         case .settledAccount:
@@ -30,8 +30,8 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "chat-bubble-text-square1"
-        case .editDate:
-            "calendar-check-1"
+//        case .editDate:
+//            "calendar-check-1"
         case .mamberManagement:
             "user-single-neutral-male-4"
         case .settledAccount:
@@ -43,32 +43,34 @@ enum ListItem: String, CaseIterable {
 struct MoreView: View {
     @Environment(\.dismiss) private var dismiss
 
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    var travel: TravelCalculation
     @State var itemList: [ListItem] = ListItem.allCases
     
     var body: some View {
         Divider()
             .padding(.bottom, 16)
-        VStack {
-            ForEach(itemList, id:\.self) { item in
-                NavigationLink {
-                    switch item {
-                    case .chat:
-                        ChattingRoomView(travel: travelDetailStore.travel)
-                    case .editDate:
-                        SpendingListView()
-                    case .mamberManagement:
-                        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: travelDetailStore.travel))
-                    case .settledAccount:
-                        SettledAccountView()
+        ScrollView {
+            VStack {
+                ForEach(ListItem.allCases, id: \.self) { item in
+                    NavigationLink {
+                        switch item {
+                        case .chat:
+                            ChattingRoomView(travel: travel)
+//                        case .editDate:
+//                            SpendingListView()
+                        case .mamberManagement:
+                            MemberManagementView(travel: travel)
+                        case .settledAccount:
+                            SpendingListView()
+                        }
+                    } label: {
+                        MoreListCell(item: item)
                     }
-                } label: {
-                   MoreListCell(item: item)
+                    .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 }
-                .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                
+                Spacer()
             }
-            .listStyle(.plain)
-            Spacer()
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -83,7 +85,6 @@ struct MoreView: View {
                 })
                 
             }
-            
             ToolbarItem(placement: .principal) {
                 Text("더보기")
                     .font(.title05)
@@ -95,6 +96,6 @@ struct MoreView: View {
 
 #Preview {
     NavigationStack {
-        MoreView(travelDetailStore: TravelDetailStore(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])))
+        MoreView(travel: .sampletravel)
     }
 }

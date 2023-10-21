@@ -35,6 +35,7 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
+                Text("내역")
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
             else if selection == "지도" {
@@ -74,6 +75,7 @@ struct DetailMainView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
+                    SchemeService.shared.removeUrl()
                     dismiss()
                 }, label: {
                     Image(.arrowBack)
@@ -92,7 +94,7 @@ struct DetailMainView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    MoreView(travelDetailStore: travelDetailStore)
+                    MoreView(travel: travelDetailStore.travel)
                 } label: {
                     Image("steps-1 3")
                         .resizable()

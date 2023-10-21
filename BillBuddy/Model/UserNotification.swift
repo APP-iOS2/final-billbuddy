@@ -13,12 +13,14 @@ struct UserNotification: Identifiable, Codable {
     var type: NotiType
 
     var content: String
+    var contentId: String
     var addDate: Date
     var isChecked: Bool = false
-    
-    enum NotiType: String, Codable {
-        case chatting
-        case travel
-        case notice
-    }
+}
+
+enum NotiType: String, Codable {
+    case chatting
+    case travel
+    case notice
+    case invite
 }

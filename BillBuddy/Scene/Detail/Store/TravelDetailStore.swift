@@ -65,6 +65,7 @@ final class TravelDetailStore: ObservableObject {
     
     func stoplistening() {
         listener?.remove()
+        print("stop listening")
         isChangedTravel = false
     }
 }
