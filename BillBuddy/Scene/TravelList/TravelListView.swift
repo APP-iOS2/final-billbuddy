@@ -11,6 +11,7 @@ struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
+    @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -32,6 +33,12 @@ struct TravelListView: View {
                 // 리스트간 간격이 너무 넓음
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
+                        NativeAdView(nativeViewModel: nativeAdViewModel)
+                            .frame(height: 94)
+                            .frame(maxWidth: .infinity)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 16)
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
                                 DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
@@ -121,6 +128,7 @@ struct TravelListView: View {
             }
         }
         .onAppear {
+            nativeAdViewModel.refreshAd()
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
