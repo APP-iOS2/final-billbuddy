@@ -92,7 +92,7 @@ class SampleMemeberStore: ObservableObject {
                 let nameSnapshot = try await Firestore.firestore().collection("User")
                     .whereField("name", isEqualTo: query).getDocuments()
                 let emailSnapshot = try await Firestore.firestore().collection("User")
-                    .whereField("name", isEqualTo: query).getDocuments()
+                    .whereField("email", isEqualTo: query).getDocuments()
                 if nameSnapshot.isEmpty == false {
                     for document in nameSnapshot.documents {
                         let user = try document.data(as: User.self)
@@ -105,8 +105,7 @@ class SampleMemeberStore: ObservableObject {
                         searchResult.append(user)
                     }
                 }
-                self.searchResult = searchResult
-//                self.searchResult = searchResult.filter { $0.id != AuthStore.shared.userUid }
+                self.searchResult = searchResult.filter { $0.id != AuthStore.shared.userUid }
             } catch {
                 print("false search")
             }

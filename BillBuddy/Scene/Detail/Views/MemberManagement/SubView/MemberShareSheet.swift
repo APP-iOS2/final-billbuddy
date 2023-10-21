@@ -18,7 +18,7 @@ struct MemberShareSheet: View {
     @State private var seletedUser: User = User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now)
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack() {
                 if sampleMemeberStore.searchResult.isEmpty {
                     ForEach(sampleMemeberStore.searchResult) { user in
                         Button {
@@ -53,10 +53,10 @@ struct MemberShareSheet: View {
                                     let noti = UserNotification(
                                         type: .invite,
                                         content: "\(sampleMemeberStore.travel.travelTitle) 에서 당신을 초대했습니다",
-                                        contentId: "travelId=\(sampleMemeberStore.travel.id )&memberId=\(seletedUser.id ?? "")",
+                                        contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(sampleMemeberStore.travel.id )&memberId=\(sampleMemeberStore.seletedMember.id)",
                                         addDate: Date.now)
                                     await sampleMemeberStore.inviteMemberAndSave()
-                                    notificationStore.sendNotification(users: [], notification: noti)
+                                    notificationStore.sendNotification(users: [seletedUser], notification: noti)
                                     isShowingShareSheet = false
                                 }
                             }))
@@ -88,8 +88,7 @@ struct MemberShareSheet: View {
                         .foregroundColor(Color.systemBlack)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
-                    
-                    ShareLink("초대하기", items: [sampleMemeberStore.getURL(memberId: sampleMemeberStore.seletedMember.id)], subject: Text("여행에 초대합니다"), message: Text("여행에 초대합니다"))
+                    ShareLink("초대하기", items: [sampleMemeberStore.getURL(memberId: sampleMemeberStore.seletedMember.id)])
                         .foregroundStyle(Color.systemBlack)
                 }
             }

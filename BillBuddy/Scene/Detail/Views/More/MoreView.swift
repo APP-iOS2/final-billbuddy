@@ -9,7 +9,7 @@ import SwiftUI
 
 enum ListItem: String, CaseIterable {
     case chat
-    case editDate
+//    case editDate
     case mamberManagement
     case settledAccount
     
@@ -17,8 +17,8 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "채팅"
-        case .editDate:
-            "지도"
+//        case .editDate:
+//            "날짜 수정"
         case .mamberManagement:
             "인원관리"
         case .settledAccount:
@@ -30,8 +30,8 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "chat-bubble-text-square1"
-        case .editDate:
-            "calendar-check-1"
+//        case .editDate:
+//            "calendar-check-1"
         case .mamberManagement:
             "user-single-neutral-male-4"
         case .settledAccount:
@@ -51,31 +51,24 @@ struct MoreView: View {
             .padding(.bottom, 16)
         ScrollView {
             VStack {
-                NavigationLink {
-                    ChattingRoomView(travel: travel)
-                } label: {
-                    MoreListCell(item: .chat)
+                ForEach(ListItem.allCases, id: \.self) { item in
+                    NavigationLink {
+                        switch item {
+                        case .chat:
+                            ChattingRoomView(travel: travel)
+//                        case .editDate:
+//                            SpendingListView()
+                        case .mamberManagement:
+                            MemberManagementView(travel: travel)
+                        case .settledAccount:
+                            SpendingListView()
+                        }
+                    } label: {
+                        MoreListCell(item: item)
+                    }
+                    .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 }
-                .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                NavigationLink {
-                    SpendingListView()
-                } label: {
-                    MoreListCell(item: .editDate)
-                }
-                .listRowSeparator(.hidden, edges: .all)
-                NavigationLink {
-                    MemberManagementView(travel: travel)
-                } label: {
-                    MoreListCell(item: .mamberManagement)
-                }
-                .listRowSeparator(.hidden, edges: .all)
-                NavigationLink {
-                    SettledAccountView()
-                } label: {
-                    MoreListCell(item: .settledAccount)
-                }
-                .listRowSeparator(.hidden, edges: .all)
-//                .listStyle(.plain)
+                
                 Spacer()
             }
         }
@@ -92,7 +85,6 @@ struct MoreView: View {
                 })
                 
             }
-            
             ToolbarItem(placement: .principal) {
                 Text("더보기")
                     .font(.title05)

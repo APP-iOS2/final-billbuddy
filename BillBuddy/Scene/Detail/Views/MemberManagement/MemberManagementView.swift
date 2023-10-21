@@ -62,6 +62,7 @@ struct MemberManagementView: View {
                         .listRowSeparator(.hidden)
                 }
                 .listRowSeparator(.hidden)
+                
                 ForEach(sampleMemeberStore.dummyMemebers) { member in
                     MemberCell(
                         sampleMemeberStore: sampleMemeberStore,
@@ -111,22 +112,21 @@ struct MemberManagementView: View {
             }
             .listStyle(.inset)
             
-            Section {
-                Button {
-                    withAnimation {
-                        sampleMemeberStore.addMember()
-                    }
-                } label: {
-                    Text("인원 추가")
-                        .font(Font.body02)
+            Button {
+                withAnimation {
+                    sampleMemeberStore.addMember()
                 }
-                .frame(width: 332, height: 52)
-                .background(Color.myPrimary)
-                .cornerRadius(12)
-                .foregroundColor(.white)
-                .padding(.bottom, 59)
-                .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
+            } label: {
+                Text("인원 추가")
+                    .font(Font.body02)
             }
+            .frame(width: 332, height: 52)
+            .background(Color.myPrimary)
+            .cornerRadius(12)
+            .foregroundColor(.white)
+            .padding(.bottom, 59)
+            .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
+            
         }
         .onAppear {
             if sampleMemeberStore.InitializedStore == false {

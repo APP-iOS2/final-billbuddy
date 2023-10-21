@@ -12,7 +12,7 @@ struct DeepLinkView: View {
     
     var body: some View {
         VStack {
-            if schemeServie.componentedUrl == nil {
+            if schemeServie.isLoading {
                 Rectangle()
                     .overlay(alignment: .center) {
                         Image(.billBuddy)
@@ -36,7 +36,9 @@ struct DeepLinkView: View {
             }
         }
         .onAppear {
-            schemeServie.isLoading = true
+            if schemeServie.componentedUrl != nil {
+                schemeServie.joinAndFetchTravel()
+            }
         }
     }
 }

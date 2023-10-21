@@ -57,6 +57,7 @@ final class NotificationStore: ObservableObject {
         }
     }
     
+    /// 여행방 갱신, 채팅을 맴버들에게 보낼 시
     func sendNotification(members: [TravelCalculation.Member], notification: UserNotification) {
         let members = members.filter { $0.userId != nil }
         Task {
@@ -70,8 +71,8 @@ final class NotificationStore: ObservableObject {
         }
     }
     
+    /// 유저에게 직접 보낼 시
     func sendNotification(users: [User], notification: UserNotification) {
-        let users = users.filter { $0.id != nil }
         Task {
             for user in users {
                 do {
