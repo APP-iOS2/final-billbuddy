@@ -123,16 +123,16 @@ struct ChattingRoomView: View {
                                                 .foregroundColor(.systemBlack)
                                                 .padding(.horizontal)
                                                 .padding(.vertical, 10)
-                                                .background(Color(hex: "#DEEBFF"))
+                                                .background(Color.lightBlue300)
                                                 .cornerRadius(12)
                                         }
                                     }
                                 }
                             }
                             VStack {
-                                Circle()
+                                Image(.defaultUser)
+                                    .resizable()
                                     .frame(width: 40, height: 40)
-                                    .foregroundColor(.gray500)
                                 Spacer()
                             }
                         }
@@ -141,9 +141,9 @@ struct ChattingRoomView: View {
                     } else {
                         HStack {
                             VStack {
-                                Circle()
+                                Image(.defaultUser)
+                                    .resizable()
                                     .frame(width: 40, height: 40)
-                                    .foregroundColor(.gray500)
                                 Spacer()
                             }
                             VStack(alignment: .leading) {
