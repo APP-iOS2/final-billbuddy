@@ -17,6 +17,7 @@ struct ContentView: View {
     @StateObject private var messageStore = MessageStore()
     @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
     @StateObject private var notificationStore = NotificationStore()
+    @StateObject private var nativeViewModel = NativeAdViewModel()
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
@@ -31,6 +32,7 @@ struct ContentView: View {
                     .environmentObject(tabBarVisivilyStore)
                     .environmentObject(notificationStore)
                     .environmentObject(schemeServie)
+                    .environmentObject(nativeViewModel)
             } else {
                 NavigationStack {
                     DeepLinkView()
