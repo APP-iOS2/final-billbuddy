@@ -16,6 +16,8 @@ struct Message: Identifiable, Codable {
     let senderId: String
     // 채팅 메세지 내용
     let message: String
+    // 채팅 이미지 업로드
+    let imageString: String?
     // 채팅 메세지 보낸 날짜 시간
     let sendDate: Double
     // 채팅 메세지 확인 여부
