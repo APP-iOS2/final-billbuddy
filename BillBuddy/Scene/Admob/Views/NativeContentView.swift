@@ -14,7 +14,7 @@ struct NativeContentView: View {
         NavigationStack {
             VStack(spacing: 20) {
                 NativeAdView(nativeViewModel: nativeAdViewModel)
-                    .frame(height: 300)
+                    .frame(height: 100)
                 
                 Text(
                     nativeAdViewModel.nativeAd?.mediaContent.hasVideoContent == true

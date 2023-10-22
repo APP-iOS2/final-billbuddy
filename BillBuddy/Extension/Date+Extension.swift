@@ -18,7 +18,7 @@ extension Date {
     
     var dateAndTime: String {
         Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        Self.dateFormatter.dateFormat = "MM/dd HH시 mm분"
+        Self.dateFormatter.dateFormat = "yyyy. MM. dd"
         
         return Self.dateFormatter.string(from: self)
     }
