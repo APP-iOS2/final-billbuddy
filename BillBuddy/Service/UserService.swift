@@ -15,7 +15,6 @@ import _PhotosUI_SwiftUI
 final class UserService: ObservableObject {
     @Published var currentUser: User?
     @Published var isSignIn: Bool = false
-    @Published var selectedItem: PhotosPickerItem?
     
     static let shared = UserService()
     
@@ -24,9 +23,6 @@ final class UserService: ObservableObject {
             try await self.fetchUser()
             try await self.updateUserPremium()
         }
-//        if currentUser != nil {
-//            isSignIn = true
-//        }
     }
     
     // 현재 유저 패치작업
@@ -87,13 +83,30 @@ final class UserService: ObservableObject {
             throw error
         }
     }
-
     
     func removeUserData(userId: String) async throws {
-            do {
-                try await FirestoreService.shared.deleteDocument(collectionId: .user, documentId: userId)
-            } catch {
-                throw error
-            }
+        do {
+            try await FirestoreService.shared.deleteDocument(collectionId: .user, documentId: userId)
+        } catch {
+            throw error
         }
+    }
+    
+    @MainActor
+    func profileUpdate(name: String) async throws {
+        guard let user = currentUser else {
+            return
+        }
+        do {
+            let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
+            let updatedData = [
+                "userImage" : name/*user.userImage*/
+            ]
+            try await userRef.setData(updatedData, merge: true)
+            print("업데이트 성공")
+        } catch {
+            print("업데이트 실패: \(error)")
+            throw error
+        }
+    }
 }
