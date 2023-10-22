@@ -12,124 +12,124 @@ struct AddTravelView: View {
     //    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
     //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
     
+    
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var userTravelStore: UserTravelStore
     @State private var travelTitle: String = ""
-    @State private var selectedMember = 0
+    @State private var selectedMember = 1
     @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date()
+    @State private var endDate: Date = Date() - 1
     @State private var isShowingCalendarView = false
     @Environment(\.dismiss) private var dismiss
+    
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         ZStack {
             Color.gray1000
-            VStack {
-                // 리스트간 간격이 너무 넓음, 그림자 효과 맞게 넣은건가?
-                ScrollView {
-                    HStack {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                            .overlay(
-                                TextField("여행 이름을 입력해주세요.", text: $travelTitle)
-                                    .padding(12)
-                            )
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 24)
-                    .shadow(color: Color.gray.opacity(0.3), radius: 8)
-                    //                    .padding([.top, .horizontal], 12)
-                    
-                    
-                    HStack {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                            .shadow(color: Color.gray.opacity(0.3), radius: 8)
-                            .overlay(
-                                HStack {
-                                    Text("일정")
-                                    
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        isShowingCalendarView.toggle()
-                                    }) {
-                                        
-                                        if startDate != nil && endDate != nil {
-                                            Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
-                                                .font(.body04)
-                                                .frame(width: 110, height: 30)
-                                                .shadow(color: Color.clear, radius: 0)
-                                            
-                                                .foregroundColor(Color.myPrimary)
-                                                .background(Color.lightBlue100)
-                                                .cornerRadius(8)
-                                        } else {
-                                            Image("calendar-add-4")
-                                                .resizable()
-                                                .frame(width: 24, height: 24)
-                                            
-                                        }
-                                    }
-                                    .shadow(color: Color.gray, radius: 0)
-                                    .sheet(isPresented: $isShowingCalendarView) {
-                                        CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
-                                            .presentationDetents([.height(500)])
-                                    }
-                                    
-                                }
-                                    .padding(12)
-                            )
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 52)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 24)
-                    //                    .padding([.top, .horizontal], 12)
-                    
-                    HStack {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                            .shadow(color: Color.gray.opacity(0.3), radius: 8)
-                            .overlay(
-                                HStack {
-                                    Text("인원")
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        selectedMember = max(0, selectedMember - 1)
-                                    }) {
-                                        Image("Group 1171275315")
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                    }
-                                    .buttonStyle(.plain)
-                                    
-                                    Text("\(selectedMember)")
-                                        .font(.body01)
-                                    
-                                    Button(action: {
-                                        selectedMember += 1
-                                    }) {
-                                        Image("Group 1171275314")
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                                    .padding(12)
-                            )
-                    }
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .padding(.horizontal, 12)
-                    .padding(.top, 24)
-                    //                    .padding([.top, .horizontal], 12)
-                    
-                } //MARK: SCROLLVIEW
+            VStack(spacing: 0) {
+                HStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                        .overlay(
+                            TextField("여행 이름을 입력해주세요.", text: $travelTitle)
+                                .padding(12)
+                                .focused($isKeyboardUp)
+                        )
+                }
                 .font(.body04)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .padding(.horizontal, 16)
+                .padding(.top, 24)
+                .shadow(color: Color.gray.opacity(0.3), radius: 8)
+                
+                HStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                        .shadow(color: Color.gray.opacity(0.3), radius: 8)
+                        .overlay(
+                            HStack {
+                                Text("일정")
+                                    .padding(.leading, 14)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    isShowingCalendarView.toggle()
+                                }) {
+                                    
+                                    if startDate <= endDate {
+                                        Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
+                                            .font(.body04)
+                                            .frame(width: 110, height: 30)
+                                            .shadow(color: Color.clear, radius: 0)
+                                        
+                                            .foregroundColor(Color.myPrimary)
+                                            .background(Color.lightBlue100)
+                                            .cornerRadius(8)
+                                    } else {
+                                        Image("calendar-add-4")
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                        
+                                    }
+                                }
+                                .padding(.trailing, 14)
+                                .shadow(color: Color.gray, radius: 0)
+                                .sheet(isPresented: $isShowingCalendarView) {
+                                    CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
+                                        .presentationDetents([.height(500)])
+                                }
+                            }
+                            
+                        )
+                }
+                .font(.body04)
+                .frame(maxWidth: .infinity)
+                .frame(height: 52)
+                .padding(.horizontal, 16)
+                .padding(.top, 24)
+                
+                HStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                        .shadow(color: Color.gray.opacity(0.3), radius: 8)
+                        .overlay(
+                            HStack {
+                                Text("인원")
+                                    .padding(.leading, 16)
+                                Spacer()
+                                
+                                Button(action: {
+                                    selectedMember = max(1, selectedMember - 1)
+                                }) {
+                                    Image("Group 1171275315")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                }
+                                .buttonStyle(.plain)
+                                
+                                Text("\(selectedMember)")
+                                    .font(.body01)
+                                
+                                Button(action: {
+                                    selectedMember += 1
+                                }) {
+                                    Image("Group 1171275314")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
+                                }
+                                .buttonStyle(.plain)
+                                .padding(.trailing, 14)
+                            }
+                        )
+                }
+                .font(.body04)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .padding(.horizontal, 16)
+                .padding(.top, 24)
                 
                 Spacer()
                 
@@ -146,6 +146,9 @@ struct AddTravelView: View {
                 .foregroundColor(.white)
                 
             } //MARK: VSTACK
+            .onTapGesture{
+                isKeyboardUp = false
+            }
             
         } //MARK: ZSTACK
         .overlay(
@@ -155,6 +158,7 @@ struct AddTravelView: View {
                     isShowingCalendarView = false
                 }
         )
+        
         .navigationBarTitle("여행 추가하기")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -174,6 +178,7 @@ struct AddTravelView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
         }
+        
     } //MARK: BODY
     
 }
@@ -189,10 +194,10 @@ extension Date {
     }
 }
 
-#Preview {
-    NavigationStack {
-        AddTravelView()
-            .environmentObject(TabBarVisivilyStore())
-            .environmentObject(UserTravelStore())
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        AddTravelView()
+//            .environmentObject(TabBarVisivilyStore())
+//            .environmentObject(UserTravelStore())
+//    }
+//}

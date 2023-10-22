@@ -11,6 +11,7 @@ struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
+    @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -22,54 +23,64 @@ struct TravelListView: View {
     var body: some View {
         ZStack {
             
-            VStack(alignment: .leading) {
+            VStack(spacing: 0) {
                 HStack {
                     travelFilterButton
                     Spacer()
                 }
-                .padding(.leading, 12)
+                .padding(.leading, 16)
                 
                 // 리스트간 간격이 너무 넓음
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(createTravelList()) { travel in
-                        NavigationLink {
-                            DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
-                        } label: {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(travel.travelTitle)
-                                        .font(.body01)
-                                        .foregroundColor(.black)
-                                        .padding(.bottom, 5)
-                                    Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
-                                        .font(.caption02)
-                                        .foregroundColor(Color.gray600)
-                                }
-                                
-                                Spacer()
-                                
-                                Button {
-                                    isShowingEditTravelView.toggle()
-                                } label: {
-                                    Image(.steps13)
-                                        .resizable()
-                                        .frame(width: 24, height: 24)
-                                }
-                                .sheet(isPresented: $isShowingEditTravelView) {
-                                    EditTravelSheetView()
-                                        .presentationDetents([.height(250)])
-                                }
-                                
-                            }
-                            .frame(maxWidth: .infinity)
+                    VStack(spacing: 0) {
+                        NativeAdView(nativeViewModel: nativeAdViewModel)
                             .frame(height: 94)
-                            .padding([.leading, .trailing], 25)
-                            .background(Color.gray1000.cornerRadius(12))
-                        }
-                        .padding(.top, 16) // 간격 너무 멀어보임
-                        
-                    } //MARK: LIST
-                    .padding([.leading, .trailing], 12)
+                            .frame(maxWidth: .infinity)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 16)
+                        ForEach(createTravelList()) { travel in
+                            NavigationLink {
+                                DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(travel.travelTitle)
+                                            .font(.body01)
+                                            .foregroundColor(.black)
+                                            .padding(.bottom, 5)
+                                            
+                                        Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
+                                            .font(.caption02)
+                                            .foregroundColor(Color.gray600)
+                                    }
+                                    .padding(.leading, 26)
+                                    
+                                    Spacer()
+                                    
+                                    Button {
+                                        isShowingEditTravelView.toggle()
+                                    } label: {
+                                        Image(.steps13)
+                                            .resizable()
+                                            .frame(width: 24, height: 24)
+                                    }
+                                    .padding(.trailing, 23)
+                                    .sheet(isPresented: $isShowingEditTravelView) {
+                                        EditTravelSheetView()
+                                            .presentationDetents([.height(250)])
+                                    }
+                                    
+                                }
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 94)
+                                .background(Color.gray1000.cornerRadius(12))
+                            }
+                            .padding(.top, 16)
+                            
+                        } //MARK: LIST
+                        .padding(.horizontal, 16)
+                    }
                     
                 } //MARK: SCROLLVIEW
                 
@@ -117,6 +128,7 @@ struct TravelListView: View {
             }
         }
         .onAppear {
+            nativeAdViewModel.refreshAd()
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()

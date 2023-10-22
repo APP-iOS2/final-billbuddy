@@ -13,6 +13,7 @@ struct AddPaymentMapView: View {
     @State private var isShowingAddress: Bool = false
     
     @Binding var searchAddress: String
+    @FocusState private var isKeyboardUp: Bool
 //    @Binding var searchlatitude: Double
 //    @Binding var searchlongitude: Double
     
@@ -36,6 +37,7 @@ struct AddPaymentMapView: View {
                             HStack {
                                 TextField("주소를 입력하세요", text: $searchAddress)
                                     .padding()
+                                    .focused($isKeyboardUp)
                                 Button(action: {
                                     locationManager.searchAddress(searchAddress: searchAddress)
 //                                    locationManager.selectedAddress = searchAddress
@@ -64,6 +66,9 @@ struct AddPaymentMapView: View {
                         Image(systemName: "scope")
                             .renderingMode(.template)
                     }
+            }
+            .onTapGesture {
+                isKeyboardUp = false
             }
             .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height - 70))
             

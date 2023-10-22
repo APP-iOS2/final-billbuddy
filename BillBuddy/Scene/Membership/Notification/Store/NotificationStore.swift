@@ -57,6 +57,7 @@ final class NotificationStore: ObservableObject {
         }
     }
     
+    /// 여행방 갱신, 채팅을 맴버들에게 보낼 시
     func sendNotification(members: [TravelCalculation.Member], notification: UserNotification) {
         let members = members.filter { $0.userId != nil }
         Task {
@@ -65,6 +66,19 @@ final class NotificationStore: ObservableObject {
                     try Firestore.firestore().collection("User").document(member.userId ?? "").collection("Notification").addDocument(from: notification.self)
                 } catch {
                     print("false send notification to \(member.name) - \(error)")
+                }
+            }
+        }
+    }
+    
+    /// 유저에게 직접 보낼 시
+    func sendNotification(users: [User], notification: UserNotification) {
+        Task {
+            for user in users {
+                do {
+                    try Firestore.firestore().collection("User").document(user.id ?? "").collection("Notification").addDocument(from: notification.self)
+                } catch {
+                    print("false send notification to \(user.name) - \(error)")
                 }
             }
         }

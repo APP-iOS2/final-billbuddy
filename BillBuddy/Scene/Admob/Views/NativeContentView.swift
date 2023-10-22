@@ -2,11 +2,11 @@ import GoogleMobileAds
 import SwiftUI
 
 struct NativeContentView: View {
-    @StateObject private var nativeViewModel = NativeAdViewModel()
+    @EnvironmentObject private var nativeViewModel: NativeAdViewModel
     @State private var adSecond = 3
     @Binding var isShowingAdScreen: Bool
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    var isOnNativeAd: Bool {
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private var isOnNativeAd: Bool {
         return adSecond > -1
     }
     
@@ -65,7 +65,7 @@ struct NativeContentView_Previews: PreviewProvider {
     }
 }
 
-private struct NativeAdView: UIViewRepresentable {
+struct NativeAdView: UIViewRepresentable {
     
     typealias UIViewType = GADNativeAdView
     //typealias UIViewType = NativeAdTestView
@@ -155,7 +155,7 @@ private struct NativeAdView: UIViewRepresentable {
     }
 }
 
-private class NativeAdViewModel: NSObject, ObservableObject, GADNativeAdLoaderDelegate {
+final class NativeAdViewModel: NSObject, ObservableObject, GADNativeAdLoaderDelegate {
     @Published var nativeAd: GADNativeAd?
     private var adLoader: GADAdLoader!
     

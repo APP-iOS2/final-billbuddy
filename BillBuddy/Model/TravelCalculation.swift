@@ -33,6 +33,10 @@ struct TravelCalculation: Identifiable, Codable {
         /// uid / nil이면 user가 들어와있지않은 임시 맴버
         var userId: String?
         var name: String
+        /// 제외된 인원인지(Payment에서 선택 제외)
+        var isExcluded: Bool = false
+        /// 초대중인지
+        var isInvited: Bool = false
         /// 선금
         var advancePayment: Int
         /// 쓴비용 중간중간 + - << 추가 할지 말지 고민해야함.
@@ -41,7 +45,34 @@ struct TravelCalculation: Identifiable, Codable {
         var userImage: String = ""
         var bankName: String = ""
         var bankAccountNum: String = ""
+        
+        var inviteState: InviteState {
+            if isInvited && userId != nil {
+                return .invited
+            } else if isInvited && userId == nil {
+                return .wating
+            } else {
+                return .dummy
+            }
+        }
+        
+        enum InviteState: String {
+            case invited
+            case wating
+            case dummy
+            
+            var string: String {
+                switch self {
+                case .invited:
+                    "초대됨"
+                case .wating:
+                    "초대중"
+                case .dummy:
+                    "초대하기"
+                }
+            }
+        }
     }
     
-    static let sampletravel = TravelCalculation(id: "4eB3HvBvH6jXYDLu9irl", hostId: "hostId", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [])
+    static let sampletravel = TravelCalculation(id: "4eB3HvBvH6jXYDLu9irl", hostId: "hostId", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
 }

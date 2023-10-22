@@ -10,6 +10,7 @@ import SwiftUI
 struct SignInView: View {
     
     @ObservedObject var signInStore: SignInStore
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,11 +25,13 @@ struct SignInView: View {
                         .stroke(Color.gray300, lineWidth: 1))
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
+                    .focused($isKeyboardUp)
                 SecureField("비밀번호", text: $signInStore.passwordText)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.gray300, lineWidth: 1))
+                    .focused($isKeyboardUp)
             }
             
             Button(action: {
@@ -44,6 +47,9 @@ struct SignInView: View {
                 Text("로그인")
                     .font(.body02)
                     .foregroundColor(.white)
+                    .frame(width: 351, height: 52)
+                    .background(signInStore.emailText.isEmpty || signInStore.passwordText.isEmpty ? Color.gray400 : Color.myPrimary)
+                    .cornerRadius(12)
             })
             .alert("로그인 결과", isPresented: $signInStore.isShowingAlert) {
                 Button("확인") {
@@ -53,9 +59,6 @@ struct SignInView: View {
             } message: {
                 Text("로그인에 실패했습니다.")
             }
-            .frame(width: 351, height: 52)
-            .background(signInStore.emailText.isEmpty || signInStore.passwordText.isEmpty ? Color.gray400 : Color.myPrimary)
-            .cornerRadius(12)
             .padding(.top, 20)
             
             NavigationLink {
@@ -66,6 +69,9 @@ struct SignInView: View {
                     .foregroundStyle(Color.systemBlack)
             }
             .padding()
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
         .padding(24)
         .onAppear {

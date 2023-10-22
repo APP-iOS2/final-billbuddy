@@ -17,4 +17,5 @@ final class TabBarVisivilyStore: ObservableObject {
     func showTabBar() {
         visivility = .visible
     }
+    
 }

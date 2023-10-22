@@ -7,16 +7,19 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
+import _PhotosUI_SwiftUI
 
 final class MessageStore: ObservableObject {
-    private let db = Firestore.firestore()
+    private let db = Firestore.firestore().collection("TravelCalculation")
+    private let storage = Storage.storage().reference()
     @Published var messages: [Message] = []
     @Published var isAddedNewMessage: Bool = false
     
     /// 채팅 메세지 보내기
     func sendMessage(travelCalculation: TravelCalculation, message: Message) {
         do {
-            try db.collection("TravelCalculation").document(travelCalculation.id)
+            try db.document(travelCalculation.id)
                 .collection("Message").addDocument(from: message.self)
             updateLastMessage(travelCalculation: travelCalculation, message: message)
         } catch {
@@ -24,10 +27,27 @@ final class MessageStore: ObservableObject {
         }
     }
     
+    func getImagePath(item: PhotosPickerItem) async -> String {
+        
+        let path = "chat/\(UUID().uuidString).jpeg"
+        var urlString: String = ""
+        
+        if let data = try? await item.loadTransferable(type: Data.self) {
+            do {
+                try await storage.child(path).putDataAsync(data, metadata: nil)
+                let imageURL = try await storage.child(path).downloadURL()
+                urlString = imageURL.absoluteString
+            } catch {
+                print("Failed to upload image: \(error)")
+            }
+        }
+        return urlString
+    }
+    
     /// 실시간 채팅 메세지 불러오기
     func fetchMessages(travelCalculation: TravelCalculation) {
         // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
-        db.collection("TravelCalculation").document(travelCalculation.id)
+        db.document(travelCalculation.id)
             .collection("Message").order(by: "sendDate")
             .addSnapshotListener { snapshot, error in
                 if let error = error {
@@ -64,7 +84,7 @@ final class MessageStore: ObservableObject {
             "lastMessageDate" : message.sendDate
         ] as [String : Any]
         Task {
-            try await db.collection("TravelCalculation").document(travelCalculation.id)
+            try await db.document(travelCalculation.id)
                 .setData(data, merge: true)
         }
     }

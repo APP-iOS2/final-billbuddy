@@ -9,8 +9,19 @@ import SwiftUI
 
 struct ProfileEditView: View {
     
-    @EnvironmentObject private var userService: UserService
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var userService: UserService
+    
+    @State private var tempPhoneNum: String = ""
+    @State private var phoneNumLabel: String = ""
+    @State private var tempEmail: String = ""
+    @State private var emailLabel: String = ""
+    @State private var tempBankName: String = ""
+    @State private var bankNameLabel: String = ""
+    @State private var tempBankAccountNum: String = ""
+    @State private var bankAccountNumLabel: String = ""
+    
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         ZStack {
@@ -22,26 +33,36 @@ struct ProfileEditView: View {
                         Text("계좌 정보")
                             .font(.body02)
                         Spacer()
-                        if let bankName = userService.currentUser?.bankName, !bankName.isEmpty {
-                            Text(bankName)
-                                .foregroundColor(.gray600)
-                        } else {
-                            Text("등록 계좌 없음")
-                                .foregroundColor(.gray600)
+                        TextField(text: $tempBankName) {
+                            Text(bankNameLabel == "" ? "은행" : bankNameLabel)
+                                .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
                         }
-                        Text(userService.currentUser?.bankAccountNum ?? "")
-                            .foregroundColor(.gray600)
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
+                        TextField(text: $tempBankAccountNum) {
+                            Text(bankAccountNumLabel == "" ? "등록 계좌 없음" : bankAccountNumLabel)
+                                .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
+                        }
+                        .frame(width: 80)
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
                     }
                     .font(.body04)
                     .padding(16)
-
+                    
                     HStack {
                         Text("휴대폰 번호")
                             .font(.body02)
                         Spacer()
-                        Text(userService.currentUser?.phoneNum ?? "")
-                            .font(.body04)
-                            .foregroundColor(Color.gray600)
+                        TextField(text: $tempPhoneNum) {
+                            Text(phoneNumLabel)
+                                .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
+                        }
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
                     }
                     .padding(16)
                     
@@ -49,9 +70,13 @@ struct ProfileEditView: View {
                         Text("이메일")
                             .font(.body02)
                         Spacer()
-                        Text(userService.currentUser?.email ?? "")
-                            .font(.body04)
-                            .foregroundColor(Color.gray600)
+                        TextField(text: $tempEmail) {
+                            Text(emailLabel)
+                                .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
+                        }
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
                     }
                     .padding(16)
                 }
@@ -63,20 +88,43 @@ struct ProfileEditView: View {
                         .stroke(Color.gray100, lineWidth: 1)
                 )
                 .padding(.top, 16)
-
                 
-            Spacer()
+                
+                Spacer()
                 
                 Button(action: {
                     
+                    if tempPhoneNum != "" {
+                        userService.currentUser?.phoneNum = tempPhoneNum
+                    }
+                    if tempEmail != "" {
+                        userService.currentUser?.email = tempEmail
+                    }
+                    if tempBankName != "" {
+                        userService.currentUser?.bankName = tempBankName
+                    }
+                    if tempBankAccountNum != "" {
+                        userService.currentUser?.bankAccountNum = tempBankAccountNum
+                    }
+                    Task {
+                        do {
+                            try await userService.updateUser()
+                        } catch {
+                            print("업데이트 실패")
+                        }
+                    }
+                    dismiss()
                 }, label: {
-                    Text("수정하기")
+                    Text("수정 완료")
                         .font(.title05)
                 })
                 .frame(maxWidth: .infinity, maxHeight: 83)
                 .background(Color.myPrimary)
                 .foregroundColor(.white)
             }
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
         .navigationTitle("프로필 수정")
         .navigationBarTitleDisplayMode(.inline)
@@ -92,6 +140,13 @@ struct ProfileEditView: View {
                         .foregroundColor(.systemBlack)
                 }
             }
+        }
+        .onAppear {
+            phoneNumLabel = userService.currentUser?.phoneNum ?? ""
+            emailLabel = userService.currentUser?.email ?? ""
+            bankNameLabel = userService.currentUser?.bankName ?? ""
+            bankAccountNumLabel = userService.currentUser?.bankAccountNum ?? ""
+            
         }
     }
 }

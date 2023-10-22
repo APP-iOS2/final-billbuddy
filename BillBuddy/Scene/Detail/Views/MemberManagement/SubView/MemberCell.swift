@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MemberCell: View {
+    @ObservedObject var sampleMemeberStore: SampleMemeberStore
+    @Binding var isShowingShareSheet: Bool
     var member: TravelCalculation.Member
     
     var onEditing: () -> Void
@@ -35,7 +37,25 @@ struct MemberCell: View {
 
             Spacer()
             
+            RoundedRectangle(cornerRadius: 15.5)
+                .strokeBorder(Color.gray100, lineWidth: 1)
+                .frame(width: 80, height: 28)
+                .clipShape(RoundedRectangle(cornerRadius: 15.5))
+                .overlay(alignment: .center) {
+                    ZStack(alignment: .center) {
+                        Button(member.inviteState.string) {
+                            if member.inviteState == .dummy {
+                                sampleMemeberStore.selectMember(member.id)
+                                isShowingShareSheet = true
+                            }
+                        }
+                        .font(Font.caption02)
+                        .foregroundColor(Color.gray600)
+                    }
+                }
+                .padding(.trailing, 24)
         }
+        
         .swipeActions(edge: .trailing) {
             Button("삭제") {
                 onRemove()
@@ -54,5 +74,5 @@ struct MemberCell: View {
 }
 
 #Preview {
-    MemberCell(member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), onEditing: { print("edit") }, onRemove: { print("remove") })
+    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), onEditing: { print("edit") }, onRemove: { print("remove") })
 }

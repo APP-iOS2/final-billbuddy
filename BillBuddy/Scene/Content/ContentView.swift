@@ -17,9 +17,10 @@ struct ContentView: View {
     @StateObject private var messageStore = MessageStore()
     @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
     @StateObject private var notificationStore = NotificationStore()
+    @StateObject private var nativeViewModel = NativeAdViewModel()
     
     var body: some View {
-        if userService.isSignIn {
+        if AuthStore.shared.userUid != "" {
             if schemeServie.url == nil {
                 BillBuddyTabView()
                     .environmentObject(settlementExpensesStore)
@@ -30,8 +31,21 @@ struct ContentView: View {
                     .environmentObject(signUpStore)
                     .environmentObject(tabBarVisivilyStore)
                     .environmentObject(notificationStore)
+                    .environmentObject(schemeServie)
+                    .environmentObject(nativeViewModel)
             } else {
-                DeepLinkView()
+                NavigationStack {
+                    DeepLinkView()
+                        .environmentObject(settlementExpensesStore)
+                        .environmentObject(userTravelStore)
+                        .environmentObject(messageStore)
+                        .environmentObject(userService)
+                        .environmentObject(signInStore)
+                        .environmentObject(signUpStore)
+                        .environmentObject(tabBarVisivilyStore)
+                        .environmentObject(notificationStore)
+                        .environmentObject(schemeServie)
+                }
             }
         } else {
             NavigationStack {

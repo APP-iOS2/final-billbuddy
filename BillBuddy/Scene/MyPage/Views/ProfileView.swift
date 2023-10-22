@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     
@@ -22,6 +23,12 @@ struct ProfileView: View {
                         .resizable()
                         .frame(width: 80, height: 80)
                         .cornerRadius(50)
+                }
+                .overlay {
+                    PhotosPicker(selection: $userService.selectedItem, matching: .images) {
+                        Image(.editButton)
+                            .padding([.top, .leading], 60)
+                    }
                 }
                 VStack(alignment: .leading) {
                     Text(userService.currentUser?.name ?? "")
