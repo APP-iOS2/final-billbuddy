@@ -104,9 +104,9 @@ final class CalendarStore: ObservableObject {
         ["월", "화", "수", "목", "금", "토", "일"]
     }
     
-    init(_ currentDate: Date = Date()) {
-        date = currentDate
-    }
+//    init(_ currentDate: Date = Date()) {
+//        date = currentDate
+//    }
     
     // 날짜 선택
     func selectDay(_ day: Date) {

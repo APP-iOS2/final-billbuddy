@@ -72,7 +72,7 @@ struct CalendarSheetView: View {
                                                 Text("\(calendarStore.calendar.component(.day, from: day))")
                                                     .foregroundColor(isCurrentMonth ? (calendarStore.isDateSelected(day: day) ? Color.white : Color.black) : Color.gray500)
                                                     .foregroundColor(calendarStore.isDateSelected(day: day) ? Color.white : Color.black)
-                                                    
+                                                
                                                 Circle()
                                                     .frame(width: 4, height: 4)
                                                     .foregroundColor(calendarStore.isToday(day: day) ? (calendarStore.isDateSelected(day: day) ? Color.white : Color.myPrimary) : Color.clear)
@@ -91,7 +91,7 @@ struct CalendarSheetView: View {
                         }
                     }
                 }
-
+                
             }
             
             Button(action: {
@@ -177,12 +177,16 @@ struct CalendarSheetView: View {
             return
         }
         
-        startDate = firstDate
-        endDate = secondDate
+        // 날짜가 자꾸 하루 전날로 출력됨. 임시 방지
+        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .day, value: 1, to: firstDate)!
+        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .day, value: 1, to: secondDate)!
+        
+        startDate = adjustedFirstDate
+        endDate = adjustedSecondDate
         
         isShowingCalendarView = false
-        print("시작일: \(firstDate)")
-        print("종료일: \(secondDate)")
+        print("시작일: \(adjustedFirstDate)")
+        print("종료일: \(adjustedSecondDate)")
         
     }
 }

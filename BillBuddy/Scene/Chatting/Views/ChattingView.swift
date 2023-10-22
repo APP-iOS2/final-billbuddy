@@ -23,6 +23,7 @@ struct ChattingView: View {
                             .foregroundColor(.gray100), alignment: .top
                     )
             }
+            Divider().padding(0)
         }
         .onAppear {
             tabBarVisivilyStore.showTabBar()
