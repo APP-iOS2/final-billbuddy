@@ -90,5 +90,35 @@ final class MessageStore: ObservableObject {
                 .setData(data, merge: true)
         }
     }
+    
+    /// 채팅방별 이미지 불러오기
+    func getChatRoomImages(travelCalculation: TravelCalculation) -> [String] {
+        
+        var images: [String] = []
+        let path = "chat/\(travelCalculation.id)"
+        
+        storage.child(path).listAll { result, error in
+            if let resultItem = result {
+                for item in resultItem.items {
+                    // 폴더 안 이미지 이름 담기
+                    let storageLocation = String(describing: item)
+                    
+                    // url 가져오기
+                    Storage.storage().reference(forURL: storageLocation).downloadURL { url, error in
+                        if let error = error {
+                            print("Failed to get url \(error)")
+                        } else {
+                            if let urlString = url?.absoluteString {
+                                images.append(urlString)
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Failed to get images: \(String(describing: error))")
+            }
+        }
+        return images
+    }
 }
 
