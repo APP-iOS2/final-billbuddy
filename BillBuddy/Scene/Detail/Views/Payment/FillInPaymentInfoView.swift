@@ -99,6 +99,8 @@ struct FillInPaymentInfoView: View {
                         .font(.body02)
                 })
                 
+                Text("\(travelCalculation.startDate), \(travelCalculation.endDate)")
+                
             }
             .focused(focusedField, equals: .date)
             .padding(.leading, 16)
@@ -437,11 +439,19 @@ struct FillInPaymentInfoView: View {
                     .font(.body02)
                 Spacer()
                 
+                
                 TextField("결제금액을 입력해주세요", text: $priceString)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .font(.body04)
                     .focused(focusedField, equals: .price)
+                    .onTapGesture {
+                        priceString = ""
+                    }
+                if !priceString.isEmpty {
+                    Text("원")
+                        .font(.body02)
+                }
             }
             .padding(.leading, 16)
             .padding(.top, 16)

@@ -35,7 +35,6 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
-                Text("내역")
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
             else if selection == "지도" {
@@ -188,3 +187,8 @@ struct DetailMainView: View {
         
     }
 }
+
+//#Preview {
+//    let travel = TravelCalculation(hostId: "", travelTitle: "서울 여행", managerId: "", startDate: <#T##Double#>, endDate: <#T##Double#>, updateContentDate: <#T##Double#>, members: <#T##[TravelCalculation.Member]#>)
+//    DetailMainView(paymentStore: PaymentStore(travel: <#T##TravelCalculation#>), travelDetailStore: TravelDetailStore(travel: <#T##TravelCalculation#>))
+//}
