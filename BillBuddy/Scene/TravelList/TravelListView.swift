@@ -41,6 +41,7 @@ struct TravelListView: View {
                             .padding(.top, 16)
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
+                                // FIXME: 무한루프 -> 안에 들어가서 생성
                                 DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
                             } label: {
                                 HStack {

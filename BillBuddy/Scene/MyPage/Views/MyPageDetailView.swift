@@ -14,7 +14,7 @@ struct MyPageDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(userService.currentUser?.userImage ?? "white")
+                Image(userService.currentUser?.userImage ?? "profileImage")
                     .resizable()
                     .frame(width: 80, height: 80)
                     .cornerRadius(50)

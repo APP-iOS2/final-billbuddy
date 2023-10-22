@@ -39,4 +39,12 @@ extension Date {
         return Self.dateFormatter.string(from: self)
     }
     
+    var dateSelectorFormat: String { // 2023.09.21/09:12
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier: "ko_KR")
+        Self.dateFormatter.dateFormat = "YYYY.MM.dd/HH:mm"
+        
+        return Self.dateFormatter.string(from: self)
+    }
+    
 }
