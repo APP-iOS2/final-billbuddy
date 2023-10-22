@@ -194,10 +194,10 @@ extension Date {
     }
 }
 
-//#Preview {
-//    NavigationStack {
-//        AddTravelView()
-//            .environmentObject(TabBarVisivilyStore())
-//            .environmentObject(UserTravelStore())
-//    }
-//}
+#Preview {
+    NavigationStack {
+        AddTravelView()
+            .environmentObject(TabBarVisivilyStore())
+            .environmentObject(UserTravelStore())
+    }
+}

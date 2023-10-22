@@ -30,79 +30,76 @@ struct TravelListView: View {
                 .padding(.leading, 16)
                 
                 // 리스트간 간격이 너무 넓음
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        ForEach(createTravelList()) { travel in
-                            NavigationLink {
-                                DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
-                            } label: {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text(travel.travelTitle)
-                                            .font(.body01)
-                                            .foregroundColor(.black)
-                                            .padding(.bottom, 5)
+//                if createTravelList().isEmpty {
+//                    
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .fill(Color.gray1000)
+//                            .frame(maxWidth: .infinity)
+//                            .frame(height: 94)
+//                            .padding(.horizontal, 16)
+//                            
+//                        
+//                        RoundedRectangle(cornerRadius: 12)
+//                            .fill(Color.gray1000)
+//                            .padding(.top, 16)
+//                            .frame(maxWidth: .infinity)
+//                            .frame(height: 94)
+//                            .padding(.horizontal, 16)
+//                    
+//                    
+//                } else {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            ForEach(createTravelList()) { travel in
+                                NavigationLink {
+                                    DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                                } label: {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(travel.travelTitle)
+                                                .font(.body01)
+                                                .foregroundColor(.black)
+                                                .padding(.bottom, 5)
                                             
-                                        Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
-                                            .font(.caption02)
-                                            .foregroundColor(Color.gray600)
+                                            Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
+                                                .font(.caption02)
+                                                .foregroundColor(Color.gray600)
+                                        }
+                                        .padding(.leading, 26)
+                                        
+                                        Spacer()
+                                        
+                                        Button {
+                                            isShowingEditTravelView.toggle()
+                                        } label: {
+                                            Image(.steps13)
+                                                .resizable()
+                                                .frame(width: 24, height: 24)
+                                        }
+                                        .padding(.trailing, 23)
+                                        .sheet(isPresented: $isShowingEditTravelView) {
+                                            EditTravelSheetView()
+                                                .presentationDetents([.height(250)])
+                                        }
+                                        
                                     }
-                                    .padding(.leading, 26)
-                                    
-                                    Spacer()
-                                    
-                                    Button {
-                                        isShowingEditTravelView.toggle()
-                                    } label: {
-                                        Image(.steps13)
-                                            .resizable()
-                                            .frame(width: 24, height: 24)
-                                    }
-                                    .padding(.trailing, 23)
-                                    .sheet(isPresented: $isShowingEditTravelView) {
-                                        EditTravelSheetView()
-                                            .presentationDetents([.height(250)])
-                                    }
-                                    
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 94)
+                                    .background(Color.gray1000.cornerRadius(12))
                                 }
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 94)
-                                .background(Color.gray1000.cornerRadius(12))
-                            }
-                            .padding(.top, 16)
-                            
-                        } //MARK: LIST
-                        .padding(.horizontal, 16)
-                    }
-                    
-                } //MARK: SCROLLVIEW
-                
+                                .padding(.top, 16)
+                                
+                            } //MARK: LIST
+                            .padding(.horizontal, 16)
+                        }
+                        
+                    } //MARK: SCROLLVIEW
+//                }
+                Divider().padding(0)
             } //MARK: VSTACK
             
         } //MARK: ZSTACK
-        .overlay(
-        Rectangle()
-            .fill(Color.systemBlack.opacity(isShowingEditTravelView ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
-            .onTapGesture {
-                isShowingEditTravelView = false
-            }
-        )
-        .overlay(
-            Rectangle()
-                .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0)).edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    floatingButtonMenuStore.isDimmedBackground = false
-                    floatingButtonMenuStore.closeMenu()
-                }
-        )
-        .overlay(
-            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
-                .onTapGesture {
-                    floatingButtonMenuStore.isDimmedBackground = true
-                }
-        )
-        
-        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Image(.mainBillBuddy)
@@ -120,6 +117,30 @@ struct TravelListView: View {
                 }
             }
         }
+        .overlay(
+            Rectangle()
+                .fill(Color.systemBlack.opacity(isShowingEditTravelView ? 0.6 : 0)).edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    isShowingEditTravelView = false
+                }
+        )
+        .overlay(
+            Rectangle()
+                .fill(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.6 : 0)).edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    floatingButtonMenuStore.isDimmedBackground = false
+                    floatingButtonMenuStore.closeMenu()
+                }
+        )
+        .overlay(
+            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
+                .onTapGesture {
+                    floatingButtonMenuStore.isDimmedBackground = true
+                }
+        )
+        
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        
         .onAppear {
             tabBarVisivilyStore.showTabBar()
             if !AuthStore.shared.userUid.isEmpty {
@@ -132,6 +153,7 @@ struct TravelListView: View {
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false
+            floatingButtonMenuStore.closeMenu()
         }
         
     } //MARK: BODY
