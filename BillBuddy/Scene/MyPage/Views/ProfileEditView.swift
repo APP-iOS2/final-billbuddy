@@ -174,5 +174,6 @@ struct ProfileEditView: View {
     NavigationStack {
         ProfileEditView()
             .environmentObject(UserService.shared)
+            .environmentObject(MyPageStore())
     }
 }
