@@ -16,7 +16,7 @@ struct MemberCell: View {
     var onRemove: () -> Void
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             Image("DBPin")
                 .resizable()
                 .frame(width: 40, height: 40)
@@ -36,24 +36,20 @@ struct MemberCell: View {
             .foregroundColor(Color.systemBlack)
 
             Spacer()
-            
-            RoundedRectangle(cornerRadius: 15.5)
-                .strokeBorder(Color.gray100, lineWidth: 1)
-                .frame(width: 80, height: 28)
-                .clipShape(RoundedRectangle(cornerRadius: 15.5))
-                .overlay(alignment: .center) {
-                    ZStack(alignment: .center) {
-                        Button(member.inviteState.string) {
-                            if member.inviteState == .dummy {
-                                sampleMemeberStore.selectMember(member.id)
-                                isShowingShareSheet = true
-                            }
-                        }
-                        .font(Font.caption02)
-                        .foregroundColor(Color.gray600)
+            if member.inviteState != .invited {
+                Button(member.inviteState.string) {
+                    if member.inviteState == .dummy {
+                        sampleMemeberStore.selectMember(member.id)
+                        isShowingShareSheet = true
                     }
                 }
-                .padding(.trailing, 24)
+                .frame(width: 80, height: 28)
+                .background(member.inviteState == .dummy ? Color.myPrimaryLight : Color.myGreenLight)
+                .clipShape(RoundedRectangle(cornerRadius: 15.5))
+                .font(Font.caption02)
+                .foregroundStyle(member.inviteState == .dummy ? Color.myPrimary : Color.myGreen)
+                .padding(.trailing, 12)
+            }
         }
         
         .swipeActions(edge: .trailing) {

@@ -135,7 +135,7 @@ struct SignUpView: View {
                     let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
                     let isPasswordValid = signUpStore.signUpData.password.count >= 6
                     let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
-                    let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11
+                    let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
                     let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
                     let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
                     
