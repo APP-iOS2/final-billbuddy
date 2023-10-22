@@ -99,8 +99,6 @@ struct FillInPaymentInfoView: View {
                         .font(.body02)
                 })
                 
-                Text("\(travelCalculation.startDate), \(travelCalculation.endDate)")
-                
             }
             .focused(focusedField, equals: .date)
             .padding(.leading, 16)

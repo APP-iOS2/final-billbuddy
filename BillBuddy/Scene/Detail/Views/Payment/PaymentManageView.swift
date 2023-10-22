@@ -258,6 +258,7 @@ struct PaymentManageView: View {
             else if priceString.isEmpty {
                 focusedField = .price
             }
+            PushNotificationManager.sendPushNotification(forNotificationType: .travel)
             
             isShowingAlert = true
             

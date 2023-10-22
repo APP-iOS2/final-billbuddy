@@ -11,6 +11,8 @@ import GoogleMobileAds
 import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    let gcmMessageIDKey = "gcm.message_id"
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
