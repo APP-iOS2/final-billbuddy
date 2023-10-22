@@ -113,6 +113,7 @@
 		D279D1182ACFE6670087712F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1172ACFE6670087712F /* UserService.swift */; };
 		D2A8B6E02ADE481800A469D7 /* AgreementCheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */; };
 		D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DA12ACD54BD00F48A06 /* SignInData.swift */; };
+		D2C7BD352AE52EFD00C6AA15 /* MyPageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */; };
 		D2C95AE62AD7A16D00DFCB03 /* MyPageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */; };
 		D2C95AE82AD7B59900DFCB03 /* MyPageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */; };
 		FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */; };
@@ -227,6 +228,7 @@
 		D279D1172ACFE6670087712F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementCheckButton.swift; sourceTree = "<group>"; };
 		D2C16DA12ACD54BD00F48A06 /* SignInData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInData.swift; sourceTree = "<group>"; };
+		D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageStore.swift; sourceTree = "<group>"; };
 		D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDetailView.swift; sourceTree = "<group>"; };
 		D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingView.swift; sourceTree = "<group>"; };
 		FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdTestView.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 		2766484F2ABD8E51000F8A10 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				D2C7BD332AE52ECA00C6AA15 /* Store */,
 				2717D0F32ACD77BD0002D620 /* Views */,
 			);
 			path = MyPage;
@@ -816,6 +819,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D2C7BD332AE52ECA00C6AA15 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		FF635D232AD7D501002C0B67 /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -988,6 +999,7 @@
 				278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */,
 				2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */,
 				27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */,
+				D2C7BD352AE52EFD00C6AA15 /* MyPageStore.swift in Sources */,
 				2785446B2AC41CE0009032CE /* SchemeService.swift in Sources */,
 				278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */,
 				2785ECC52AE053EB003E8D9D /* TabBarVisivilyStore.swift in Sources */,

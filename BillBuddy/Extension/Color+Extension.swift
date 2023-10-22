@@ -61,5 +61,7 @@ extension Color {
     static let lightBlue200 = Color(hex: "F4F6FE")
     /// DEEBFF
     static let lightBlue300 = Color(hex: "DEEBFF")
+    /// 73D260
+    static let naverSignature = Color(hex: "73D260")
 
 }
