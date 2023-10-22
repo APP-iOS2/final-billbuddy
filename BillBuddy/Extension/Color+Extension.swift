@@ -26,10 +26,18 @@ extension Color {
     }
     /// 2952E7
     static let myPrimary = Color(hex: "#2952E7")
+    /// EEF5FB 연한 myPrimary
+    static let myPrimaryLight = Color(hex: "#EEF5FB")
     /// D84D50
     static let error = Color(hex: "#D84D50")
     /// 57B585
     static let positive = Color(hex: "#57B585")
+    
+    /// 438061
+    static let myGreen = Color(hex: "#438061")
+    /// E5FFF2
+    static let myGreenLight = Color(hex: "#E5FFF2")
+
     
     /// F7F7FA
     static let gray050 = Color(hex: "#F7F7FA")

@@ -41,7 +41,10 @@ struct TravelListView: View {
                             .padding(.top, 16)
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
-                                DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                                DetailMainView(
+                                    paymentStore: PaymentStore(travel: travel),
+                                    travelDetailStore: TravelDetailStore(travel: travel)
+                                )
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading) {
