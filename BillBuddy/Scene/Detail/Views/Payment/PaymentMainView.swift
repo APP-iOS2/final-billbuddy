@@ -120,6 +120,14 @@ struct PaymentMainView: View {
     
     var paymentList: some View {
         VStack(spacing: 0) {
+            if paymentStore.filteredPayments.isEmpty {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                        .padding(.top, 59)
+                    Spacer()
+                }
+            }
             List {
                 PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
