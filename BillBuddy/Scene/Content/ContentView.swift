@@ -23,7 +23,7 @@ struct ContentView: View {
     var body: some View {
         if AuthStore.shared.userUid != "" {
             if userService.isSignIn {
-                if schemeServie.url == nil {
+                if schemeServie.isUrlEmpty {
                     BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)

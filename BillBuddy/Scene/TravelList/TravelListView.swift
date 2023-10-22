@@ -64,17 +64,18 @@ struct TravelListView: View {
                                     .padding(.top, 16)
                             }
                         }
-                        ForEach(createTravelList()) { travel in
-                            NavigationLink {
-                                // FIXME: 무한루프 -> 안에 들어가서 생성
-                                DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
-                            } label: {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text(travel.travelTitle)
-                                            .font(.body01)
-                                            .foregroundColor(.black)
-                                            .padding(.bottom, 5)
+                        if !userTravelStore.isFetching {
+                            ForEach(createTravelList()) { travel in
+                                NavigationLink {
+                                    // FIXME: 무한루프 -> 안에 들어가서 생성
+                                    DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                                } label: {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(travel.travelTitle)
+                                                .font(.body01)
+                                                .foregroundColor(.black)
+                                                .padding(.bottom, 5)
                                             
                                             Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
                                                 .font(.caption02)
@@ -106,10 +107,13 @@ struct TravelListView: View {
                                 
                             } //MARK: LIST
                             .padding(.horizontal, 16)
-                        }
-                        
-                    } //MARK: SCROLLVIEW
-//                }
+                        } else {
+                            progressView
+                        } //MARK: else
+                    }
+                    
+                } //MARK: SCROLLVIEW
+                //                }
                 Divider().padding(0)
             } //MARK: VSTACK
             
@@ -148,7 +152,7 @@ struct TravelListView: View {
                 }
         )
         .overlay(
-            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
+            AddTravelButtonView(floatingButtonMenuStore: floatingButtonMenuStore)
                 .onTapGesture {
                     floatingButtonMenuStore.isDimmedBackground = true
                 }
@@ -234,6 +238,41 @@ extension TravelListView {
                 }
             }
         }
+    }
+    var progressView: some View {
+        VStack(spacing: 0) {
+            ForEach(0..<userTravelStore.travelCount) { _ in
+                HStack {
+                    VStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 60, height: 24)
+                            .foregroundColor(.gray200)
+                            .padding(.bottom, 4)
+                        
+                        RoundedRectangle(cornerRadius: 12)
+                            .frame(width: 108, height: 20)
+                            .foregroundColor(.gray200)
+                    }
+                    .padding(.leading, 26)
+                    
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 94)
+                .background(Color.gray050.cornerRadius(12))
+            }
+            .padding(.top, 16)
+            
+            HStack {
+                Spacer()
+                ProgressView()
+                    .frame(width: 30, height: 30)
+                Spacer()
+            }
+            .padding(.top, 19)
+            
+        }
+        .padding(.horizontal, 16)
     }
 }
 #Preview {
