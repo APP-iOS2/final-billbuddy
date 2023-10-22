@@ -99,7 +99,7 @@ struct ChattingRoomView: View {
                         HStack {
                             Spacer()
                             VStack(alignment: .trailing) {
-                                Text(message.senderId)
+                                Text(message.userName ?? "이름없음")
                                     .font(Font.caption02)
                                     .foregroundColor(.systemBlack)
                                 HStack {
@@ -118,6 +118,7 @@ struct ChattingRoomView: View {
                                                     .frame(width:120, height: 120)
                                             } placeholder: {
                                                 ProgressView()
+                                                    .frame(width:120, height: 120)
                                             }
                                         }
                                         if message.message != "" {
@@ -150,7 +151,7 @@ struct ChattingRoomView: View {
                                 Spacer()
                             }
                             VStack(alignment: .leading) {
-                                Text(message.senderId)
+                                Text(message.userName ?? "이름없음")
                                     .font(Font.caption02)
                                     .foregroundColor(.systemBlack)
                                 HStack {
@@ -163,6 +164,7 @@ struct ChattingRoomView: View {
                                                     .frame(width:120, height: 120)
                                             } placeholder: {
                                                 ProgressView()
+                                                    .frame(width:120, height: 120)
                                             }
                                         }
                                         if message.message != ""  {
@@ -255,8 +257,7 @@ struct ChattingRoomView: View {
         }
     }
     
-    // TODO: 1. 이미지 전송 후 채팅방을 벗어나기 전까지 같은 이미지가 반복 전송됨
-    // TODO: 2. 이미지와 텍스트를 같이 전송할 때 처음은 텍스트가 nil 두번째부터는 텍스트는 정상적으로 들어감
+    // TODO: 이미지와 텍스트를 같이 전송할 때 텍스트가 nil
     /// 채팅 콘텐츠 분기처리해서 스토어로
     private func sendChat() {
         if let photoItem = selectedPhoto {
@@ -264,7 +265,7 @@ struct ChattingRoomView: View {
                 imagePath = await messageStore.getImagePath(item: photoItem, travelCalculation: travel)
                 let newMessage = Message(
                     senderId: AuthStore.shared.userUid,
-                    message: inputText, 
+                    message: inputText,
                     imageString: imagePath,
                     sendDate: Date().timeIntervalSince1970,
                     isRead: false
@@ -277,7 +278,6 @@ struct ChattingRoomView: View {
             let newMessage = Message(
                 senderId: AuthStore.shared.userUid,
                 message: inputText,
-                imageString: imagePath,
                 sendDate: Date().timeIntervalSince1970,
                 isRead: false
             )

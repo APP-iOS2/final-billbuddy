@@ -80,6 +80,7 @@
 		27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6F2AD3402300E6A545 /* SettledAccountView.swift */; };
 		27933F742AD3403500E6A545 /* SettlementExpensesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */; };
 		27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F752AD3405000E6A545 /* SettlementExpenses.swift */; };
+		469354482AE5862F007435E3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 469354472AE5862F007435E3 /* GoogleService-Info.plist */; };
 		46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */; };
 		46AA65712AD6796C00988491 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA65702AD6796C00988491 /* Message.swift */; };
 		46B8E2272AD8295F001B3A6C /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8E2262AD8295F001B3A6C /* MessageStore.swift */; };
@@ -195,6 +196,7 @@
 		27933F6F2AD3402300E6A545 /* SettledAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettledAccountView.swift; sourceTree = "<group>"; };
 		27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpensesStore.swift; sourceTree = "<group>"; };
 		27933F752AD3405000E6A545 /* SettlementExpenses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpenses.swift; sourceTree = "<group>"; };
+		469354472AE5862F007435E3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/final/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingRoomView.swift; sourceTree = "<group>"; };
 		46AA65702AD6796C00988491 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		46B8E2262AD8295F001B3A6C /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
+				469354472AE5862F007435E3 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -907,6 +910,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				469354482AE5862F007435E3 /* GoogleService-Info.plist in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
