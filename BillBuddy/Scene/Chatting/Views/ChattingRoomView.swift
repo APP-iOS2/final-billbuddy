@@ -261,7 +261,7 @@ struct ChattingRoomView: View {
     private func sendChat() {
         if let photoItem = selectedPhoto {
             Task {
-                imagePath = await messageStore.getImagePath(item: photoItem)
+                imagePath = await messageStore.getImagePath(item: photoItem, travelCalculation: travel)
                 let newMessage = Message(
                     senderId: AuthStore.shared.userUid,
                     message: inputText, 

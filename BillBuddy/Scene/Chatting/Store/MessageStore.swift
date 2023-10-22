@@ -27,10 +27,10 @@ final class MessageStore: ObservableObject {
         }
     }
     
-    /// firevase storage에 이미지 업로드 -> url 반환
-    func getImagePath(item: PhotosPickerItem) async -> String {
+    /// firebase storage에 이미지 업로드 -> url 반환
+    func getImagePath(item: PhotosPickerItem, travelCalculation: TravelCalculation) async -> String {
         
-        let path = "chat/\(UUID().uuidString).jpeg"
+        let path = "chat/\(travelCalculation.id)/\(UUID().uuidString).jpeg"
         var urlString: String = ""
         
         if let data = try? await item.loadTransferable(type: Data.self) {
