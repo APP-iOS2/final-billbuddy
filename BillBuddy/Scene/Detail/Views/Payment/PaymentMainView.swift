@@ -120,11 +120,20 @@ struct PaymentMainView: View {
     
     var paymentList: some View {
         VStack(spacing: 0) {
-            if paymentStore.filteredPayments.isEmpty {
+            if paymentStore.isFetchingList {
                 HStack {
                     Spacer()
                     ProgressView()
                         .padding(.top, 59)
+                    Spacer()
+                }
+            } else if paymentStore.payments.isEmpty {
+                HStack {
+                    Spacer()
+                    Text("지출을 추가해주세요")
+                        .foregroundStyle(Color.gray600)
+                        .font(.body02)
+                        .padding(.top, 30)
                     Spacer()
                 }
             }
