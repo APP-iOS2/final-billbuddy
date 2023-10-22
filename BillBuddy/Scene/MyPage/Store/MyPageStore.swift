@@ -13,10 +13,6 @@ import _PhotosUI_SwiftUI
 
 final class MyPageStore: ObservableObject {
     
-    @Published var selectedItem: PhotosPickerItem?
-//    @Published var profileImage: UIImage?
-
-    
     private let storage = Storage.storage().reference()
     static let shared = MyPageStore()
     

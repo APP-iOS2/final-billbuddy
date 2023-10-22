@@ -610,7 +610,6 @@
 		2766484F2ABD8E51000F8A10 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
-				D2C7BD362AE558D300C6AA15 /* Model */,
 				D2C7BD332AE52ECA00C6AA15 /* Store */,
 				2717D0F32ACD77BD0002D620 /* Views */,
 			);
@@ -826,13 +825,6 @@
 				D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */,
 			);
 			path = Store;
-			sourceTree = "<group>";
-		};
-		D2C7BD362AE558D300C6AA15 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		FF635D232AD7D501002C0B67 /* Store */ = {
