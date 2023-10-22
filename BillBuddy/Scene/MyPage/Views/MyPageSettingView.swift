@@ -20,7 +20,9 @@ struct MyPageSettingView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 Group {
-                    NavigationLink(destination: ProfileView()){
+                    Button(action: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }, label: {
                         HStack {
                             Text("알림 설정")
                             Spacer()
@@ -28,10 +30,12 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.top, 32)
                     .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
+                    Button(action: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }, label: {
                         HStack {
                             Text("위치 설정")
                             Spacer()
@@ -39,7 +43,7 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.bottom, 36)
                     NavigationLink(destination: ProfileView()){
                         HStack {
@@ -54,6 +58,16 @@ struct MyPageSettingView: View {
                     NavigationLink(destination: ProfileView()){
                         HStack {
                             Text("문의하기")
+                            Spacer()
+                            Image("chevron_right")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                    }
+                    .padding(.bottom, 36)
+                    NavigationLink(destination: MembershipView()){
+                        HStack {
+                            Text("멤버십 테스트")
                             Spacer()
                             Image("chevron_right")
                                 .resizable()

@@ -10,8 +10,10 @@ import SwiftUI
 struct MemberEditSheet: View {
     @Binding var member: TravelCalculation.Member
     @Binding var isShowingEditSheet: Bool
+    @State var isExcluded: Bool
     @State var nickName: String = ""
     @State var advancePayment: String = ""
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         VStack(alignment: .center) {
@@ -28,6 +30,7 @@ struct MemberEditSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .font(Font.body04)
+                            .focused($isKeyboardUp)
                     }
                     .padding([.leading, .trailing], 16)
                 }
@@ -47,12 +50,35 @@ struct MemberEditSheet: View {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
                             .font(Font.body04)
+                            .focused($isKeyboardUp)
+                    }
+                    .padding([.leading, .trailing], 16)
+                }
+                .padding(.bottom, 16)
+
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(Color.gray050, lineWidth: 1)
+                .frame(width: 329, height: 52)
+                .background(Color.gray100)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                    HStack {
+                        Text("지불 제외 여부")
+                            .font(.body02)
+                        Spacer()
+                        Button {
+                            isExcluded.toggle()
+                            print(isExcluded)
+                        } label: {
+                            Image(isExcluded ? .checked : .noneChecked)
+                        }
                     }
                     .padding([.leading, .trailing], 16)
                 }
             Spacer()
             
             Button {
+                member.isExcluded = isExcluded
                 member.name = nickName
                 member.advancePayment = Int(advancePayment) ?? 0
                 isShowingEditSheet = false
@@ -66,9 +92,12 @@ struct MemberEditSheet: View {
             .foregroundColor(.white)
             .padding(.bottom, 59)
         }
+        .onTapGesture {
+            isKeyboardUp = false
+        }
     }
 }
 
 #Preview {
-    MemberEditSheet(member: .constant(TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)), isShowingEditSheet: .constant(true))
+    MemberEditSheet(member: .constant(TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)), isShowingEditSheet: .constant(true), isExcluded: false)
 }

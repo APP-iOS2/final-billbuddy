@@ -7,24 +7,40 @@
 
 import SwiftUI
 
-struct MemberManagementView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    @StateObject var sampleMemeberStore: SampleMemeberStore
+
+struct MemberManagementView: View {
+    @Environment(\.dismiss) var dismiss
+    @StateObject var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
+    var travel: TravelCalculation
     @State private var isShowingAlert: Bool = false
     @State private var isShowingSaveAlert: Bool = false
-    @State private var isEditing: Bool = false
     @State private var isShowingEditSheet: Bool = false
     @State private var isShowingShareSheet: Bool = false
     
     var body: some View {
-        List {
-            ForEach(Array(sampleMemeberStore.members.enumerated()), id: \.element) { index ,member in
-                HStack {
+        
+        VStack(spacing: 0) {
+            List {
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    Text("연결된 인원")
+                        .listRowSeparator(.hidden)
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                        .padding([.top, .bottom], 12)
+                    Divider()
+                        .listRowSeparator(.hidden)
+                }
+                .listRowSeparator(.hidden)
+                
+                ForEach(sampleMemeberStore.connectedMemebers) { member in
                     MemberCell(
+                        sampleMemeberStore: sampleMemeberStore,
+                        isShowingShareSheet: $isShowingShareSheet,
                         member: member,
                         onEditing: {
-                            sampleMemeberStore.selectMember(index)
+                            sampleMemeberStore.selectMember(member.id)
                             isShowingEditSheet = true
                         },
                         onRemove: {
@@ -33,37 +49,69 @@ struct MemberManagementView: View {
                             }
                         }
                     )
+                }
+                .listRowSeparator(.hidden)
+                VStack(alignment: .leading, spacing: 0) {
                     
-                    RoundedRectangle(cornerRadius: 15.5)
-                        .strokeBorder(Color.gray100, lineWidth: 1)
-                        .frame(width: 80, height: 28)
-                        .clipShape(RoundedRectangle(cornerRadius: 15.5))
-                        .overlay(alignment: .center) {
-                            ZStack(alignment: .center) {
-                                Text(member.userId == nil ? "초대하기" : "초대됨")
-                                    .font(Font.caption02)
-                                    .foregroundColor(Color.gray600)
-                                if member.userId == nil {
-                                    Button {
-                                        sampleMemeberStore.selectMember(index)
-                                        isShowingShareSheet = true
-                                    } label: {
-                                        
-                                    }
-                                }
+                    Text("더미 인원")
+                        .listRowSeparator(.hidden)
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                        .padding([.top, .bottom], 12)
+                    Divider()
+                        .listRowSeparator(.hidden)
+                }
+                .listRowSeparator(.hidden)
+                
+                ForEach(sampleMemeberStore.dummyMemebers) { member in
+                    MemberCell(
+                        sampleMemeberStore: sampleMemeberStore,
+                        isShowingShareSheet: $isShowingShareSheet,
+                        member: member,
+                        onEditing: {
+                            sampleMemeberStore.selectMember(member.id)
+                            isShowingEditSheet = true
+                        },
+                        onRemove: {
+                            withAnimation {
+                                sampleMemeberStore.removeMember(memberId: member.id)
                             }
                         }
-                        .padding(.trailing, 24)
-
-                    
+                    )
                 }
+                .listRowSeparator(.hidden)
+                VStack(alignment: .leading, spacing: 0) {
+                    
+                    Text("제외된 인원")
+                        .listRowSeparator(.hidden)
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                        .padding([.top, .bottom], 12)
+                    Divider()
+                        .listRowSeparator(.hidden)
+                }
+                .listRowSeparator(.hidden)
                 
+                ForEach(sampleMemeberStore.excludedMemebers) { member in
+                    MemberCell(
+                        sampleMemeberStore: sampleMemeberStore,
+                        isShowingShareSheet: $isShowingShareSheet,
+                        member: member,
+                        onEditing: {
+                            sampleMemeberStore.selectMember(member.id)
+                            isShowingEditSheet = true
+                        },
+                        onRemove: {
+                            withAnimation {
+                                sampleMemeberStore.removeMember(memberId: member.id)
+                            }
+                        }
+                    )
+                }
+                .listRowSeparator(.hidden)
             }
-            .listRowSeparator(.hidden)
-        }
-        .listStyle(.inset)
-
-        Section {
+            .listStyle(.inset)
+            
             Button {
                 withAnimation {
                     sampleMemeberStore.addMember()
@@ -78,6 +126,12 @@ struct MemberManagementView: View {
             .foregroundColor(.white)
             .padding(.bottom, 59)
             .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
+            
+        }
+        .onAppear {
+            if sampleMemeberStore.InitializedStore == false {
+                sampleMemeberStore.initStore(travel: self.travel)
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -87,7 +141,7 @@ struct MemberManagementView: View {
                     if sampleMemeberStore.isSelectedMember {
                         self.isShowingSaveAlert = true
                     } else {
-                        self.presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }, label: {
                     Image("arrow_back")
@@ -107,26 +161,29 @@ struct MemberManagementView: View {
             Alert(title: Text("변경사항을 저장하시겠습니까?"),
                   message: Text("뒤로가기 시 변경사항이 삭제됩니다."),
                   primaryButton: .destructive(Text("취소하고 나가기"), action: {
-                self.presentationMode.wrappedValue.dismiss()
+                dismiss()
             }),
                   secondaryButton: .default(Text("저장"), action: {
                 Task {
                     await sampleMemeberStore.saveMemeber()
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }
             }))
         }
         .sheet(isPresented: $isShowingEditSheet) {
             // onDismiss
         } content: {
-            MemberEditSheet(member: $sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex], isShowingEditSheet: $isShowingEditSheet)
+            MemberEditSheet(
+                member: $sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex],
+                isShowingEditSheet: $isShowingEditSheet,
+                isExcluded: sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex].isExcluded)
                 .presentationDetents([.height(374)])
                 .presentationDragIndicator(.hidden)
         }
         .sheet(isPresented: $isShowingShareSheet) {
             // onDismiss
         } content: {
-            MemberShareSheet(activityItems: [sampleMemeberStore.getURL()])
+            MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.hidden)
         }
@@ -135,6 +192,6 @@ struct MemberManagementView: View {
 
 #Preview {
     NavigationStack {
-        MemberManagementView(sampleMemeberStore: SampleMemeberStore(travel: TravelCalculation.sampletravel))
+        MemberManagementView(travel: TravelCalculation.sampletravel)
     }
 }

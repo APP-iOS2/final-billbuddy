@@ -10,6 +10,7 @@ import SwiftUI
 struct SignInView: View {
     
     @ObservedObject var signInStore: SignInStore
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -24,11 +25,13 @@ struct SignInView: View {
                         .stroke(Color.gray300, lineWidth: 1))
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
+                    .focused($isKeyboardUp)
                 SecureField("비밀번호", text: $signInStore.passwordText)
                     .padding(16)
                     .frame(width: 351, height: 52)
                     .overlay(RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.gray300, lineWidth: 1))
+                    .focused($isKeyboardUp)
             }
             
             Button(action: {
@@ -66,6 +69,9 @@ struct SignInView: View {
                     .foregroundStyle(Color.systemBlack)
             }
             .padding()
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
         .padding(24)
         .onAppear {

@@ -21,6 +21,8 @@ struct ProfileEditView: View {
     @State private var tempBankAccountNum: String = ""
     @State private var bankAccountNumLabel: String = ""
     
+    @FocusState private var isKeyboardUp: Bool
+    
     var body: some View {
         ZStack {
             Color.gray050
@@ -34,12 +36,14 @@ struct ProfileEditView: View {
                         TextField(text: $tempBankName) {
                             Text(bankNameLabel == "" ? "은행" : bankNameLabel)
                                 .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
                         }
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
                         TextField(text: $tempBankAccountNum) {
                             Text(bankAccountNumLabel == "" ? "등록 계좌 없음" : bankAccountNumLabel)
                                 .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
                         }
                         .frame(width: 80)
                         .multilineTextAlignment(.trailing)
@@ -55,6 +59,7 @@ struct ProfileEditView: View {
                         TextField(text: $tempPhoneNum) {
                             Text(phoneNumLabel)
                                 .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
                         }
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
@@ -68,6 +73,7 @@ struct ProfileEditView: View {
                         TextField(text: $tempEmail) {
                             Text(emailLabel)
                                 .foregroundColor(Color.gray600)
+                                .focused($isKeyboardUp)
                         }
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
@@ -116,6 +122,9 @@ struct ProfileEditView: View {
                 .background(Color.myPrimary)
                 .foregroundColor(.white)
             }
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
         .navigationTitle("프로필 수정")
         .navigationBarTitleDisplayMode(.inline)

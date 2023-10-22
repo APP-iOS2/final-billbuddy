@@ -15,6 +15,7 @@ struct SignUpView: View {
     
     @State private var isShowingProgressView: Bool = false
     @State private var isShowingAlert: Bool = false
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,6 +34,7 @@ struct SignUpView: View {
                         .stroke(signUpStore.isNameTextError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
                     .padding(.bottom, signUpStore.isNameTextError ? 0 : 12)
+                    .focused($isKeyboardUp)
                 
                 if signUpStore.isNameTextError {
                     Text("이름은 2자리 이상 입력해주세요.")
@@ -52,6 +54,7 @@ struct SignUpView: View {
                         .stroke(signUpStore.isEmailTextError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
                     .padding(.bottom, signUpStore.isEmailTextError ? 0 : 12)
+                    .focused($isKeyboardUp)
                 
                 if signUpStore.isEmailTextError {
                     Text("정확한 이메일을 입력해주세요")
@@ -70,6 +73,7 @@ struct SignUpView: View {
                         .stroke(signUpStore.isPasswordCountError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
                     .padding(.bottom, signUpStore.isPasswordCountError ? 0 : 12)
+                    .focused($isKeyboardUp)
                 
                 if signUpStore.isPasswordCountError {
                     Text("비밀번호는 6자리 이상 입력해주세요")
@@ -88,6 +92,7 @@ struct SignUpView: View {
                         .stroke(signUpStore.isPasswordUnCorrectError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
                     .padding(.bottom, signUpStore.isPasswordUnCorrectError ? 0 : 12)
+                    .focused($isKeyboardUp)
                 
                 if signUpStore.isPasswordUnCorrectError {
                     Text("비밀번호가 서로 다릅니다")
@@ -106,6 +111,7 @@ struct SignUpView: View {
                         .stroke(signUpStore.isPhoneNumError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
                     .padding(.bottom, signUpStore.isPhoneNumError ? 0 : 12)
+                    .focused($isKeyboardUp)
                 
                 if signUpStore.isPhoneNumError {
                     Text("휴대폰 번호 11자리 입력해주세요")
@@ -165,6 +171,9 @@ struct SignUpView: View {
                     }
                 }
             }
+        }
+        .onTapGesture {
+            isKeyboardUp = false
         }
         .padding(.horizontal, 24)
         .navigationBarBackButtonHidden(true)

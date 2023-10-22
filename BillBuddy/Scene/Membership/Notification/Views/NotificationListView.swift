@@ -8,26 +8,24 @@
 import SwiftUI
 
 struct NotificationListView: View {
-    @StateObject var notificationManager = NotificationManager()
     @Environment(\.dismiss) private var dismiss
     @State private var isAllRead = false
-    @State private var isChatRead = false
-    @State private var isNoticeRead = false
-    @State private var isExpenseRead = false
-    
     @EnvironmentObject private var notificationStore: NotificationStore
-
+    
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
-                NavigationLink(destination: ChatNotifincationCell(isRead: $isChatRead)) {
-                    ChatNotifincationCell(isRead: $isChatRead)
-                }
-                NavigationLink(destination: ChatNoticeAlarmCell(isRead: $isNoticeRead)) {
-                    ChatNoticeAlarmCell(isRead: $isNoticeRead)
-                }
-                NavigationLink(destination: TravelExpenseCell(isRead: $isExpenseRead)) {
-                    TravelExpenseCell(isRead: $isExpenseRead)
+            VStack(spacing: 0) {
+                ForEach(0..<10, id: \.self) { _ in
+                    let notification = UserNotification(
+                        id: "1",
+                        type: .chatting,
+                        content: "읽지 않은 메세지를 확인해보세요.",
+                        contentId: "someContentID",
+                        addDate: Date(),
+                        isChecked: false
+                    )
+                    
+                    NotificationCell(notification: notification)
                 }
             }
         }
@@ -46,9 +44,6 @@ struct NotificationListView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     isAllRead.toggle()
-                    isChatRead = isAllRead
-                    isNoticeRead = isAllRead
-                    isExpenseRead = isAllRead
                 }, label: {
                     Text("모두읽음")
                         .font(.body01)
