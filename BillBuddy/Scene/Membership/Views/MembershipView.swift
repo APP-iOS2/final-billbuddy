@@ -94,7 +94,7 @@ struct MembershipView: View {
                     }
                 }
                 .padding(.horizontal, 5)
-                .padding(.top, 36)
+                .padding(.top, 28)
                 
                 if let user = userService.currentUser {
                     if user.isPremium {
