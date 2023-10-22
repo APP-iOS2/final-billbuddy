@@ -35,6 +35,17 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
+                // TODO: 새로운 변경사항
+//                if travelDetailStore.isChangedTravel {
+//                    Button {
+//                        Task {
+//                            await paymentStore.fetchAll()
+//                        }
+//                    } label: {
+//                        Text("새로운 변경사항!!")
+//                    }
+//
+//                }
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
             else if selection == "지도" {
