@@ -232,6 +232,7 @@ struct ChattingRoomView: View {
                         .foregroundColor(.gray600)
                 }
                 Button {
+                    PushNotificationManager.sendPushNotification(forNotificationType: .chatting)
                     sendChat()
                     selectedPhoto = nil
                     imageData?.removeAll()

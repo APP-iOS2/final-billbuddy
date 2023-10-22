@@ -266,6 +266,7 @@ struct PaymentManageView: View {
                 
                 dismiss()
             }
+            PushNotificationManager.sendPushNotification(forNotificationType: .travel)
             
         }, label: {
             buttonLabel
