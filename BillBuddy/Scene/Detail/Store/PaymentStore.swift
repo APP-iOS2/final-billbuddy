@@ -31,7 +31,7 @@ final class PaymentStore: ObservableObject {
         
         do {
             var tempPayment: [Payment] = []
-            let snapshot = try await dbRef.getDocuments()
+            let snapshot = try await dbRef.order(by: "paymentDate").getDocuments()
             for document in snapshot.documents {
                 let newPayment = try document.data(as: Payment.self)
                 tempPayment.append(newPayment)

@@ -12,6 +12,8 @@ struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
     
+    @State private var isShowingDeletePayment: Bool = false
+    
     var body: some View {
         
         ForEach(paymentStore.filteredPayments) { payment in
@@ -78,6 +80,7 @@ struct PaymentListView: View {
                 }
                 .frame(width: 88)
                 
+                
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
                         .environmentObject(paymentStore)
@@ -86,6 +89,11 @@ struct PaymentListView: View {
                 }
                 .frame(width: 88)
                 .background(Color.gray500)
+            }
+            .alert(isPresented: $isShowingDeletePayment) {
+                return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                    
+                }), secondaryButton: .cancel(Text("아니오")))
             }
         }
         .listRowInsets(nil)
