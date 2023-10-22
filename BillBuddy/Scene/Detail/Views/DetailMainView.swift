@@ -152,7 +152,6 @@ struct DetailMainView: View {
                 if selectedDate == 0 {
                     Text("전체")
                         .font(.body01)
-                        
                         .foregroundStyle(.black)
                     Image("expand_more")
                         .resizable()
@@ -167,8 +166,10 @@ struct DetailMainView: View {
                         .font(.body03)
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
                 }
             }
             .padding(.leading, 16)
