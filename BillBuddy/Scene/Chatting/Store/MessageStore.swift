@@ -27,6 +27,7 @@ final class MessageStore: ObservableObject {
         }
     }
     
+    /// firevase storage에 이미지 업로드 -> url 반환
     func getImagePath(item: PhotosPickerItem) async -> String {
         
         let path = "chat/\(UUID().uuidString).jpeg"
@@ -78,6 +79,7 @@ final class MessageStore: ObservableObject {
             }
     }
     
+    /// 마지막 채팅 메세지 travelCalculation 에 업데이트
     private func updateLastMessage(travelCalculation: TravelCalculation, message: Message) {
         let data = [
             "lastMessage" : message.message,
