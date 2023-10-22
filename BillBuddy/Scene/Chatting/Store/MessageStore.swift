@@ -69,7 +69,12 @@ final class MessageStore: ObservableObject {
                 var newMessage: [Message] = []
                 for document in querySnapshot.documents {
                     do {
-                        let item = try document.data(as: Message.self)
+                        var item = try document.data(as: Message.self)
+                        // sender id로 travelCalculation 멤버 정보 찾기
+                        if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
+                            item.userImage = member.userImage
+                            item.userName = member.name
+                        }
                         newMessage.append(item)
                     } catch {
                         print("Failed to fetch chat message: \(error)")
