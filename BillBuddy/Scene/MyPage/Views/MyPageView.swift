@@ -18,6 +18,7 @@ struct MyPageView: View {
             MyPageSettingView()
             Spacer()
         }
+        Divider().padding(0)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Text("마이페이지")

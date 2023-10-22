@@ -10,12 +10,13 @@ import UIKit
 
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
-    @State private var isShowingAdScreen: Bool = false    
+    @State private var isShowingAdScreen: Bool = false
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
     @EnvironmentObject private var userService: UserService
-
+    
+    
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray500)
+        //        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray900)
         UITabBarItem.appearance().setTitleTextAttributes([.font:UIFont(name: "Pretendard-Bold", size: 10)!], for: .normal)
     }
     
@@ -24,13 +25,18 @@ struct BillBuddyTabView: View {
             NavigationStack {
                 TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
             }
+            .toolbarBackground(
+                floatingButtonMenuStore.isDimmedBackground ?
+                Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.6 : 0) : Color.white
+                , for: .tabBar)
+            
             .tabItem {
                 Image(.hometap)
                     .renderingMode(.template)
                 Text("홈")
+                
             }
-//            .brightness(isDimmedBackground ? -0.5 : 0)
-            .toolbarBackground(Color.systemBlack.opacity(floatingButtonMenuStore.isDimmedBackground ? 0.5 : 0), for: .tabBar)
+            
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
                 NativeContentView(isShowingAdScreen: $isShowingAdScreen)
             })
@@ -54,9 +60,11 @@ struct BillBuddyTabView: View {
                     }
                 }
             }
+            
             .tabItem {
                 Image(.chattap)
                     .renderingMode(.template)
+                
                 Text("채팅")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
@@ -85,6 +93,7 @@ struct BillBuddyTabView: View {
             .tabItem {
                 Image(.mypagetap)
                     .renderingMode(.template)
+                
                 Text("마이페이지")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
