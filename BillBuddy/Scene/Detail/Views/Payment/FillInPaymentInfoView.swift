@@ -29,7 +29,18 @@ struct FillInPaymentInfoView: View {
     @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDatePickerSheet: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
-    @State private var expectPrice: Int = 0
+    private var expectPrice: Int {
+        let price: Int = Int(priceString) ?? 0
+        let count: Int = members.count
+        
+        if members.isEmpty {
+            return 0
+        }
+        else {
+            let result = price / count
+            return result
+        }
+    }
     
     
     var body: some View {
@@ -38,24 +49,7 @@ struct FillInPaymentInfoView: View {
             typePickerSection
             contentSection
             memberSelectSection
-                .onChange(of: members) { _ in
-                    // FIXME: 안되는 이유를 모르겠음
-                    if members.isEmpty {
-                        expectPrice = 0
-                    }
-                    else {
-                        expectPrice = (Int(priceString) ?? 0 / members.count)
-                    }
-                }
             priceSection
-                .onChange(of: priceString) { _ in
-                    if members.isEmpty {
-                        expectPrice = 0
-                    }
-                    else {
-                        expectPrice = (Int(priceString) ?? 0 / members.count)
-                    }
-                }
         }
     }
     

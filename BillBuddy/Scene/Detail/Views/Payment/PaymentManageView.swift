@@ -213,6 +213,8 @@ struct PaymentManageView: View {
         }
         .padding(.leading, 16)
         .padding(.trailing, 16)
+        .padding(.bottom, 38)
+        
     }
     
     func buttonText(text: String) -> Text {

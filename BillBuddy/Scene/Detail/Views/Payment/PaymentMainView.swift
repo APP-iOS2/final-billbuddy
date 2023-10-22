@@ -35,16 +35,19 @@ struct PaymentMainView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4, content: {
                         HStack(spacing: 0) {
-                            NavigationLink {
-                                SpendingListView()
-                            } label: {
-                                Text("총 지출")
-                                    .font(.body04)
-                                    .foregroundStyle(Color.gray600)
-                                Image("chevron_right")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                            }
+                            Text("총 지출")
+                                .font(.body04)
+                                .foregroundStyle(Color.gray600)
+//                            NavigationLink {
+//                                SpendingListView()
+//                            } label: {
+//                                Text("총 지출")
+//                                    .font(.body04)
+//                                    .foregroundStyle(Color.gray600)
+//                                Image("chevron_right")
+//                                    .resizable()
+//                                    .frame(width: 24, height: 24)
+//                            }
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
@@ -117,6 +120,14 @@ struct PaymentMainView: View {
     
     var paymentList: some View {
         VStack(spacing: 0) {
+            if paymentStore.filteredPayments.isEmpty {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                        .padding(.top, 59)
+                    Spacer()
+                }
+            }
             List {
                 PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
