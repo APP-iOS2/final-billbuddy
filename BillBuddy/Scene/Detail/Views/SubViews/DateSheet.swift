@@ -25,7 +25,7 @@ struct DateSheet: View {
     
     @State var dates: [dateNumber] = []
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             ScrollView {
                 HStack {
                     Button(action: {
@@ -40,8 +40,8 @@ struct DateSheet: View {
                     
                     Spacer()
                 }
+                .padding(.bottom, 32)
                 
-                .padding(16)
                 ForEach(dates, id:\.self) { date in
                     HStack {
                         Button(action: {
@@ -53,13 +53,16 @@ struct DateSheet: View {
                                 .font(.body01)
                         })
                         .buttonStyle(.plain)
+                        .padding(.bottom, 32)
                         
                         Spacer()
                     }
-                    .padding(16)
                 }
             }
         }
+        
+        .padding(.top, 48)
+        .padding(.leading, 30)
         .onAppear {
             dates = startDateToEndDate(startDate: startDate, endDate: endDate)
         }

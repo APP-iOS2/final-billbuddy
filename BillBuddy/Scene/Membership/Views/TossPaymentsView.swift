@@ -20,7 +20,6 @@ struct TossPaymentsView: View {
             ScrollView {
                 PaymentMethodWidgetView(widget: tossPayments.widget, amount: PaymentMethodWidget.Amount(value: 1100))
                 AgreementWidgetView(widget: tossPayments.widget)
-                
             }
             VStack {
                 Button {

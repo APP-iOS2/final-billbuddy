@@ -1,8 +1,8 @@
 //
-//  AdmobBannerView.swift
+//  BannerStore.swift
 //  BillBuddy
 //
-//  Created by 윤지호 on 10/4/23.
+//  Created by SIKim on 10/22/23.
 //
 
 import SwiftUI
@@ -12,7 +12,7 @@ protocol BannerViewControllerWidthDelegate: AnyObject {
     func bannerViewController(_ bannerViewController: BannerViewController, didUpdate width: CGFloat)
 }
 
-class BannerViewController: UIViewController {
+final class BannerViewController: UIViewController {
     weak var delegate: BannerViewControllerWidthDelegate?
 
     override func viewDidAppear(_ animated: Bool) {
@@ -38,7 +38,7 @@ class BannerViewController: UIViewController {
 
 struct BannerView: UIViewControllerRepresentable {
     @State private var viewWidth: CGFloat = .zero
-    private let bannerView = GADBannerView()
+    private var bannerView = GADBannerView()
     private let adUnitID = "ca-app-pub-3940256099942544/2934735716"
 
     func makeUIViewController(context: Context) -> some UIViewController {
@@ -102,14 +102,4 @@ struct BannerView: UIViewControllerRepresentable {
             print("\(#function) called")
         }
     }
-}
-
-struct AdmobBannerView: View {
-    var body: some View {
-        BannerView()
-    }
-}
-
-#Preview {
-    AdmobBannerView()
 }

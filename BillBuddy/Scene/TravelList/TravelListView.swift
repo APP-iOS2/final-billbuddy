@@ -11,6 +11,8 @@ struct TravelListView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
+    @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
+    @EnvironmentObject private var userService: UserService
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -30,6 +32,7 @@ struct TravelListView: View {
                 .padding(.leading, 16)
                 
                 // 리스트간 간격이 너무 넓음
+
 //                if createTravelList().isEmpty {
 //                    
 //                        RoundedRectangle(cornerRadius: 12)
@@ -48,18 +51,30 @@ struct TravelListView: View {
 //                    
 //                    
 //                } else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 0) {
-                            ForEach(createTravelList()) { travel in
-                                NavigationLink {
-                                    DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
-                                } label: {
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(travel.travelTitle)
-                                                .font(.body01)
-                                                .foregroundColor(.black)
-                                                .padding(.bottom, 5)
+                   
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        if let isPremium = userService.currentUser?.isPremium {
+                            if !isPremium {
+                                NativeAdView(nativeViewModel: nativeAdViewModel)
+                                    .frame(height: 94)
+                                    .frame(maxWidth: .infinity)
+                                    .cornerRadius(12)
+                                    .padding(.horizontal, 16)
+                                    .padding(.top, 16)
+                            }
+                        }
+                        ForEach(createTravelList()) { travel in
+                            NavigationLink {
+                                // FIXME: 무한루프 -> 안에 들어가서 생성
+                                DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(travel.travelTitle)
+                                            .font(.body01)
+                                            .foregroundColor(.black)
+                                            .padding(.bottom, 5)
                                             
                                             Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
                                                 .font(.caption02)
@@ -143,6 +158,11 @@ struct TravelListView: View {
         
         .onAppear {
             tabBarVisivilyStore.showTabBar()
+            if let isPremium = userService.currentUser?.isPremium {
+                if !isPremium {
+                    nativeAdViewModel.refreshAd()
+                }
+            }
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
                 if notificationStore.didFetched == false {

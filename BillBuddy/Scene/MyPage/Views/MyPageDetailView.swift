@@ -14,10 +14,21 @@ struct MyPageDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(userService.currentUser?.userImage ?? "white")
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .cornerRadius(50)
+                if let userImage = userService.currentUser?.userImage {
+                    AsyncImage(url: URL(string: userImage), content: { image in
+                        image
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .cornerRadius(50)
+                    }, placeholder: {
+                        ProgressView()
+                    })
+                } else {
+                    Image("profileImage")
+                        .resizable()
+                        .frame(width: 80, height: 80)
+                    
+                }
                 VStack(alignment: .leading) {
                     NavigationLink(destination: ProfileView()) {
                         HStack {

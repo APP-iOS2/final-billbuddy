@@ -15,18 +15,6 @@ extension Double {
         return formatter
     }()
     
-    func toDate() -> Date {
-        return Date(timeIntervalSince1970: self)
-    }
-    
-    func timeTo00_00_00() -> Double {
-            return 86400 * floor(self / 86400)
-        }
-
-        func timeTo11_59_59() -> Double {
-            return 86400 * ceil(self / 86400) - 1
-        }
-    
     func toFormattedYearandMonthandDay() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         
@@ -58,13 +46,6 @@ extension Double {
         return Int(days) + 1
     }
     
-    func todayRange()->ClosedRange<Double> {
-        let today_00_00_00 = 86400 * floor(self / 86400)
-        let today_11_59_59 = 86400 * ceil(self / 86400) - 1
-        
-        return today_00_00_00...today_11_59_59
-    }
-    
     func toFormattedChatDate() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         let distanceHour = Calendar.current.dateComponents([.hour], from: dateCreatedAt, to: Date()).hour
@@ -78,5 +59,28 @@ extension Double {
             Self.dateFormatter.dateFormat = "M월 d일"
             return Self.dateFormatter.string(from: dateCreatedAt)
         }
+    }
+    
+    func toDate() -> Date {
+        return Date(timeIntervalSince1970: self)
+    }
+    
+    func timeTo00_00_00() -> Double {
+        return 86400 * ceil(self / 86400)
+    }
+    
+    func timeTo11_59_59() -> Double {
+        return 86400 * ceil(self / 86400 + 1) - 1
+    }
+    
+    func todayRange()->ClosedRange<Double> {
+        let today_00_00_00 = timeTo00_00_00()
+        let today_11_59_59 = timeTo11_59_59()
+        
+        return today_00_00_00...today_11_59_59
+    }
+    
+    func convertGMT() -> Double {
+        return self - 9 * 60 * 60
     }
 }

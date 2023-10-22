@@ -24,12 +24,6 @@ struct BillBuddyTabView: View {
         TabView(selection: $selectedTab) {
             NavigationStack {
                 TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
-                if let isPremium = userService.currentUser?.isPremium {
-                    if isPremium == false {
-                        BannerView().frame(height: 65)
-                            .padding(.top, -8)
-                    }
-                }
             }
             .toolbarBackground(
                 floatingButtonMenuStore.isDimmedBackground ?
@@ -60,7 +54,7 @@ struct BillBuddyTabView: View {
             NavigationStack {
                 ChattingView()
                 if let isPremium = userService.currentUser?.isPremium {
-                    if isPremium == false {
+                    if !isPremium {
                         BannerView().frame(height: 60)
                             .padding(.top, -8)
                     }

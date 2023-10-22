@@ -2,27 +2,27 @@ import GoogleMobileAds
 import SwiftUI
 
 struct NativeContentView: View {
-    @StateObject private var nativeViewModel = NativeAdViewModel()
+    @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @State private var adSecond = 3
     @Binding var isShowingAdScreen: Bool
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    var isOnNativeAd: Bool {
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private var isOnNativeAd: Bool {
         return adSecond > -1
     }
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                NativeAdView(nativeViewModel: nativeViewModel)
+                NativeAdView(nativeViewModel: nativeAdViewModel)
                     .frame(height: 300)
                 
                 Text(
-                    nativeViewModel.nativeAd?.mediaContent.hasVideoContent == true
+                    nativeAdViewModel.nativeAd?.mediaContent.hasVideoContent == true
                     ? "Ad contains a video asset." : "Ad does not contain a video."
                 )
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.gray)
-                .opacity(nativeViewModel.nativeAd == nil ? 0 : 1)
+                .opacity(nativeAdViewModel.nativeAd == nil ? 0 : 1)
                 
                 Button("Refresh Ad") {
                     refreshAd()
@@ -55,7 +55,7 @@ struct NativeContentView: View {
     }
     
     private func refreshAd() {
-        nativeViewModel.refreshAd()
+        nativeAdViewModel.refreshAd()
     }
 }
 
@@ -65,7 +65,7 @@ struct NativeContentView_Previews: PreviewProvider {
     }
 }
 
-private struct NativeAdView: UIViewRepresentable {
+struct NativeAdView: UIViewRepresentable {
     
     typealias UIViewType = GADNativeAdView
     //typealias UIViewType = NativeAdTestView
@@ -98,7 +98,7 @@ private struct NativeAdView: UIViewRepresentable {
         
         (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
         
-        (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+//        (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
         
         // In order for the SDK to process touch events properly, user interaction should be disabled.
         nativeAdView.callToActionView?.isUserInteractionEnabled = false
@@ -155,7 +155,7 @@ private struct NativeAdView: UIViewRepresentable {
     }
 }
 
-private class NativeAdViewModel: NSObject, ObservableObject, GADNativeAdLoaderDelegate {
+final class NativeAdViewModel: NSObject, ObservableObject, GADNativeAdLoaderDelegate {
     @Published var nativeAd: GADNativeAd?
     private var adLoader: GADAdLoader!
     

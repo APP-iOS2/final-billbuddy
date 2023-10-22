@@ -11,13 +11,13 @@ struct MemeberAcountCell: View {
     var member: SettlementExpenses.MemberPayment
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             Image("DBPin")
                 .resizable()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
-            
-            VStack {
+                .padding(.trailing, 12)
+            VStack(alignment: .leading, spacing: 0) {
                 Text(member.memberData.name)
                     .font(.body04)
                 Text(member.최종n빵금액.wonAndDecimal)

@@ -61,14 +61,80 @@ struct SignInView: View {
             }
             .padding(.top, 20)
             
-            NavigationLink {
-                SignUpView(signUpStore: SignUpStore())
-            } label: {
-                Text("이메일 가입")
-                    .font(.body04)
-                    .foregroundStyle(Color.systemBlack)
+            HStack() {
+                Spacer()
+                NavigationLink {
+                    SignUpView(signUpStore: SignUpStore())
+                } label: {
+                    Text("이메일 가입")
+                }
+                Spacer()
+                NavigationLink {
+                    //
+                } label: {
+                    Text("이메일 찾기")
+                }
+                Spacer()
+                NavigationLink {
+                    //
+                } label: {
+                    Text("비밀번호 찾기")
+                }
+                Spacer()
             }
-            .padding()
+            .font(.body04)
+            .foregroundStyle(Color.systemBlack)
+            .padding(.top, 20)
+            .padding(.bottom, 77)
+            
+            VStack(alignment: .leading, spacing: 16) {
+                Text("SNS계정으로 로그인")
+                    .font(.body02)
+                Link(destination: URL(string: "https://google.com")!, label: {
+                    HStack{
+                        Image(.google)
+                        Spacer()
+                        Text("구글로 로그인")
+                            .font(.body02)
+                            .foregroundStyle(Color.systemBlack)
+                        Spacer()
+                    }
+                    .padding(20)
+                    .frame(width: 351, height: 52)
+                    .background(Color.gray050)
+                    .cornerRadius(12)
+                })
+                
+                Link(destination: URL(string: "https://naver.com")!, label: {
+                    HStack{
+                        Image(.naver)
+                        Spacer()
+                        Text("네이버로 로그인")
+                            .font(.body02)
+                            .foregroundStyle(Color.white)
+                        Spacer()
+                    }
+                    .padding(20)
+                    .frame(width: 351, height: 52)
+                    .background(Color.naverSignature)
+                    .cornerRadius(12)
+                })
+                
+                Link(destination: URL(string: "https://apple.com")!, label: {
+                    HStack{
+                        Image(.apple)
+                        Spacer()
+                        Text("애플로 로그인")
+                            .font(.body02)
+                            .foregroundStyle(Color.white)
+                        Spacer()
+                    }
+                    .padding(20)
+                    .frame(width: 351, height: 52)
+                    .background(Color.systemBlack)
+                    .cornerRadius(12)
+                })
+            }
         }
         .onTapGesture {
             isKeyboardUp = false

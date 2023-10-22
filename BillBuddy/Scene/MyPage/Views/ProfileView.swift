@@ -11,25 +11,41 @@ import PhotosUI
 struct ProfileView: View {
     
     @EnvironmentObject var userService: UserService
+    @EnvironmentObject var myPageStore: MyPageStore
     @Environment(\.dismiss) var dismiss
+    @State private var selectedItem: PhotosPickerItem? = nil
     
     var body: some View {
         VStack {
             HStack {
-                Button {
-                    // 버튼 눌리면 수정
-                } label: {
-                    Image(userService.currentUser?.userImage ?? "white")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .cornerRadius(50)
+                VStack {
+                    if let userImage = userService.currentUser?.userImage {
+                        AsyncImage(url: URL(string: userImage), content: { image in
+                            image
+                                .resizable()
+                                .frame(width: 80, height: 80)
+                                .cornerRadius(50)
+                        }, placeholder: {
+                            ProgressView()
+                        })
+                    } else {
+                        Image("profileImage")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                    }
                 }
                 .overlay {
-                    PhotosPicker(selection: $userService.selectedItem, matching: .images) {
+                    PhotosPicker(selection: $selectedItem, matching: .images) {
                         Image(.editButton)
                             .padding([.top, .leading], 60)
                     }
                 }
+                .onChange(of: selectedItem, perform: { newValue in
+                    if let newValue {
+                        myPageStore.saveProfileImage(item: newValue)
+                    }
+                })
+                
                 VStack(alignment: .leading) {
                     Text(userService.currentUser?.name ?? "")
                         .font(.body01)
@@ -117,5 +133,6 @@ struct ProfileView: View {
     NavigationStack {
         ProfileView()
             .environmentObject(UserService.shared)
+            .environmentObject(MyPageStore())
     }
 }
