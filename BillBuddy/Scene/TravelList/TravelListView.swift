@@ -148,7 +148,7 @@ struct TravelListView: View {
                 }
         )
         .overlay(
-            AddTravelButtonView(userTravelStore: userTravelStore, floatingButtonMenuStore: floatingButtonMenuStore)
+            AddTravelButtonView(floatingButtonMenuStore: floatingButtonMenuStore)
                 .onTapGesture {
                     floatingButtonMenuStore.isDimmedBackground = true
                 }

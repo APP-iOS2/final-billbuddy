@@ -97,6 +97,7 @@ final class UserService: ObservableObject {
         guard let user = currentUser else {
             return
         }
+        currentUser?.userImage = name
         do {
             let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
             let updatedData = [
