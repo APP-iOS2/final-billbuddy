@@ -23,6 +23,16 @@ struct DetailMainView: View {
     
     let menus: [String] = ["내역", "지도"]
     
+    func fetchPaymentAndSettledAccount(edit: Bool) {
+        Task {
+            if edit {
+                travelDetailStore.saveUpdateDate()
+            }
+            await paymentStore.fetchAll()
+            settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             sliderSection
@@ -36,17 +46,18 @@ struct DetailMainView: View {
             
             if selection == "내역" {
                 // TODO: 새로운 변경사항
-//                if travelDetailStore.isChangedTravel {
-//                    Button {
-//                        Task {
-//                            await paymentStore.fetchAll()
-//                        }
-//                    } label: {
-//                        Text("새로운 변경사항!!")
-//                    }
-//
-//                }
+                if travelDetailStore.isChangedTravel {
+                    Button {
+                        Task {
+                            fetchPaymentAndSettledAccount(edit: false)
+                        }
+                    } label: {
+                        Text("새로운 변경사항!!")
+                    }
+
+                }
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                    .environmentObject(travelDetailStore)
             }
             else if selection == "지도" {
                 MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
@@ -66,8 +77,7 @@ struct DetailMainView: View {
                 travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
-                        await paymentStore.fetchAll()
-                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                        fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
                     }
                 }
@@ -117,6 +127,8 @@ struct DetailMainView: View {
             }
             
         })
+        
+        
         
     }
     

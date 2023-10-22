@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AddTravelButtonView: View {
-    
-    @ObservedObject var userTravelStore: UserTravelStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     @State private var backgroundColor: Color = .gray700
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
@@ -103,5 +102,5 @@ struct MenuItem: View {
     }
 }
 #Preview {
-    AddTravelButtonView(userTravelStore: UserTravelStore(), floatingButtonMenuStore: FloatingButtonMenuStore())
+    AddTravelButtonView(floatingButtonMenuStore: FloatingButtonMenuStore())
 }

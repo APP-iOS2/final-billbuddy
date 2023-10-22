@@ -22,11 +22,10 @@ struct PaymentManageView: View {
     @State var payment: Payment?
     
     @StateObject var locationManager = LocationManager()
-    
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
-    //    @EnvironmentObject var travelDetailStore: TravelDetailStore
     
     @State var travelCalculation: TravelCalculation
     
@@ -308,6 +307,7 @@ struct PaymentManageView: View {
 }
 
 extension PaymentManageView {
+    
     func addPayment() {
         var participants: [Payment.Participant] = []
         
@@ -319,7 +319,10 @@ extension PaymentManageView {
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         
         //
-        paymentStore.addPayment(newPayment: newPayment)
+        Task {
+            await paymentStore.addPayment(newPayment: newPayment)
+            settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
+        }
     }
     
     func mainAddPayment() {
@@ -337,7 +340,10 @@ extension PaymentManageView {
     func editPayment() {
         if let payment = payment {
             let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
-            paymentStore.editPayment(payment: newPayment)
+            Task {
+                await paymentStore.editPayment(payment: newPayment)
+                settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
+            }
         }
     }
 }
