@@ -35,7 +35,17 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
-                Text("내역")
+                // TODO: 새로운 변경사항
+//                if travelDetailStore.isChangedTravel {
+//                    Button {
+//                        Task {
+//                            await paymentStore.fetchAll()
+//                        }
+//                    } label: {
+//                        Text("새로운 변경사항!!")
+//                    }
+//
+//                }
                 PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
             }
             else if selection == "지도" {
@@ -153,7 +163,6 @@ struct DetailMainView: View {
                 if selectedDate == 0 {
                     Text("전체")
                         .font(.body01)
-                        
                         .foregroundStyle(.black)
                     Image("expand_more")
                         .resizable()
@@ -168,8 +177,10 @@ struct DetailMainView: View {
                         .font(.body03)
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
                 }
             }
             .padding(.leading, 16)
@@ -188,3 +199,8 @@ struct DetailMainView: View {
         
     }
 }
+
+//#Preview {
+//    let travel = TravelCalculation(hostId: "", travelTitle: "서울 여행", managerId: "", startDate: <#T##Double#>, endDate: <#T##Double#>, updateContentDate: <#T##Double#>, members: <#T##[TravelCalculation.Member]#>)
+//    DetailMainView(paymentStore: PaymentStore(travel: <#T##TravelCalculation#>), travelDetailStore: TravelDetailStore(travel: <#T##TravelCalculation#>))
+//}

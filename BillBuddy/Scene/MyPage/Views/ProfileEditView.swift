@@ -11,6 +11,7 @@ struct ProfileEditView: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var userService: UserService
+    @EnvironmentObject private var myPageStore: MyPageStore
     
     @State private var tempPhoneNum: String = ""
     @State private var phoneNumLabel: String = ""
@@ -21,6 +22,8 @@ struct ProfileEditView: View {
     @State private var tempBankAccountNum: String = ""
     @State private var bankAccountNumLabel: String = ""
     
+    @State private var isShowingAlert = false
+    
     @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
@@ -30,26 +33,31 @@ struct ProfileEditView: View {
                 Spacer().frame(height: 8)
                 Group {
                     HStack {
-                        Text("계좌 정보")
+                        Text("은행 정보")
                             .font(.body02)
                         Spacer()
                         TextField(text: $tempBankName) {
-                            Text(bankNameLabel == "" ? "은행" : bankNameLabel)
+                            Text(bankNameLabel == "" ? "등록 은행 없음" : bankNameLabel)
                                 .foregroundColor(Color.gray600)
                                 .focused($isKeyboardUp)
                         }
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
+                    }
+                    .padding(16)
+                    
+                    HStack {
+                        Text("계좌 정보")
+                            .font(.body02)
+                        Spacer()
                         TextField(text: $tempBankAccountNum) {
                             Text(bankAccountNumLabel == "" ? "등록 계좌 없음" : bankAccountNumLabel)
                                 .foregroundColor(Color.gray600)
                                 .focused($isKeyboardUp)
                         }
-                        .frame(width: 80)
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
                     }
-                    .font(.body04)
                     .padding(16)
                     
                     HStack {
@@ -93,27 +101,31 @@ struct ProfileEditView: View {
                 Spacer()
                 
                 Button(action: {
-                    
-                    if tempPhoneNum != "" {
-                        userService.currentUser?.phoneNum = tempPhoneNum
-                    }
-                    if tempEmail != "" {
-                        userService.currentUser?.email = tempEmail
-                    }
-                    if tempBankName != "" {
-                        userService.currentUser?.bankName = tempBankName
-                    }
-                    if tempBankAccountNum != "" {
-                        userService.currentUser?.bankAccountNum = tempBankAccountNum
-                    }
-                    Task {
-                        do {
-                            try await userService.updateUser()
-                        } catch {
-                            print("업데이트 실패")
+                    if myPageStore.isValidBankName(tempBankName) && myPageStore.isValidAccountNumber(tempBankAccountNum) && myPageStore.isValidPhoneNumber(tempPhoneNum) && myPageStore.isValidEmail(tempEmail) {
+                        
+                        if tempPhoneNum != "" {
+                            userService.currentUser?.phoneNum = tempPhoneNum
                         }
+                        if tempEmail != "" {
+                            userService.currentUser?.email = tempEmail
+                        }
+                        if tempBankName != "" {
+                            userService.currentUser?.bankName = tempBankName
+                        }
+                        if tempBankAccountNum != "" {
+                            userService.currentUser?.bankAccountNum = tempBankAccountNum
+                        }
+                        Task {
+                            do {
+                                try await userService.updateUser()
+                            } catch {
+                                print("업데이트 실패")
+                            }
+                        }
+                        dismiss()
+                    } else {
+                        isShowingAlert = true
                     }
-                    dismiss()
                 }, label: {
                     Text("수정 완료")
                         .font(.title05)
@@ -121,6 +133,13 @@ struct ProfileEditView: View {
                 .frame(maxWidth: .infinity, maxHeight: 83)
                 .background(Color.myPrimary)
                 .foregroundColor(.white)
+                .alert("수정 실패", isPresented: $isShowingAlert) {
+                    Button("확인") {
+                        dismiss()
+                    }
+                } message: {
+                    Text("입력된 정보가 양식에 맞지 않습니다.")
+                }
             }
         }
         .onTapGesture {
