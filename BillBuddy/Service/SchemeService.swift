@@ -85,7 +85,8 @@ final class SchemeService: ObservableObject {
                     return
                 }
                 var member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
-                if let index = travel.members.firstIndex(where: { $0.id == memberId }) {
+                if let index = travel.members.firstIndex(where: { $0.id == memberId }),
+                   travel.members[index].userId == nil {
                     member = travel.members[index]
                 }
                 member.userId = AuthStore.shared.userUid
