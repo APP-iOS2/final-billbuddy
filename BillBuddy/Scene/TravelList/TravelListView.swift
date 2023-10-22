@@ -12,6 +12,7 @@ struct TravelListView: View {
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
+    @EnvironmentObject private var userService: UserService
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -33,12 +34,16 @@ struct TravelListView: View {
                 // 리스트간 간격이 너무 넓음
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
-                        NativeAdView(nativeViewModel: nativeAdViewModel)
-                            .frame(height: 94)
-                            .frame(maxWidth: .infinity)
-                            .cornerRadius(12)
-                            .padding(.horizontal, 16)
-                            .padding(.top, 16)
+                        if let isPremium = userService.currentUser?.isPremium {
+                            if !isPremium {
+                                NativeAdView(nativeViewModel: nativeAdViewModel)
+                                    .frame(height: 94)
+                                    .frame(maxWidth: .infinity)
+                                    .cornerRadius(12)
+                                    .padding(.horizontal, 16)
+                                    .padding(.top, 16)
+                            }
+                        }
                         ForEach(createTravelList()) { travel in
                             NavigationLink {
                                 // FIXME: 무한루프 -> 안에 들어가서 생성
@@ -129,8 +134,12 @@ struct TravelListView: View {
             }
         }
         .onAppear {
-            nativeAdViewModel.refreshAd()
             tabBarVisivilyStore.showTabBar()
+            if let isPremium = userService.currentUser?.isPremium {
+                if !isPremium {
+                    nativeAdViewModel.refreshAd()
+                }
+            }
             if !AuthStore.shared.userUid.isEmpty {
                 userTravelStore.fetchTravelCalculation()
                 if notificationStore.didFetched == false {

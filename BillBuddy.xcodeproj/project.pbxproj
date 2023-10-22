@@ -20,7 +20,6 @@
 		2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */; };
 		26E188282AE46E3F0046AF12 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E188272AE46E3F0046AF12 /* NotificationCell.swift */; };
 		26E1882A2AE46E8C0046AF12 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E188292AE46E8C0046AF12 /* PushNotificationManager.swift */; };
-		2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0E62ACD75210002D620 /* AdmobBannerView.swift */; };
 		2717D0F72ACD78390002D620 /* BillBuddyTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */; };
 		2729F3312AD427960089147E /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2729F3302AD427960089147E /* MemberCell.swift */; };
 		273201242ADAF01100AE528B /* MemberEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 273201232ADAF01100AE528B /* MemberEditSheet.swift */; };
@@ -120,6 +119,7 @@
 		FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */; };
 		FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */; };
 		FF635D2B2AD8228C002C0B67 /* MembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D2A2AD8228C002C0B67 /* MembershipView.swift */; };
+		FF6364862AE552B300DDA16D /* BannerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6364852AE552B300DDA16D /* BannerStore.swift */; };
 		FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */; };
 		FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */; };
 /* End PBXBuildFile section */
@@ -141,7 +141,6 @@
 		2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
 		26E188272AE46E3F0046AF12 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		26E188292AE46E8C0046AF12 /* PushNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
-		2717D0E62ACD75210002D620 /* AdmobBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdmobBannerView.swift; sourceTree = "<group>"; };
 		2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BillBuddyTabView.swift; sourceTree = "<group>"; };
 		2717D0FD2ACD7E260002D620 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2729F3302AD427960089147E /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
@@ -233,6 +232,7 @@
 		FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsView.swift; sourceTree = "<group>"; };
 		FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsStore.swift; sourceTree = "<group>"; };
 		FF635D2A2AD8228C002C0B67 /* MembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipView.swift; sourceTree = "<group>"; };
+		FF6364852AE552B300DDA16D /* BannerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerStore.swift; sourceTree = "<group>"; };
 		FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeContentView.swift; sourceTree = "<group>"; };
 		FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -368,7 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				277403DA2AC3B816000537DF /* AdmobView.swift */,
-				2717D0E62ACD75210002D620 /* AdmobBannerView.swift */,
 				FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */,
 				FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */,
 				FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */,
@@ -379,6 +378,7 @@
 		2717D0F92ACD793D0002D620 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				FF6364852AE552B300DDA16D /* BannerStore.swift */,
 			);
 			name = Store;
 			path = Views;
@@ -1006,12 +1006,12 @@
 				FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */,
 				023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */,
 				27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */,
+				FF6364862AE552B300DDA16D /* BannerStore.swift in Sources */,
 				D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */,
 				276648142ABD5583000F8A10 /* AuthService.swift in Sources */,
 				278266492AE2008D00118C21 /* UserNotification.swift in Sources */,
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				273201282ADB09BA00AE528B /* MemberShareSheet.swift in Sources */,
-				2717D0E72ACD75210002D620 /* AdmobBannerView.swift in Sources */,
 				278266472AE2008400118C21 /* NotificationStore.swift in Sources */,
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
