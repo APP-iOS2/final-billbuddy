@@ -28,9 +28,11 @@ struct MemberManagementView: View {
                         .listRowSeparator(.hidden)
                         .font(.body04)
                         .foregroundStyle(Color.gray600)
-                        .padding([.top, .bottom], 12)
+                        .padding(.top, 12)
                     Divider()
                         .listRowSeparator(.hidden)
+                        .padding(.top, 9)
+                        .padding(.bottom, 12)
                 }
                 .listRowSeparator(.hidden)
                 
@@ -51,15 +53,18 @@ struct MemberManagementView: View {
                     )
                 }
                 .listRowSeparator(.hidden)
+                
                 VStack(alignment: .leading, spacing: 0) {
                     
                     Text("더미 인원")
                         .listRowSeparator(.hidden)
                         .font(.body04)
                         .foregroundStyle(Color.gray600)
-                        .padding([.top, .bottom], 12)
+                        .padding(.top, 12)
                     Divider()
                         .listRowSeparator(.hidden)
+                        .padding(.top, 9)
+                        .padding(.bottom, 12)
                 }
                 .listRowSeparator(.hidden)
                 
@@ -86,9 +91,11 @@ struct MemberManagementView: View {
                         .listRowSeparator(.hidden)
                         .font(.body04)
                         .foregroundStyle(Color.gray600)
-                        .padding([.top, .bottom], 12)
+                        .padding(.top, 12)
                     Divider()
                         .listRowSeparator(.hidden)
+                        .padding(.top, 9)
+                        .padding(.bottom, 12)
                 }
                 .listRowSeparator(.hidden)
                 
@@ -124,10 +131,11 @@ struct MemberManagementView: View {
             .background(Color.myPrimary)
             .cornerRadius(12)
             .foregroundColor(.white)
-            .padding(.bottom, 59)
+            .padding(.bottom, 54)
             .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
             
         }
+        .padding(.top, 3)
         .onAppear {
             if sampleMemeberStore.InitializedStore == false {
                 sampleMemeberStore.initStore(travel: self.travel)
@@ -184,7 +192,7 @@ struct MemberManagementView: View {
             // onDismiss
         } content: {
             MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet)
-                .presentationDetents([.medium])
+                .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
         }
     }
