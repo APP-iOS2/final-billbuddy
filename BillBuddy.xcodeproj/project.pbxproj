@@ -48,7 +48,6 @@
 		276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276648472ABD8E19000F8A10 /* ChattingView.swift */; };
 		2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766484A2ABD8E34000F8A10 /* PaymentListView.swift */; };
 		2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2766484D2ABD8E4D000F8A10 /* MyPageView.swift */; };
-		277403DB2AC3B816000537DF /* AdmobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403DA2AC3B816000537DF /* AdmobView.swift */; };
 		277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 277403E02AC3B8CC000537DF /* GoogleMobileAds */; };
 		277403E52AC3E579000537DF /* SignUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E32AC3E579000537DF /* SignUpStore.swift */; };
 		277403E62AC3E579000537DF /* SignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E42AC3E579000537DF /* SignInStore.swift */; };
@@ -120,6 +119,8 @@
 		FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */; };
 		FF635D2B2AD8228C002C0B67 /* MembershipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D2A2AD8228C002C0B67 /* MembershipView.swift */; };
 		FF6364862AE552B300DDA16D /* BannerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6364852AE552B300DDA16D /* BannerStore.swift */; };
+		FF63648F2AE6257400DDA16D /* AdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF63648E2AE6257400DDA16D /* AdView.xib */; };
+		FF6364912AE6257D00DDA16D /* AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6364902AE6257D00DDA16D /* AdView.swift */; };
 		FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */; };
 		FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */; };
 /* End PBXBuildFile section */
@@ -164,7 +165,6 @@
 		276648472ABD8E19000F8A10 /* ChattingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingView.swift; sourceTree = "<group>"; };
 		2766484A2ABD8E34000F8A10 /* PaymentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentListView.swift; sourceTree = "<group>"; };
 		2766484D2ABD8E4D000F8A10 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
-		277403DA2AC3B816000537DF /* AdmobView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdmobView.swift; sourceTree = "<group>"; };
 		277403E32AC3E579000537DF /* SignUpStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStore.swift; sourceTree = "<group>"; };
 		277403E42AC3E579000537DF /* SignInStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInStore.swift; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
@@ -234,6 +234,8 @@
 		FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsStore.swift; sourceTree = "<group>"; };
 		FF635D2A2AD8228C002C0B67 /* MembershipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipView.swift; sourceTree = "<group>"; };
 		FF6364852AE552B300DDA16D /* BannerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerStore.swift; sourceTree = "<group>"; };
+		FF63648E2AE6257400DDA16D /* AdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AdView.xib; sourceTree = "<group>"; };
+		FF6364902AE6257D00DDA16D /* AdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdView.swift; sourceTree = "<group>"; };
 		FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeContentView.swift; sourceTree = "<group>"; };
 		FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -368,10 +370,11 @@
 		2717D0F52ACD77E20002D620 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				277403DA2AC3B816000537DF /* AdmobView.swift */,
 				FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */,
 				FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */,
 				FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */,
+				FF63648E2AE6257400DDA16D /* AdView.xib */,
+				FF6364902AE6257D00DDA16D /* AdView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -909,6 +912,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
@@ -961,6 +965,7 @@
 				278CC7342ADF2E2D004CAABA /* DeepLinkView.swift in Sources */,
 				278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */,
 				46C09CD32AE1C65D001E34E6 /* ChattingMenuView.swift in Sources */,
+				FF6364912AE6257D00DDA16D /* AdView.swift in Sources */,
 				636CE5FF2AC3BA1E00BF7730 /* Line.swift in Sources */,
 				023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */,
 				277403E52AC3E579000537DF /* SignUpStore.swift in Sources */,
@@ -969,7 +974,6 @@
 				FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */,
 				D2A8B6E02ADE481800A469D7 /* AgreementCheckButton.swift in Sources */,
 				023EF9242ACC0334005C3F30 /* UserTravelStore.swift in Sources */,
-				277403DB2AC3B816000537DF /* AdmobView.swift in Sources */,
 				C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */,
 				63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */,
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,

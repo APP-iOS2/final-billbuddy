@@ -38,7 +38,7 @@ struct BillBuddyTabView: View {
             }
             
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
@@ -68,7 +68,7 @@ struct BillBuddyTabView: View {
                 Text("채팅")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
@@ -97,7 +97,7 @@ struct BillBuddyTabView: View {
                 Text("마이페이지")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {

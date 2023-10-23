@@ -19,6 +19,7 @@ struct ContentView: View {
     @StateObject private var notificationStore = NotificationStore()
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
+    @StateObject private var adViewModel = AdViewModel()
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
@@ -36,6 +37,7 @@ struct ContentView: View {
                         .environmentObject(schemeServie)
                         .environmentObject(nativeViewModel)
                         .environmentObject(myPageStore)
+                        .environmentObject(adViewModel)
                 } else {
                     NavigationStack {
                         DeepLinkView()
@@ -50,6 +52,7 @@ struct ContentView: View {
                             .environmentObject(schemeServie)
                             .environmentObject(nativeViewModel)
                             .environmentObject(myPageStore)
+                            .environmentObject(adViewModel)
                     }
                 }
             }
