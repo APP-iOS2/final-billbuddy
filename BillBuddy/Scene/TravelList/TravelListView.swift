@@ -17,7 +17,7 @@ struct TravelListView: View {
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
-    @State private var isAddingTravel = false
+//    @State private var isAddingTravel = false
     @Namespace var animation
     
     
@@ -30,28 +30,7 @@ struct TravelListView: View {
                     Spacer()
                 }
                 .padding(.leading, 16)
-                
-                // 리스트간 간격이 너무 넓음
-
-//                if createTravelList().isEmpty {
-//                    
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.gray1000)
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: 94)
-//                            .padding(.horizontal, 16)
-//                            
-//                        
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.gray1000)
-//                            .padding(.top, 16)
-//                            .frame(maxWidth: .infinity)
-//                            .frame(height: 94)
-//                            .padding(.horizontal, 16)
-//                    
-//                    
-//                } else {
-                   
+               
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         if let isPremium = userService.currentUser?.isPremium {
@@ -239,6 +218,7 @@ extension TravelListView {
             }
         }
     }
+    
     var progressView: some View {
         VStack(spacing: 0) {
             ForEach(0..<userTravelStore.travelCount) { _ in

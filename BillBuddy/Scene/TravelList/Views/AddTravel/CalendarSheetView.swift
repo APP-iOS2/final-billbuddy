@@ -15,7 +15,6 @@ struct CalendarSheetView: View {
     @Binding var isShowingCalendarView: Bool
     
     var body: some View {
-        // 달력부분 글씨가 너무 작음
         VStack(spacing: 8) {
             HStack {
                 Button(action: {
@@ -177,16 +176,17 @@ struct CalendarSheetView: View {
             return
         }
         
-        // 날짜가 자꾸 하루 전날로 출력됨. 임시 방지
-        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .day, value: 1, to: firstDate)!
-        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .day, value: 1, to: secondDate)!
+//        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: firstDate)!
+//        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: secondDate)!
         
-        startDate = adjustedFirstDate
-        endDate = adjustedSecondDate
+        startDate = firstDate
+        endDate = secondDate
+//        startDate = adjustedFirstDate
+//        endDate = adjustedSecondDate
         
         isShowingCalendarView = false
-        print("시작일: \(adjustedFirstDate)")
-        print("종료일: \(adjustedSecondDate)")
+        print("시작일: \(firstDate)")
+        print("종료일: \(secondDate)")
         
     }
 }

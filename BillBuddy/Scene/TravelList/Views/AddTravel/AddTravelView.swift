@@ -59,8 +59,12 @@ struct AddTravelView: View {
                                     isShowingCalendarView.toggle()
                                 }) {
                                     
+                                    // CalendarSheetView의 firstDate와 endDate가 시차때문에 하루 전날로 표시돼서 
                                     if startDate <= endDate {
-                                        Text("\(startDate.toFormattedMonthandDay()) - \(endDate.toFormattedMonthandDay())")
+                                        let nineHoursInSeconds: TimeInterval = 9 * 60 * 60
+                                        let adjustedStartDate = startDate.addingTimeInterval(nineHoursInSeconds)
+                                        let adjustedEndDate = endDate.addingTimeInterval(nineHoursInSeconds)
+                                        Text("\(adjustedStartDate.toFormattedMonthandDay()) - \(adjustedEndDate.toFormattedMonthandDay())")
                                             .font(.body04)
                                             .frame(width: 110, height: 30)
                                             .shadow(color: Color.clear, radius: 0)

@@ -79,8 +79,8 @@ struct AddTravelButtonView: View {
                         .animation(nil, value: UUID())
                     
                 }
-                
                 .padding(.trailing, 12)
+                
             } //MARK: HSTACK
             
         } //MARK: VSTACK
