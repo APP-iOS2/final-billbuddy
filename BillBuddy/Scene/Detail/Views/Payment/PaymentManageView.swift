@@ -198,6 +198,7 @@ struct PaymentManageView: View {
             case .edit:
                 HStack {
                     AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
+                    Spacer()
                 }
             case .mainAdd:
                 AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)

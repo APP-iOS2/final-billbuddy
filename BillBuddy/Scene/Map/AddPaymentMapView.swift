@@ -29,7 +29,6 @@ struct AddPaymentMapView: View {
                         Text("\(locationManager.selectedAddress)")
                     }
                 }
-                Spacer()
                 if isShowingMapView == false {
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
@@ -52,16 +51,6 @@ struct AddPaymentMapView: View {
                                     })
                                     .padding()
                                     .focused($isKeyboardUp)
-                                Button(action: {
-                                    locationManager.searchAddress(searchAddress: searchAddress)
-//                                    locationManager.selectedAddress = searchAddress
-                                    isShowingAddress = true
-                                    
-                                }, label: {
-                                    Image(systemName: "magnifyingglass")
-                                        .font(.title2)
-                                })
-                                .padding()
                                 }
                             }
                     }
@@ -71,6 +60,7 @@ struct AddPaymentMapView: View {
                         .frame(width: 329, height: 170)
                         .cornerRadius(12)
                 }
+                Spacer()
             }
             .padding()
             
@@ -95,10 +85,12 @@ struct AddPaymentMapView: View {
                 }
                 .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height / 3))
                 
-                Image("DBPin")
+                Image(systemName: "mappin")
                     .resizable()
-                    .position(CGPoint(x: geometry.size.width / 2 + 7, y: locationManager.isChaging ? (geometry.size.height / 2) : (geometry.size.height / 2 - 5)))
-                    .frame(width: 50, height: 50, alignment: .center)
+                    .position(CGPoint(x: geometry.size.width / 2, y: locationManager.isChaging ? (geometry.size.height / 1.6 - 5) : (geometry.size.height / 1.6)))
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 24, alignment: .center)
+                    .foregroundStyle(Color.myPrimary)
             }
         }
         .frame(height: isShowingMapView ? 248 : 120)
