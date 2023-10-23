@@ -16,10 +16,10 @@ struct EditPaymentMapView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 16) {
                 HStack {
                     Text("위치")
-                        .bold()
+                        .font(.body02)
                     Spacer()
                     if isShowingAddress {
                         Text("입력된 주소 : \(locationManager.selectedAddress)")
