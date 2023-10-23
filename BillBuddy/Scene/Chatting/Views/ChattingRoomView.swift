@@ -11,6 +11,7 @@ import PhotosUI
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
@@ -232,7 +233,8 @@ struct ChattingRoomView: View {
                         .foregroundColor(.gray600)
                 }
                 Button {
-                    PushNotificationManager.sendPushNotification(forNotificationType: .chatting)
+                    PushNotificationManager.sendPushNotification(title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.")
+                    NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                     sendChat()
                     selectedPhoto = nil
                     imageData?.removeAll()
@@ -287,5 +289,6 @@ struct ChattingRoomView: View {
         ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
