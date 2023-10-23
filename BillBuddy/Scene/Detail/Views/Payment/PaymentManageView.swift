@@ -29,6 +29,7 @@ struct PaymentManageView: View {
     @EnvironmentObject private var notificationStore: NotificationStore
     
     @State var travelCalculation: TravelCalculation
+    @Binding var isUpdated: Bool
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -292,23 +293,16 @@ struct PaymentManageView: View {
                 case .add:
                     return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         addPayment()
-                        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
-                        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-                        
                         dismiss()
                     }))
                 case .mainAdd:
                     return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         mainAddPayment()
-                        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
-                        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-                        
                         dismiss()
                     }))
                 case .edit:
                     return Alert(title: Text("수정하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         editPayment()
-                        // TODO: 수정 시에도 알림?
                         dismiss()
                     }))
                 }
@@ -321,6 +315,7 @@ struct PaymentManageView: View {
 extension PaymentManageView {
     
     func addPayment() {
+        paymentStore.updateContentDate = Date.now.timeIntervalSince1970
         var participants: [Payment.Participant] = []
         
         for m in members {
@@ -335,9 +330,15 @@ extension PaymentManageView {
             await paymentStore.addPayment(newPayment: newPayment)
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
         }
+        
+        isUpdated = true
+        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
+
     }
     
     func mainAddPayment() {
+        paymentStore.updateContentDate = Date.now.timeIntervalSince1970
         var participants: [Payment.Participant] = []
         
         for m in members {
@@ -347,15 +348,20 @@ extension PaymentManageView {
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
+        
+        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
     }
     
     func editPayment() {
         if let payment = payment {
+            paymentStore.updateContentDate = Date.now.timeIntervalSince1970
             let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
             Task {
                 await paymentStore.editPayment(payment: newPayment)
                 settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
             }
+            isUpdated = true
         }
     }
 }
