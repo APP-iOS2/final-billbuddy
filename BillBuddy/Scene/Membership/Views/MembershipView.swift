@@ -52,7 +52,7 @@ struct MembershipView: View {
                             Rectangle()
                                 .fill(Color.white)
                                 .frame(height: 60)
-                                .frame(width: .infinity)
+                                .frame(maxWidth: .infinity)
                             VStack(alignment: .leading) {
                                 HStack {
                                     Image(systemName: "checkmark.circle")
@@ -190,5 +190,6 @@ struct MembershipView: View {
 #Preview {
     NavigationStack {
         MembershipView()
+            .environmentObject(UserService.shared)
     }
 }
