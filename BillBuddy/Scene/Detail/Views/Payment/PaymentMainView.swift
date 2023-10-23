@@ -23,7 +23,7 @@ struct PaymentMainView: View {
         VStack(spacing: 0) {
             header
             paymentList
-            Spacer()
+            addPaymentButton
         }
     }
     
@@ -35,16 +35,19 @@ struct PaymentMainView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 4, content: {
                         HStack(spacing: 0) {
-                            NavigationLink {
-                                SpendingListView()
-                            } label: {
-                                Text("총 지출")
-                                    .font(.body04)
-                                    .foregroundStyle(Color.gray600)
-                                Image("chevron_right")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                            }
+                            Text("총 지출")
+                                .font(.body04)
+                                .foregroundStyle(Color.gray600)
+//                            NavigationLink {
+//                                SpendingListView()
+//                            } label: {
+//                                Text("총 지출")
+//                                    .font(.body04)
+//                                    .foregroundStyle(Color.gray600)
+//                                Image("chevron_right")
+//                                    .resizable()
+//                                    .frame(width: 24, height: 24)
+//                            }
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
@@ -84,8 +87,56 @@ struct PaymentMainView: View {
         }
     }
     
+    var addPaymentButton: some View {
+        NavigationLink {
+            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
+                .environmentObject(paymentStore)
+        } label: {
+            HStack(spacing: 12) {
+                Spacer()
+                Image("add payment")
+                    .resizable()
+                    .frame(width: 28, height: 28)
+                
+                Text("지출 내역 추가")
+                    .font(.body04)
+                    .foregroundStyle(Color.gray600)
+                
+                Spacer()
+            }
+            .padding(.top, 12)
+            .padding(.bottom, 12)
+        }
+        
+        
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray100, lineWidth: 1)
+            
+        }
+        .padding(.leading, 16)
+        .padding(.trailing, 16)
+    }
+    
     var paymentList: some View {
         VStack(spacing: 0) {
+            if paymentStore.isFetchingList {
+                HStack {
+                    Spacer()
+                    ProgressView()
+                        .padding(.top, 59)
+                    Spacer()
+                }
+            } else if paymentStore.payments.isEmpty {
+                HStack {
+                    Spacer()
+                    Text("지출을 추가해주세요")
+                        .foregroundStyle(Color.gray600)
+                        .font(.body02)
+                        .padding(.top, 30)
+                    Spacer()
+                }
+            }
             List {
                 PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
@@ -94,35 +145,6 @@ struct PaymentMainView: View {
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            
-            NavigationLink {
-                PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
-                    .environmentObject(paymentStore)
-            } label: {
-                HStack(spacing: 12) {
-                    Spacer()
-                    Image("add payment")
-                        .resizable()
-                        .frame(width: 28, height: 28)
-                    
-                    Text("지출 내역 추가")
-                        .font(.body04)
-                        .foregroundStyle(Color.gray600)
-                    
-                    Spacer()
-                }
-                .padding(.top, 12)
-                .padding(.bottom, 12)
-            }
-            
-            
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray100, lineWidth: 1)
-                
-            }
-            .padding(.leading, 16)
-            .padding(.trailing, 16)
         }
     }
     
@@ -199,4 +221,4 @@ struct PaymentMainView: View {
     }
     
     
-    }
+}

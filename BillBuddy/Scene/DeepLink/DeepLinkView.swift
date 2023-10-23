@@ -19,29 +19,40 @@ struct DeepLinkView: View {
                     }
                     .foregroundStyle(Color.myPrimary)
                     .ignoresSafeArea(.all)
+                   
             } else {
+                
                 switch schemeServie.componentedUrl?.host {
                 case .chatting:
                     ChattingRoomView(travel: schemeServie.travel)
-                case .travel:
+
+                    Text("View - chatting").onAppear { print("-> appear")}
+                case .travel, .invite:
+
                     DetailMainView(paymentStore: PaymentStore(travel: schemeServie.travel), travelDetailStore: TravelDetailStore(travel: schemeServie.travel))
                 case .notice:
                     Text("View - notice").onAppear { print("-> appear")}
-                case .invite:
-                    DetailMainView(paymentStore: PaymentStore(travel: schemeServie.travel), travelDetailStore: TravelDetailStore(travel: schemeServie.travel))
-                case nil:
+                default:
                     Text("View - nil").onAppear { print("-> appear")}
                 }
-               
-            }
-        }
-        .onAppear {
-            if schemeServie.componentedUrl != nil {
-                schemeServie.joinAndFetchTravel()
             }
         }
     }
+    
+
 }
+//
+//struct URLHostView: View {
+//    @EnvironmentObject var schemeServie: SchemeService
+//    
+//    var body: some View {
+//        if schemeServie.isLoading {
+//            EmptyView()
+//        } else {
+//            
+//        }
+//    }
+//}
 
 #Preview {
     DeepLinkView()

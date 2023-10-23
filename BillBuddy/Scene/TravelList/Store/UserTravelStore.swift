@@ -11,16 +11,19 @@ import FirebaseFirestoreSwift
 final class UserTravelStore: ObservableObject {
     @Published var userTravels: [UserTravel] = []
     @Published var travels: [TravelCalculation] = []
+    @Published var isFetching: Bool = false
     private let service = Firestore.firestore()
+    
+    var travelCount: Int {
+        travels.isEmpty ? 2 : travels.count
+    }
     
     @MainActor
     func fetchTravelCalculation() {
-        userTravels.removeAll()
-        travels.removeAll()
-        
         let userId = AuthStore.shared.userUid
         
         Task {
+            self.isFetching = true
             do {
                 let snapshot = try await
                 self.service.collection("User").document (userId).collection("UserTravel").getDocuments()
@@ -37,7 +40,12 @@ final class UserTravelStore: ObservableObject {
                         print(error)
                     }
                 }
+                userTravels.removeAll()
+                travels.removeAll()
+                
                 self.travels = newTravels
+                self.isFetching = false
+
             } catch {
                 print ("Failed fetch travel list: \(error)")
             }
@@ -67,8 +75,8 @@ final class UserTravelStore: ObservableObject {
             hostId: userId,
             travelTitle: title,
             managerId: userId,
-            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
-            endDate: endDate.timeIntervalSince1970.timeTo11_59_59(),
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00().convertGMT(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59().convertGMT(),
             updateContentDate: 0,
             isPaymentSettled: false,
             members: tempMembers
@@ -114,7 +122,7 @@ final class UserTravelStore: ObservableObject {
     func goOutTravel(travel: TravelCalculation) {
         let userId = AuthStore.shared.userUid
         let travelId = travel.id
-        guard let travelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId}) else { return }
+        guard let travelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId }) else { return }
         let userTravel = userTravels[travelArrayIndex]
         let members = travel.members.filter { $0.userId != userId }
         

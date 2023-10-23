@@ -11,6 +11,9 @@ import SwiftUI
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
     @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+
+    @State private var isShowingDeletePayment: Bool = false
     
     var body: some View {
         
@@ -27,7 +30,7 @@ struct PaymentListView: View {
                     HStack(spacing: 4) {
                         // MARK: Rendering 이미지가 전체를 뒤엎음
                         if payment.participants.count == 1 {
-                            Image("user-single-neutral-male-4")
+                            Image(.singleUser)
                                 .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 18, height: 18)
@@ -35,7 +38,7 @@ struct PaymentListView: View {
                             
                         }
                         else if payment.participants.count > 1 {
-                            Image("user-single-neutral-male-4-1")
+                            Image(.groupUser)
                                 .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 18, height: 18)
@@ -71,12 +74,25 @@ struct PaymentListView: View {
             .padding(.leading, 16)
             .padding(.trailing, 24)
             .swipeActions {
+                // FIXME: 해당 data가 아닌 제일 마지막 payment 삭제
                 Button(role: .destructive) {
-                    paymentStore.deletePayment(payment: payment)
+                    Task {
+                        await paymentStore.deletePayment(payment: payment)
+                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                    }
+//                    isShowingDeletePayment = true
                 } label: {
                     Text("삭제")
                 }
                 .frame(width: 88)
+                .buttonStyle(.plain)
+                .alert(isPresented: $isShowingDeletePayment) {
+                    return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                        Task {
+                            await paymentStore.deletePayment(payment: payment)
+                        }
+                    }), secondaryButton: .cancel(Text("아니오")))
+                }
                 
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
@@ -87,6 +103,7 @@ struct PaymentListView: View {
                 .frame(width: 88)
                 .background(Color.gray500)
             }
+            
         }
         .listRowInsets(nil)
         

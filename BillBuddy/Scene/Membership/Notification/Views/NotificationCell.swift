@@ -11,30 +11,43 @@ struct NotificationCell: View {
     var notification: UserNotification
     
     var body: some View {
-        HStack(spacing: 12) {
-            getImage(for: notification.type, isRead: notification.isChecked)
-                .frame(width: 40, height: 40)
-                .padding(.trailing, 12)
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(getTitle(for: notification.type))
+        Button {
+            switch notification.type {
+            case .chatting:
+                print("NotificationCell - chatting")
+            case .travel, .invite:
+                SchemeService.shared.getInviteNoti(notification)
+            case .notice:
+                print("NotificationCell - notice")
+            }
+        } label: {
+            HStack(spacing: 12) {
+                getImage(for: notification.type, isRead: notification.isChecked)
+                    .frame(width: 40, height: 40)
+                    .padding(.trailing, 12)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(getTitle(for: notification.type))
+                        .font(.caption)
+                        .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
+                    
+                    Text(notification.content)
+                        .font(.body)
+                        .foregroundColor(notification.isChecked ? Color(hex: "A8A9AC") : Color.black)
+                }
+                
+                Spacer()
+                
+                Text(getRelativeTime(notification.addDate))
                     .font(.caption)
                     .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
-                
-                Text(notification.content)
-                    .font(.body)
-                    .foregroundColor(notification.isChecked ? Color(hex: "A8A9AC") : Color.black)
+                    .padding(.top, -20)
             }
-            
-            Spacer()
-            
-            Text(getRelativeTime(notification.addDate))
-                .font(.caption)
-                .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
-                .padding(.top, -20)
+            .frame(height: 80)
+            .padding(.horizontal, 16)
+
         }
-        .frame(height: 80)
-        .padding(.horizontal, 16)
+
     }
     
     private func getImage(for type: NotiType, isRead: Bool) -> Image {

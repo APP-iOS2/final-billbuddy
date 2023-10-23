@@ -11,6 +11,7 @@ import FirebaseFirestore
 final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     @Published var filteredPayments: [Payment] = []
+    @Published var isFetchingList: Bool = false
     
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
@@ -30,8 +31,9 @@ final class PaymentStore: ObservableObject {
         sumAllPayment = 0
         
         do {
+            self.isFetchingList = true
             var tempPayment: [Payment] = []
-            let snapshot = try await dbRef.getDocuments()
+            let snapshot = try await dbRef.order(by: "paymentDate").getDocuments()
             for document in snapshot.documents {
                 let newPayment = try document.data(as: Payment.self)
                 tempPayment.append(newPayment)
@@ -39,7 +41,7 @@ final class PaymentStore: ObservableObject {
             
             self.payments = tempPayment
             self.filteredPayments = tempPayment
-            
+            self.isFetchingList = false
         } catch {
             print("payment fetch false \(error)")
         }
@@ -68,21 +70,21 @@ final class PaymentStore: ObservableObject {
         })
     }
     
-    func addPayment(newPayment: Payment) {
+    func addPayment(newPayment: Payment) async {
         try! dbRef.addDocument(from: newPayment.self)
-        Task {
-            await fetchAll()
-        }
+        await saveUpdateDate()
+        await fetchAll()
     }
     
-    func editPayment(payment: Payment) {
+    func editPayment(payment: Payment) async {
         if let id = payment.id {
             try? dbRef.document(id).setData(from: payment)
             
-            Task {
-                //FIXME: fetchAll -> fetch 안하도록 ..
-                await fetchAll()
-            }
+
+            //FIXME: fetchAll -> fetch 안하도록 ..
+            await saveUpdateDate()
+            await fetchAll()
+            
             
 //            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
 //                payments[index] = payment
@@ -90,18 +92,33 @@ final class PaymentStore: ObservableObject {
         }
     }
     
-    func deletePayment(payment: Payment) {
+    func deletePayment(payment: Payment) async {
         if let id = payment.id {
-            dbRef.document(id).delete()
-            
-            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                payments.remove(at: index)
-            }
-            
-            Task {
+            do {
+                try await dbRef.document(id).delete()
+                
+                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                    payments.remove(at: index)
+                }
+                
+                await saveUpdateDate()
                 //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
                 await fetchAll()
+            } catch {
+                print("delete payment false")
             }
         }
+    }
+    
+    func saveUpdateDate() async {
+        do {
+            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970])
+        } catch {
+            print("save date false")
+        }
+        // TravelCaluration UpdateDate최신화
+        // - save
+        // - edit
+        // - detele
     }
 }

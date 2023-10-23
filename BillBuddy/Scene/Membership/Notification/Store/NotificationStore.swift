@@ -50,7 +50,9 @@ final class NotificationStore: ObservableObject {
                     thumpNotis.append(noti)
                 }
                 thumpNotis.sort(by: { $0.addDate > $1.addDate })
-                notifications = thumpNotis
+                DispatchQueue.main.async {
+                    self.notifications = thumpNotis
+                }
             } catch {
                 print("fetch false notifications - \(error)")
             }
@@ -89,7 +91,9 @@ final class NotificationStore: ObservableObject {
         if notifications[index].isChecked == false {
             guard let dbRef = dbRef else { return }
             dbRef.document(notiId).setData(["isChecked": true])
-            notifications[index].isChecked = true
+            DispatchQueue.main.async {
+                self.notifications[index].isChecked = true
+            }
         }
     }
 }

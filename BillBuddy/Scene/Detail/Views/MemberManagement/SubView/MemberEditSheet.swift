@@ -16,7 +16,7 @@ struct MemberEditSheet: View {
     @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 0) {
             RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(Color.gray050, lineWidth: 1)
                 .frame(width: 329, height: 52)
@@ -90,7 +90,7 @@ struct MemberEditSheet: View {
             .background(Color.myPrimary)
             .cornerRadius(12)
             .foregroundColor(.white)
-            .padding(.bottom, 59)
+            .padding(.bottom, 54)
         }
         .onTapGesture {
             isKeyboardUp = false
