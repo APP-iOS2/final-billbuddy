@@ -29,7 +29,6 @@ struct AddPaymentMapView: View {
                         Text("\(locationManager.selectedAddress)")
                     }
                 }
-                Spacer()
                 if isShowingMapView == false {
                     HStack {
                         RoundedRectangle(cornerRadius: 12)
