@@ -11,6 +11,7 @@ import UIKit
 struct BillBuddyTabView: View {
     @State private var selectedTab = 0
     @State private var isShowingAdScreen: Bool = false
+
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
     @EnvironmentObject private var userService: UserService
     
@@ -38,7 +39,7 @@ struct BillBuddyTabView: View {
             }
             
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
@@ -68,7 +69,7 @@ struct BillBuddyTabView: View {
                 Text("채팅")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {
@@ -97,7 +98,7 @@ struct BillBuddyTabView: View {
                 Text("마이페이지")
             }
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                NativeContentView(isShowingAdScreen: $isShowingAdScreen)
+                AdContentView(isShowingAdScreen: $isShowingAdScreen)
             })
             .onAppear {
                 if let isPremium = userService.currentUser?.isPremium {

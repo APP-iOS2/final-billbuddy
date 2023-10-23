@@ -25,7 +25,7 @@ final class SettlementExpensesStore: ObservableObject {
         for payment in payments {
             var personaPayment = 0
             if !payment.participants.isEmpty {
-                personaPayment = settlementExpenses.totalExpenditure / payment.participants.count
+                personaPayment = payment.payment / payment.participants.count
             }
             for participant in payment.participants {
                 let index = members.firstIndex(where: { $0.id == participant.memberId } )

@@ -25,14 +25,15 @@ struct MapSubView: View {
                 } label: {
                     Circle()
                         .fill(Color.white)
-                        .frame(width: 45, height: 45)
+                        .frame(width: 40, height: 40)
                         .shadow(radius: 2, y: 1)
                         .overlay {
-                            Image(systemName: "scope")
-                                .renderingMode(.template)
+                            Image("my_location")
+                                .resizable()
+                                .frame(width: 24, height: 24)
                         }
                 }
-                .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height - 70))
+                .offset(CGSize(width: geometry.size.width - 65, height: geometry.size.height - 65))
             }
         }
         .onChange(of: selectedDate, perform: { date in
