@@ -16,9 +16,8 @@ struct MapMainView: View {
     var body: some View {
         ScrollView {
             MapSubView(locationManager: locationManager, paymentStore: paymentStore, selectedDate: $selectedDate)
-                .frame(height: 400)
+                .frame(height: 230)
             MapDetailView(paymentStore: paymentStore)
-            Spacer()
         }
     }
 }
