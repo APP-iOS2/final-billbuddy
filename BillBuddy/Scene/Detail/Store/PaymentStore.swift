@@ -44,9 +44,11 @@ final class PaymentStore: ObservableObject {
                 tempPayment.append(newPayment)
             }
             
-            self.payments = tempPayment
-            self.filteredPayments = tempPayment
-            self.isFetchingList = false
+            DispatchQueue.main.async {
+                self.payments = tempPayment
+                self.filteredPayments = tempPayment
+                self.isFetchingList = false
+            }
         } catch {
             print("payment fetch false \(error)")
         }
@@ -85,39 +87,45 @@ final class PaymentStore: ObservableObject {
         if let id = payment.id {
             self.isFetchingList = true
             try? dbRef.document(id).setData(from: payment)
-            
             await saveUpdateDate()
-            
-            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                payments[index] = payment
+            DispatchQueue.main.sync {
+                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                    DispatchQueue.main.async {
+                        self.payments[index] = payment
+                    }
+                }
+                
+                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                    DispatchQueue.main.async {
+                        self.filteredPayments[index] = payment
+                    }
+                }
             }
-            if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
-                filteredPayments[index] = payment
-            }
-            
             self.isFetchingList = false
         }
     }
     
     func deletePayment(payment: Payment) async {
         if let id = payment.id {
+            self.isFetchingList = true
             do {
-                self.isFetchingList = true
                 try await dbRef.document(id).delete()
-                
-                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                    payments.remove(at: index)
-                }
-                
-                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
-                    filteredPayments.remove(at: index)
+                DispatchQueue.main.sync{
+                    if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                        payments.remove(at: index)
+                    }
+                    
+                    if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                        filteredPayments.remove(at: index)
+                    }
                 }
                 
                 await saveUpdateDate()
-                self.isFetchingList = false
+                
             } catch {
                 print("delete payment false")
             }
+            self.isFetchingList = false
         }
     }
     

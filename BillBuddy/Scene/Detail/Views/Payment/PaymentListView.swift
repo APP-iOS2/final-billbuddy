@@ -15,7 +15,6 @@ struct PaymentListView: View {
 
     @State private var isShowingDeletePayment: Bool = false
     
-    
     var body: some View {
         
         ForEach(paymentStore.filteredPayments) { payment in
