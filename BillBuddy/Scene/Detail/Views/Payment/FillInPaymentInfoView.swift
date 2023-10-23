@@ -389,7 +389,7 @@ struct FillInPaymentInfoView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
-                Text("\(expectPrice)")
+                Text("₩\(expectPrice)")
                     .font(.body04)
                     .foregroundStyle(Color.gray600)
                     .padding(.trailing, 16)
@@ -435,7 +435,6 @@ struct FillInPaymentInfoView: View {
                     .font(.body02)
                 Spacer()
                 
-                
                 TextField("결제금액을 입력해주세요", text: $priceString)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
@@ -444,10 +443,6 @@ struct FillInPaymentInfoView: View {
                     .onTapGesture {
                         priceString = ""
                     }
-                if !priceString.isEmpty {
-                    Text("원")
-                        .font(.body02)
-                }
             }
             .padding(.leading, 16)
             .padding(.top, 16)
