@@ -141,7 +141,7 @@ struct PaymentMainView: View {
                     Spacer()
                 }
             }
-            List(selection: $selection) {
+            List {
                 PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)

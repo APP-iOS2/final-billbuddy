@@ -104,9 +104,13 @@ final class PaymentStore: ObservableObject {
                     payments.remove(at: index)
                 }
                 
+                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                    filteredPayments.remove(at: index)
+                }
+                
                 await saveUpdateDate()
                 //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
-                await fetchAll()
+//                await fetchAll()
             } catch {
                 print("delete payment false")
             }
@@ -115,7 +119,6 @@ final class PaymentStore: ObservableObject {
     
     func saveUpdateDate() async {
         do {
-            // FIXME: 데이터 쟤만 들어감 ...
             try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         } catch {
             print("save date false")
