@@ -44,9 +44,11 @@ final class PaymentStore: ObservableObject {
                 tempPayment.append(newPayment)
             }
             
-            self.payments = tempPayment
-            self.filteredPayments = tempPayment
-            self.isFetchingList = false
+            DispatchQueue.main.async {
+                self.payments = tempPayment
+                self.filteredPayments = tempPayment
+                self.isFetchingList = false
+            }
         } catch {
             print("payment fetch false \(error)")
         }
@@ -83,23 +85,32 @@ final class PaymentStore: ObservableObject {
     
     func editPayment(payment: Payment) async {
         if let id = payment.id {
-            await saveUpdateDate()
-            try? dbRef.document(id).setData(from: payment)
-
-            //FIXME: fetchAll -> fetch 안하도록 ..
-            await fetchAll()
+            self.isFetchingList = true
             
+            try? dbRef.document(id).setData(from: payment)
+            
+            await saveUpdateDate()
+
             if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                payments[index] = payment
+                DispatchQueue.main.async {
+                    self.payments[index] = payment
+                }
             }
+            
+            if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                DispatchQueue.main.async {
+                    self.filteredPayments[index] = payment
+                }
+            }
+            
+            self.isFetchingList = false
         }
     }
     
     func deletePayment(payment: Payment) async {
         if let id = payment.id {
+            self.isFetchingList = true
             do {
-                await saveUpdateDate()
-                
                 if let index = payments.firstIndex(where: { $0.id == payment.id }) {
                     payments.remove(at: index)
                 }
@@ -108,10 +119,12 @@ final class PaymentStore: ObservableObject {
                     filteredPayments.remove(at: index)
                 }
                 
+                await saveUpdateDate()
                 try await dbRef.document(id).delete()
             } catch {
                 print("delete payment false")
             }
+            self.isFetchingList = false
         }
     }
     
