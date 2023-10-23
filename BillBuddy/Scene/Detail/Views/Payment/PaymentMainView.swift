@@ -22,6 +22,10 @@ struct PaymentMainView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
+                .onChange(of: selectedDate) { _ in
+                    paymentStore.filterDate(date: 0)
+                    selectedCategory = nil
+                }
             paymentList
             addPaymentButton
         }
@@ -172,14 +176,19 @@ struct PaymentMainView: View {
                     CategorySelectView(mode: .sheet, selectedCategory: $selectedCategory)
                         .presentationDetents([.fraction(0.3)])
                 }
+                
                 .onChange(of: selectedCategory, perform: { category in
                     
+                    // 날짜 전체일때
                     if selectedDate == 0 {
+                        // 선택된 카테고리가 있을때
                         if let category = selectedCategory {
                             paymentStore.filterCategory(category: category)
                         }
+                        // 카테고리 전체
                         else {
                             paymentStore.resetFilter()
+                            selectedCategory = nil
                         }
                     }
                     else {
@@ -187,6 +196,7 @@ struct PaymentMainView: View {
                             paymentStore.filterDateCategory(date: selectedDate, category: category)
                         }
                         else {
+                            selectedCategory = nil
                             paymentStore.filterDate(date: selectedDate)
                         }
                     }
