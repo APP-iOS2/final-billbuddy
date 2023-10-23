@@ -94,6 +94,7 @@ final class SchemeService: ObservableObject {
                 member.bankName = user.bankName
                 member.bankAccountNum = user.bankAccountNum
                 member.isInvited = true
+                member.reciverToken = UserService.shared.reciverToken
                 travel.updateContentDate = Date.now.timeIntervalSince1970
                 if let index = travel.members.firstIndex(where: { $0.id == memberId }) {
                     travel.members[index] = member
