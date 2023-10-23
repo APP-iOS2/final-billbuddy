@@ -22,7 +22,10 @@ final class PaymentStore: ObservableObject {
     init(travel: TravelCalculation) {
         self.travelCalculationId = travel.id
         self.members = travel.members
-        self.dbRef = Firestore.firestore().collection("TravelCalculation").document(travelCalculationId).collection("Payment")
+        self.dbRef = Firestore.firestore()
+            .collection("TravelCalculation")
+            .document(travelCalculationId)
+            .collection("Payment")
     }
     
     @MainActor
@@ -112,7 +115,8 @@ final class PaymentStore: ObservableObject {
     
     func saveUpdateDate() async {
         do {
-            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970])
+            // FIXME: 데이터 쟤만 들어감 ...
+            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         } catch {
             print("save date false")
         }
