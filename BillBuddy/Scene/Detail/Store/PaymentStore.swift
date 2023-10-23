@@ -11,6 +11,8 @@ import FirebaseFirestore
 final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     @Published var filteredPayments: [Payment] = []
+    @Published var isFetchingList: Bool = false
+    public var updateContentDate: Double = 0
     
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
@@ -21,7 +23,11 @@ final class PaymentStore: ObservableObject {
     init(travel: TravelCalculation) {
         self.travelCalculationId = travel.id
         self.members = travel.members
-        self.dbRef = Firestore.firestore().collection("TravelCalculation").document(travelCalculationId).collection("Payment")
+        self.dbRef = Firestore.firestore()
+            .collection("TravelCalculation")
+            .document(travelCalculationId)
+            .collection("Payment")
+        self.updateContentDate = travel.updateContentDate
     }
     
     @MainActor
@@ -30,8 +36,9 @@ final class PaymentStore: ObservableObject {
         sumAllPayment = 0
         
         do {
+            self.isFetchingList = true
             var tempPayment: [Payment] = []
-            let snapshot = try await dbRef.getDocuments()
+            let snapshot = try await dbRef.order(by: "paymentDate").getDocuments()
             for document in snapshot.documents {
                 let newPayment = try document.data(as: Payment.self)
                 tempPayment.append(newPayment)
@@ -39,7 +46,7 @@ final class PaymentStore: ObservableObject {
             
             self.payments = tempPayment
             self.filteredPayments = tempPayment
-            
+            self.isFetchingList = false
         } catch {
             print("payment fetch false \(error)")
         }
@@ -68,40 +75,60 @@ final class PaymentStore: ObservableObject {
         })
     }
     
-    func addPayment(newPayment: Payment) {
+    func addPayment(newPayment: Payment) async {
         try! dbRef.addDocument(from: newPayment.self)
-        Task {
-            await fetchAll()
-        }
+        await saveUpdateDate()
+        await fetchAll()
     }
     
-    func editPayment(payment: Payment) {
+    func editPayment(payment: Payment) async {
         if let id = payment.id {
+            await saveUpdateDate()
             try? dbRef.document(id).setData(from: payment)
-            
-            Task {
-                //FIXME: fetchAll -> fetch 안하도록 ..
-                await fetchAll()
-            }
-            
-//            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-//                payments[index] = payment
-//            }
-        }
-    }
-    
-    func deletePayment(payment: Payment) {
-        if let id = payment.id {
-            dbRef.document(id).delete()
+
+            //FIXME: fetchAll -> fetch 안하도록 ..
+            await fetchAll()
             
             if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                payments.remove(at: index)
-            }
-            
-            Task {
-                //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
-                await fetchAll()
+                payments[index] = payment
             }
         }
+    }
+    
+    func deletePayment(payment: Payment) async {
+        if let id = payment.id {
+            do {
+                await saveUpdateDate()
+                
+                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                    payments.remove(at: index)
+                }
+                
+                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                    filteredPayments.remove(at: index)
+                }
+                
+                try await dbRef.document(id).delete()
+            } catch {
+                print("delete payment false")
+            }
+        }
+    }
+    
+    func saveUpdateDate() async {
+        do {
+            let newUpdateDate = Date.now.timeIntervalSince1970
+            try await Firestore.firestore()
+                .collection(StoreCollection.travel.path)
+                .document(self.travelCalculationId)
+                .setData(["updateContentDate": newUpdateDate], merge: true)
+            self.updateContentDate = newUpdateDate
+        } catch {
+            print("save date false")
+        }
+        // TravelCaluration UpdateDate최신화
+        // - save
+        // - edit
+        // - detele
     }
 }

@@ -11,6 +11,7 @@ final class SettlementExpensesStore: ObservableObject {
     @Published var settlementExpenses = SettlementExpenses()
     
     func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
+        settlementExpenses = SettlementExpenses()
         settlementExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
         
         settlementExpenses.totalTransportation = payments.filter{ $0.type == .transportation }.reduce(0, { $0 + $1.payment } )
@@ -24,7 +25,7 @@ final class SettlementExpensesStore: ObservableObject {
         for payment in payments {
             var personaPayment = 0
             if !payment.participants.isEmpty {
-                personaPayment = settlementExpenses.totalExpenditure / payment.participants.count
+                personaPayment = payment.payment / payment.participants.count
             }
             for participant in payment.participants {
                 let index = members.firstIndex(where: { $0.id == participant.memberId } )

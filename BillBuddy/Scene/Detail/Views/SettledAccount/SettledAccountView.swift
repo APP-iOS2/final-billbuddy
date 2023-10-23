@@ -49,8 +49,8 @@ struct SettledAccountView: View {
             .padding([.top, .bottom], 20)
 
             Section {
-                VStack {
-                    HStack {
+                VStack(spacing: 0) {
+                    HStack(spacing: 0) {
                         Text("개인별 지출")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
@@ -58,7 +58,7 @@ struct SettledAccountView: View {
                     }
                     Divider()
                         .padding([.top], 12)
-                    VStack {
+                    VStack(spacing: 0) {
                         ForEach(settlementExpensesStore.settlementExpenses.members, id: \.self.memberData.id) { member in
                             MemeberAcountCell(member: member)
                         }
@@ -72,7 +72,7 @@ struct SettledAccountView: View {
         .formStyle(.automatic)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
-        .toolbar(content: {
+        .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
@@ -89,7 +89,7 @@ struct SettledAccountView: View {
             }
             
             
-        })
+        }
     }
 }
 

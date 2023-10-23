@@ -26,13 +26,13 @@ final class TravelDetailStore: ObservableObject {
     // 해당 여행에 updateDate 최신화
     func saveUpdateDate() {
         Task {
-            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(["updateContentDate":Date.now.timeIntervalSince1970])
+            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         }
         // TravelCaluration UpdateDate최신화
         // - save
         // - edit
         // - detele
-    }
+    } 
     
     // 리스닝
     func listenTravelDate() {
@@ -49,6 +49,10 @@ final class TravelDetailStore: ObservableObject {
                 print("3 => listener \(travel.members.count). \(travel.updateContentDate) => \(self.travel.updateContentDate)")
                 // 여행 변경사항이 있을 시
                 DispatchQueue.main.async {
+                    if self.isFirstFetch {
+                        self.travel = travel
+                        return
+                    }
                     if travel.updateContentDate > self.travel.updateContentDate {
                         // 30초뒤 다시 돌기시작 후 payment fetch하시겠습니까 버튼 활성화
                         self.travel = travel

@@ -31,6 +31,9 @@ class SampleMemeberStore: ObservableObject {
     @Published var selectedmemberIndex: Int = 0
     @Published var InitializedStore: Bool = false
     
+    @Published var isSearching: Bool = false
+    @Published var isfinishsearched: Bool = true
+    
     var travel: TravelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     
     func initStore(travel: TravelCalculation) {
@@ -48,6 +51,7 @@ class SampleMemeberStore: ObservableObject {
         Task {
             do {
                 self.travel.updateContentDate = Date.now.timeIntervalSince1970
+                self.travel.members = members
                 try await FirestoreService.shared.saveDocument(collection: .travel, documentId: self.travel.id, data: self.travel)
                 
             } catch {
@@ -85,8 +89,10 @@ class SampleMemeberStore: ObservableObject {
         return url
     }
     
+    @MainActor
     func searchUser(query: String) {
         Task {
+            self.isSearching = true
             do {
                 var searchResult: [User] = []
                 let nameSnapshot = try await Firestore.firestore().collection("User")
@@ -106,6 +112,8 @@ class SampleMemeberStore: ObservableObject {
                     }
                 }
                 self.searchResult = searchResult.filter { $0.id != AuthStore.shared.userUid }
+                self.isSearching = false
+                self.isfinishsearched = false
             } catch {
                 print("false search")
             }

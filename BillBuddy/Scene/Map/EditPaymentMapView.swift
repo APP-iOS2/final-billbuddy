@@ -16,17 +16,17 @@ struct EditPaymentMapView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(spacing: 16) {
                 HStack {
                     Text("위치")
-                        .bold()
+                        .font(.body02)
                     Spacer()
                     if isShowingAddress {
                         Text("입력된 주소 : \(locationManager.selectedAddress)")
                     }
                 }
                 HStack {
-                    RoundedRectangle(cornerRadius: 10)
+                    RoundedRectangle(cornerRadius: 12)
                         .fill(Color(uiColor: .systemGray6))
                         .frame(width: geometry.size.width * 4.6/5, height: 40)
                         .shadow(radius: 2, y: 1)
@@ -41,14 +41,17 @@ struct EditPaymentMapView: View {
                                     isShowingAddress = true
                                     
                                 }, label: {
-                                    Image(systemName: "magnifyingglass")
-                                        .font(.title2)
+                                    Image("my_location")
+                                        .resizable()
+                                        .frame(width: 24, height: 24)
                                 })
                                 .padding()
                             }
                         }
                 }
                 MapViewCoordinater(locationManager: locationManager)
+                    .frame(width: 329, height: 170)
+                    .cornerRadius(12)
             }
             .padding()
             .onTapGesture {
@@ -60,20 +63,22 @@ struct EditPaymentMapView: View {
             } label: {
                 Circle()
                     .fill(Color.white)
-                    .frame(width: 45, height: 45)
+                    .frame(width: 40, height: 40)
                     .shadow(radius: 2, y: 1)
                     .overlay {
-                        Image(systemName: "scope")
-                            .renderingMode(.template)
+                        Image("my_location")
+                            .resizable()
+                            .frame(width: 24, height: 24)
                     }
             }
-            .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height - 70))
+            .offset(CGSize(width: geometry.size.width - 70, height: geometry.size.height / 2.3))
             
             Image("DBPin")
                 .resizable()
-                .position(CGPoint(x: geometry.size.width / 2 + 7, y: locationManager.isChaging ? (geometry.size.height / 2) : (geometry.size.height / 2 - 5)))
+                .position(CGPoint(x: geometry.size.width / 2 + 7, y: locationManager.isChaging ? (geometry.size.height / 1.5) : (geometry.size.height / 1.5 - 5)))
                 .frame(width: 50, height: 50, alignment: .center)
         }
+        .frame(height: 248)
     }
 }
 

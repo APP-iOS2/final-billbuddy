@@ -23,6 +23,16 @@ struct DetailMainView: View {
     
     let menus: [String] = ["내역", "지도"]
     
+    func fetchPaymentAndSettledAccount(edit: Bool) {
+        Task {
+            if edit {
+                travelDetailStore.saveUpdateDate()
+            }
+            await paymentStore.fetchAll()
+            settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             sliderSection
@@ -35,8 +45,45 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
-                Text("내역")
-                PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                // TODO: 새로운 변경사항
+                ZStack {
+                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                        .environmentObject(travelDetailStore)
+                    if travelDetailStore.isChangedTravel && paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate {
+                        
+                        Button {
+                            Task {
+                                fetchPaymentAndSettledAccount(edit: false)
+                                travelDetailStore.isChangedTravel = false
+                            }
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(.info)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text("새로운 변경사항이 있어요")
+                                    .font(.body01)
+                                Image(.chevronRight)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                            .padding(.leading, 12)
+                            .padding(.trailing, 12)
+                            .padding(.top, 10)
+                            .padding(.bottom, 10)
+                        }
+                        .frame(height: 44)
+                        .background {
+                            RoundedRectangle(cornerRadius: 22.5)
+                                .stroke(Color.myPrimary, style: StrokeStyle(lineWidth: 1))
+                        }
+                        .background(Color.white)
+                        .padding(.top, 300)
+                        
+                        
+                    }
+                    
+                }
             }
             else if selection == "지도" {
                 MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
@@ -56,8 +103,7 @@ struct DetailMainView: View {
                 travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
-                        await paymentStore.fetchAll()
-                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                        fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
                     }
                 }
@@ -108,6 +154,8 @@ struct DetailMainView: View {
             
         })
         
+        
+        
     }
     
     var sliderSection: some View {
@@ -141,7 +189,7 @@ struct DetailMainView: View {
         })
         
     }
-        
+    
     
     var dateSelectSection: some View {
         
@@ -153,7 +201,6 @@ struct DetailMainView: View {
                 if selectedDate == 0 {
                     Text("전체")
                         .font(.body01)
-                        
                         .foregroundStyle(.black)
                     Image("expand_more")
                         .resizable()
@@ -168,8 +215,10 @@ struct DetailMainView: View {
                         .font(.body03)
                         .foregroundStyle(Color.gray600)
                     Image("expand_more")
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
                 }
             }
             .padding(.leading, 16)
@@ -188,3 +237,8 @@ struct DetailMainView: View {
         
     }
 }
+
+//#Preview {
+//    let travel = TravelCalculation(hostId: "", travelTitle: "서울 여행", managerId: "", startDate: <#T##Double#>, endDate: <#T##Double#>, updateContentDate: <#T##Double#>, members: <#T##[TravelCalculation.Member]#>)
+//    DetailMainView(paymentStore: PaymentStore(travel: <#T##TravelCalculation#>), travelDetailStore: TravelDetailStore(travel: <#T##TravelCalculation#>))
+//}

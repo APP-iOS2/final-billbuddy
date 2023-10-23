@@ -16,6 +16,8 @@ final class UserService: ObservableObject {
     @Published var currentUser: User?
     @Published var isSignIn: Bool = false
     
+    var reciverToken: String = ""
+    
     static let shared = UserService()
     
     private init() {
@@ -34,12 +36,20 @@ final class UserService: ObservableObject {
         }
         do {
             let snapshot = try await Firestore.firestore().collection("User").document(uid).getDocument()
-            let user: User = try snapshot.data(as: User.self)
+            var user: User = try snapshot.data(as: User.self)
+            
+            if user.reciverToken != self.reciverToken {
+                Task {
+                    try await updateReciverToken()
+                    user.reciverToken = self.reciverToken
+                }
+            }
             
             currentUser = user
             if currentUser?.premiumDueDate ?? Date() <= Date() {
                 currentUser?.isPremium = false
             }
+            
             isSignIn = true
         } catch {
             print("Error fetching user: \(error)")
@@ -59,6 +69,24 @@ final class UserService: ObservableObject {
                 "email": user.email,
                 "bankName": user.bankName,
                 "bankAccountNum": user.bankAccountNum
+            ]
+            try await userRef.setData(updatedData, merge: true)
+            print("업데이트 성공")
+        } catch {
+            print("업데이트 실패: \(error)")
+            throw error
+        }
+    }
+    
+    @MainActor
+    func updateReciverToken() async throws {
+        guard let user = currentUser else {
+            return
+        }
+        do {
+            let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
+            let updatedData = [
+                "reciverToken": self.reciverToken
             ]
             try await userRef.setData(updatedData, merge: true)
             print("업데이트 성공")
@@ -97,6 +125,7 @@ final class UserService: ObservableObject {
         guard let user = currentUser else {
             return
         }
+        currentUser?.userImage = name
         do {
             let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
             let updatedData = [

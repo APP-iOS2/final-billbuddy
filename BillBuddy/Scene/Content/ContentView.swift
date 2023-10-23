@@ -19,25 +19,13 @@ struct ContentView: View {
     @StateObject private var notificationStore = NotificationStore()
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
+    @StateObject private var adViewModel = AdViewModel()
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
-            if schemeServie.url == nil {
-                BillBuddyTabView()
-                    .environmentObject(settlementExpensesStore)
-                    .environmentObject(userTravelStore)
-                    .environmentObject(messageStore)
-                    .environmentObject(userService)
-                    .environmentObject(signInStore)
-                    .environmentObject(signUpStore)
-                    .environmentObject(tabBarVisivilyStore)
-                    .environmentObject(notificationStore)
-                    .environmentObject(schemeServie)
-                    .environmentObject(nativeViewModel)
-                    .environmentObject(myPageStore)
-            } else {
-                NavigationStack {
-                    DeepLinkView()
+            if userService.isSignIn {
+                if schemeServie.isUrlEmpty {
+                    BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
                         .environmentObject(messageStore)
@@ -47,7 +35,25 @@ struct ContentView: View {
                         .environmentObject(tabBarVisivilyStore)
                         .environmentObject(notificationStore)
                         .environmentObject(schemeServie)
+                        .environmentObject(nativeViewModel)
                         .environmentObject(myPageStore)
+                        .environmentObject(adViewModel)
+                } else {
+                    NavigationStack {
+                        DeepLinkView()
+                            .environmentObject(settlementExpensesStore)
+                            .environmentObject(userTravelStore)
+                            .environmentObject(messageStore)
+                            .environmentObject(userService)
+                            .environmentObject(signInStore)
+                            .environmentObject(signUpStore)
+                            .environmentObject(tabBarVisivilyStore)
+                            .environmentObject(notificationStore)
+                            .environmentObject(schemeServie)
+                            .environmentObject(nativeViewModel)
+                            .environmentObject(myPageStore)
+                            .environmentObject(adViewModel)
+                    }
                 }
             }
         } else {

@@ -13,8 +13,7 @@ struct ProfileView: View {
     @EnvironmentObject var userService: UserService
     @EnvironmentObject var myPageStore: MyPageStore
     @Environment(\.dismiss) var dismiss
-    
-    @State private var profileImage: UIImage?
+    @State private var selectedItem: PhotosPickerItem? = nil
     
     var body: some View {
         VStack {
@@ -28,6 +27,7 @@ struct ProfileView: View {
                                 .cornerRadius(50)
                         }, placeholder: {
                             ProgressView()
+                                .frame(width: 80, height: 80)
                         })
                     } else {
                         Image("profileImage")
@@ -36,12 +36,12 @@ struct ProfileView: View {
                     }
                 }
                 .overlay {
-                    PhotosPicker(selection: $myPageStore.selectedItem, matching: .images) {
+                    PhotosPicker(selection: $selectedItem, matching: .images) {
                         Image(.editButton)
                             .padding([.top, .leading], 60)
                     }
                 }
-                .onChange(of: myPageStore.selectedItem, perform: { newValue in
+                .onChange(of: selectedItem, perform: { newValue in
                     if let newValue {
                         myPageStore.saveProfileImage(item: newValue)
                     }
@@ -134,5 +134,6 @@ struct ProfileView: View {
     NavigationStack {
         ProfileView()
             .environmentObject(UserService.shared)
+            .environmentObject(MyPageStore())
     }
 }

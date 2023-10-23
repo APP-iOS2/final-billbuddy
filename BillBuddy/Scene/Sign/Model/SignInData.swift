@@ -13,6 +13,6 @@ struct SignInData {
     var password: String = ""
     
     func changeToUserModel(id: String) -> User {
-        return User(id: id, email: email, name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date())
+        return User(id: id, email: email, name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
     }
 }

@@ -27,9 +27,10 @@ final class MessageStore: ObservableObject {
         }
     }
     
-    func getImagePath(item: PhotosPickerItem) async -> String {
+    /// firebase storage에 이미지 업로드 -> url 반환
+    func getImagePath(item: PhotosPickerItem, travelCalculation: TravelCalculation) async -> String {
         
-        let path = "chat/\(UUID().uuidString).jpeg"
+        let path = "chat/\(travelCalculation.id)/\(UUID().uuidString).jpeg"
         var urlString: String = ""
         
         if let data = try? await item.loadTransferable(type: Data.self) {
@@ -68,7 +69,12 @@ final class MessageStore: ObservableObject {
                 var newMessage: [Message] = []
                 for document in querySnapshot.documents {
                     do {
-                        let item = try document.data(as: Message.self)
+                        var item = try document.data(as: Message.self)
+                        // sender id로 travelCalculation 멤버 정보 찾기
+                        if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
+                            item.userImage = member.userImage
+                            item.userName = member.name
+                        }
                         newMessage.append(item)
                     } catch {
                         print("Failed to fetch chat message: \(error)")
@@ -78,6 +84,7 @@ final class MessageStore: ObservableObject {
             }
     }
     
+    /// 마지막 채팅 메세지 travelCalculation 에 업데이트
     private func updateLastMessage(travelCalculation: TravelCalculation, message: Message) {
         let data = [
             "lastMessage" : message.message,
@@ -87,6 +94,36 @@ final class MessageStore: ObservableObject {
             try await db.document(travelCalculation.id)
                 .setData(data, merge: true)
         }
+    }
+    
+    /// 채팅방별 이미지 불러오기
+    func getChatRoomImages(travelCalculation: TravelCalculation) -> [String] {
+        
+        var images: [String] = []
+        let path = "chat/\(travelCalculation.id)"
+        
+        storage.child(path).listAll { result, error in
+            if let resultItem = result {
+                for item in resultItem.items {
+                    // 폴더 안 이미지 이름 담기
+                    let storageLocation = String(describing: item)
+                    
+                    // url 가져오기
+                    Storage.storage().reference(forURL: storageLocation).downloadURL { url, error in
+                        if let error = error {
+                            print("Failed to get url \(error)")
+                        } else {
+                            if let urlString = url?.absoluteString {
+                                images.append(urlString)
+                            }
+                        }
+                    }
+                }
+            } else {
+                print("Failed to get images: \(String(describing: error))")
+            }
+        }
+        return images
     }
 }
 

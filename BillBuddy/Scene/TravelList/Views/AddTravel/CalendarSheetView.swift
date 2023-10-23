@@ -15,7 +15,6 @@ struct CalendarSheetView: View {
     @Binding var isShowingCalendarView: Bool
     
     var body: some View {
-        // 달력부분 글씨가 너무 작음
         VStack(spacing: 8) {
             HStack {
                 Button(action: {
@@ -72,7 +71,7 @@ struct CalendarSheetView: View {
                                                 Text("\(calendarStore.calendar.component(.day, from: day))")
                                                     .foregroundColor(isCurrentMonth ? (calendarStore.isDateSelected(day: day) ? Color.white : Color.black) : Color.gray500)
                                                     .foregroundColor(calendarStore.isDateSelected(day: day) ? Color.white : Color.black)
-                                                    
+                                                
                                                 Circle()
                                                     .frame(width: 4, height: 4)
                                                     .foregroundColor(calendarStore.isToday(day: day) ? (calendarStore.isDateSelected(day: day) ? Color.white : Color.myPrimary) : Color.clear)
@@ -91,7 +90,7 @@ struct CalendarSheetView: View {
                         }
                     }
                 }
-
+                
             }
             
             Button(action: {
@@ -177,8 +176,13 @@ struct CalendarSheetView: View {
             return
         }
         
+//        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: firstDate)!
+//        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: secondDate)!
+        
         startDate = firstDate
         endDate = secondDate
+//        startDate = adjustedFirstDate
+//        endDate = adjustedSecondDate
         
         isShowingCalendarView = false
         print("시작일: \(firstDate)")

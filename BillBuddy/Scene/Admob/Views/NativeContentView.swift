@@ -2,7 +2,7 @@ import GoogleMobileAds
 import SwiftUI
 
 struct NativeContentView: View {
-    @EnvironmentObject private var nativeViewModel: NativeAdViewModel
+    @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @State private var adSecond = 3
     @Binding var isShowingAdScreen: Bool
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -13,16 +13,16 @@ struct NativeContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                NativeAdView(nativeViewModel: nativeViewModel)
-                    .frame(height: 300)
+                NativeAdView(nativeViewModel: nativeAdViewModel)
+                    .frame(height: 100)
                 
                 Text(
-                    nativeViewModel.nativeAd?.mediaContent.hasVideoContent == true
+                    nativeAdViewModel.nativeAd?.mediaContent.hasVideoContent == true
                     ? "Ad contains a video asset." : "Ad does not contain a video."
                 )
                 .frame(maxWidth: .infinity)
                 .foregroundColor(.gray)
-                .opacity(nativeViewModel.nativeAd == nil ? 0 : 1)
+                .opacity(nativeAdViewModel.nativeAd == nil ? 0 : 1)
                 
                 Button("Refresh Ad") {
                     refreshAd()
@@ -55,7 +55,7 @@ struct NativeContentView: View {
     }
     
     private func refreshAd() {
-        nativeViewModel.refreshAd()
+        nativeAdViewModel.refreshAd()
     }
 }
 
@@ -98,7 +98,7 @@ struct NativeAdView: UIViewRepresentable {
         
         (nativeAdView.advertiserView as? UILabel)?.text = nativeAd.advertiser
         
-        (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
+//        (nativeAdView.callToActionView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
         
         // In order for the SDK to process touch events properly, user interaction should be disabled.
         nativeAdView.callToActionView?.isUserInteractionEnabled = false

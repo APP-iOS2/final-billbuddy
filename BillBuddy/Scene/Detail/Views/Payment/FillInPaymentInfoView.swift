@@ -27,8 +27,22 @@ struct FillInPaymentInfoView: View {
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
+    @Binding var isSelectedDate: Bool
     @State private var isShowingDatePickerSheet: Bool = false
+    
     @State private var tempMembers: [TravelCalculation.Member] = []
+    private var expectPrice: Int {
+        let price: Int = Int(priceString) ?? 0
+        let count: Int = members.count
+        
+        if members.isEmpty {
+            return 0
+        }
+        else {
+            let result = price / count
+            return result
+        }
+    }
     
     
     var body: some View {
@@ -52,10 +66,17 @@ struct FillInPaymentInfoView: View {
             Button(action: {
                 isShowingDatePickerSheet = true
             }, label: {
-                Text("\(paymentDate.dateAndTime)")
-                    .font(.body02)
-                    .padding(.trailing, 16)
-                
+                HStack(spacing: 0) {
+                    Text("\(paymentDate.dateSelectorFormat)")
+                        .font(.body02)
+                        .foregroundStyle(Color.gray600)
+                    Image("chevron_right")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray500)
+                }
+                .padding(.trailing, 16)
             })
             
         }
@@ -80,7 +101,9 @@ struct FillInPaymentInfoView: View {
             .padding(.top, 16)
             .padding(.bottom, 16)
             .padding(.trailing, 16)
-            
+            .onAppear {
+                isSelectedDate = true
+            }
             .presentationDetents([.fraction(0.3)])
             
         })
@@ -152,25 +175,38 @@ struct FillInPaymentInfoView: View {
                     if members.isEmpty {
                         Text("추가하기")
                             .font(.body04)
-                            .foregroundStyle(Color.gray500)
+                            .foregroundStyle(Color.gray600)
                         
                         Image("chevron_right")
                             .renderingMode(.template)
                             .resizable()
                             .frame(width: 24, height: 24)
-                            .foregroundStyle(Color.gray500)
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else if members.count == travelCalculation.members.count {
+                        Text("모든 인원")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                        
+                        Image("chevron_right")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(Color.gray600)
+                        
                     }
                     else {
                         Text("수정하기")
                             .font(.body04)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color.gray600)
                         
                         Image("chevron_right")
                             .renderingMode(.template)
                             .resizable()
                             .frame(width: 24, height: 24)
-                            .foregroundStyle(.black)
+                            .foregroundStyle(Color.gray600)
                     }
+                    
                 }
                 .padding(.top, 14)
                 .padding(.trailing, 16)
@@ -258,9 +294,9 @@ struct FillInPaymentInfoView: View {
     var addPaymentMember: some View {
         VStack(spacing: 0) {
             memberSection
-            .sheet(isPresented: $isShowingMemberSheet, content: {
-                addPaymentMemberSheet
-            })
+                .sheet(isPresented: $isShowingMemberSheet, content: {
+                    addPaymentMemberSheet
+                })
             
             memberListSection
         }
@@ -294,9 +330,9 @@ struct FillInPaymentInfoView: View {
         VStack(spacing: 0) {
             
             memberSection
-            .sheet(isPresented: $isShowingMemberSheet, content: {
-                editPaymentMemberSheet
-            })
+                .sheet(isPresented: $isShowingMemberSheet, content: {
+                    editPaymentMemberSheet
+                })
             memberListSection
         }
         .onAppear {
@@ -353,10 +389,10 @@ struct FillInPaymentInfoView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
-//                Text("0원")
-//                    .font(.body04)
-//                    .foregroundStyle(Color.gray600)
-//                    .padding(.trailing, 16)
+                Text("\(expectPrice)")
+                    .font(.body04)
+                    .foregroundStyle(Color.gray600)
+                    .padding(.trailing, 16)
             }
             .background {
                 RoundedRectangle(cornerRadius: 12)
@@ -364,7 +400,7 @@ struct FillInPaymentInfoView: View {
             }
             .padding(.leading, 15)
             .padding(.trailing, 14)
-//            .padding(.bottom, 8)
+            //            .padding(.bottom, 8)
             .listRowSeparator(.hidden)
         }
         .padding(.bottom, 13)
@@ -399,11 +435,19 @@ struct FillInPaymentInfoView: View {
                     .font(.body02)
                 Spacer()
                 
+                
                 TextField("결제금액을 입력해주세요", text: $priceString)
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .font(.body04)
                     .focused(focusedField, equals: .price)
+                    .onTapGesture {
+                        priceString = ""
+                    }
+                if !priceString.isEmpty {
+                    Text("원")
+                        .font(.body02)
+                }
             }
             .padding(.leading, 16)
             .padding(.top, 16)

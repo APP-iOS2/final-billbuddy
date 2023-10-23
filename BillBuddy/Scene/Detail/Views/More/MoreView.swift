@@ -61,7 +61,7 @@ struct MoreView: View {
                         case .mamberManagement:
                             MemberManagementView(travel: travel)
                         case .settledAccount:
-                            SpendingListView()
+                            SettledAccountView()
                         }
                     } label: {
                         MoreListCell(item: item)

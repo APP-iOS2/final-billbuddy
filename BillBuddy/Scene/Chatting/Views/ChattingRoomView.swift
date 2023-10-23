@@ -11,6 +11,7 @@ import PhotosUI
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var messageStore: MessageStore
+    @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     var travel: TravelCalculation
     @State private var inputText: String = ""
@@ -79,6 +80,7 @@ struct ChattingRoomView: View {
         }
     }
     
+    /// 아직 채팅을 시작하지 않았을 때
     private var emptyChat: some View {
         VStack {
             Text("여행 친구들과 대화를 시작해보세요")
@@ -89,6 +91,7 @@ struct ChattingRoomView: View {
         }
     }
     
+    /// 채팅 메세지 버블
     private var chattingItem: some View {
         ScrollViewReader { scrollProxy in
             ScrollView {
@@ -97,7 +100,7 @@ struct ChattingRoomView: View {
                         HStack {
                             Spacer()
                             VStack(alignment: .trailing) {
-                                Text(message.senderId)
+                                Text(message.userName ?? "이름없음")
                                     .font(Font.caption02)
                                     .foregroundColor(.systemBlack)
                                 HStack {
@@ -116,6 +119,7 @@ struct ChattingRoomView: View {
                                                     .frame(width:120, height: 120)
                                             } placeholder: {
                                                 ProgressView()
+                                                    .frame(width:120, height: 120)
                                             }
                                         }
                                         if message.message != "" {
@@ -148,7 +152,7 @@ struct ChattingRoomView: View {
                                 Spacer()
                             }
                             VStack(alignment: .leading) {
-                                Text(message.senderId)
+                                Text(message.userName ?? "이름없음")
                                     .font(Font.caption02)
                                     .foregroundColor(.systemBlack)
                                 HStack {
@@ -161,6 +165,7 @@ struct ChattingRoomView: View {
                                                     .frame(width:120, height: 120)
                                             } placeholder: {
                                                 ProgressView()
+                                                    .frame(width:120, height: 120)
                                             }
                                         }
                                         if message.message != ""  {
@@ -200,6 +205,7 @@ struct ChattingRoomView: View {
         }
     }
     
+    /// 채팅 메세지/이미지 입력창
     private var chattingInputBar: some View {
         VStack {
             if let photoImage = imageData, let uiImage = UIImage(data: photoImage) {
@@ -232,7 +238,8 @@ struct ChattingRoomView: View {
                         .foregroundColor(.gray600)
                 }
                 Button {
-                    PushNotificationManager.sendPushNotification(forNotificationType: .chatting)
+                    PushNotificationManager.sendPushNotification(title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.")
+                    NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                     sendChat()
                     selectedPhoto = nil
                     imageData?.removeAll()
@@ -252,15 +259,15 @@ struct ChattingRoomView: View {
         }
     }
     
-    // TODO: 1. 이미지 전송 후 채팅방을 벗어나기 전까지 같은 이미지가 반복 전송됨
-    // TODO: 2. 이미지와 텍스트를 같이 전송할 때 처음은 텍스트가 nil 두번째부터는 텍스트는 정상적으로 들어감
+    // TODO: 이미지와 텍스트를 같이 전송할 때 텍스트가 nil
+    /// 채팅 콘텐츠 분기처리해서 스토어로
     private func sendChat() {
         if let photoItem = selectedPhoto {
             Task {
-                imagePath = await messageStore.getImagePath(item: photoItem)
+                imagePath = await messageStore.getImagePath(item: photoItem, travelCalculation: travel)
                 let newMessage = Message(
                     senderId: AuthStore.shared.userUid,
-                    message: inputText, 
+                    message: inputText,
                     imageString: imagePath,
                     sendDate: Date().timeIntervalSince1970,
                     isRead: false
@@ -273,7 +280,6 @@ struct ChattingRoomView: View {
             let newMessage = Message(
                 senderId: AuthStore.shared.userUid,
                 message: inputText,
-                imageString: imagePath,
                 sendDate: Date().timeIntervalSince1970,
                 isRead: false
             )
@@ -287,5 +293,6 @@ struct ChattingRoomView: View {
         ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
             .environmentObject(TabBarVisivilyStore())
+            .environmentObject(NotificationStore())
     }
 }
