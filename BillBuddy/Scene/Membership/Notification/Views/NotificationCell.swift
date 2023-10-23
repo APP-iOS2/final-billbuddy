@@ -28,18 +28,18 @@ struct NotificationCell: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(getTitle(for: notification.type))
-                        .font(.caption)
+                        .font(.caption02)
                         .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
                     
                     Text(notification.content)
-                        .font(.body)
+                        .font(.caption01)
                         .foregroundColor(notification.isChecked ? Color(hex: "A8A9AC") : Color.black)
                 }
                 
                 Spacer()
                 
                 Text(getRelativeTime(notification.addDate))
-                    .font(.caption)
+                    .font(.caption01)
                     .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
                     .padding(.top, -20)
             }
@@ -59,7 +59,7 @@ struct NotificationCell: View {
         case .notice:
             return Image(isRead ? "announcement-read-badge" : "announcement-badge")
         case .invite:
-            return Image(isRead ? "invite-read-badge" : "invite-badge")
+            return Image(isRead ? "notification-read-badge" : "notification-badge")
         }
     }
 
