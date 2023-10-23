@@ -109,8 +109,6 @@ final class PaymentStore: ObservableObject {
                 }
                 
                 await saveUpdateDate()
-                //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
-//                await fetchAll()
             } catch {
                 print("delete payment false")
             }
@@ -119,7 +117,10 @@ final class PaymentStore: ObservableObject {
     
     func saveUpdateDate() async {
         do {
-            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
+            try await Firestore.firestore()
+                .collection(StoreCollection.travel.path)
+                .document(self.travelCalculationId)
+                .setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         } catch {
             print("save date false")
         }

@@ -29,22 +29,9 @@ struct PaymentListView: View {
                         .font(.body03)
                         .foregroundStyle(Color.black)
                     HStack(spacing: 4) {
-                        // MARK: Rendering 이미지가 전체를 뒤엎음
-                        if payment.participants.count == 1 {
-                            Image(.singleUser)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                                .foregroundStyle(Color.gray600)
-                            
-                        }
-                        else if payment.participants.count > 1 {
-                            Image(.groupUser)
-                                .renderingMode(.template)
-                                .resizable()
-                                .frame(width: 18, height: 18)
-                                .foregroundStyle(Color.gray600)
-                        }
+                        Image(.userSingleSvg)
+                            .resizable()
+                            .frame(width: 18, height: 18)
                         Text("\(payment.participants.count)명")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
