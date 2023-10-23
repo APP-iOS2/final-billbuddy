@@ -74,9 +74,9 @@ struct DetailMainView: View {
                         .frame(height: 44)
                         .background {
                             RoundedRectangle(cornerRadius: 22.5)
-//                                .fill(Color.white)
                                 .stroke(Color.myPrimary, style: StrokeStyle(lineWidth: 1))
                         }
+                        .background(Color.white)
                         .padding(.top, 300)
                         
                     }
