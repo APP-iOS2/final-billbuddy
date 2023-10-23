@@ -74,7 +74,8 @@ final class SignUpStore: ObservableObject {
     public func postSignUp() async -> Bool {
         do {
             let authResult = try await AuthStore.shared.createUser(email: signUpData.email, password: signUpData.password )
-            let user = signUpData.changeToUserModel(id: authResult.user.uid)
+            var user = signUpData.changeToUserModel(id: authResult.user.uid)
+            user.reciverToken = UserService.shared.reciverToken
             try await saveUserData(user: user)
             
             UserDefaults.standard.setValue(authResult.user.uid, forKey: "User")

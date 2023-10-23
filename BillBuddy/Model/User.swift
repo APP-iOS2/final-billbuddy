@@ -21,6 +21,8 @@ struct User: Identifiable, Codable {
     var isPremium: Bool
     var premiumDueDate: Date
     var userImage: String?
+    /// 알림 토큰
+    var reciverToken: String
     
     var formattedDate: String {
         return premiumDueDate.dateAndTime

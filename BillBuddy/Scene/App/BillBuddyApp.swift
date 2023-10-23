@@ -65,6 +65,7 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("AppDelegate - 파베 토큰을 받았습니다.")
         print("AppDelegate - Firebase registration token: \(String(describing: fcmToken))")
+        UserService.shared.reciverToken = fcmToken ?? ""
     }
 }
 
