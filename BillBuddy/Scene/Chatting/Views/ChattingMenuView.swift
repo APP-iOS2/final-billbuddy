@@ -70,7 +70,7 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray900)
                 Spacer()
                 NavigationLink {
-                    
+                    ChattingMenuDetailView(selection: "공지", travel: travel)
                 } label: {
                     Image(.chevronRight)
                         .resizable()
@@ -107,7 +107,7 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray900)
                 Spacer()
                 NavigationLink {
-                    
+                    ChattingMenuDetailView(selection: "사진", travel: travel)
                 } label: {
                     Image(.chevronRight)
                         .resizable()
