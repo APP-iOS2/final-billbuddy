@@ -15,7 +15,7 @@ struct MemberShareSheet: View {
     @Binding var isShowingShareSheet: Bool
     @State private var searchText: String = ""
     @State private var isShowingInviteAlert: Bool = false
-    @State private var seletedUser: User = User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now)
+    @State private var seletedUser: User = User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now, reciverToken: "")
     @State private var isfinishsearched: Bool = true
     
     var body: some View {

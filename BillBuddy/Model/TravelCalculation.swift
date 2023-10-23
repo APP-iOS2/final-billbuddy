@@ -45,6 +45,8 @@ struct TravelCalculation: Identifiable, Codable {
         var userImage: String = ""
         var bankName: String = ""
         var bankAccountNum: String = ""
+        /// 알림 토큰
+        var reciverToken: String = ""
         
         var inviteState: InviteState {
             if isInvited && userId != nil {
