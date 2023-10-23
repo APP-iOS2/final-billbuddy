@@ -12,6 +12,7 @@ final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     @Published var filteredPayments: [Payment] = []
     @Published var isFetchingList: Bool = false
+    public var updateContentDate: Double = 0
     
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
@@ -26,6 +27,7 @@ final class PaymentStore: ObservableObject {
             .collection("TravelCalculation")
             .document(travelCalculationId)
             .collection("Payment")
+        self.updateContentDate = travel.updateContentDate
     }
     
     @MainActor
@@ -81,24 +83,22 @@ final class PaymentStore: ObservableObject {
     
     func editPayment(payment: Payment) async {
         if let id = payment.id {
+            await saveUpdateDate()
             try? dbRef.document(id).setData(from: payment)
-            
 
             //FIXME: fetchAll -> fetch 안하도록 ..
-            await saveUpdateDate()
             await fetchAll()
             
-            
-//            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-//                payments[index] = payment
-//            }
+            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                payments[index] = payment
+            }
         }
     }
     
     func deletePayment(payment: Payment) async {
         if let id = payment.id {
             do {
-                try await dbRef.document(id).delete()
+                await saveUpdateDate()
                 
                 if let index = payments.firstIndex(where: { $0.id == payment.id }) {
                     payments.remove(at: index)
@@ -108,9 +108,7 @@ final class PaymentStore: ObservableObject {
                     filteredPayments.remove(at: index)
                 }
                 
-                await saveUpdateDate()
-                //FIXME: fetchAll -> fetch 안하도록 .. 삭제가 안되는 문제 o
-//                await fetchAll()
+                try await dbRef.document(id).delete()
             } catch {
                 print("delete payment false")
             }
@@ -119,7 +117,12 @@ final class PaymentStore: ObservableObject {
     
     func saveUpdateDate() async {
         do {
-            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelCalculationId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
+            let newUpdateDate = Date.now.timeIntervalSince1970
+            try await Firestore.firestore()
+                .collection(StoreCollection.travel.path)
+                .document(self.travelCalculationId)
+                .setData(["updateContentDate": newUpdateDate], merge: true)
+            self.updateContentDate = newUpdateDate
         } catch {
             print("save date false")
         }

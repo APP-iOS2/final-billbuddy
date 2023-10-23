@@ -27,7 +27,7 @@ enum SignInCase {
 }
 
 public class AuthStore {
-    @AppStorage("userId") var userUid: String = "UjxYzXDaALUqPKuDPL8kbJrYCml2"
+    @AppStorage("userId") var userUid: String = ""
     @Published var currentUser: User?
     
     static let shared = AuthStore()
