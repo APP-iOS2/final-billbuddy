@@ -22,6 +22,7 @@ struct MyPageDetailView: View {
                             .cornerRadius(50)
                     }, placeholder: {
                         ProgressView()
+                            .frame(width: 80, height: 80)
                     })
                 } else {
                     Image("profileImage")
