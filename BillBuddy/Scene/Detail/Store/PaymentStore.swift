@@ -83,23 +83,26 @@ final class PaymentStore: ObservableObject {
     
     func editPayment(payment: Payment) async {
         if let id = payment.id {
+            self.isFetchingList = true
             try? dbRef.document(id).setData(from: payment)
             
-
-            //FIXME: fetchAll -> fetch 안하도록 ..
             await saveUpdateDate()
-            await fetchAll()
-            
             
             if let index = payments.firstIndex(where: { $0.id == payment.id }) {
                 payments[index] = payment
             }
+            if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                filteredPayments[index] = payment
+            }
+            
+            self.isFetchingList = false
         }
     }
     
     func deletePayment(payment: Payment) async {
         if let id = payment.id {
             do {
+                self.isFetchingList = true
                 try await dbRef.document(id).delete()
                 
                 if let index = payments.firstIndex(where: { $0.id == payment.id }) {
@@ -111,6 +114,7 @@ final class PaymentStore: ObservableObject {
                 }
                 
                 await saveUpdateDate()
+                self.isFetchingList = false
             } catch {
                 print("delete payment false")
             }
