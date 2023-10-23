@@ -83,35 +83,45 @@ final class PaymentStore: ObservableObject {
     
     func editPayment(payment: Payment) async {
         if let id = payment.id {
+            self.isFetchingList = true
             await saveUpdateDate()
             try? dbRef.document(id).setData(from: payment)
 
-            //FIXME: fetchAll -> fetch 안하도록 ..
-            await fetchAll()
-            
-            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                payments[index] = payment
+            DispatchQueue.main.sync {
+                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                    payments[index] = payment
+                }
+                
+                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                    filteredPayments[index] = payment
+                }
             }
+            
+            self.isFetchingList = false
         }
     }
     
     func deletePayment(payment: Payment) async {
         if let id = payment.id {
+            self.isFetchingList = true
             do {
                 await saveUpdateDate()
-                
-                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                    payments.remove(at: index)
-                }
-                
-                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
-                    filteredPayments.remove(at: index)
+                DispatchQueue.main.sync {
+                    if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                        payments.remove(at: index)
+                    }
+                    
+                    if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                        filteredPayments.remove(at: index)
+                    }
                 }
                 
                 try await dbRef.document(id).delete()
             } catch {
                 print("delete payment false")
             }
+            
+            self.isFetchingList = false
         }
     }
     

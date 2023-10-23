@@ -49,7 +49,11 @@ struct DetailMainView: View {
                 ZStack {
                     PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                         .environmentObject(travelDetailStore)
-                    if travelDetailStore.isChangedTravel && paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate {
+                    
+                    if travelDetailStore.isChangedTravel &&
+                        paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate &&
+                        !paymentStore.isFetchingList
+                    {
                         
                         Button {
                             Task {
