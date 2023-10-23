@@ -26,7 +26,7 @@ final class TravelDetailStore: ObservableObject {
     // 해당 여행에 updateDate 최신화
     func saveUpdateDate() {
         Task {
-            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(["updateContentDate":Date.now.timeIntervalSince1970])
+            try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         }
         // TravelCaluration UpdateDate최신화
         // - save

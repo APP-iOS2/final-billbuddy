@@ -12,6 +12,7 @@ final class PaymentStore: ObservableObject {
     @Published var payments: [Payment] = []
     @Published var filteredPayments: [Payment] = []
     @Published var isFetchingList: Bool = false
+    public var updateContentDate: Double = 0
     
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
@@ -26,6 +27,7 @@ final class PaymentStore: ObservableObject {
             .collection("TravelCalculation")
             .document(travelCalculationId)
             .collection("Payment")
+        self.updateContentDate = travel.updateContentDate
     }
     
     @MainActor
@@ -89,9 +91,9 @@ final class PaymentStore: ObservableObject {
             await fetchAll()
             
             
-//            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-//                payments[index] = payment
-//            }
+            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                payments[index] = payment
+            }
         }
     }
     
@@ -117,10 +119,12 @@ final class PaymentStore: ObservableObject {
     
     func saveUpdateDate() async {
         do {
+            let newUpdateDate = Date.now.timeIntervalSince1970
             try await Firestore.firestore()
                 .collection(StoreCollection.travel.path)
                 .document(self.travelCalculationId)
-                .setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
+                .setData(["updateContentDate": newUpdateDate], merge: true)
+            self.updateContentDate = newUpdateDate
         } catch {
             print("save date false")
         }

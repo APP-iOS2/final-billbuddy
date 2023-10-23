@@ -49,7 +49,8 @@ struct DetailMainView: View {
                 ZStack {
                     PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                         .environmentObject(travelDetailStore)
-                    if travelDetailStore.isChangedTravel {
+                    if travelDetailStore.isChangedTravel && paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate {
+                        
                         Button {
                             Task {
                                 fetchPaymentAndSettledAccount(edit: false)
@@ -79,8 +80,9 @@ struct DetailMainView: View {
                         .background(Color.white)
                         .padding(.top, 300)
                         
-                    }
                         
+                    }
+                    
                 }
             }
             else if selection == "지도" {
@@ -187,7 +189,7 @@ struct DetailMainView: View {
         })
         
     }
-        
+    
     
     var dateSelectSection: some View {
         
