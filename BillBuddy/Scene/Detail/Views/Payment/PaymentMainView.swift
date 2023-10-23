@@ -137,7 +137,7 @@ struct PaymentMainView: View {
                     Spacer()
                 }
             }
-            List {
+            List(selection: $selection) {
                 PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
@@ -194,20 +194,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    isEditing.toggle()
-                }, label: {
-                    if isEditing {
-                        Text("편집 완료")
-                            .font(.body04)
-                            .foregroundStyle(Color.gray600)
-                    }
-                    else {
-                        Text("편집")
-                            .font(.body04)
-                            .foregroundStyle(Color.gray600)
-                    }
-                })
+//                Button(action: {
+//                    isEditing.toggle()
+//                }, label: {
+//                    if isEditing {
+//                        Text("편집 완료")
+//                            .font(.body04)
+//                            .foregroundStyle(Color.gray600)
+//                    }
+//                    else {
+//                        Text("편집")
+//                            .font(.body04)
+//                            .foregroundStyle(Color.gray600)
+//                    }
+//                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)
