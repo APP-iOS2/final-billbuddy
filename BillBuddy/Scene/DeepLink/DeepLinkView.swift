@@ -24,8 +24,11 @@ struct DeepLinkView: View {
                 
                 switch schemeServie.componentedUrl?.host {
                 case .chatting:
+                    ChattingRoomView(travel: schemeServie.travel)
+
                     Text("View - chatting").onAppear { print("-> appear")}
                 case .travel, .invite:
+
                     DetailMainView(paymentStore: PaymentStore(travel: schemeServie.travel), travelDetailStore: TravelDetailStore(travel: schemeServie.travel))
                 case .notice:
                     Text("View - notice").onAppear { print("-> appear")}
