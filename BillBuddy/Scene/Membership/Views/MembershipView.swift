@@ -52,7 +52,7 @@ struct MembershipView: View {
                             Rectangle()
                                 .fill(Color.white)
                                 .frame(height: 60)
-                                .frame(width: .infinity)
+                                .frame(maxWidth: .infinity)
                             VStack(alignment: .leading) {
                                 HStack {
                                     Image(systemName: "checkmark.circle")
@@ -145,7 +145,7 @@ struct MembershipView: View {
                         } message: {
                             Text("프리미엄 멤버십을 해지하시겠습니까?")
                         }
-
+                        
                     } else {
                         Spacer()
                         
@@ -171,18 +171,18 @@ struct MembershipView: View {
             .padding(.horizontal, 16)
         }
         .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image("arrow_back")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.systemBlack)
-                    }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
                 }
             }
+        }
         .toolbar(userService.currentUser?.isPremium ?? false ? .visible : .hidden , for: .tabBar)
     }
 }
@@ -190,5 +190,6 @@ struct MembershipView: View {
 #Preview {
     NavigationStack {
         MembershipView()
+            .environmentObject(UserService.shared)
     }
 }

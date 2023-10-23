@@ -49,15 +49,6 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray600)
             }
             Spacer()
-            VStack {
-                NavigationLink {
-                    MoreView(travel: travel)
-                } label: {
-                    Image(.steps13)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
         }
         .frame(height: 100)
         .frame(maxWidth: .infinity)
@@ -87,12 +78,14 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
-            Text("정규시즌 4~5위팀이 맞붙는 KBO 와일드카드 결정전은 4위팀이 1승을 안고 시리즈를 치른다. 따라서 4위팀은 1차전에서 승리하거나 무승부를 해도 준플레이오프 진출에 성공할 수 있다. 반면 5위팀은 1차전은 물론 2차전까지 잡아야 준플레이오프 진출이 가능하다. 역대 와일드카드 결정전에서는 4위팀이 모두 준플레이오프 진출에 성공했다. 이번에도 그랬다. 이날 NC의 승리로 '100%의 법칙'이 이어졌다. 2015년 넥센, ")
+            Text("공지사항입니다. 기차 출발 삼십분 전에는 꼬옥 도착하기로해요~ 아시겠어요????")
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(6)
                 .lineSpacing(3)
                 .font(.body04)
                 .foregroundColor(.gray700)
                 .padding(.bottom, 50)
+            Spacer()
         }
         .frame(minHeight: 200)
         .frame(maxWidth: .infinity)

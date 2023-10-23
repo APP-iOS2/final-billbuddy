@@ -17,7 +17,6 @@ struct TravelListView: View {
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
-//    @State private var isAddingTravel = false
     @Namespace var animation
     
     
@@ -106,8 +105,8 @@ struct TravelListView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    //알림 뷰 자리
+                NavigationLink {
+                    NotificationListView()
                 } label: {
                     Image(.ringingBellNotification3)
                         .resizable()
@@ -261,6 +260,8 @@ extension TravelListView {
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
             .environmentObject(NotificationStore())
+            .environmentObject(UserService.shared)
+            .environmentObject(NativeAdViewModel())
     }
 }
 
