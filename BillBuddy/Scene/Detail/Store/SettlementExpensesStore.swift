@@ -11,6 +11,7 @@ final class SettlementExpensesStore: ObservableObject {
     @Published var settlementExpenses = SettlementExpenses()
     
     func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
+        settlementExpenses = SettlementExpenses()
         settlementExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
         
         settlementExpenses.totalTransportation = payments.filter{ $0.type == .transportation }.reduce(0, { $0 + $1.payment } )

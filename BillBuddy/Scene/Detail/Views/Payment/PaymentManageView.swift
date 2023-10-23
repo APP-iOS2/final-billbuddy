@@ -27,7 +27,6 @@ struct PaymentManageView: View {
     @EnvironmentObject var paymentStore: PaymentStore
     @EnvironmentObject var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
-    //    @EnvironmentObject var travelDetailStore: TravelDetailStore
     
     @State var travelCalculation: TravelCalculation
     
@@ -180,6 +179,7 @@ struct PaymentManageView: View {
                             expandDetails = payment.content
                             priceString = String(payment.payment)
                             paymentDate = payment.paymentDate.toDate()
+                            isSelectedDate = true
                         }
                     }
             case .mainAdd:
