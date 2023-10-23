@@ -27,7 +27,9 @@ struct FillInPaymentInfoView: View {
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
+    @Binding var isSelectedDate: Bool
     @State private var isShowingDatePickerSheet: Bool = false
+    
     @State private var tempMembers: [TravelCalculation.Member] = []
     private var expectPrice: Int {
         let price: Int = Int(priceString) ?? 0
@@ -99,7 +101,9 @@ struct FillInPaymentInfoView: View {
             .padding(.top, 16)
             .padding(.bottom, 16)
             .padding(.trailing, 16)
-            
+            .onAppear {
+                isSelectedDate = true
+            }
             .presentationDetents([.fraction(0.3)])
             
         })

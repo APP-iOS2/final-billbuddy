@@ -52,7 +52,6 @@
 		277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 277403E02AC3B8CC000537DF /* GoogleMobileAds */; };
 		277403E52AC3E579000537DF /* SignUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E32AC3E579000537DF /* SignUpStore.swift */; };
 		277403E62AC3E579000537DF /* SignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E42AC3E579000537DF /* SignInStore.swift */; };
-		277A33B62AE59B9A00302D35 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 277A33B52AE59B9A00302D35 /* GoogleService-Info.plist */; };
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
 		278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278193C32ADBDD900041A6BF /* MoreListCell.swift */; };
@@ -102,6 +101,7 @@
 		C4849A712AD3D49900DFFF81 /* DateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4849A702AD3D49900DFFF81 /* DateSheet.swift */; };
 		C4860EF72AC4151100392D29 /* SpendingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4860EF62AC4151100392D29 /* SpendingListView.swift */; };
 		C493894D2ACD2EE5008115FA /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C493894C2ACD2EE5008115FA /* MoreView.swift */; };
+		C4A93C162AE5F0D10038F560 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4A93C152AE5F0D10038F560 /* GoogleService-Info.plist */; };
 		C4E1F39D2ADFCC8800603A6A /* PaymentFocusField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */; };
 		C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */; };
 		C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C0B2AC160FE00472876 /* PaymentStore.swift */; };
@@ -167,7 +167,6 @@
 		277403DA2AC3B816000537DF /* AdmobView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdmobView.swift; sourceTree = "<group>"; };
 		277403E32AC3E579000537DF /* SignUpStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStore.swift; sourceTree = "<group>"; };
 		277403E42AC3E579000537DF /* SignInStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInStore.swift; sourceTree = "<group>"; };
-		277A33B52AE59B9A00302D35 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
 		278193C32ADBDD900041A6BF /* MoreListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListCell.swift; sourceTree = "<group>"; };
@@ -217,6 +216,7 @@
 		C4849A702AD3D49900DFFF81 /* DateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSheet.swift; sourceTree = "<group>"; };
 		C4860EF62AC4151100392D29 /* SpendingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingListView.swift; sourceTree = "<group>"; };
 		C493894C2ACD2EE5008115FA /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		C4A93C152AE5F0D10038F560 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		C4E1F39C2ADFCC8800603A6A /* PaymentFocusField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentFocusField.swift; sourceTree = "<group>"; };
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
 		C4F87C0B2AC160FE00472876 /* PaymentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStore.swift; sourceTree = "<group>"; };
@@ -472,7 +472,7 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
-				277A33B52AE59B9A00302D35 /* GoogleService-Info.plist */,
+				C4A93C152AE5F0D10038F560 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -914,7 +914,7 @@
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
 				278BA60C2AC25EA800761B0B /* Pretendard-ExtraLight.otf in Resources */,
-				277A33B62AE59B9A00302D35 /* GoogleService-Info.plist in Resources */,
+				C4A93C162AE5F0D10038F560 /* GoogleService-Info.plist in Resources */,
 				278BA6072AC25EA800761B0B /* Pretendard-Medium.otf in Resources */,
 				278BA60B2AC25EA800761B0B /* Pretendard-Thin.otf in Resources */,
 				278BA6092AC25EA800761B0B /* Pretendard-ExtraBold.otf in Resources */,
