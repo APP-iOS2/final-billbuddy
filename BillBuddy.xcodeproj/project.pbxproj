@@ -113,6 +113,8 @@
 		D2C7BD352AE52EFD00C6AA15 /* MyPageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */; };
 		D2C95AE62AD7A16D00DFCB03 /* MyPageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */; };
 		D2C95AE82AD7B59900DFCB03 /* MyPageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */; };
+		D2EF00B22AE787D400ABD4F0 /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */; };
+		D2EF00B42AE78DBF00ABD4F0 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */; };
 		FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */; };
 		FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FF635D1D2AD7CD41002C0B67 /* TossPayments */; };
 		FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */; };
@@ -229,6 +231,8 @@
 		D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageStore.swift; sourceTree = "<group>"; };
 		D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageDetailView.swift; sourceTree = "<group>"; };
 		D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingView.swift; sourceTree = "<group>"; };
+		D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
+		D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdTestView.swift; sourceTree = "<group>"; };
 		FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsView.swift; sourceTree = "<group>"; };
 		FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsStore.swift; sourceTree = "<group>"; };
@@ -350,11 +354,8 @@
 		2717D0F32ACD77BD0002D620 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2766484D2ABD8E4D000F8A10 /* MyPageView.swift */,
-				D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */,
-				D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */,
-				D21BD5EE2AD62E590074FA80 /* ProfileView.swift */,
-				D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */,
+				D2EF00B52AE7947800ABD4F0 /* MypagePorileView */,
+				D2EF00B02AE7873000ABD4F0 /* SettingView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -830,6 +831,27 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		D2EF00B02AE7873000ABD4F0 /* SettingView */ = {
+			isa = PBXGroup;
+			children = (
+				D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */,
+				D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */,
+			);
+			path = SettingView;
+			sourceTree = "<group>";
+		};
+		D2EF00B52AE7947800ABD4F0 /* MypagePorileView */ = {
+			isa = PBXGroup;
+			children = (
+				2766484D2ABD8E4D000F8A10 /* MyPageView.swift */,
+				D2C95AE52AD7A16D00DFCB03 /* MyPageDetailView.swift */,
+				D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */,
+				D21BD5EE2AD62E590074FA80 /* ProfileView.swift */,
+				D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */,
+			);
+			path = MypagePorileView;
+			sourceTree = "<group>";
+		};
 		FF635D232AD7D501002C0B67 /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -981,6 +1003,7 @@
 				27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */,
 				277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */,
 				273FD6A92AC1A407007BF7D4 /* Font+Extension.swift in Sources */,
+				D2EF00B42AE78DBF00ABD4F0 /* LicenseView.swift in Sources */,
 				FF635D2B2AD8228C002C0B67 /* MembershipView.swift in Sources */,
 				D2C95AE62AD7A16D00DFCB03 /* MyPageDetailView.swift in Sources */,
 				C478B1922AC6BAE8005EE427 /* FillInPaymentInfoView.swift in Sources */,
@@ -1025,6 +1048,7 @@
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
 				D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */,
 				C4849A6F2AD3C50E00DFFF81 /* DetailMainView.swift in Sources */,
+				D2EF00B22AE787D400ABD4F0 /* InquiryView.swift in Sources */,
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,
 				276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */,
