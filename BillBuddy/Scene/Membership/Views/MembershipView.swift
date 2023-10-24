@@ -160,7 +160,7 @@ struct MembershipView: View {
                                 .background((userService.currentUser?.isPremium ?? false) ? Color.gray400 : Color.myPrimary)
                                 .cornerRadius(12)
                         })
-                        .padding(.bottom, 52 - geometry.safeAreaInsets.bottom)
+                        .padding(.bottom, 80 - geometry.safeAreaInsets.bottom)
                         .disabled((userService.currentUser?.isPremium ?? false) ? true : false)
                         .fullScreenCover(isPresented: $isShowingFullScreen, content: {
                             TossPaymentsView(isShowingFullScreen: $isShowingFullScreen)
@@ -183,7 +183,7 @@ struct MembershipView: View {
                 }
             }
         }
-        .toolbar(userService.currentUser?.isPremium ?? false ? .visible : .hidden , for: .tabBar)
+        .toolbar(.hidden , for: .tabBar)
     }
 }
 

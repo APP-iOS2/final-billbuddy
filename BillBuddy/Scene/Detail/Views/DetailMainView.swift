@@ -106,8 +106,10 @@ struct DetailMainView: View {
                 travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
+                        travelDetailStore.checkAndResaveToken()
                         fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
+                        
                     }
                 }
             }
