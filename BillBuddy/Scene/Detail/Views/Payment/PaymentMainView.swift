@@ -42,16 +42,6 @@ struct PaymentMainView: View {
                             Text("총 지출")
                                 .font(.body04)
                                 .foregroundStyle(Color.gray600)
-//                            NavigationLink {
-//                                SpendingListView()
-//                            } label: {
-//                                Text("총 지출")
-//                                    .font(.body04)
-//                                    .foregroundStyle(Color.gray600)
-//                                Image("chevron_right")
-//                                    .resizable()
-//                                    .frame(width: 24, height: 24)
-//                            }
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
@@ -95,6 +85,12 @@ struct PaymentMainView: View {
         NavigationLink {
             PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                 .environmentObject(paymentStore)
+                .onDisappear {
+                    if travelDetailStore.isChangedTravel {
+                        selectedCategory = nil
+                        selectedDate = 0
+                    }
+                }
         } label: {
             HStack(spacing: 12) {
                 Spacer()
@@ -111,7 +107,6 @@ struct PaymentMainView: View {
             .padding(.top, 12)
             .padding(.bottom, 12)
         }
-        
         
         .background {
             RoundedRectangle(cornerRadius: 12)

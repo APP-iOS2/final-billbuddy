@@ -44,6 +44,9 @@ struct FillInPaymentInfoView: View {
         }
     }
     
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -52,6 +55,9 @@ struct FillInPaymentInfoView: View {
             contentSection
             memberSelectSection
             priceSection
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
     
@@ -64,6 +70,7 @@ struct FillInPaymentInfoView: View {
                 .padding(.bottom, 20)
             Spacer()
             Button(action: {
+                hideKeyboard()
                 isShowingDatePickerSheet = true
             }, label: {
                 HStack(spacing: 0) {
@@ -123,7 +130,6 @@ struct FillInPaymentInfoView: View {
             HStack {
                 Spacer()
                 CategorySelectView(mode: .category, selectedCategory: $selectedCategory)
-                    .focused(focusedField, equals: .type)
                 Spacer()
             }
             .padding(.bottom, 30)
@@ -169,6 +175,7 @@ struct FillInPaymentInfoView: View {
                 .padding(.bottom, 17)
             Spacer()
             Button(action: {
+                hideKeyboard() 
                 isShowingMemberSheet = true
             }, label: {
                 HStack (spacing: 0) {
