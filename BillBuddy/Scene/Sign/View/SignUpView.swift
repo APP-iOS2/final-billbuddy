@@ -161,7 +161,7 @@ struct SignUpView: View {
                         .font(.body02)
                         .foregroundColor(.white)
                         .frame(width: 351, height: 52)
-                        .background(Color.myPrimary)
+                        .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
                         .cornerRadius(12)
                 })
                 .disabled(!signUpStore.checkSignUp() ? true : false)
