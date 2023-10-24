@@ -238,7 +238,7 @@ struct ChattingRoomView: View {
                         .foregroundColor(.gray600)
                 }
                 Button {
-                    PushNotificationManager.sendPushNotification(title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.")
+                    PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.", senderToken: "senderToken")
                     NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                     sendChat()
                     selectedPhoto = nil

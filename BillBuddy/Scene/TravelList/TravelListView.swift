@@ -107,7 +107,7 @@ struct TravelListView: View {
             
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    //알림 뷰 자리
+                    NotificationListView()
                 } label: {
                     Image(.ringingBellNotification3)
                         .resizable()
