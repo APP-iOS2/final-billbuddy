@@ -65,7 +65,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
+                    NavigationLink(destination: InquiryView()){
                         HStack {
                             Text("문의하기")
                             Spacer()
@@ -75,7 +75,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
+                    NavigationLink(destination: LicenseView()){
                         HStack {
                             Text("오픈소스 라이센스")
                             Spacer()
