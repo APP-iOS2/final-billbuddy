@@ -292,7 +292,7 @@ struct PaymentManageView: View {
                 case .add:
                     return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         addPayment()
-                        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
+                        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle) 여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
                         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
                         
                         dismiss()
@@ -300,7 +300,7 @@ struct PaymentManageView: View {
                 case .mainAdd:
                     return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         mainAddPayment()
-                        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
+                        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle) 여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
                         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
                         
                         dismiss()
