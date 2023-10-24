@@ -32,11 +32,10 @@ final class LocationManager: NSObject, ObservableObject {
         mapView.delegate = self
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
     }
     /// 위치 승인
     func requestAuthorizqtion() {
-        
+
         switch locationManager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
             moveFocusOnUserLocation()
@@ -105,6 +104,7 @@ extension LocationManager {
     
     // MARK: - 커스텀한 어노테이션 셋팅
     func setAnnotations(filteredPayments: [Payment]) {
+        
         mapView.removeAnnotations(mapView.annotations)
         
         for payment in filteredPayments {
