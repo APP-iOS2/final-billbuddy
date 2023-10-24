@@ -24,6 +24,10 @@ struct AddTravelView: View {
     
     @FocusState private var isKeyboardUp: Bool
     
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
     var body: some View {
         ZStack {
             Color.gray1000
@@ -56,6 +60,7 @@ struct AddTravelView: View {
                                 Spacer()
                                 
                                 Button(action: {
+                                    hideKeyboard()
                                     isShowingCalendarView.toggle()
                                 }) {
                                     
@@ -106,6 +111,7 @@ struct AddTravelView: View {
                                 Spacer()
                                 
                                 Button(action: {
+                                    hideKeyboard()
                                     selectedMember = max(1, selectedMember - 1)
                                 }) {
                                     Image("Group 1171275315")
@@ -118,6 +124,7 @@ struct AddTravelView: View {
                                     .font(.body01)
                                 
                                 Button(action: {
+                                    hideKeyboard()
                                     selectedMember += 1
                                 }) {
                                     Image("Group 1171275314")
@@ -182,8 +189,12 @@ struct AddTravelView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         
     } //MARK: BODY
+        
     
 }
 
