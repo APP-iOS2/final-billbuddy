@@ -75,12 +75,19 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
         let userInfo = notification.request.content.userInfo
         
-        print("willPresent: userInfo: ", userInfo)
-        
-        completionHandler([.banner, .sound, .badge])
+        if let senderToken = userInfo["senderToken"] as? String {
+            let currentUserToken = UserService.shared.reciverToken
+            
+            if senderToken != currentUserToken {
+                completionHandler([.banner, .sound, .badge])
+            } else {
+                completionHandler([])
+            }
+        } else {
+            completionHandler([.banner, .sound, .badge])
+        }
     }
     
     /// 푸시메시지를 받았을 때

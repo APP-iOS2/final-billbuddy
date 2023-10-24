@@ -244,14 +244,12 @@ struct ChattingRoomView: View {
                         .foregroundColor(.gray600)
                 }
                 Button {
-                    if !inputText.isEmpty || selectedPhoto != nil {
-                        sendChat()
-                        PushNotificationManager.sendPushNotification(title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.")
-                        NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
-                        selectedPhoto = nil
-                        imageData?.removeAll()
-                        inputText.removeAll()
-                    }
+                    PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.", senderToken: "senderToken")
+                    NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
+                    sendChat()
+                    selectedPhoto = nil
+                    imageData?.removeAll()
+                    inputText.removeAll()
                 } label: {
                     Image(.mailSendEmailMessage35)
                         .resizable()
