@@ -177,7 +177,6 @@ extension LocationManager: MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         
-        // 커스텀 이미지
         let customPinImage: UIImage!
         let pinSize = CGSize(width: 46, height: 54)
         UIGraphicsBeginImageContext(pinSize)
@@ -191,16 +190,5 @@ extension LocationManager: MKMapViewDelegate {
         
         return annotationView
     }
-    
-//    // 라인 뷰 제공
-//    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-//        if let polyline = overlay as? MKPolyline {
-//            let renderer = MKPolylineRenderer(polyline: polyline)
-//            renderer.strokeColor = .red
-//            renderer.lineWidth = 5
-//            return renderer
-//        }
-//        return MKOverlayRenderer()
-//    }
 }
 

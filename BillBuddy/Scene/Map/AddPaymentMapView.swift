@@ -76,8 +76,6 @@ struct AddPaymentMapView: View {
                             Image("my_location")
                                 .resizable()
                                 .frame(width: 24, height: 24)
-//                                .renderingMode(.template)
-                                
                         }
                 }
                 .onTapGesture {

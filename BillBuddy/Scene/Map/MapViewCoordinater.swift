@@ -17,13 +17,5 @@ struct MapViewCoordinater: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        
-//        // 기존 라인 제거
-//        locationManager.mapView.removeOverlays(locationManager.mapView.overlays)
-//        
-//        // 라인 그리기
-//        for line in locationManager.lines {
-//            locationManager.mapView.addOverlay(line.polyline)
-//        }
     }
 }
