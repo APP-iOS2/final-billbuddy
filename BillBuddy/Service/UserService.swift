@@ -27,6 +27,12 @@ final class UserService: ObservableObject {
         }
     }
     
+    func getReciverToken(_ token: String) {
+        reciverToken = token
+        currentUser?.reciverToken = token
+        AuthStore.shared.currentUser?.reciverToken = token
+    }
+    
     // 현재 유저 패치작업
     @MainActor
     func fetchUser() async throws  {

@@ -27,13 +27,21 @@ final class UserTravelStore: ObservableObject {
             do {
                 let snapshot = try await
                 self.service.collection("User").document (userId).collection("UserTravel").getDocuments()
-                var newTravels: [TravelCalculation] = []
+                var travelIds: Set<String> = []
                 for document in snapshot.documents {
                     do {
                         let snapshot = try document.data(as: UserTravel.self)
-//                        self.userTravels.append(snapshot)
-                        
-                        let snapshotData = try await self.service.collection("TravelCalculation").document(snapshot.travelId).getDocument()
+                        userTravels.append(snapshot)
+                        travelIds.insert(snapshot.travelId)
+                    } catch {
+                        print(error)
+                    }
+                }
+                
+                var newTravels: [TravelCalculation] = []
+                for travelId in travelIds {
+                    do {
+                        let snapshotData = try await self.service.collection("TravelCalculation").document(travelId).getDocument()
                         let travel = try snapshotData.data(as: TravelCalculation.self)
                         newTravels.append(travel)
                     } catch {

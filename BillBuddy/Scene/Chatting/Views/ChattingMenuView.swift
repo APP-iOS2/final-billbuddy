@@ -49,15 +49,6 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray600)
             }
             Spacer()
-            VStack {
-                NavigationLink {
-                    MoreView(travel: travel)
-                } label: {
-                    Image(.steps13)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
         }
         .frame(height: 100)
         .frame(maxWidth: .infinity)
@@ -79,7 +70,7 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray900)
                 Spacer()
                 NavigationLink {
-                    
+                    ChattingMenuDetailView(selection: "공지", travel: travel)
                 } label: {
                     Image(.chevronRight)
                         .resizable()
@@ -87,14 +78,16 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
-            Text("정규시즌 4~5위팀이 맞붙는 KBO 와일드카드 결정전은 4위팀이 1승을 안고 시리즈를 치른다. 따라서 4위팀은 1차전에서 승리하거나 무승부를 해도 준플레이오프 진출에 성공할 수 있다. 반면 5위팀은 1차전은 물론 2차전까지 잡아야 준플레이오프 진출이 가능하다. 역대 와일드카드 결정전에서는 4위팀이 모두 준플레이오프 진출에 성공했다. 이번에도 그랬다. 이날 NC의 승리로 '100%의 법칙'이 이어졌다. 2015년 넥센, ")
+            Text("공지사항입니다. 기차 출발 삼십분 전에는 꼬옥 도착하기로해요~ 아시겠어요????")
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .lineLimit(6)
                 .lineSpacing(3)
                 .font(.body04)
                 .foregroundColor(.gray700)
                 .padding(.bottom, 50)
+            Spacer()
         }
-        .frame(minHeight: 200)
+        .frame(minHeight: 100)
         .frame(maxWidth: .infinity)
         .overlay(
             Rectangle()
@@ -114,7 +107,7 @@ struct ChattingMenuView: View {
                     .foregroundColor(.gray900)
                 Spacer()
                 NavigationLink {
-                    
+                    ChattingMenuDetailView(selection: "사진", travel: travel)
                 } label: {
                     Image(.chevronRight)
                         .resizable()
@@ -125,9 +118,32 @@ struct ChattingMenuView: View {
             LazyVGrid(columns: [
                 GridItem(.adaptive(minimum: 100))
             ], spacing: 12) {
-                ForEach(0..<3) { image in
-                    Rectangle()
-                        .frame(width: 112, height: 112)
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB37138E7-C45E-450E-B46C-26065E79155B.jpeg?alt=media&token=14272592-2a1f-4ffd-a392-dbb42cfa75ce")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
+                }
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB745C0F1-33B6-4009-900A-C755491BEB17.jpeg?alt=media&token=b79b160a-9569-417d-a8a1-d74bef7b3a40")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
+                }
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F4D336765-6D93-4220-9F74-27A862E16954.jpeg?alt=media&token=a34f9d7b-20e7-462b-9714-a4341ca9851b")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
                 }
             }
             Spacer()

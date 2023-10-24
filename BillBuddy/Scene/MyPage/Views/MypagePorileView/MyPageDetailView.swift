@@ -18,6 +18,7 @@ struct MyPageDetailView: View {
                     AsyncImage(url: URL(string: userImage), content: { image in
                         image
                             .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 80, height: 80)
                             .cornerRadius(50)
                     }, placeholder: {

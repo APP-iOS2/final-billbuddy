@@ -65,7 +65,7 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("AppDelegate - 파베 토큰을 받았습니다.")
         print("AppDelegate - Firebase registration token: \(String(describing: fcmToken))")
-        UserService.shared.reciverToken = fcmToken ?? ""
+        UserService.shared.getReciverToken(fcmToken ?? "nil")
     }
 }
 
@@ -99,5 +99,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print("didReceivet: userInfo: ", userInfo)
         completionHandler()
         
+    }
+}
+
+extension AppDelegate {
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        // 세로방향 고정
+        return UIInterfaceOrientationMask.portrait
     }
 }

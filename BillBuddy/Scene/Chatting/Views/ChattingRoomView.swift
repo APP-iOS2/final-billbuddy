@@ -229,8 +229,14 @@ struct ChattingRoomView: View {
                 }
             }
             HStack() {
-                TextField("내용을 입력해주세요", text: $inputText)
-                    .padding()
+                if selectedPhoto != nil {
+                    TextField("", text: $inputText)
+                        .disabled(true)
+                        .padding()
+                } else {
+                    TextField("내용을 입력해주세요", text: $inputText)
+                        .padding()
+                }
                 PhotosPicker(selection: $selectedPhoto, matching: .images) {
                     Image(.gallery)
                         .resizable()
@@ -259,7 +265,6 @@ struct ChattingRoomView: View {
         }
     }
     
-    // TODO: 이미지와 텍스트를 같이 전송할 때 텍스트가 nil
     /// 채팅 콘텐츠 분기처리해서 스토어로
     private func sendChat() {
         if let photoItem = selectedPhoto {
