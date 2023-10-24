@@ -87,7 +87,7 @@ struct ChattingMenuView: View {
                 .padding(.bottom, 50)
             Spacer()
         }
-        .frame(minHeight: 200)
+        .frame(minHeight: 100)
         .frame(maxWidth: .infinity)
         .overlay(
             Rectangle()
@@ -118,9 +118,32 @@ struct ChattingMenuView: View {
             LazyVGrid(columns: [
                 GridItem(.adaptive(minimum: 100))
             ], spacing: 12) {
-                ForEach(0..<3) { image in
-                    Rectangle()
-                        .frame(width: 112, height: 112)
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB37138E7-C45E-450E-B46C-26065E79155B.jpeg?alt=media&token=14272592-2a1f-4ffd-a392-dbb42cfa75ce")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
+                }
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB745C0F1-33B6-4009-900A-C755491BEB17.jpeg?alt=media&token=b79b160a-9569-417d-a8a1-d74bef7b3a40")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
+                }
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F4D336765-6D93-4220-9F74-27A862E16954.jpeg?alt=media&token=a34f9d7b-20e7-462b-9714-a4341ca9851b")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
                 }
             }
             Spacer()
