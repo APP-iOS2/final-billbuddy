@@ -14,9 +14,13 @@ struct SignInView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("간편하게 가입하고\n서비스를 이용해보세요.")
-                .font(.title04)
-                .padding(.bottom, 24)
+            Group {
+                Text("간편하게 가입하고")
+                Text("서비스를 이용해보세요.")
+                    .padding(.bottom, 24)
+            }
+            .lineLimit(2)
+            .font(.title04)
             VStack(spacing: 12) {
                 TextField("이메일",text: $signInStore.emailText)
                     .padding(16)
