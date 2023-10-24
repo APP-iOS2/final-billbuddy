@@ -23,6 +23,19 @@ final class TravelDetailStore: ObservableObject {
         self.travelId = travel.id
     }
     
+    func checkAndResaveToken() {
+        guard let index = travel.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
+        if travel.members[index].reciverToken != UserService.shared.reciverToken {
+            travel.members[index].reciverToken = UserService.shared.reciverToken
+            travel.updateContentDate = Date.now.timeIntervalSince1970
+            do {
+                try Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(from: travel.self)
+            } catch {
+                print("resave token false")
+            }
+        }
+    }
+    
     // 해당 여행에 updateDate 최신화
     func saveUpdateDate() {
         Task {
