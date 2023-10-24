@@ -12,7 +12,7 @@ struct MemeberAcountCell: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            Image("DBPin")
+            Image(.profile)
                 .resizable()
                 .frame(width: 40, height: 40)
                 .clipShape(Circle())
