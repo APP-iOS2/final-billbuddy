@@ -52,7 +52,7 @@ struct MembershipView: View {
                             Rectangle()
                                 .fill(Color.white)
                                 .frame(height: 60)
-                                .frame(width: .infinity)
+                                .frame(maxWidth: .infinity)
                             VStack(alignment: .leading) {
                                 HStack {
                                     Image(systemName: "checkmark.circle")
@@ -145,7 +145,7 @@ struct MembershipView: View {
                         } message: {
                             Text("프리미엄 멤버십을 해지하시겠습니까?")
                         }
-
+                        
                     } else {
                         Spacer()
                         
@@ -160,7 +160,7 @@ struct MembershipView: View {
                                 .background((userService.currentUser?.isPremium ?? false) ? Color.gray400 : Color.myPrimary)
                                 .cornerRadius(12)
                         })
-                        .padding(.bottom, 52 - geometry.safeAreaInsets.bottom)
+                        .padding(.bottom, 80 - geometry.safeAreaInsets.bottom)
                         .disabled((userService.currentUser?.isPremium ?? false) ? true : false)
                         .fullScreenCover(isPresented: $isShowingFullScreen, content: {
                             TossPaymentsView(isShowingFullScreen: $isShowingFullScreen)
@@ -171,24 +171,25 @@ struct MembershipView: View {
             .padding(.horizontal, 16)
         }
         .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image("arrow_back")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(.systemBlack)
-                    }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
                 }
             }
-        .toolbar(userService.currentUser?.isPremium ?? false ? .visible : .hidden , for: .tabBar)
+        }
+        .toolbar(.hidden , for: .tabBar)
     }
 }
 
 #Preview {
     NavigationStack {
         MembershipView()
+            .environmentObject(UserService.shared)
     }
 }

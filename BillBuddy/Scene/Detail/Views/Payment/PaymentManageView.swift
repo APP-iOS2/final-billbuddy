@@ -197,6 +197,11 @@ struct PaymentManageView: View {
             case .edit:
                 HStack {
                     AddPaymentMapView(locationManager: locationManager, searchAddress: $searchAddress)
+                        .onAppear {
+                            if let p = payment {
+                                searchAddress = p.address.address
+                            }
+                        }
                     Spacer()
                 }
             case .mainAdd:
@@ -294,7 +299,6 @@ struct PaymentManageView: View {
                         addPayment()
                         PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
                         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-                        
                         dismiss()
                     }))
                 case .mainAdd:
@@ -302,13 +306,11 @@ struct PaymentManageView: View {
                         mainAddPayment()
                         PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
                         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-                        
                         dismiss()
                     }))
                 case .edit:
                     return Alert(title: Text("수정하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         editPayment()
-                        // TODO: 수정 시에도 알림?
                         dismiss()
                     }))
                 }
@@ -335,6 +337,11 @@ extension PaymentManageView {
             await paymentStore.addPayment(newPayment: newPayment)
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
         }
+        
+        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
+        
+        // TODO: ADD 하고 나면 날짜랑 카테고리 전체로 변경되도록 변경하기
     }
     
     func mainAddPayment() {
@@ -347,6 +354,9 @@ extension PaymentManageView {
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
+        
+        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
     }
     
     func editPayment() {

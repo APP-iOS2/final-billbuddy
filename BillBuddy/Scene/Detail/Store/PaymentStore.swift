@@ -58,13 +58,13 @@ final class PaymentStore: ObservableObject {
     
     func filterDate(date: Double) {
         filteredPayments = payments.filter({ (payment: Payment) in
-            return payment.paymentDate.todayRange() == date.todayRange()
+            return date.todayRange() ~= (payment.paymentDate + 9 * 60 * 60)
         })
     }
     
     func filterDateCategory(date: Double, category: Payment.PaymentType) {
         filteredPayments = payments.filter({ (payment: Payment) in
-            return payment.paymentDate.todayRange() == date.todayRange() && payment.type == category
+            return date.todayRange() ~= (payment.paymentDate + 9 * 60 * 60) && payment.type == category
         })
     }
     

@@ -45,7 +45,6 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
-                // TODO: 새로운 변경사항
                 ZStack {
                     PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
                         .environmentObject(travelDetailStore)
@@ -107,8 +106,10 @@ struct DetailMainView: View {
                 travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
+                        travelDetailStore.checkAndResaveToken()
                         fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
+                        
                     }
                 }
             }
