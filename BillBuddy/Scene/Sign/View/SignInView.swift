@@ -89,9 +89,9 @@ struct SignInView: View {
             .font(.body04)
             .foregroundStyle(Color.systemBlack)
             .padding(.top, 20)
-            .padding(.bottom, 77)
+            .padding(.bottom, 30)
             
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text("SNS계정으로 로그인")
                     .font(.body02)
                 Link(destination: URL(string: "https://google.com")!, label: {
