@@ -18,7 +18,6 @@
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
 		2655B7052ADD976D002E051B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2655B7042ADD976D002E051B /* FirebaseMessaging */; };
 		2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */; };
-		266869A72AE695300072FDB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 266869A62AE695300072FDB2 /* GoogleService-Info.plist */; };
 		266869A92AE7CA7B0072FDB2 /* ServerKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 266869A82AE7CA7B0072FDB2 /* ServerKeys.plist */; };
 		266869AB2AE7CB9D0072FDB2 /* ServerKeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266869AA2AE7CB9D0072FDB2 /* ServerKeyManager.swift */; };
 		26E188282AE46E3F0046AF12 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E188272AE46E3F0046AF12 /* NotificationCell.swift */; };
@@ -83,6 +82,7 @@
 		27933F742AD3403500E6A545 /* SettlementExpensesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */; };
 		27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F752AD3405000E6A545 /* SettlementExpenses.swift */; };
 		46231F3B2AE6E8C000083128 /* ChattingMenuDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46231F3A2AE6E8C000083128 /* ChattingMenuDetailView.swift */; };
+		464222C42AE7D9F1006D5683 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464222C32AE7D9F1006D5683 /* GoogleService-Info.plist */; };
 		46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */; };
 		46AA65712AD6796C00988491 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA65702AD6796C00988491 /* Message.swift */; };
 		46B8E2272AD8295F001B3A6C /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8E2262AD8295F001B3A6C /* MessageStore.swift */; };
@@ -145,7 +145,6 @@
 		02C949962AD7D90300DFF9D4 /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		2655B7032ADD972A002E051B /* BillBuddy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BillBuddy.entitlements; sourceTree = "<group>"; };
 		2663484A2AD8DD6C002CCCF4 /* NotificationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
-		266869A62AE695300072FDB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/항목을 포함하는 새로운 폴더 11/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		266869A82AE7CA7B0072FDB2 /* ServerKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ServerKeys.plist; sourceTree = "<group>"; };
 		266869AA2AE7CB9D0072FDB2 /* ServerKeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerKeyManager.swift; sourceTree = "<group>"; };
 		26E188272AE46E3F0046AF12 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
@@ -204,6 +203,7 @@
 		27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpensesStore.swift; sourceTree = "<group>"; };
 		27933F752AD3405000E6A545 /* SettlementExpenses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpenses.swift; sourceTree = "<group>"; };
 		46231F3A2AE6E8C000083128 /* ChattingMenuDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingMenuDetailView.swift; sourceTree = "<group>"; };
+		464222C32AE7D9F1006D5683 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/final/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingRoomView.swift; sourceTree = "<group>"; };
 		46AA65702AD6796C00988491 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		46B8E2262AD8295F001B3A6C /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
@@ -484,6 +484,7 @@
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
+				464222C32AE7D9F1006D5683 /* GoogleService-Info.plist */,
 				266869A82AE7CA7B0072FDB2 /* ServerKeys.plist */,
 			);
 			path = Config;
@@ -955,6 +956,7 @@
 				278BA6052AC25EA800761B0B /* Pretendard-Regular.otf in Resources */,
 				278BA6062AC25EA800761B0B /* Pretendard-Black.otf in Resources */,
 				278BA6082AC25EA800761B0B /* Pretendard-Light.otf in Resources */,
+				464222C42AE7D9F1006D5683 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
