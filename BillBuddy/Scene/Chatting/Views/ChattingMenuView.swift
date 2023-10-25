@@ -118,7 +118,7 @@ struct ChattingMenuView: View {
             LazyVGrid(columns: [
                 GridItem(.adaptive(minimum: 100))
             ], spacing: 12) {
-                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB37138E7-C45E-450E-B46C-26065E79155B.jpeg?alt=media&token=14272592-2a1f-4ffd-a392-dbb42cfa75ce")) { image in
+                AsyncImage(url: URL(string: "https://cdn.discordapp.com/attachments/1153285644345417808/1166330851068481576/IMG_08E8F2FC92C8-1.jpeg?ex=654a1940&is=6537a440&hm=e87507612dbf2aa7d3ef3687584525291c51391574cf34071ff702444ac9b34f&")) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -127,7 +127,7 @@ struct ChattingMenuView: View {
                     ProgressView()
                         .frame(width:112, height: 112)
                 }
-                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB745C0F1-33B6-4009-900A-C755491BEB17.jpeg?alt=media&token=b79b160a-9569-417d-a8a1-d74bef7b3a40")) { image in
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F207331C0-607C-42C3-8C1D-D6D9E4FB0704.jpeg?alt=media&token=e39f9b1c-8baf-40cf-b0ed-965d2b7889c7&_gl=1*1dnu1kr*_ga*MjA4MDU0NTgyNS4xNjkxMDU5NjQ2*_ga_CW55HF8NVT*MTY5ODE0NTI1NC4xNDkuMC4xNjk4MTQ1MjU0LjYwLjAuMA..")) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
