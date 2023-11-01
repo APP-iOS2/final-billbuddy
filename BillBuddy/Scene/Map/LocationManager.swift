@@ -46,6 +46,7 @@ final class LocationManager: NSObject, ObservableObject {
         }
     }
 }
+
 extension LocationManager {
     
     // MARK: - 사용자 위치로 포인터 이동
