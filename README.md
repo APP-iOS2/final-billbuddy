@@ -1,5 +1,5 @@
 # BillBuddy
-![billbuddy](https://github.com/APPSCHOOL3-iOS/final-billbuddy/assets/51072429/736007a5-4b60-4645-80ae-bb4a0c7dcde8)
+![billbuddy](https://github.com/APPSCHOOL3-iOS/final-billbuddy/assets/51072429/39554895-74b8-4232-b484-84a9d1ddb102)
 <br>
 <br>
 
