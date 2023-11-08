@@ -145,13 +145,12 @@ struct TravelListView: View {
                     nativeAdViewModel.refreshAd()
                 }
             }
+            userTravelStore.fetchFirstInit()
             if !AuthStore.shared.userUid.isEmpty {
-                userTravelStore.fetchTravelCalculation()
                 if notificationStore.didFetched == false {
                     notificationStore.getUserUid()
                 }
             }
-            
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false

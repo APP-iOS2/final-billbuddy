@@ -11,11 +11,23 @@ import FirebaseFirestoreSwift
 final class UserTravelStore: ObservableObject {
     @Published var userTravels: [UserTravel] = []
     @Published var travels: [TravelCalculation] = []
+    @Published var isFetchedFirst: Bool = false
     @Published var isFetching: Bool = false
     private let service = Firestore.firestore()
     
     var travelCount: Int {
         travels.isEmpty ? 2 : travels.count
+    }
+    
+    init() {
+        Task { await fetchFirstInit() }
+    }
+    
+    @MainActor
+    func fetchFirstInit() {
+        if AuthStore.shared.userUid.isEmpty == false && isFetchedFirst == false {
+            fetchTravelCalculation()
+        }
     }
     
     @MainActor
@@ -53,7 +65,7 @@ final class UserTravelStore: ObservableObject {
                 
                 self.travels = newTravels
                 self.isFetching = false
-
+                self.isFetchedFirst = true
             } catch {
                 print ("Failed fetch travel list: \(error)")
             }
@@ -72,9 +84,6 @@ final class UserTravelStore: ObservableObject {
                     let member = TravelCalculation.Member(name: "인원\(index)", advancePayment: 0, payment: 0)
                     tempMembers.append(member)
                 }
-                
-                
-                
             }
         }
         let userId = AuthStore.shared.userUid
@@ -96,9 +105,10 @@ final class UserTravelStore: ObservableObject {
         
         do {
             try service.collection("TravelCalculation").document(tempTravel.id).setData(from: tempTravel)
-            
-            _ = try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
-            
+            try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
+            Task {
+                await fetchTravelCalculation()
+            }
             //            _ = TravelCalculation(
             //                hostId: travel.hostId,
             //                travelTitle: travel.travelTitle,
@@ -144,6 +154,13 @@ final class UserTravelStore: ObservableObject {
                     ]
                 )
         }
+    }
+    
+    @MainActor
+    func resetStore() {
+        userTravels = []
+        travels = []
+        isFetchedFirst = false
     }
 }
 
