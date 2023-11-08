@@ -118,6 +118,7 @@
 		D2EF00B22AE787D400ABD4F0 /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */; };
 		D2EF00B42AE78DBF00ABD4F0 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */; };
 		FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */; };
+		FF37A72E2AFBD20B00784E8A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF37A72D2AFBD20B00784E8A /* Kingfisher */; };
 		FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FF635D1D2AD7CD41002C0B67 /* TossPayments */; };
 		FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */; };
 		FF635D292AD821E4002C0B67 /* TossPaymentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */; };
@@ -261,6 +262,7 @@
 				277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */,
 				2766482F2ABD5B11000F8A10 /* FirebaseStorage in Frameworks */,
 				276648252ABD5B11000F8A10 /* FirebaseAuth in Frameworks */,
+				FF37A72E2AFBD20B00784E8A /* Kingfisher in Frameworks */,
 				FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */,
 				2766482D2ABD5B11000F8A10 /* FirebaseFirestoreSwift in Frameworks */,
 			);
@@ -892,6 +894,7 @@
 				277403E02AC3B8CC000537DF /* GoogleMobileAds */,
 				FF635D1D2AD7CD41002C0B67 /* TossPayments */,
 				2655B7042ADD976D002E051B /* FirebaseMessaging */,
+				FF37A72D2AFBD20B00784E8A /* Kingfisher */,
 			);
 			productName = BillBuddy;
 			productReference = 276647F72ABD53F8000F8A10 /* BillBuddy.app */;
@@ -925,6 +928,7 @@
 				276648182ABD5AC6000F8A10 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				277403DF2AC3B8CC000537DF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				FF635D1C2AD7CD41002C0B67 /* XCRemoteSwiftPackageReference "payment-sdk-ios" */,
+				FF37A72C2AFBD20B00784E8A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 276647F82ABD53F8000F8A10 /* Products */;
 			projectDirPath = "";
@@ -1297,6 +1301,14 @@
 				minimumVersion = 10.11.0;
 			};
 		};
+		FF37A72C2AFBD20B00784E8A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
 		FF635D1C2AD7CD41002C0B67 /* XCRemoteSwiftPackageReference "payment-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tosspayments/payment-sdk-ios.git";
@@ -1352,6 +1364,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 277403DF2AC3B8CC000537DF /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
+		};
+		FF37A72D2AFBD20B00784E8A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF37A72C2AFBD20B00784E8A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		FF635D1D2AD7CD41002C0B67 /* TossPayments */ = {
 			isa = XCSwiftPackageProductDependency;
