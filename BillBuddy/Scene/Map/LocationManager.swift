@@ -148,9 +148,10 @@ extension LocationManager: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        selectedLatitude = mapView.centerCoordinate.latitude
-        selectedLongitude = mapView.centerCoordinate.longitude
-        
+        DispatchQueue.main.async {
+            self.selectedLatitude = mapView.centerCoordinate.latitude
+            self.selectedLongitude = mapView.centerCoordinate.longitude
+        }
         let location: CLLocation = CLLocation(latitude: selectedLatitude, longitude: selectedLongitude)
         
         findAddr(location: location)
