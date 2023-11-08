@@ -9,9 +9,11 @@ import SwiftUI
 
 struct MyPageSettingView: View {
     
-    @EnvironmentObject var signInStore: SignInStore
-    @EnvironmentObject var signUpStore: SignUpStore
-    @EnvironmentObject var notificationStore: NotificationStore
+    @EnvironmentObject private var signInStore: SignInStore
+    @EnvironmentObject private var signUpStore: SignUpStore
+    @EnvironmentObject private var notificationStore: NotificationStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
@@ -110,6 +112,7 @@ struct MyPageSettingView: View {
                             if try AuthStore.shared.signOut() {
                                 UserService.shared.isSignIn = false
                                 notificationStore.resetStore()
+                                userTravelStore.resetStore()
                             }
                         } catch {
                             print("Error signing out: \(error.localizedDescription)")
@@ -134,6 +137,7 @@ struct MyPageSettingView: View {
                             signInStore.deleteUser()
                             UserService.shared.isSignIn = false
                             notificationStore.resetStore()
+                            userTravelStore.resetStore()
                         }
                     }
                 } message: {
@@ -151,5 +155,6 @@ struct MyPageSettingView: View {
             .environmentObject(SignInStore())
             .environmentObject(SignUpStore())
             .environmentObject(NotificationStore())
+            .environmentObject(UserTravelStore())
     }
 }
