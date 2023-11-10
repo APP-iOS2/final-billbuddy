@@ -55,24 +55,28 @@ final class TravelDetailStore: ObservableObject {
             }
             
             do {
-                print("l => listener")
                 guard let snapshot = querySnapshot else { return }
-                print("2 => listener")
                 let travel = try snapshot.data(as: TravelCalculation.self)
-                print("3 => listener \(travel.members.count). \(travel.updateContentDate) => \(self.travel.updateContentDate)")
+                print(" => listener \(travel.members.count). \(travel.updateContentDate) => \(self.travel.updateContentDate)")
                 // 여행 변경사항이 있을 시
                 DispatchQueue.main.async {
                     if self.isFirstFetch {
                         self.travel = travel
                         return
                     }
-                    if travel.updateContentDate > self.travel.updateContentDate {
+                    // 맴버가 바뀌었을시엔 바로 바꿔줌
+                    if travel.members != self.travel.members {
+                        self.travel = travel
+                        
+                        // updateContentDate가 변경됐을 시엔
+                    } else if travel.updateContentDate > self.travel.updateContentDate {
                         // 30초뒤 다시 돌기시작 후 payment fetch하시겠습니까 버튼 활성화
                         self.travel = travel
                         self.isChangedTravel = true
                     } else {
                         self.isChangedTravel = false
                     }
+                    
                 }
             } catch {
                 print("decoding false")

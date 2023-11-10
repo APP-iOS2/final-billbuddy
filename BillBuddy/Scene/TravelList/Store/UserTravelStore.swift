@@ -106,9 +106,7 @@ final class UserTravelStore: ObservableObject {
         do {
             try service.collection("TravelCalculation").document(tempTravel.id).setData(from: tempTravel)
             try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
-            Task {
-                await fetchTravelCalculation()
-            }
+            Task { await fetchTravelCalculation() }
             //            _ = TravelCalculation(
             //                hostId: travel.hostId,
             //                travelTitle: travel.travelTitle,
@@ -137,23 +135,31 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
-    func goOutTravel(travel: TravelCalculation) {
+    @MainActor
+    func leaveTravel(travel: TravelCalculation) {
         let userId = AuthStore.shared.userUid
         let travelId = travel.id
         guard let travelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId }) else { return }
         let userTravel = userTravels[travelArrayIndex]
-        let members = travel.members.filter { $0.userId != userId }
+        var members = travel.members
+        guard let memberIndex = members.firstIndex(where: { $0.userId == userId }) else { return }
+        members[memberIndex].isExcluded = true
+        members[memberIndex].userId = nil
         
-        Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "").delete { error in
-            guard error != nil else { return }
-            Firestore.firestore().collection("TravelCalculation").document(travelId)
-                .setData(
-                    [
-                        "updateContentDate" : Date.now.timeIntervalSince1970,
-                        "members" : members
-                    ]
-                )
-        }
+        Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
+            .delete { error in
+                guard error != nil else { return }
+                Firestore.firestore().collection("TravelCalculation").document(travelId)
+                    .setData(
+                        [
+                            "updateContentDate" : Date.now.timeIntervalSince1970,
+                            "members" : members
+                        ]
+                    )
+                Task {
+                    self.fetchTravelCalculation()
+                }
+            }
     }
     
     @MainActor
