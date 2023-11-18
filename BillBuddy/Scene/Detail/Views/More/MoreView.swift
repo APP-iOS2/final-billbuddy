@@ -41,37 +41,63 @@ enum ListItem: String, CaseIterable {
 }
 
 struct MoreView: View {
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @Environment(\.dismiss) private var dismiss
 
-    var travel: TravelCalculation
+    @EnvironmentObject private var tabViewStore: TabViewStore
     @State var itemList: [ListItem] = ListItem.allCases
-    
+
+    let travel: TravelCalculation
+
     var body: some View {
-        Divider()
-            .padding(.bottom, 16)
-        ScrollView {
-            VStack {
-                ForEach(ListItem.allCases, id: \.self) { item in
-                    NavigationLink {
-                        switch item {
-                        case .chat:
-                            ChattingRoomView(travel: travel)
-//                        case .editDate:
-//                            SpendingListView()
-                        case .mamberManagement:
-                            MemberManagementView(travel: travel)
-                        case .settledAccount:
-                            SettledAccountView()
+        VStack {
+            Divider()
+                .padding(.bottom, 16)
+            ScrollView {
+                VStack {
+                    ForEach(ListItem.allCases, id: \.self) { item in
+                        NavigationLink {
+                            switch item {
+                            case .chat:
+                                ChattingRoomView(travel: travel)
+                                // case .editDate:
+                                // SpendingListView()
+                            case .mamberManagement:
+                                MemberManagementView(travel: travel)
+                            case .settledAccount:
+                                SettledAccountView()
+                            }
+                        } label: {
+                            MoreListCell(item: item)
                         }
-                    } label: {
-                        MoreListCell(item: item)
+                        .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                     }
-                    .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                    Spacer()
                 }
-                
-                Spacer()
             }
+            Spacer()
+            Rectangle()
+                .frame(height: 83)
+                .foregroundStyle(Color.gray050)
+                .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
+                    Button {
+                        userTravelStore.leaveTravel(travel: travel)
+                        tabViewStore.poToRoow(type: .travel)
+
+                    } label: {
+                        HStack {
+                            Image(.exit)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                            Text("나가기")
+                                .foregroundStyle(Color.gray600)
+                                .font(Font.body04)
+                        }
+                    }
+                    .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
+                }
         }
+        .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -97,5 +123,6 @@ struct MoreView: View {
 #Preview {
     NavigationStack {
         MoreView(travel: .sampletravel)
+            .environmentObject(UserTravelStore())
     }
 }
