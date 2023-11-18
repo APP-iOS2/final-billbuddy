@@ -50,15 +50,10 @@ final class TabViewStore: ObservableObject {
     }
     
     @MainActor
-    func poToRoow(type: PushViewType) {
-        switch type {
-        case .travel:
-            isPresentedDetail = false
-        case .chatting:
-            isPresentedChat = false
-        case .noti:
-            isPresnetedNoti = false
-
-        }
+    func poToRoow() {
+        isPresentedDetail = false
+        isPresentedChat = false
+        isPresnetedNoti = false
     }
 }
+

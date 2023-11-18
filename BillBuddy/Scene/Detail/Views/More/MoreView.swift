@@ -41,12 +41,12 @@ enum ListItem: String, CaseIterable {
 }
 
 struct MoreView: View {
-    @EnvironmentObject private var userTravelStore: UserTravelStore
     @Environment(\.dismiss) private var dismiss
-
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var tabViewStore: TabViewStore
     @State var itemList: [ListItem] = ListItem.allCases
-
+    @State var isPresentedLeaveAlert: Bool = false
+    
     let travel: TravelCalculation
 
     var body: some View {
@@ -81,8 +81,7 @@ struct MoreView: View {
                 .foregroundStyle(Color.gray050)
                 .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
                     Button {
-                        userTravelStore.leaveTravel(travel: travel)
-                        tabViewStore.poToRoow(type: .travel)
+                        isPresentedLeaveAlert = true
 
                     } label: {
                         HStack {
@@ -116,6 +115,14 @@ struct MoreView: View {
                     .font(.title05)
                     .foregroundColor(Color.systemBlack)
             }
+        }
+        .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
+            Button("머물기", role: .cancel) { }
+            Button("여행 떠나기", role: .destructive) {
+                userTravelStore.leaveTravel(travel: travel)
+                tabViewStore.poToRoow()
+            }
+
         }
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettledAccountView: View {
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.dismiss) private var dismiss
 
     @EnvironmentObject var settlementExpensesStore: SettlementExpensesStore
     
@@ -75,7 +75,7 @@ struct SettledAccountView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }, label: {
                     Image("arrow_back")
                         .resizable()

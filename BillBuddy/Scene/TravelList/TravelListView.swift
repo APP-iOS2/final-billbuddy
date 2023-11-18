@@ -23,7 +23,6 @@ struct TravelListView: View {
     
     var body: some View {
         ZStack {
-            
             VStack(spacing: 0) {
                 HStack {
                     travelFilterButton
