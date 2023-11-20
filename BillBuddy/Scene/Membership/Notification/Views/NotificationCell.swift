@@ -16,7 +16,7 @@ struct NotificationCell: View {
             case .chatting:
                 print("NotificationCell - chatting")
             case .travel, .invite:
-                SchemeService.shared.getInviteNoti(notification)
+                InvitTravelService.shared.getInviteNoti(notification)
             case .notice:
                 print("NotificationCell - notice")
             }

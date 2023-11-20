@@ -17,58 +17,47 @@ enum URLSchemeBase: String {
     case query = "query"
 }
 
-struct PushUrl {
+struct PushType {
     let scheme: String = "billbuddybuddy"
     let host: NotiType
     var querys: [String:String]
 }
 
-final class SchemeService: ObservableObject {
-    @Published var url: URL? = nil
+final class InvitTravelService: ObservableObject {
     @Published var isLoading = false
-    @Published var componentedUrl: PushUrl? = nil
     
-    var isUrlEmpty: Bool {
-        return url == nil
-    }
-    
-    static let shared: SchemeService = SchemeService()
-    let dbRef = Firestore.firestore()
-    
+    static let shared: InvitTravelService = InvitTravelService()
     private init() { }
+
+    let dbRef = Firestore.firestore()
+    var componentedUrl: PushType? = nil
     
-    var travel: TravelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
-    
-    /// 기본: openUrl 로 진입 시
+    /// DeepLink - openUrl 로 진입 시
     @MainActor
-    func getUrl(url: URL) {
-        self.url = url
+    func transformUrl(url: URL) {
         self.isLoading = true
-        var push = PushUrl(host: .invite, querys: [:])
+        var push = PushType(host: .invite, querys: [:])
         if let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) {
             components.queryItems?.forEach {
                 push.querys[$0.name] = $0.value
             }
         }
-        print("push1 --> \(push)")
         self.componentedUrl = push
-        print("push1 --> \(push)")
-        joinAndFetchTravel()
     }
     
-    /// 여행방 초대 알림선택 시
+    /// Notification - 여행방 초대 알림으로 진입 시
     @MainActor
     func getInviteNoti(_ noti: UserNotification) {
         let urlString = noti.contentId
         guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let url = URL(string: encodeString) else { return }
-        getUrl(url: url)
+        transformUrl(url: url)
     }
     
+    /// 여행 입장 및 fetch
     @MainActor
-    func joinAndFetchTravel() {
+    func joinAndFetchTravel(onComplete: @escaping (TravelCalculation) -> ()) {
         Task {
-            self.isLoading = true
             guard let travelId = componentedUrl?.querys["travelId"] else { return }
             guard let memberId = componentedUrl?.querys["memberId"] else { return }
             
@@ -78,17 +67,18 @@ final class SchemeService: ObservableObject {
                 var travel = try snapshotData.data(as: TravelCalculation.self)
                 guard let user = UserService.shared.currentUser else { return }
                 
-                //                /// 현재 맴버에 자신이 포함되어있으면 return
+                // 현재 맴버에 자신이 포함되어있으면 return
                 if travel.members.firstIndex(where: { $0.userId == user.id }) != nil {
-                    self.travel = travel
                     removeUrl()
                     return
                 }
+                
                 var member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
                 if let index = travel.members.firstIndex(where: { $0.id == memberId }),
                    travel.members[index].userId == nil {
                     member = travel.members[index]
                 }
+                
                 member.userId = AuthStore.shared.userUid
                 member.name = user.name
                 member.bankName = user.bankName
@@ -96,6 +86,7 @@ final class SchemeService: ObservableObject {
                 member.isInvited = true
                 member.reciverToken = UserService.shared.reciverToken
                 travel.updateContentDate = Date.now.timeIntervalSince1970
+                
                 if let index = travel.members.firstIndex(where: { $0.id == memberId }) {
                     travel.members[index] = member
                 } else {
@@ -103,11 +94,15 @@ final class SchemeService: ObservableObject {
                 }
                 
                 let userTravel = UserTravel(travelId: travelId)
-                try dbRef.collection("TravelCalculation").document(travelId).setData(from: travel.self)
-                try dbRef.collection("User").document(AuthStore.shared.userUid).collection("UserTravel").addDocument(from: userTravel)
-                print("--> \(travel)")
-                self.travel = travel
+                try dbRef.collection(StoreCollection.travel.path)
+                    .document(travelId)
+                    .setData(from: travel.self)
+                
+                try dbRef.collection(StoreCollection.user.path)
+                    .document(AuthStore.shared.userUid).collection(StoreCollection.userTravel.path)
+                    .addDocument(from: userTravel)
                 self.isLoading = false
+                onComplete(travel)
             } catch {
                 removeUrl()
             }
@@ -115,7 +110,6 @@ final class SchemeService: ObservableObject {
     }
     
     func removeUrl() {
-        self.url = nil
         self.isLoading = false
         self.componentedUrl = nil
     }
