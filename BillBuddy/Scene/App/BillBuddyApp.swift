@@ -10,6 +10,20 @@ import FirebaseCore
 import GoogleMobileAds
 import FirebaseMessaging
 
+@main
+struct BillBuddyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .onOpenURL(perform: { url in
+                    InvitTravelService.shared.transformUrl(url: url)
+                })
+        }
+    }
+}
+
 class AppDelegate: NSObject, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     
@@ -42,20 +56,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     /// FCM 토근이 등록 되었을대
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
-    }
-}
-
-@main
-struct BillBuddyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .onOpenURL(perform: { url in
-                    SchemeService.shared.getUrl(url: url)
-                })
-        }
     }
 }
 

@@ -103,17 +103,18 @@ struct DetailMainView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
-                travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
+                        travelDetailStore.setTravel()
+
                         travelDetailStore.checkAndResaveToken()
                         fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
                         
                     }
                 }
-            }
-            else {
+                travelDetailStore.listenTravelDate()
+            } else {
                 paymentStore.filterDate(date: selectedDate)
             }
         }
@@ -126,7 +127,6 @@ struct DetailMainView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    SchemeService.shared.removeUrl()
                     dismiss()
                 }, label: {
                     Image(.arrowBack)

@@ -10,24 +10,30 @@ import Firebase
 import FirebaseFirestoreSwift
 
 final class TravelDetailStore: ObservableObject {
-    @Published var travel: TravelCalculation
+    @Published var travel: TravelCalculation = TravelCalculation.sampletravel
     @Published var isChangedTravel: Bool = false
     @Published var isFirstFetch: Bool = true
 
-    var travelId : String = ""
+    var travelTump: TravelCalculation
+    let travelId: String
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil
     
     init(travel: TravelCalculation) {
-        self.travel = travel
+        self.travelTump = travel
         self.travelId = travel.id
     }
     
+    @MainActor
+    func setTravel() {
+        self.travel = travelTump
+    }
+    
     func checkAndResaveToken() {
-        guard let index = travel.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
-        if travel.members[index].reciverToken != UserService.shared.reciverToken {
-            travel.members[index].reciverToken = UserService.shared.reciverToken
-            travel.updateContentDate = Date.now.timeIntervalSince1970
+        guard let index = travelTump.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
+        if travelTump.members[index].reciverToken != UserService.shared.reciverToken {
+            travelTump.members[index].reciverToken = UserService.shared.reciverToken
+            travelTump.updateContentDate = Date.now.timeIntervalSince1970
             do {
                 try Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(from: travel.self)
             } catch {

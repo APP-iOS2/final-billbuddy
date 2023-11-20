@@ -22,11 +22,11 @@ final class PaymentStore: ObservableObject {
     
     init(travel: TravelCalculation) {
         self.travelCalculationId = travel.id
-        self.members = travel.members
         self.dbRef = Firestore.firestore()
             .collection("TravelCalculation")
-            .document(travelCalculationId)
+            .document(travel.id)
             .collection("Payment")
+        self.members = travel.members
         self.updateContentDate = travel.updateContentDate
     }
     

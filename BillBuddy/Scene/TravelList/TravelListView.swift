@@ -13,6 +13,7 @@ struct TravelListView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @EnvironmentObject private var userService: UserService
+    @EnvironmentObject private var tabViewStore: TabViewStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
@@ -22,7 +23,6 @@ struct TravelListView: View {
     
     var body: some View {
         ZStack {
-            
             VStack(spacing: 0) {
                 HStack {
                     travelFilterButton
@@ -44,9 +44,8 @@ struct TravelListView: View {
                         }
                         if !userTravelStore.isFetching {
                             ForEach(createTravelList()) { travel in
-                                NavigationLink {
-                                    // FIXME: 무한루프 -> 안에 들어가서 생성
-                                    DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
+                                Button {
+                                    tabViewStore.pushView(type: .travel, travel: travel)
                                 } label: {
                                     HStack {
                                         VStack(alignment: .leading) {
@@ -96,6 +95,12 @@ struct TravelListView: View {
             } //MARK: VSTACK
             
         } //MARK: ZSTACK
+        .navigationDestination(isPresented: $tabViewStore.isPresentedDetail) {
+            DetailMainView(
+                paymentStore: PaymentStore(travel: tabViewStore.seletedTravel),
+                travelDetailStore: TravelDetailStore(travel: tabViewStore.seletedTravel)
+            )
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {

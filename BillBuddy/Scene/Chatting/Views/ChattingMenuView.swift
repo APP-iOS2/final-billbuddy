@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ChattingMenuView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var tabViewStore: TabViewStore
+    @State private var isPresentedLeaveAlert: Bool = false
     var travel: TravelCalculation
     
     var body: some View {
@@ -22,6 +25,7 @@ struct ChattingMenuView: View {
             Spacer()
             exitView
         }
+        .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -153,27 +157,57 @@ struct ChattingMenuView: View {
     }
     
     private var exitView: some View {
-        HStack(alignment: .bottom) {
-            Button(action: {
-                
-            }, label: {
-                Image(.exit)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.gray600)
-                Text("나가기")
-                    .font(.body04)
-                    .foregroundColor(.gray600)
-            })
-            Spacer()
+        Rectangle()
+            .frame(height: 83)
+            .foregroundStyle(Color.gray050)
+            .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
+                Button {
+                    isPresentedLeaveAlert = true
+
+                } label: {
+                    HStack {
+                        Image(.exit)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                        Text("나가기")
+                            .foregroundStyle(Color.gray600)
+                            .font(Font.body04)
+                    }
+                }
+                .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
+            }
+//        HStack(alignment: .bottom) {
+//            Button(action: {
+//                
+//            }, label: {
+//                Image(.exit)
+//                    .resizable()
+//                    .frame(width: 24, height: 24)
+//                    .foregroundColor(.gray600)
+//                Text("나가기")
+//                    .font(.body04)
+//                    .foregroundColor(.gray600)
+//            })
+//            Spacer()
+//        }
+//        .padding(16)
+//        .frame(height: 83)
+//        .frame(maxWidth: .infinity)
+//        .background(Color.gray050)
+        .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
+            Button("머물기", role: .cancel) { }
+            Button("여행 떠나기", role: .destructive) {
+                userTravelStore.leaveTravel(travel: travel)
+                tabViewStore.poToRoow()
+            }
+
         }
-        .padding(16)
-        .frame(height: 83)
-        .frame(maxWidth: .infinity)
-        .background(Color.gray050)
     }
+        
 }
 
 #Preview {
     ChattingMenuView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+        .environmentObject(UserTravelStore())
+        .environmentObject(TabViewStore())
 }

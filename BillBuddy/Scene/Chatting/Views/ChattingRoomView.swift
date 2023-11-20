@@ -55,7 +55,6 @@ struct ChattingRoomView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    SchemeService.shared.removeUrl()
                     dismiss()
                 }, label: {
                     Image(.arrowBack)
