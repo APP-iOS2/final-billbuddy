@@ -108,16 +108,6 @@ final class UserTravelStore: ObservableObject {
             try service.collection("TravelCalculation").document(tempTravel.id).setData(from: tempTravel)
             try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
             Task { await fetchTravelCalculation() }
-            //            _ = TravelCalculation(
-            //                hostId: travel.hostId,
-            //                travelTitle: travel.travelTitle,
-            //                managerId: travel.managerId,
-            //                startDate: travel.startDate,
-            //                endDate: travel.endDate,
-            //                updateContentDate: Date(),
-            //                members: []
-            //            )
-            // travelCalculation.userTravelId = userTravelRef.documentID
         } catch {
             print("Error adding travel: \(error)")
         }
@@ -142,34 +132,33 @@ final class UserTravelStore: ObservableObject {
         let travelId = travel.id
         guard let userTravelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId }) else { return }
         let userTravel = userTravels[userTravelArrayIndex]
+        
         var members = travel.members
         guard let memberIndex = members.firstIndex(where: { $0.userId == userId }) else { return }
         members[memberIndex].isExcluded = true
         members[memberIndex].userId = nil
         
-        
-        Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
-            .delete { error in
-                guard error == nil else { return }
-                print("jj \(travelId)")
+        Task {
+            do {
+                try await Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
+                    .delete()
                 if members.filter({ $0.userId != nil }).isEmpty {
-                    Firestore.firestore().collection(StoreCollection.travel.path).document(travelId).delete()
-                    print("result - delete")
+                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId).delete()
                 } else {
-                    Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
+                    let encodedMembers = try JSONEncoder().encode(members)
+                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
                         .setData(
                             [
-                                "updateContentDate" : Date.now.timeIntervalSince1970,
-                                "members" : members
+                                "members" : encodedMembers
                             ]
+                            ,merge: true
                         )
-                    print("result - setData")
-
                 }
-                Task {
-                    self.fetchTravelCalculation()
-                }
+                self.fetchTravelCalculation()
+            } catch {
+                print(error)
             }
+        }
     }
     
     @MainActor
@@ -179,4 +168,3 @@ final class UserTravelStore: ObservableObject {
         isFetchedFirst = false
     }
 }
-
