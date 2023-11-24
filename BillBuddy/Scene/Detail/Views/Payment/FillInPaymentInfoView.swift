@@ -51,6 +51,7 @@ struct FillInPaymentInfoView: View {
     var body: some View {
         VStack(spacing: 16) {
             datePickerSection
+            Text(paymentDate.dateSelectorFormat)
             typePickerSection
             contentSection
             priceSection

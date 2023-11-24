@@ -25,7 +25,7 @@ struct PaymentMainView: View {
         VStack(spacing: 0) {
             header
                 .onChange(of: selectedDate) { _ in
-                    paymentStore.filterDate(date: 0)
+//                    paymentStore.filterDate(date: selectedDate)
                     selectedCategory = nil
                 }
             paymentList
