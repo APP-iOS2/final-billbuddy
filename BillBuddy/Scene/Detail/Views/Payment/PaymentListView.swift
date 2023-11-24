@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
-    @EnvironmentObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
 
     @State private var isShowingDeletePayment: Bool = false

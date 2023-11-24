@@ -13,7 +13,7 @@ struct PaymentMainView: View {
     @Binding var selectedDate: Double
     
     @ObservedObject var paymentStore: PaymentStore
-    @EnvironmentObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     
     @State private var isShowingSelectCategorySheet: Bool = false
