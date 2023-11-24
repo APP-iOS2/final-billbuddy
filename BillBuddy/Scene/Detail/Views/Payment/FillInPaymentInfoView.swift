@@ -17,20 +17,21 @@ struct FillInPaymentInfoView: View {
     @State var mode: Mode = .add
     
     @Binding var travelCalculation: TravelCalculation
-    
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var selectedCategory: Payment.PaymentType?
     @Binding var paymentDate: Date
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
+    @Binding var isSelectedDate: Bool
+    
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
-    @Binding var isSelectedDate: Bool
     @State private var isShowingDatePickerSheet: Bool = false
-    
     @State private var tempMembers: [TravelCalculation.Member] = []
+    @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
+    
     private var expectPrice: Int {
         let price: Int = Int(priceString) ?? 0
         let count: Int = members.count
@@ -53,8 +54,8 @@ struct FillInPaymentInfoView: View {
             datePickerSection
             typePickerSection
             contentSection
-            memberSelectSection
             priceSection
+            memberSelectSection
         }
         .onTapGesture {
             hideKeyboard()
@@ -69,22 +70,13 @@ struct FillInPaymentInfoView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 20)
             Spacer()
-            Button(action: {
-                hideKeyboard()
-                isShowingDatePickerSheet = true
-            }, label: {
-                HStack(spacing: 0) {
-                    Text("\(paymentDate.dateSelectorFormat)")
-                        .font(.body02)
-                        .foregroundStyle(Color.gray600)
-                    Image("chevron_right")
-                        .renderingMode(.template)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundStyle(Color.gray500)
-                }
-                .padding(.trailing, 16)
+            
+            DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
+                Text("날짜")
+                    .font(.body02)
             })
+            .labelsHidden()
+            .padding(.trailing, 16)
             
         }
         .background {
@@ -310,13 +302,11 @@ struct FillInPaymentInfoView: View {
     }
     var addPaymentMemberSheet: some View {
         VStack {
-            
-            
             memberSheet
             
             Button(action: {
-                isShowingMemberSheet = false
                 members = tempMembers
+                isShowingMemberSheet = false
             }, label: {
                 HStack {
                     Spacer()
@@ -396,7 +386,7 @@ struct FillInPaymentInfoView: View {
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
-                Text("₩\(expectPrice)")
+                Text("₩\(member.payment)")
                     .font(.body04)
                     .foregroundStyle(Color.gray600)
                     .padding(.trailing, 16)

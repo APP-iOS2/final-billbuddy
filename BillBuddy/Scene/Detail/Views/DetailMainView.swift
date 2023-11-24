@@ -46,7 +46,7 @@ struct DetailMainView: View {
             
             if selection == "내역" {
                 ZStack {
-                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore)
                         .environmentObject(travelDetailStore)
                     
                     if travelDetailStore.isChangedTravel &&

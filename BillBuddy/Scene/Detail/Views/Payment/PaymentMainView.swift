@@ -11,9 +11,11 @@ import SwiftUI
 struct PaymentMainView: View {
     
     @Binding var selectedDate: Double
+    
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+    
     @State private var isShowingSelectCategorySheet: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
     @State private var isEditing: Bool = false
@@ -137,7 +139,7 @@ struct PaymentMainView: View {
                 }
             }
             List {
-                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                PaymentListView(paymentStore: paymentStore)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())

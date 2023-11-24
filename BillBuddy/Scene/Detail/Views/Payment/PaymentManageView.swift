@@ -167,12 +167,12 @@ struct PaymentManageView: View {
         Section {
             switch mode {
             case .add:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
-                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         if let payment = payment {
                             selectedCategory = payment.type
@@ -183,7 +183,7 @@ struct PaymentManageView: View {
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
@@ -251,9 +251,6 @@ struct PaymentManageView: View {
         Button(action: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
                 isShowingSelectTripSheet = true
-            }
-            else if !isSelectedDate {
-//                isShowingDateSheet = true
             }
             else if selectedCategory == nil {
                 focusedField = .type
@@ -337,10 +334,6 @@ extension PaymentManageView {
             await paymentStore.addPayment(newPayment: newPayment)
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
         }
-        
-        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle) 여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
-        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-        
         // TODO: ADD 하고 나면 날짜랑 카테고리 전체로 변경되도록 변경하기
     }
     
@@ -354,9 +347,6 @@ extension PaymentManageView {
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
-        
-        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle) 여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
-        NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
     }
     
     func editPayment() {
