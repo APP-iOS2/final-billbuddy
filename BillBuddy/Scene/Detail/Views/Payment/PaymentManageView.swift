@@ -167,12 +167,12 @@ struct PaymentManageView: View {
         Section {
             switch mode {
             case .add:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
-                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         if let payment = payment {
                             selectedCategory = payment.type
@@ -183,7 +183,7 @@ struct PaymentManageView: View {
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }

@@ -17,20 +17,21 @@ struct FillInPaymentInfoView: View {
     @State var mode: Mode = .add
     
     @Binding var travelCalculation: TravelCalculation
-    
     @Binding var expandDetails: String
     @Binding var priceString: String
     @Binding var selectedCategory: Payment.PaymentType?
     @Binding var paymentDate: Date
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
+    @Binding var isSelectedDate: Bool
+    
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
-    @Binding var isSelectedDate: Bool
     @State private var isShowingDatePickerSheet: Bool = false
-    
     @State private var tempMembers: [TravelCalculation.Member] = []
+    @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
+    
     private var expectPrice: Int {
         let price: Int = Int(priceString) ?? 0
         let count: Int = members.count
@@ -43,7 +44,6 @@ struct FillInPaymentInfoView: View {
             return result
         }
     }
-    @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
