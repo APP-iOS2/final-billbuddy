@@ -57,7 +57,7 @@ extension LocationManager {
     
     // MARK: - 주소로 화면 이동
     func moveFocusChange(location: CLLocationCoordinate2D) {
-        let span = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.01)
+        let span = MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08)
         
         let region = MKCoordinateRegion(center: location, span: span)
         mapView.setRegion(region, animated: true)
