@@ -47,4 +47,20 @@ extension Date {
         return Self.dateFormatter.string(from: self)
     }
     
+    var datePickerDateFormat: String {
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier: "ko_KR")
+        Self.dateFormatter.dateFormat = "YYYY. MM. dd"
+        
+        return Self.dateFormatter.string(from: self)
+    }
+    
+    var datePickerTimeFormat: String {
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.locale = Locale(identifier: "ko_KR")
+        Self.dateFormatter.dateFormat = "HH:mm"
+        
+        return Self.dateFormatter.string(from: self)
+    }
+    
 }
