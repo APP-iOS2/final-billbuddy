@@ -30,6 +30,7 @@ struct DetailMainView: View {
             }
             await paymentStore.fetchAll()
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+            selectedDate = 0
         }
     }
     

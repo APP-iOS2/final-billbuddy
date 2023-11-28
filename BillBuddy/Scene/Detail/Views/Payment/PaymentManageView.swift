@@ -24,8 +24,8 @@ struct PaymentManageView: View {
     @StateObject var locationManager = LocationManager()
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
-    @EnvironmentObject var paymentStore: PaymentStore
-    @EnvironmentObject var userTravelStore: UserTravelStore
+    @EnvironmentObject private var paymentStore: PaymentStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     
     @State var travelCalculation: TravelCalculation
@@ -40,7 +40,6 @@ struct PaymentManageView: View {
     @State private var isShowingNoTravelAlert: Bool = false
     @State private var navigationTitleString: String = "지출 내역 추가"
     @State private var isShowingAlert: Bool = false
-    @State private var isSelectedDate: Bool = false
     
     @FocusState private var focusedField: PaymentFocusField?
     
@@ -167,23 +166,22 @@ struct PaymentManageView: View {
         Section {
             switch mode {
             case .add:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
-                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, isSelectedDate: $isSelectedDate, focusedField: $focusedField)
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField)
                     .onAppear {
                         if let payment = payment {
                             selectedCategory = payment.type
                             expandDetails = payment.content
                             priceString = String(payment.payment)
                             paymentDate = payment.paymentDate.toDate()
-                            isSelectedDate = true
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), isSelectedDate: $isSelectedDate, focusedField: $focusedField)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
@@ -273,9 +271,6 @@ struct PaymentManageView: View {
         .alert(isPresented: $isShowingAlert, content: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
                 return Alert(title: Text("여행을 선택해주세요"))
-            }
-            else if !isSelectedDate {
-                return Alert(title: Text("지출 날짜를 선택해주세요"))
             }
             else if selectedCategory == nil {
                 return Alert(title: Text("분류를 선택해주세요"))

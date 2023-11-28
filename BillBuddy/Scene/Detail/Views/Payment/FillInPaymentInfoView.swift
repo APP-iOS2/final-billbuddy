@@ -23,7 +23,6 @@ struct FillInPaymentInfoView: View {
     @Binding var paymentDate: Date
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
-    @Binding var isSelectedDate: Bool
     
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
@@ -52,6 +51,7 @@ struct FillInPaymentInfoView: View {
     var body: some View {
         VStack(spacing: 16) {
             datePickerSection
+            Text(paymentDate.dateSelectorFormat)
             typePickerSection
             contentSection
             priceSection
@@ -100,9 +100,6 @@ struct FillInPaymentInfoView: View {
             .padding(.top, 16)
             .padding(.bottom, 16)
             .padding(.trailing, 16)
-            .onAppear {
-                isSelectedDate = true
-            }
             .presentationDetents([.fraction(0.3)])
             
         })

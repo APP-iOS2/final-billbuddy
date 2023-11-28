@@ -42,7 +42,7 @@ extension Date {
     var dateSelectorFormat: String {
         Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
         Self.dateFormatter.locale = Locale(identifier: "ko_KR")
-        Self.dateFormatter.dateFormat = "YYYY. MM. dd"
+        Self.dateFormatter.dateFormat = "YYYY. MM. dd HH:mm"
         
         return Self.dateFormatter.string(from: self)
     }
