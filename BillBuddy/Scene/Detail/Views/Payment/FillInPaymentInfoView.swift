@@ -93,12 +93,13 @@ struct FillInPaymentInfoView: View {
     }
     
     var datePickerSection: some View {
-        HStack {
+        HStack(spacing: 4) {
             Text("날짜")
                 .font(.body02)
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 20)
+            
             Spacer()
             
             Button {
@@ -108,8 +109,18 @@ struct FillInPaymentInfoView: View {
                 }
             } label: {
                 Text(paymentDate.datePickerDateFormat)
+                    .font(.body04)
+                    .padding(.leading, 11)
+                    .padding(.top, 5)
+                    .padding(.bottom, 5)
+                    .padding(.trailing, 11)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.lightBlue100)
+                    }
+                    .foregroundStyle(isShowingDatePicker ? Color.myPrimary : Color.gray600)
             }
-            .padding(.trailing, 16)
+            
             
             Button {
                 isShowingTimePicker.toggle()
@@ -118,6 +129,16 @@ struct FillInPaymentInfoView: View {
                 }
             } label: {
                 Text(paymentDate.datePickerTimeFormat)
+                    .font(.body04)
+                    .padding(.leading, 11)
+                    .padding(.top, 5)
+                    .padding(.bottom, 5)
+                    .padding(.trailing, 11)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.lightBlue100)
+                    }
+                    .foregroundStyle(isShowingTimePicker ? Color.myPrimary : Color.gray600)
             }
             .padding(.trailing, 16)
         }
