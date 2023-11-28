@@ -127,6 +127,12 @@ final class PaymentStore: ObservableObject {
         }
     }
     
+    func deletePayments(payment: [Payment]) async {
+        for p in payment {
+            await self.deletePayment(payment: p)
+        }
+    }
+    
     func saveUpdateDate() async {
         do {
             let newUpdateDate = Date.now.timeIntervalSince1970

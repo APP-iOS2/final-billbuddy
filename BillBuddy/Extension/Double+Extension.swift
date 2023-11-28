@@ -75,8 +75,6 @@ extension Double {
         dateComponents.minute = 0
         dateComponents.second = 0
         date = calendar.date(from: dateComponents) ?? date
-//        date = calendar.date(byAdding: .hour, value: 9, to: dateComponents.date ?? date) ?? date
-        
         return date.timeIntervalSince1970
     }
     
@@ -88,9 +86,7 @@ extension Double {
         dateComponents.minute = 59
         dateComponents.second = 59
         date = calendar.date(from: dateComponents) ?? date
-//        date = calendar.date(byAdding: .hour, value: 9, to: calendar.date(from: dateComponents) ?? date) ?? date
         return date.timeIntervalSince1970
-//        return 86400 * ceil(self / 86400 + 1) - 1
     }
     
     func todayRange()->ClosedRange<Double> {
@@ -110,12 +106,4 @@ extension Double {
         date = calendar.date(byAdding: .hour, value: 9, to: dateComponents.date ?? date) ?? date
         return date.timeIntervalSince1970
     }
-    
-//    let date = Date()
-//    var calendar = Calendar(identifier: .gregorian)
-//    print(calendar.dateComponents([.day, .month], from: date)) // month: 8 day: 25 isLeapMonth: false
-//
-//    var dateComponents = DateComponents()
-//    dateComponents.year = 1995
-//    print(calendar.date(from: dateComponents)) // Optional(1994-12-31 15:00:00 +0000)
 }
