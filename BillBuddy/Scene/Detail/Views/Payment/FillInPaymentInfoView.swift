@@ -27,7 +27,8 @@ struct FillInPaymentInfoView: View {
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
     @State private var isShowingMemberSheet: Bool = false
-    @State private var isShowingDatePickerSheet: Bool = false
+    @State private var isShowingDatePicker: Bool = false
+    @State private var isShowingTimePicker: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
     
@@ -51,7 +52,36 @@ struct FillInPaymentInfoView: View {
     var body: some View {
         VStack(spacing: 16) {
             datePickerSection
-            Text(paymentDate.dateSelectorFormat)
+            
+            if isShowingDatePicker {
+                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.date], label: {
+                    Text("날짜")
+                        .font(.body02)
+                })
+                .labelsHidden()
+                .datePickerStyle(.wheel)
+                .onTapGesture {
+                    print("DatePicker tapped")
+                }
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+            }
+            
+            if isShowingTimePicker {
+                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.hourAndMinute], label: {
+                    Text("날짜")
+                        .font(.body02)
+                })
+                .labelsHidden()
+                .datePickerStyle(.wheel)
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.white)
+                }
+            }
+            
             typePickerSection
             contentSection
             priceSection
@@ -63,21 +93,54 @@ struct FillInPaymentInfoView: View {
     }
     
     var datePickerSection: some View {
-        HStack {
+        HStack(spacing: 4) {
             Text("날짜")
                 .font(.body02)
                 .padding(.leading, 16)
                 .padding(.top, 16)
                 .padding(.bottom, 20)
+            
             Spacer()
             
-            DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
-                Text("날짜")
-                    .font(.body02)
-            })
-            .labelsHidden()
-            .padding(.trailing, 16)
+            Button {
+                isShowingDatePicker.toggle()
+                if isShowingTimePicker {
+                    isShowingTimePicker.toggle()
+                }
+            } label: {
+                Text(paymentDate.datePickerDateFormat)
+                    .font(.body04)
+                    .padding(.leading, 11)
+                    .padding(.top, 5)
+                    .padding(.bottom, 5)
+                    .padding(.trailing, 11)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.lightBlue100)
+                    }
+                    .foregroundStyle(isShowingDatePicker ? Color.myPrimary : Color.gray600)
+            }
             
+            
+            Button {
+                isShowingTimePicker.toggle()
+                if isShowingDatePicker {
+                    isShowingDatePicker.toggle()
+                }
+            } label: {
+                Text(paymentDate.datePickerTimeFormat)
+                    .font(.body04)
+                    .padding(.leading, 11)
+                    .padding(.top, 5)
+                    .padding(.bottom, 5)
+                    .padding(.trailing, 11)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.lightBlue100)
+                    }
+                    .foregroundStyle(isShowingTimePicker ? Color.myPrimary : Color.gray600)
+            }
+            .padding(.trailing, 16)
         }
         .background {
             RoundedRectangle(cornerRadius: 12)
@@ -87,22 +150,6 @@ struct FillInPaymentInfoView: View {
         .padding(.top, 16)
         .padding(.trailing, 16)
         
-        .sheet(isPresented: $isShowingDatePickerSheet, content: {
-            VStack {
-                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), label: {
-                    Text("날짜")
-                        .font(.body02)
-                })
-                
-            }
-            .focused(focusedField, equals: .date)
-            .padding(.leading, 16)
-            .padding(.top, 16)
-            .padding(.bottom, 16)
-            .padding(.trailing, 16)
-            .presentationDetents([.fraction(0.3)])
-            
-        })
     }
     var typePickerSection: some View {
         VStack {
