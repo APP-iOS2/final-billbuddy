@@ -116,7 +116,18 @@ extension LocationManager {
             let pin = CustomAnnotation(pinIndex: pinIndex, customPinImage: customPinImage, coordinate: coordinate)
             mapView.addAnnotation(pin)
         }
+        getCenterCoordinate(filteredPayments: filteredPayments)
+        
     }
+    // MARK: - Annotaions Center
+    func getCenterCoordinate(filteredPayments: [Payment]) {
+            let count = Double(filteredPayments.count)
+            let latitude = filteredPayments.map({ $0.address }).map({ $0.latitude }).reduce(0, +) / count
+            let longitude = filteredPayments.map({ $0.address }).map({ $0.longitude }).reduce(0, +) / count
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            moveFocusChange(location: coordinate)
+        }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -189,8 +200,9 @@ extension LocationManager: MKMapViewDelegate {
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
         
-        
         return annotationView
     }
+    
+    
 }
 

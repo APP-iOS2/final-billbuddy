@@ -23,5 +23,5 @@ struct MapMainView: View {
 }
 
 //#Preview {
-//    MapMainView(paymentStore: PaymentStore(), travelCalculation: .constant(<#T##value: TravelCalculation##TravelCalculation#>))
+//    MapMainView(locationManager: LocationManager(), paymentStore: PaymentStore(travel: TravelCalculation), travelDetailStore: TravelDetailStore(), selectedDate: .constant(0.0))
 //}
