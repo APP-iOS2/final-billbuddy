@@ -50,8 +50,20 @@ struct FillInPaymentInfoView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
-            datePickerSection
+        ZStack {
+            VStack(spacing: 16) {
+                datePickerSection
+                typePickerSection
+                contentSection
+                priceSection
+                PaymentMemberManagementView(mode: mode, travelCalculation: $travelCalculation, members: $members, payment: $payment, tempMembers: $tempMembers, selectedMember: $selectedMember)
+            }
+            .onTapGesture {
+                hideKeyboard()
+                isShowingDatePicker = false
+                isShowingTimePicker = false
+            }
+            
             
             if isShowingDatePicker {
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.date], label: {
@@ -59,15 +71,15 @@ struct FillInPaymentInfoView: View {
                         .font(.body02)
                 })
                 .labelsHidden()
-                .datePickerStyle(.wheel)
-                .onTapGesture {
-                    print("DatePicker tapped")
-                }
+                .datePickerStyle(.graphical)
                 .background {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.white)
                 }
+                .frame(width: 361, height: 400)
+                .offset(y: 20)
             }
+            
             
             if isShowingTimePicker {
                 DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.hourAndMinute], label: {
@@ -80,15 +92,9 @@ struct FillInPaymentInfoView: View {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color.white)
                 }
+                .frame(width: 198, height: 213)
+                .offset(x: 20, y: -40)
             }
-            
-            typePickerSection
-            contentSection
-            priceSection
-            PaymentMemberManagementView(mode: mode, travelCalculation: $travelCalculation, members: $members, payment: $payment, tempMembers: $tempMembers, selectedMember: $selectedMember)
-        }
-        .onTapGesture {
-            hideKeyboard()
         }
     }
     
