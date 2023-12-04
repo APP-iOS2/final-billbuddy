@@ -28,6 +28,7 @@ struct FillInPaymentInfoView: View {
     
     @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDatePicker: Bool = false
+    @State private var isShowingDescription: Bool = false
     @State private var isShowingTimePicker: Bool = false
     @State private var isShowingPersonalMemberSheet: Bool = false
     @State private var isShowingDatePickerSheet: Bool = false
@@ -35,6 +36,7 @@ struct FillInPaymentInfoView: View {
     @State private var personalButton: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
+    @State private var selectedMember: TravelCalculation.Member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
     
     @State private var personalPriceString: String = ""
     @State private var personalContent: String = ""
@@ -430,42 +432,97 @@ struct FillInPaymentInfoView: View {
     }
     var memberListSection: some View {
         ForEach(members) { member in
-            HStack(spacing: 2) {
-                Text(member.name)
-                    .font(.body04)
-                    .padding(.leading, 16)
-                    .padding(.top, 12)
-                    .padding(.bottom, 12)
-                Spacer()
-                Text("₩\(expectPrice)")
-                    .font(.body04)
-                    .foregroundStyle(Color.gray600)
-                Image("chevron_right")
-                    .renderingMode(.template)
-                    .resizable()
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.gray600)
-                    .padding(.trailing, 10)
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.gray050)
-            }
+            Button(action: {
+                selectedMember = member
+                isShowingPersonalMemberSheet = true
+            }, label: {
+                HStack(spacing: 2) {
+                    Text(member.name)
+                        .font(.body04)
+                        .padding(.leading, 16)
+                        .padding(.top, 12)
+                        .padding(.bottom, 12)
+                    Spacer()
+                    Text("₩\(expectPrice)")
+                        .font(.body04)
+                        .foregroundStyle(Color.gray600)
+                    Image("chevron_right")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
+                        .padding(.trailing, 10)
+                }
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray050)
+                }
+            })
+            .buttonStyle(.plain)
             .padding(.leading, 16)
             .padding(.trailing, 10)
             .padding(.bottom, 8)
-            .listRowSeparator(.hidden)
-            .onTapGesture {
-                isShowingPersonalMemberSheet = true
-            }
             .sheet(isPresented: $isShowingPersonalMemberSheet, onDismiss: {
                 paidButton = false
                 personalButton = false
             }) {
-                addPersonalPriceSection
+                ZStack {
+                    addPersonalPriceSection
+                    if isShowingDescription {
+                        descriptionOfPrice
+                            .frame(width: 301, height: 226)
+                            .background {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.white)
+                            }
+                            .shadow(radius: 6)
+                            .offset(y: -10)
+                    }
+                }
                     .presentationDetents([.fraction(0.85)])
             }
         }
+    }
+    var descriptionOfPrice: some View {
+        VStack(alignment: .leading, spacing: 0, content: {
+            HStack(content: {
+                Spacer()
+                Button(action: {
+                    isShowingDescription = false
+                }, label: {
+                    Image(.close)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .padding(.trailing, 12)
+                        .padding(.top, 12)
+                    
+                })
+            })
+            .padding(.bottom, 17)
+            
+            VStack(alignment: .leading, spacing: 0, content: {
+                Text("먼저 지불한 금액")
+                    .foregroundColor(Color.myPrimary)
+                    .font(.body04)
+                    + Text("은 전체 결제 금액에서 개인이 먼저 지불했던 금액이에요\n")
+                    .font(.body04)
+                
+                Text("개인 사용 금액")
+                    .foregroundColor(Color.myPrimary)
+                    .font(.body04)
+                    + Text("은 해당 인원의 금액을 따로 책정한 금액이에요\n")
+                    .font(.body04)
+                
+                
+                Text("입력하면 정산할 때 감안해서 계산해드려요")
+                    .font(.body04)
+                    
+            })
+            .frame(width: 253)
+            .padding(.leading, 24)
+            .padding(.trailing, 24)
+            .padding(.bottom, 33)
+        })
     }
     var memberSelectSection: some View {
         Section {
@@ -530,7 +587,7 @@ struct FillInPaymentInfoView: View {
                 .font(.body01)
                 .padding(.bottom, 30)
             
-            Text("일행 1")
+            Text("\(selectedMember.name)")
                 .font(.body01)
                 .padding(.bottom, 12)
             
@@ -538,9 +595,14 @@ struct FillInPaymentInfoView: View {
                 HStack(spacing: 0) {
                     Text("분류")
                         .font(.body02)
-                    Image(.info)
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.positive)
+                    Button(action: {
+                        isShowingDescription = true
+                    }, label: {
+                        Image(.info)
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.positive)
+                    })
+                    
                     
                     Spacer()
                     Button {
@@ -676,3 +738,4 @@ struct FillInPaymentInfoView: View {
     }
         
 }
+

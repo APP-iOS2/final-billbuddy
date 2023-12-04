@@ -354,8 +354,8 @@ extension PaymentManageView {
         }
     }
 }
-
+//
 //#Preview {
-//    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+//    PaymentManageView(mode: .mainAdd, travelCalculation: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)]))
 //        .environmentObject(TabBarVisivilyStore())
 //}
