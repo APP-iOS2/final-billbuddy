@@ -26,7 +26,7 @@ extension Font {
     static var title03: Font {
         return Font.custom("Pretendard-Bold", size: 32)
     }
-    /// Bold / 36
+    /// Bold / 26
     static var title04: Font {
         return Font.custom("Pretendard-Bold", size: 26)
     }

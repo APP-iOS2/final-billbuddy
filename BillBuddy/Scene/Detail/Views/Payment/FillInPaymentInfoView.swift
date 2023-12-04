@@ -29,8 +29,15 @@ struct FillInPaymentInfoView: View {
     @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDatePicker: Bool = false
     @State private var isShowingTimePicker: Bool = false
+    @State private var isShowingPersonalMemberSheet: Bool = false
+    @State private var isShowingDatePickerSheet: Bool = false
+    @State private var paidButton: Bool = false
+    @State private var personalButton: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
+    
+    @State private var personalPriceString: String = ""
+    @State private var personalContent: String = ""
     
     private var expectPrice: Int {
         let price: Int = Int(priceString) ?? 0
@@ -423,28 +430,42 @@ struct FillInPaymentInfoView: View {
     }
     var memberListSection: some View {
         ForEach(members) { member in
-            HStack {
+            HStack(spacing: 2) {
                 Text(member.name)
                     .font(.body04)
                     .padding(.leading, 16)
                     .padding(.top, 12)
                     .padding(.bottom, 12)
                 Spacer()
-                Text("₩\(member.payment)")
+                Text("₩\(expectPrice)")
                     .font(.body04)
                     .foregroundStyle(Color.gray600)
-                    .padding(.trailing, 16)
+                Image("chevron_right")
+                    .renderingMode(.template)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(Color.gray600)
+                    .padding(.trailing, 10)
             }
             .background {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color.gray050)
             }
-            .padding(.leading, 15)
-            .padding(.trailing, 14)
-            //            .padding(.bottom, 8)
+            .padding(.leading, 16)
+            .padding(.trailing, 10)
+            .padding(.bottom, 8)
             .listRowSeparator(.hidden)
+            .onTapGesture {
+                isShowingPersonalMemberSheet = true
+            }
+            .sheet(isPresented: $isShowingPersonalMemberSheet, onDismiss: {
+                paidButton = false
+                personalButton = false
+            }) {
+                addPersonalPriceSection
+                    .presentationDetents([.fraction(0.85)])
+            }
         }
-        .padding(.bottom, 13)
     }
     var memberSelectSection: some View {
         Section {
@@ -498,4 +519,160 @@ struct FillInPaymentInfoView: View {
         .padding(.leading, 16)
         .padding(.trailing, 16)
     }
+        
+    var addPersonalPriceSection: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("개인 항목 추가")
+                .font(.title04)
+                .padding(.bottom, 10)
+            
+            Text("일행 개인의 상세 지출을 입력해요")
+                .font(.body01)
+                .padding(.bottom, 30)
+            
+            Text("일행 1")
+                .font(.body01)
+                .padding(.bottom, 12)
+            
+            VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    Text("분류")
+                        .font(.body02)
+                    Image(.info)
+                        .renderingMode(.template)
+                        .foregroundStyle(Color.positive)
+                    
+                    Spacer()
+                    Button {
+                        paidButton.toggle()
+                        if personalButton {
+                            personalButton.toggle()
+                        }
+                    } label: {
+                        Text("먼저 지불한 금액")
+                            .font(.body02)
+                            .padding(.top, 8)
+                            .padding(.leading, 16)
+                            .padding(.trailing, 16)
+                            .padding(.bottom, 8)
+                    }
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(paidButton ? Color.myPrimary : Color.gray200, lineWidth: 1)
+                            )
+                    }
+                    .foregroundStyle(paidButton ? Color.myPrimary : Color.gray200)
+                    .padding(.trailing, 8)
+                    
+                    Button {
+                        personalButton.toggle()
+                        if paidButton {
+                            paidButton.toggle()
+                        }
+                    } label: {
+                        Text("개인 사용 금액")
+                            .font(.body02)
+                            .padding(.top, 8)
+                            .padding(.leading, 16)
+                            .padding(.trailing, 16)
+                            .padding(.bottom, 8)
+                    }
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(personalButton ? Color.myPrimary : Color.gray200, lineWidth: 1)
+                            )
+                    }
+                    .foregroundStyle(personalButton ? Color.myPrimary : Color.gray200)
+                }
+                .padding(.bottom, 26)
+                
+                HStack {
+                    Text("금액")
+                        .font(.body03)
+                    
+                    Spacer()
+                    
+                    TextField("금액을 입력해주세요", text: $personalPriceString)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
+                        .onTapGesture {
+                            personalPriceString = ""
+                        }
+                        .padding(.trailing, 14)
+                }
+                
+                Divider()
+                    .padding(.top, 20)
+                    .padding(.bottom, 20)
+                
+                HStack {
+                    Text("메모사항")
+                        .font(.body03)
+                    
+                    Spacer()
+                    
+                    TextField("내용을 입력해주세요", text: $personalContent)
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                        .font(.body04)
+                        .onTapGesture {
+                            personalContent = ""
+                        }
+                        .padding(.trailing, 14)
+                }
+            }
+            .padding(.top, 16)
+            .padding(.leading, 15)
+            .padding(.trailing, 14)
+            .padding(.bottom, 16)
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray050)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.gray100, lineWidth: 1)
+                    )
+            }
+            .padding(.bottom, 12)
+            
+            
+            
+            HStack {
+                Text("정산 예정 금액")
+                    .font(.body01)
+                    .padding(.top, 15)
+                    .padding(.leading, 16)
+                    .padding(.bottom, 14)
+                Spacer()
+                Text("₩25,000")
+                    .font(.body01)
+                    .padding(.top, 16)
+                    .padding(.trailing, 16)
+                    .padding(.bottom, 13)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray050)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color.gray100, lineWidth: 1)
+                    )
+            }
+            Spacer()
+        }
+        .padding(.leading, 20)
+        .padding(.top, 39)
+        .padding(.trailing, 16)
+        .onTapGesture {
+            hideKeyboard()
+        }
+    }
+        
 }
