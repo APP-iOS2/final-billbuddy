@@ -26,20 +26,11 @@ struct FillInPaymentInfoView: View {
     
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
-    @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDatePicker: Bool = false
-    @State private var isShowingDescription: Bool = false
     @State private var isShowingTimePicker: Bool = false
-    @State private var isShowingPersonalMemberSheet: Bool = false
-    @State private var isShowingDatePickerSheet: Bool = false
-    @State private var paidButton: Bool = false
-    @State private var personalButton: Bool = false
     @State private var tempMembers: [TravelCalculation.Member] = []
     @State private var paymentType: Int = 0 // 0: 1/n, 1: 개별
     @State private var selectedMember: TravelCalculation.Member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
-    
-    @State private var personalPriceString: String = ""
-    @State private var personalContent: String = ""
     
     private var expectPrice: Int {
         let price: Int = Int(priceString) ?? 0
