@@ -239,8 +239,4 @@ struct FillInPaymentInfoView: View {
         .padding(.leading, 16)
         .padding(.trailing, 16)
     }
-        
-    
-        
 }
-

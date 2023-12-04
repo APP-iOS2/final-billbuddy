@@ -517,6 +517,27 @@ struct PaymentMemberManagementView: View {
                     )
             }
             Spacer()
+            Button {
+                isShowingPersonalMemberSheet = false
+            } label: {
+                HStack {
+                    Spacer()
+                    Text("확인")
+                        .foregroundColor(Color.white)
+                        .font(.body02)
+                    Spacer()
+                }
+                .padding(.top, 16)
+                .padding(.bottom, 16)
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.myPrimary)
+            }
+            .padding(.leading, 11)
+            .padding(.trailing, 15)
+            .padding(.bottom, 80)
+
         }
         .padding(.leading, 20)
         .padding(.top, 39)
