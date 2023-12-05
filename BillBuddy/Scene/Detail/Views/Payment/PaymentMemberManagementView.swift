@@ -244,6 +244,7 @@ struct PaymentMemberManagementView: View {
                         members.append(travelCalculation.members[existMember])
                     }
                 }
+                participants = payment.participants
             }
         }
     }
@@ -281,6 +282,7 @@ struct PaymentMemberManagementView: View {
             Button(action: {
                 selectedMember = member
                 isShowingPersonalMemberSheet = true
+                print(participants)
             }, label: {
                 HStack(spacing: 2) {
                     Text(member.name)
@@ -314,6 +316,14 @@ struct PaymentMemberManagementView: View {
             }) {
                 ZStack {
                     addPersonalPriceSection
+                        .onAppear(perform: {
+                            if let idx = participants.firstIndex(where: { p in
+                                p.memberId == selectedMember.id
+                            }) {
+                                advanceAmountString = String(participants[idx].advanceAmount)
+                                seperateAmountString = String(participants[idx].seperateAmount)
+                            }
+                        })
                     if isShowingDescription {
                         descriptionOfPrice
                             .frame(width: 301, height: 226)
@@ -537,9 +547,12 @@ struct PaymentMemberManagementView: View {
             Spacer()
             Button {
                 isShowingPersonalMemberSheet = false
-                let advanceAmount = Int(advanceAmountString) ?? 0
-                let seperateAmount = Int(seperateAmountString) ?? 0
-                participants.append(Payment.Participant(memberId: selectedMember.id, advanceAmount: advanceAmount, seperateAmount: seperateAmount, memo: personalMemo))
+                if let idx = participants.firstIndex(where: { p in
+                    p.memberId == selectedMember.id
+                }) {
+                    participants[idx].advanceAmount = Int(advanceAmountString) ?? 0
+                    participants[idx].seperateAmount = Int(seperateAmountString) ?? 0
+                }
             } label: {
                 HStack {
                     Spacer()
