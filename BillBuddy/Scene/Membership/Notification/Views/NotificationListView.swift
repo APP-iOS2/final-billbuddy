@@ -13,7 +13,9 @@ struct NotificationListView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isAllRead = false
     @EnvironmentObject private var notificationStore: NotificationStore
-    
+    @EnvironmentObject private var tabViewStore: TabViewStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+
     private var db = Firestore.firestore()
     @State private var notifications: [UserNotification] = []
     
@@ -21,7 +23,17 @@ struct NotificationListView: View {
         ScrollView {
             VStack(spacing: 0) {
                 ForEach(notifications, id: \.id) { notification in
-                    NotificationCell(notification: notification)
+                    NotificationCell(notification: notification) {
+                        switch notification.type {
+                        case .chatting, .travel:
+                            let travel = userTravelStore.getTravel(id: notification.contentId)
+                            tabViewStore.pushView(type: notification.type, travel: travel)
+                        case .invite:
+                            InvitTravelService.shared.getInviteNoti(notification)
+                        case .notice:
+                            print("NotificationCell - notice")
+                        }
+                    }
                 }
             }
         }
@@ -75,4 +87,5 @@ struct NotificationListView: View {
 #Preview {
     NotificationListView()
         .environmentObject(NotificationStore())
+        .environmentObject(TabViewStore())
 }

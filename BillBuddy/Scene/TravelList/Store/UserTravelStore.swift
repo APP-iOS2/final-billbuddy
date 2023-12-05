@@ -73,6 +73,11 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
+    func getTravel(id: String) -> TravelCalculation {
+        guard let travelIndex = travels.firstIndex(where: { $0.id == id }) else { return TravelCalculation.sampletravel }
+        return travels[travelIndex]
+    }
+    
     func addTravel(_ title: String, memberCount: Int, startDate: Date, endDate: Date) {
         var tempMembers: [TravelCalculation.Member] = []
         if memberCount > 0 {
