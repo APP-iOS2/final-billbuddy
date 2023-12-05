@@ -10,6 +10,7 @@ import SwiftUI
 struct PaymentMemberManagementView: View {
     @State var mode: Mode = .add
     
+    @Binding var priceString: String
     @Binding var travelCalculation: TravelCalculation
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
@@ -26,6 +27,19 @@ struct PaymentMemberManagementView: View {
     @State private var advanceAmountString: String = ""
     @State private var seperateAmountString: String = ""
     @State private var personalMemo: String = ""
+    
+    private var expectPrice: Int {
+        let price: Int = Int(priceString) ?? 0
+        let count: Int = participants.count
+        
+        if members.isEmpty {
+            return 0
+        }
+        else {
+            let result = price / count
+            return result
+        }
+    }
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -203,7 +217,7 @@ struct PaymentMemberManagementView: View {
             Button(action: {
                 participants = []
                 for member in tempMembers {
-                    participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+                    participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: (Int(priceString) ?? 0) / tempMembers.count, memo: ""))
                 }
                 members = tempMembers
                 isShowingMemberSheet = false
@@ -291,9 +305,20 @@ struct PaymentMemberManagementView: View {
                         .padding(.top, 12)
                         .padding(.bottom, 12)
                     Spacer()
-                    Text("₩0")
-                        .font(.body04)
-                        .foregroundStyle(Color.gray600)
+                    // MARK: 가격
+                    if let idx = participants.firstIndex(where: { p in
+                        p.memberId == member.id
+                    }) {
+                        Text("₩\(participants[idx].seperateAmount - participants[idx].advanceAmount)")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("₩0")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                    
                     Image("chevron_right")
                         .renderingMode(.template)
                         .resizable()
@@ -530,7 +555,7 @@ struct PaymentMemberManagementView: View {
                     .padding(.leading, 16)
                     .padding(.bottom, 14)
                 Spacer()
-                Text("₩25,000")
+                Text("₩\((Int(seperateAmountString) ?? 0) - (Int(advanceAmountString) ?? 0))")
                     .font(.body01)
                     .padding(.top, 16)
                     .padding(.trailing, 16)
@@ -553,6 +578,12 @@ struct PaymentMemberManagementView: View {
                     participants[idx].advanceAmount = Int(advanceAmountString) ?? 0
                     participants[idx].seperateAmount = Int(seperateAmountString) ?? 0
                 }
+                
+                var sum = 0
+                for participant in participants {
+                    sum += participant.seperateAmount
+                }
+                priceString = String(sum)
             } label: {
                 HStack {
                     Spacer()
@@ -583,5 +614,5 @@ struct PaymentMemberManagementView: View {
 }
 
 #Preview {
-    PaymentMemberManagementView(travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]))
+    PaymentMemberManagementView(priceString: .constant("15000"), travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]))
 }

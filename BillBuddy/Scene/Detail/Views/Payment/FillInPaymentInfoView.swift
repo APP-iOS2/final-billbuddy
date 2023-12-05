@@ -32,18 +32,7 @@ struct FillInPaymentInfoView: View {
     @State private var selectedMember: TravelCalculation.Member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
     @State private var members: [TravelCalculation.Member] = []
     
-//    private var expectPrice: Int {
-//        let price: Int = Int(priceString) ?? 0
-//        let count: Int = members.count
-//        
-//        if members.isEmpty {
-//            return 0
-//        }
-//        else {
-//            let result = price / count
-//            return result
-//        }
-//    }
+
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -56,7 +45,7 @@ struct FillInPaymentInfoView: View {
                 typePickerSection
                 contentSection
                 priceSection
-                PaymentMemberManagementView(mode: mode, travelCalculation: $travelCalculation, members: $members, payment: $payment, selectedMember: $selectedMember, participants: $participants)
+                PaymentMemberManagementView(mode: mode, priceString: $priceString, travelCalculation: $travelCalculation, members: $members, payment: $payment, selectedMember: $selectedMember, participants: $participants)
             }
             .onTapGesture {
                 hideKeyboard()
