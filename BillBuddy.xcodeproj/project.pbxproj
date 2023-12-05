@@ -278,9 +278,9 @@
 		02B06CAF2AE0C91A00486005 /* SF-Pro */ = {
 			isa = PBXGroup;
 			children = (
-				02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */,
 				02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */,
 				02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */,
+				02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */,
 			);
 			path = "SF-Pro";
 			sourceTree = "<group>";

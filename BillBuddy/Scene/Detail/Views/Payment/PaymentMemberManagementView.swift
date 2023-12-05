@@ -13,17 +13,19 @@ struct PaymentMemberManagementView: View {
     @Binding var travelCalculation: TravelCalculation
     @Binding var members: [TravelCalculation.Member]
     @Binding var payment: Payment?
-    @Binding var tempMembers: [TravelCalculation.Member]
     @Binding var selectedMember: TravelCalculation.Member
+    @Binding var participants: [Payment.Participant]
     
     @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDescription: Bool = false
     @State private var isShowingPersonalMemberSheet: Bool = false
     @State private var paidButton: Bool = false
     @State private var personalButton: Bool = false
+    @State private var tempMembers: [TravelCalculation.Member] = []
     
-    @State private var personalPriceString: String = ""
-    @State private var personalContent: String = ""
+    @State private var advanceAmountString: String = ""
+    @State private var seperateAmountString: String = ""
+    @State private var personalMemo: String = ""
     
     func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -199,6 +201,10 @@ struct PaymentMemberManagementView: View {
             memberSheet
             
             Button(action: {
+                participants = []
+                for member in tempMembers {
+                    participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+                }
                 members = tempMembers
                 isShowingMemberSheet = false
             }, label: {
@@ -247,13 +253,12 @@ struct PaymentMemberManagementView: View {
             
             Button(action: {
                 isShowingMemberSheet = false
-                var participants: [Payment.Participant] = []
                 
+                participants = []
                 for m in tempMembers {
-                    participants.append(Payment.Participant(memberId: m.id , payment: m.payment))
+                    participants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
                 }
                 payment?.participants = participants
-                
                 members = tempMembers
             }, label: {
                 HStack {
@@ -449,14 +454,27 @@ struct PaymentMemberManagementView: View {
                     
                     Spacer()
                     
-                    TextField("금액을 입력해주세요", text: $personalPriceString)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                        .font(.body04)
-                        .onTapGesture {
-                            personalPriceString = ""
-                        }
-                        .padding(.trailing, 14)
+                    if paidButton {
+                        TextField("금액을 입력해주세요", text: $advanceAmountString)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .font(.body04)
+                            .padding(.trailing, 14)
+                    }
+                    else if personalButton {
+                        TextField("금액을 입력해주세요", text: $seperateAmountString)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                            .font(.body04)
+                            .padding(.trailing, 14)
+                    }
+                    else {
+                        Text("분류를 먼저 선택해주세요")
+                            .font(.body04)
+                            .foregroundColor(Color.gray500)
+                            .padding(.trailing, 14)
+                    }
+                    
                 }
                 
                 Divider()
@@ -469,12 +487,12 @@ struct PaymentMemberManagementView: View {
                     
                     Spacer()
                     
-                    TextField("내용을 입력해주세요", text: $personalContent)
+                    TextField("내용을 입력해주세요", text: $personalMemo)
                         .keyboardType(.numberPad)
                         .multilineTextAlignment(.trailing)
                         .font(.body04)
                         .onTapGesture {
-                            personalContent = ""
+                            personalMemo = ""
                         }
                         .padding(.trailing, 14)
                 }
@@ -519,6 +537,9 @@ struct PaymentMemberManagementView: View {
             Spacer()
             Button {
                 isShowingPersonalMemberSheet = false
+                let advanceAmount = Int(advanceAmountString) ?? 0
+                let seperateAmount = Int(seperateAmountString) ?? 0
+                participants.append(Payment.Participant(memberId: selectedMember.id, advanceAmount: advanceAmount, seperateAmount: seperateAmount, memo: personalMemo))
             } label: {
                 HStack {
                     Spacer()
@@ -549,5 +570,5 @@ struct PaymentMemberManagementView: View {
 }
 
 #Preview {
-    PaymentMemberManagementView(travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), tempMembers: .constant([]), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)))
+    PaymentMemberManagementView(travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]))
 }
