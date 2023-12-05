@@ -98,8 +98,8 @@ final class UserTravelStore: ObservableObject {
             hostId: userId,
             travelTitle: title,
             managerId: userId,
-            startDate: startDate.timeIntervalSince1970.timeTo00_00_00().convertGMT(),
-            endDate: endDate.timeIntervalSince1970.timeTo11_59_59().convertGMT(),
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59(),
             updateContentDate: 0,
             isPaymentSettled: false,
             members: tempMembers

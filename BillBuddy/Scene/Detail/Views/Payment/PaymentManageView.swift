@@ -35,11 +35,11 @@ struct PaymentManageView: View {
     @State private var searchAddress: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date.now
-    @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
     @State private var isShowingNoTravelAlert: Bool = false
     @State private var navigationTitleString: String = "지출 내역 추가"
     @State private var isShowingAlert: Bool = false
+    @State private var participants: [Payment.Participant] = []
     
     @FocusState private var focusedField: PaymentFocusField?
     
@@ -166,12 +166,12 @@ struct PaymentManageView: View {
         Section {
             switch mode {
             case .add:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: .constant(nil), participants: $participants, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
-                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField)
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: $payment, participants: $participants, focusedField: $focusedField)
                     .onAppear {
                         if let payment = payment {
                             selectedCategory = payment.type
@@ -181,7 +181,7 @@ struct PaymentManageView: View {
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: .constant(nil), participants: $participants, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
@@ -256,9 +256,6 @@ struct PaymentManageView: View {
             else if expandDetails.isEmpty {
                 focusedField = .content
             }
-            else if members.isEmpty {
-//                isShowingMemberSheet = true
-            }
             else if priceString.isEmpty {
                 focusedField = .price
             }
@@ -278,7 +275,7 @@ struct PaymentManageView: View {
             else if expandDetails.isEmpty {
                 return Alert(title: Text("내용을 입력해주세요"))
             }
-            else if members.isEmpty {
+            else if participants.isEmpty {
                 return Alert(title: Text("이 지출에 포함되는 인원을 선택해주세요"))
             }
             else if priceString.isEmpty {
@@ -315,11 +312,11 @@ struct PaymentManageView: View {
 extension PaymentManageView {
     
     func addPayment() {
-        var participants: [Payment.Participant] = []
-        
-        for m in members {
-            participants.append(Payment.Participant(memberId: m.id, payment: m.payment))
-        }
+//        var participants: [Payment.Participant] = []
+//        
+//        for m in members {
+//            participants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+//        }
         
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
@@ -333,11 +330,11 @@ extension PaymentManageView {
     }
     
     func mainAddPayment() {
-        var participants: [Payment.Participant] = []
+//        var participants: [Payment.Participant] = []
         
-        for m in members {
-            participants.append(Payment.Participant(memberId: m.id, payment: m.payment))
-        }
+//        for m in members {
+//            participants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+//        }
         
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
@@ -346,7 +343,7 @@ extension PaymentManageView {
     
     func editPayment() {
         if let payment = payment {
-            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
             Task {
                 await paymentStore.editPayment(payment: newPayment)
                 settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
@@ -354,8 +351,8 @@ extension PaymentManageView {
         }
     }
 }
-
+//
 //#Preview {
-//    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+//    PaymentManageView(mode: .mainAdd, travelCalculation: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)]))
 //        .environmentObject(TabBarVisivilyStore())
 //}
