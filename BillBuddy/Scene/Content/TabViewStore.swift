@@ -36,13 +36,19 @@ final class TabViewStore: ObservableObject {
         switch type {
         case .travel, .invite:
             selectedTab = 0
-            isPresentedDetail = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresentedDetail = true
+            }
         case .chatting:
             selectedTab = 1
-            isPresentedChat = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresentedChat = true
+            }
         case .notice:
             selectedTab = 2
-            isPresnetedNoti = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresnetedNoti = true
+            }
         }
     }
     
