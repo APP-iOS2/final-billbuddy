@@ -7,9 +7,11 @@
 
 import SwiftUI
 import PhotosUI
+import Kingfisher
 
 struct ChattingRoomView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var userService: UserService
     @EnvironmentObject private var messageStore: MessageStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
@@ -23,69 +25,69 @@ struct ChattingRoomView: View {
     
     var body: some View {
         //각 뷰 내에 스택들이 중복되는 것 같아 주석처리해둠
-//        VStack {
-            if messageStore.messages.isEmpty {
-                emptyChat
-            } else {
-                chattingItem
-            }
-            chattingInputBar
-//        }
-        .onAppear {
-            tabBarVisivilyStore.hideTabBar()
-            //처음에 leadingCount 수만큼 메시지 데이터 불러옴
-            messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
+        //        VStack {
+        if messageStore.messages.isEmpty {
+            emptyChat
+        } else {
+            chattingItem
         }
+        chattingInputBar
+        //        }
+            .onAppear {
+                tabBarVisivilyStore.hideTabBar()
+                //처음에 leadingCount 수만큼 메시지 데이터 불러옴
+                messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
+            }
         //해당 뷰에서 나갈 경우 비워주기
-        .onDisappear {
-            messageStore.messages.removeAll()
-            messageStore.lastDoc = nil
-        }
-        .onChange(of: selectedPhoto) { newValue in
-            guard let item = selectedPhoto else {
-                return
+            .onDisappear {
+                messageStore.messages.removeAll()
+                messageStore.lastDoc = nil
             }
-            item.loadTransferable(type: Data.self) { result in
-                switch result {
-                case .success(let data):
-                    if let data = data {
-                        self.imageData = data
-                    } else {
-                        print("no image")
+            .onChange(of: selectedPhoto) { newValue in
+                guard let item = selectedPhoto else {
+                    return
+                }
+                item.loadTransferable(type: Data.self) { result in
+                    switch result {
+                    case .success(let data):
+                        if let data = data {
+                            self.imageData = data
+                        } else {
+                            print("no image")
+                        }
+                    case .failure(let failure):
+                        fatalError("\(failure)")
                     }
-                case .failure(let failure):
-                    fatalError("\(failure)")
                 }
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    dismiss()
-                }, label: {
-                    Image(.arrowBack)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                })
-            }
-            ToolbarItem(placement: .principal) {
-                Text(travel.travelTitle)
-                    .font(.title05)
-                    .foregroundColor(.systemBlack)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    ChattingMenuView(travel: travel)
-                } label: {
-                    Image(.steps13)
-                        .resizable()
-                        .frame(width: 24, height: 24)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }, label: {
+                        Image(.arrowBack)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    })
+                }
+                ToolbarItem(placement: .principal) {
+                    Text(travel.travelTitle)
+                        .font(.title05)
+                        .foregroundColor(.systemBlack)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        ChattingMenuView(travel: travel)
+                    } label: {
+                        Image(.steps13)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
-        }
     }
     
     /// 아직 채팅을 시작하지 않았을 때
@@ -125,15 +127,14 @@ struct ChattingRoomView: View {
                                         }
                                         VStack(alignment: .trailing) {
                                             if let imageMessage = message.imageString {
-                                                AsyncImage(url: URL(string: imageMessage)) { image in
-                                                    image
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width:120, height: 120)
-                                                } placeholder: {
-                                                    ProgressView()
-                                                        .frame(width:120, height: 120)
-                                                }
+                                                KFImage(URL(string: imageMessage))
+                                                    .placeholder{
+                                                        ProgressView()
+                                                            .frame(width:120, height: 120)
+                                                    }
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width:120, height: 120)
                                             }
                                             if message.message != "" {
                                                 Text(message.message)
@@ -148,9 +149,20 @@ struct ChattingRoomView: View {
                                     }
                                 }
                                 VStack {
-                                    Image(.defaultUser)
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
+                                    if let userImage = userService.currentUser?.userImage {
+                                        KFImage(URL(string: userImage)!)
+                                            .placeholder {
+                                                ProgressView()
+                                                    .frame(width: 40, height: 40)
+                                            }
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                            .clipShape(Circle())
+                                    } else {
+                                        Image(.defaultUser)
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+                                    }
                                     Spacer()
                                 }
                             }
@@ -161,19 +173,30 @@ struct ChattingRoomView: View {
                                 guard let index = messageStore.messages.firstIndex(where: {$0.id == message.id}) else {
                                     return
                                 }
-//                                print("Index -> \(index)")
+                                //                                print("Index -> \(index)")
                                 //스크롤해서 맨 위의 인덱스가 마지막 인덱스 인지 확인
                                 if index == messageStore.messages.count - 1 {
-//                                    print("페이징 실행")
+                                    //                                    print("페이징 실행")
                                     messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
                                 }
                             }
                         } else {
                             HStack {
                                 VStack {
-                                    Image(.defaultUser)
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
+//                                    if let userImage = userService.currentUser?.userImage {
+//                                        KFImage(URL(string: userImage)!)
+//                                            .placeholder {
+//                                                ProgressView()
+//                                                    .frame(width: 40, height: 40)
+//                                            }
+//                                            .resizable()
+//                                            .frame(width: 40, height: 40)
+//                                            .clipShape(Circle())
+//                                    } else {
+                                        Image(.defaultUser)
+                                            .resizable()
+                                            .frame(width: 40, height: 40)
+//                                    }
                                     Spacer()
                                 }
                                 VStack(alignment: .leading) {
@@ -183,15 +206,14 @@ struct ChattingRoomView: View {
                                     HStack {
                                         VStack(alignment: .leading) {
                                             if let imageMessage = message.imageString {
-                                                AsyncImage(url: URL(string: imageMessage)) { image in
-                                                    image
-                                                        .resizable()
-                                                        .aspectRatio(contentMode: .fit)
-                                                        .frame(width:120, height: 120)
-                                                } placeholder: {
-                                                    ProgressView()
-                                                        .frame(width:120, height: 120)
-                                                }
+                                                KFImage(URL(string: imageMessage))
+                                                    .placeholder{
+                                                        ProgressView()
+                                                            .frame(width:120, height: 120)
+                                                    }
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width:120, height: 120)
                                             }
                                             if message.message != ""  {
                                                 Text(message.message)
