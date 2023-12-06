@@ -122,12 +122,14 @@ extension LocationManager {
     // MARK: - Annotaions Center
     func getCenterCoordinate(filteredPayments: [Payment]) {
             let count = Double(filteredPayments.count)
+        if count > 1 {
             let latitude = filteredPayments.map({ $0.address }).map({ $0.latitude }).reduce(0, +) / count
             let longitude = filteredPayments.map({ $0.address }).map({ $0.longitude }).reduce(0, +) / count
             let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             
             moveFocusChange(location: coordinate)
         }
+    }
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -190,6 +192,7 @@ extension LocationManager: MKMapViewDelegate {
             annotationView?.annotation = annotation
         }
         
+        // Custom Annotation
         let customPinImage: UIImage!
         let pinSize = CGSize(width: 46, height: 54)
         UIGraphicsBeginImageContext(pinSize)
@@ -203,6 +206,8 @@ extension LocationManager: MKMapViewDelegate {
         return annotationView
     }
     
-    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+    }
 }
 

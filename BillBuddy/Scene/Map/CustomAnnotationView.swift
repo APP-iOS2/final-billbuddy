@@ -30,7 +30,7 @@ final class CustomAnnotationView: MKAnnotationView {
 final class CustomAnnotation: NSObject, MKAnnotation {
     let pinIndex: Int
     let customPinImage: UIImage?
-    let coordinate: CLLocationCoordinate2D
+    @objc dynamic var coordinate: CLLocationCoordinate2D
     
     init(
         pinIndex: Int,
