@@ -52,9 +52,6 @@ struct ProfileView: View {
                     Text(userService.currentUser?.name ?? "")
                         .font(.body01)
                         .padding(.bottom, 8)
-                    Text("애플 계정 연결중")
-                        .font(.caption02)
-                        .foregroundColor(.gray600)
                 }
                 .padding(16)
                 Spacer()

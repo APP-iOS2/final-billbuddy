@@ -20,6 +20,7 @@ struct ContentView: View {
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
+    @StateObject private var googleSignIn = GoogleSignInModel()
     @StateObject private var tabViewStore = TabViewStore()
     
     var body: some View {
@@ -54,6 +55,7 @@ struct ContentView: View {
                 SignInView(signInStore: signInStore)
                     .environmentObject(signInStore)
                     .environmentObject(userService)
+                    .environmentObject(googleSignIn)
             }
         }
     }
