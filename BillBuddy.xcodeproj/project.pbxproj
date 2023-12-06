@@ -115,7 +115,6 @@
 		D2940EF72AFFBAED00E74B0F /* GoogleSignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2940EF62AFFBAED00E74B0F /* GoogleSignInModel.swift */; };
 		D29BBF7F2AFFAE56000120CD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D29BBF7E2AFFAE56000120CD /* GoogleSignIn */; };
 		D29BBF812AFFAE56000120CD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D29BBF802AFFAE56000120CD /* GoogleSignInSwift */; };
-		D29BBF832AFFB084000120CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D29BBF822AFFB084000120CD /* GoogleService-Info.plist */; };
 		D29BBF872AFFB3A9000120CD /* GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D29BBF862AFFB3A9000120CD /* GoogleSignIn.swift */; };
 		D2A8B6E02ADE481800A469D7 /* AgreementCheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */; };
 		D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C16DA12ACD54BD00F48A06 /* SignInData.swift */; };
@@ -241,7 +240,6 @@
 		D279D1132ACF0F0D0087712F /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
 		D279D1172ACFE6670087712F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D2940EF62AFFBAED00E74B0F /* GoogleSignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInModel.swift; sourceTree = "<group>"; };
-		D29BBF822AFFB084000120CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D29BBF862AFFB3A9000120CD /* GoogleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignIn.swift; sourceTree = "<group>"; };
 		D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementCheckButton.swift; sourceTree = "<group>"; };
 		D2C16DA12ACD54BD00F48A06 /* SignInData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInData.swift; sourceTree = "<group>"; };
