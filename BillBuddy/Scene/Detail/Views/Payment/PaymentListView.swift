@@ -10,16 +10,42 @@ import SwiftUI
 
 struct PaymentListView: View {
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
-
-    @State private var isShowingDeletePayment: Bool = false
     
+    @State private var isShowingDeletePayment: Bool = false
+    @Binding var isEditing: Bool
+    @Binding var forDeletePayments: [Payment]
     
     var body: some View {
-        
         ForEach(paymentStore.filteredPayments) { payment in
             HStack(spacing: 12){
+                if isEditing {
+                    if forDeletePayments.isEmpty {
+                        Button {
+                            forDeletePayments.append(payment)
+                        } label: {
+                            Image(.formCheckInputRadio)
+                        }
+                    }
+                    
+                    else if let index = forDeletePayments.firstIndex(where: { $0.id == payment.id }) {
+                        Button {
+                            forDeletePayments.remove(at: index)
+                        } label: {
+                            Image(.formCheckedInputRadio)
+                        }
+                    }
+                    
+                    else {
+                        Button {
+                            forDeletePayments.append(payment)
+                        } label: {
+                            Image(.formCheckInputRadio)
+                        }
+                    }
+                }
+                
                 Image(payment.type.getImageString(type: .badge))
                     .resizable()
                     .frame(width: 40, height: 40)
@@ -40,35 +66,36 @@ struct PaymentListView: View {
                 
                 Spacer()
                 
-                VStack(alignment: .trailing) {
-                    Text("₩\(payment.payment)")
-                        .foregroundStyle(Color.black)
-                        .font(.body02)
-                    
-                    if payment.participants.isEmpty {
+                if !isEditing {
+                    VStack(alignment: .trailing) {
                         Text("₩\(payment.payment)")
-                            .foregroundStyle(Color.gray600)
-                            .font(.caption02)
+                            .foregroundStyle(Color.black)
+                            .font(.body02)
+                        
+                        if payment.participants.isEmpty {
+                            Text("₩\(payment.payment)")
+                                .foregroundStyle(Color.gray600)
+                                .font(.caption02)
+                        }
+                        else {
+                            Text("₩\(payment.payment / payment.participants.count)")
+                                .foregroundStyle(Color.gray600)
+                                .font(.caption02)
+                        }
+                        
                     }
-                    else {
-                        Text("₩\(payment.payment / payment.participants.count)")
-                            .foregroundStyle(Color.gray600)
-                            .font(.caption02)
-                    }
-                    
                 }
                 
             }
             .padding(.leading, 16)
             .padding(.trailing, 24)
             .swipeActions {
-                // FIXME: 해당 data가 아닌 제일 마지막 payment 삭제
                 Button(role: .destructive) {
                     Task {
                         await paymentStore.deletePayment(payment: payment)
                         settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
                     }
-//                    isShowingDeletePayment = true
+                    //                    isShowingDeletePayment = true
                 } label: {
                     Text("삭제")
                 }
@@ -90,6 +117,11 @@ struct PaymentListView: View {
                 }
                 .frame(width: 88)
                 .background(Color.gray500)
+            }
+            .onChange(of: isEditing) { newValue in
+                if isEditing == false {
+                    forDeletePayments = []
+                }
             }
             
         }

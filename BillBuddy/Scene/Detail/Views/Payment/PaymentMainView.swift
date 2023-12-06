@@ -11,23 +11,31 @@ import SwiftUI
 struct PaymentMainView: View {
     
     @Binding var selectedDate: Double
+    
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+    
     @State private var isShowingSelectCategorySheet: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
     @State private var isEditing: Bool = false
     @State private var selection = Set<String>()
+    @State private var forDeletePayments: [Payment] = []
     
     var body: some View {
         VStack(spacing: 0) {
             header
                 .onChange(of: selectedDate) { _ in
-                    paymentStore.filterDate(date: 0)
+//                    paymentStore.filterDate(date: selectedDate)
                     selectedCategory = nil
                 }
             paymentList
-            addPaymentButton
+            if !isEditing  {
+                addPaymentButton
+            }
+            else {
+                editingPaymentDeleteButton
+            }
         }
     }
     
@@ -79,6 +87,32 @@ struct PaymentMainView: View {
             
             filteringSection
         }
+    }
+    
+    var editingPaymentDeleteButton: some View {
+        Button(action: {
+            if isEditing {
+                Task {
+                    await paymentStore.deletePayments(payment: forDeletePayments)
+                    settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                }
+            }
+            isEditing.toggle()
+        }, label: {
+            
+            HStack {
+                Spacer()
+                
+                Text("삭제하기")
+                    .font(.title05)
+                    .foregroundColor(.white)
+                
+                Spacer()
+            }
+            .padding(.top, 24)
+            .padding(.bottom, 24)
+        })
+        .background(Color.myPrimary)
     }
     
     var addPaymentButton: some View {
@@ -137,7 +171,7 @@ struct PaymentMainView: View {
                 }
             }
             List {
-                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                PaymentListView(paymentStore: paymentStore, isEditing: $isEditing, forDeletePayments: $forDeletePayments)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
@@ -199,20 +233,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-//                Button(action: {
-//                    isEditing.toggle()
-//                }, label: {
-//                    if isEditing {
-//                        Text("편집 완료")
-//                            .font(.body04)
-//                            .foregroundStyle(Color.gray600)
-//                    }
-//                    else {
-//                        Text("편집")
-//                            .font(.body04)
-//                            .foregroundStyle(Color.gray600)
-//                    }
-//                })
+                Button(action: {
+                    isEditing.toggle()
+                }, label: {
+                    if isEditing {
+                        Text("편집 완료")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("편집")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)

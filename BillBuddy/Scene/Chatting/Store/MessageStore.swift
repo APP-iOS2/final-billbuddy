@@ -13,6 +13,8 @@ import _PhotosUI_SwiftUI
 final class MessageStore: ObservableObject {
     private let db = Firestore.firestore().collection("TravelCalculation")
     private let storage = Storage.storage().reference()
+    ///불러온 메시지 쿼리 중 마지막 쿼리스냅샷
+    var lastDoc: QueryDocumentSnapshot?
     @Published var messages: [Message] = []
     @Published var isAddedNewMessage: Bool = false
     
@@ -22,6 +24,8 @@ final class MessageStore: ObservableObject {
             try db.document(travelCalculation.id)
                 .collection("Message").addDocument(from: message.self)
             updateLastMessage(travelCalculation: travelCalculation, message: message)
+            //내가 메시지 보냈을때만 토글되도록 함 ( 자동 스크롤 )
+            self.isAddedNewMessage.toggle()
         } catch {
             print("Failed send message: \(error)")
         }
@@ -46,42 +50,95 @@ final class MessageStore: ObservableObject {
     }
     
     /// 실시간 채팅 메세지 불러오기
-    func fetchMessages(travelCalculation: TravelCalculation) {
-        // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
-        db.document(travelCalculation.id)
-            .collection("Message").order(by: "sendDate")
-            .addSnapshotListener { snapshot, error in
-                if let error = error {
-                    print("Failed fetching messages: \(error)")
-                    return
-                }
-                guard let querySnapshot = snapshot else {
-                    print("No messages available")
-                    return
-                }
-                // 실시간으로 추가되는 데이터가 있다면 isAddedNewMessage 변수 토글해서 scroll down
-                querySnapshot.documentChanges.forEach { change in
-                    if change.type == .added {
-                        self.isAddedNewMessage.toggle()
+    func fetchMessages(travelCalculation: TravelCalculation, count: Int) {
+        //마지막 메시지 쿼리스냅샷이 있는지에 따라 나뉨 ( 없으면 최근 count만큼, 있으면 마지막 메시지가 보일때 count만큼 불러오는 상황 )
+        if let lastDoc {
+            // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
+            db.document(travelCalculation.id)
+            //descending: true -> 내림차순
+                .collection("Message").order(by: "sendDate", descending: true)
+                .limit(to: count)
+                .start(afterDocument: lastDoc)
+                .addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print("Failed fetching messages: \(error)")
+                        return
                     }
-                }
-                //저장된 메세지 배열에 추가 - 출력
-                var newMessage: [Message] = []
-                for document in querySnapshot.documents {
-                    do {
-                        var item = try document.data(as: Message.self)
-                        // sender id로 travelCalculation 멤버 정보 찾기
-                        if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
-                            item.userImage = member.userImage
-                            item.userName = member.name
+                    guard let querySnapshot = snapshot else {
+                        print("No messages available")
+                        return
+                    }
+                    //일단 주석처리해둠
+                    // 실시간으로 추가되는 데이터가 있다면 isAddedNewMessage 변수 토글해서 scroll down
+//                    querySnapshot.documentChanges.forEach { change in
+//                        if change.type == .added {
+//                            self.isAddedNewMessage.toggle()
+//                        }
+//                    }
+                    //저장된 메세지 배열에 추가 - 출력
+                    var newMessage: [Message] = []
+                    for document in querySnapshot.documents {
+                        do {
+                            var item = try document.data(as: Message.self)
+                            // sender id로 travelCalculation 멤버 정보 찾기
+                            if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
+                                item.userImage = member.userImage
+                                item.userName = member.name
+                            }
+                            print(item)
+                            newMessage.append(item)
+                        } catch {
+                            print("Failed to fetch chat message: \(error)")
                         }
-                        newMessage.append(item)
-                    } catch {
-                        print("Failed to fetch chat message: \(error)")
                     }
+                    //불러온 마지막 메시지 쿼리 스냅샷 저장
+                    self.lastDoc = snapshot?.documents.last
+                    self.messages.append(contentsOf: newMessage)
                 }
-                self.messages = newMessage
-            }
+        } else {
+            // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
+            db.document(travelCalculation.id)
+            //descending: true -> 내림차순
+                .collection("Message").order(by: "sendDate", descending: true)
+                .limit(to: count)
+                .addSnapshotListener { snapshot, error in
+                    if let error = error {
+                        print("Failed fetching messages: \(error)")
+                        return
+                    }
+                    guard let querySnapshot = snapshot else {
+                        print("No messages available")
+                        return
+                    }
+                    //일단 주석처리해둠
+                    // 실시간으로 추가되는 데이터가 있다면 isAddedNewMessage 변수 토글해서 scroll down
+//                    querySnapshot.documentChanges.forEach { change in
+//                        if change.type == .added {
+//                            self.isAddedNewMessage.toggle()
+//                        }
+//                    }
+                    //저장된 메세지 배열에 추가 - 출력
+                    var newMessage: [Message] = []
+                    for document in querySnapshot.documents {
+                        do {
+                            var item = try document.data(as: Message.self)
+                            // sender id로 travelCalculation 멤버 정보 찾기
+                            if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
+                                item.userImage = member.userImage
+                                item.userName = member.name
+                            }
+                            print(item)
+                            newMessage.append(item)
+                        } catch {
+                            print("Failed to fetch chat message: \(error)")
+                        }
+                    }
+                    //불러온 마지막 메시지 쿼리 스냅샷 저장
+                    self.lastDoc = snapshot?.documents.last
+                    self.messages = newMessage
+                }
+        }
+        
     }
     
     /// 마지막 채팅 메세지 travelCalculation 에 업데이트

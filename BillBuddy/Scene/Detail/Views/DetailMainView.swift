@@ -30,6 +30,7 @@ struct DetailMainView: View {
             }
             await paymentStore.fetchAll()
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+            selectedDate = 0
         }
     }
     
@@ -46,7 +47,7 @@ struct DetailMainView: View {
             
             if selection == "내역" {
                 ZStack {
-                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore)
                         .environmentObject(travelDetailStore)
                     
                     if travelDetailStore.isChangedTravel &&
@@ -103,17 +104,18 @@ struct DetailMainView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
-                travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
+                        travelDetailStore.setTravel()
+
                         travelDetailStore.checkAndResaveToken()
                         fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
                         
                     }
                 }
-            }
-            else {
+                travelDetailStore.listenTravelDate()
+            } else {
                 paymentStore.filterDate(date: selectedDate)
             }
         }
@@ -126,7 +128,6 @@ struct DetailMainView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    SchemeService.shared.removeUrl()
                     dismiss()
                 }, label: {
                     Image(.arrowBack)

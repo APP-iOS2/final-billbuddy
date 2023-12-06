@@ -13,6 +13,7 @@ final class UserTravelStore: ObservableObject {
     @Published var travels: [TravelCalculation] = []
     @Published var isFetchedFirst: Bool = false
     @Published var isFetching: Bool = false
+        
     private let service = Firestore.firestore()
     
     var travelCount: Int {
@@ -36,6 +37,7 @@ final class UserTravelStore: ObservableObject {
         
         Task {
             self.isFetching = true
+            userTravels.removeAll()
             do {
                 let snapshot = try await
                 self.service.collection("User").document (userId).collection("UserTravel").getDocuments()
@@ -60,7 +62,6 @@ final class UserTravelStore: ObservableObject {
                         print(error)
                     }
                 }
-                userTravels.removeAll()
                 travels.removeAll()
                 
                 self.travels = newTravels
@@ -70,6 +71,11 @@ final class UserTravelStore: ObservableObject {
                 print ("Failed fetch travel list: \(error)")
             }
         }
+    }
+    
+    func getTravel(id: String) -> TravelCalculation {
+        guard let travelIndex = travels.firstIndex(where: { $0.id == id }) else { return TravelCalculation.sampletravel }
+        return travels[travelIndex]
     }
     
     func addTravel(_ title: String, memberCount: Int, startDate: Date, endDate: Date) {
@@ -92,8 +98,8 @@ final class UserTravelStore: ObservableObject {
             hostId: userId,
             travelTitle: title,
             managerId: userId,
-            startDate: startDate.timeIntervalSince1970.timeTo00_00_00().convertGMT(),
-            endDate: endDate.timeIntervalSince1970.timeTo11_59_59().convertGMT(),
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59(),
             updateContentDate: 0,
             isPaymentSettled: false,
             members: tempMembers
@@ -107,16 +113,6 @@ final class UserTravelStore: ObservableObject {
             try service.collection("TravelCalculation").document(tempTravel.id).setData(from: tempTravel)
             try service.collection("User").document(userId).collection("UserTravel").addDocument(from: userTravel)
             Task { await fetchTravelCalculation() }
-            //            _ = TravelCalculation(
-            //                hostId: travel.hostId,
-            //                travelTitle: travel.travelTitle,
-            //                managerId: travel.managerId,
-            //                startDate: travel.startDate,
-            //                endDate: travel.endDate,
-            //                updateContentDate: Date(),
-            //                members: []
-            //            )
-            // travelCalculation.userTravelId = userTravelRef.documentID
         } catch {
             print("Error adding travel: \(error)")
         }
@@ -139,27 +135,35 @@ final class UserTravelStore: ObservableObject {
     func leaveTravel(travel: TravelCalculation) {
         let userId = AuthStore.shared.userUid
         let travelId = travel.id
-        guard let travelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId }) else { return }
-        let userTravel = userTravels[travelArrayIndex]
+        guard let userTravelArrayIndex = userTravels.firstIndex(where: { $0.travelId == travelId }) else { return }
+        let userTravel = userTravels[userTravelArrayIndex]
+        
         var members = travel.members
         guard let memberIndex = members.firstIndex(where: { $0.userId == userId }) else { return }
         members[memberIndex].isExcluded = true
         members[memberIndex].userId = nil
         
-        Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
-            .delete { error in
-                guard error != nil else { return }
-                Firestore.firestore().collection("TravelCalculation").document(travelId)
-                    .setData(
-                        [
-                            "updateContentDate" : Date.now.timeIntervalSince1970,
-                            "members" : members
-                        ]
-                    )
-                Task {
-                    self.fetchTravelCalculation()
+        Task {
+            do {
+                try await Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
+                    .delete()
+                if members.filter({ $0.userId != nil }).isEmpty {
+                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId).delete()
+                } else {
+                    let encodedMembers = try JSONEncoder().encode(members)
+                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
+                        .setData(
+                            [
+                                "members" : encodedMembers
+                            ]
+                            ,merge: true
+                        )
                 }
+                self.fetchTravelCalculation()
+            } catch {
+                print(error)
             }
+        }
     }
     
     @MainActor
@@ -169,4 +173,3 @@ final class UserTravelStore: ObservableObject {
         isFetchedFirst = false
     }
 }
-
