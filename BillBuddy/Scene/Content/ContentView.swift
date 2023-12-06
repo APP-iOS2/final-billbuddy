@@ -20,7 +20,7 @@ struct ContentView: View {
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
-    @StateObject private var authVierModel = AuthViewModel()
+    @StateObject private var googleSignIn = GoogleSignInModel()
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
@@ -62,7 +62,7 @@ struct ContentView: View {
                 SignInView(signInStore: signInStore)
                     .environmentObject(signInStore)
                     .environmentObject(userService)
-                    .environmentObject(authVierModel)
+                    .environmentObject(googleSignIn)
             }
         }
     }

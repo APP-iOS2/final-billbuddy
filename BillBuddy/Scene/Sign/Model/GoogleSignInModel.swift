@@ -10,7 +10,7 @@ import SwiftUI
 import Firebase
 import GoogleSignIn
 
-class AuthViewModel: ObservableObject {
+class GoogleSignInModel: ObservableObject {
     // 로그인 한 상태와 로그인 하지 않은 상태로 분류한다.
     enum SignState {
         case signedIn

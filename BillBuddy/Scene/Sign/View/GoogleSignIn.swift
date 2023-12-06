@@ -13,7 +13,7 @@ import GoogleSignIn
 
 struct GoogleSignIn: View {
     
-    @EnvironmentObject var viewModel: AuthViewModel
+    @EnvironmentObject var googleSignIn: GoogleSignInModel
     
     var body: some View {
         VStack {
