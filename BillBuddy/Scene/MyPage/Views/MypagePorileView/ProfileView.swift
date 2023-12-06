@@ -29,7 +29,7 @@ struct ProfileView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 80, height: 80)
-                            .cornerRadius(50)
+                            .clipShape(Circle())
                     } else {
                         Image("profileImage")
                             .resizable()

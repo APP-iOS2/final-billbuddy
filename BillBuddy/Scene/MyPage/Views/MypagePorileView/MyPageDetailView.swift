@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MyPageDetailView: View {
     
@@ -15,21 +16,19 @@ struct MyPageDetailView: View {
         VStack {
             HStack {
                 if let userImage = userService.currentUser?.userImage {
-                    AsyncImage(url: URL(string: userImage), content: { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(50)
-                    }, placeholder: {
-                        ProgressView()
-                            .frame(width: 80, height: 80)
-                    })
+                    KFImage(URL(string: userImage)!)
+                        .placeholder {
+                            ProgressView()
+                                .frame(width: 80, height: 80)
+                        }
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
                 } else {
                     Image("profileImage")
                         .resizable()
                         .frame(width: 80, height: 80)
-                    
                 }
                 VStack(alignment: .leading) {
                     NavigationLink(destination: ProfileView()) {
