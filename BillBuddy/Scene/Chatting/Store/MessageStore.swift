@@ -85,7 +85,7 @@ final class MessageStore: ObservableObject {
                                 item.userImage = member.userImage
                                 item.userName = member.name
                             }
-                            print(item)
+//                            print(item)
                             newMessage.append(item)
                         } catch {
                             print("Failed to fetch chat message: \(error)")
@@ -96,47 +96,49 @@ final class MessageStore: ObservableObject {
                     self.messages.append(contentsOf: newMessage)
                 }
         } else {
-            // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
-            db.document(travelCalculation.id)
-            //descending: true -> 내림차순
-                .collection("Message").order(by: "sendDate", descending: true)
-                .limit(to: count)
-                .addSnapshotListener { snapshot, error in
-                    if let error = error {
-                        print("Failed fetching messages: \(error)")
-                        return
-                    }
-                    guard let querySnapshot = snapshot else {
-                        print("No messages available")
-                        return
-                    }
-                    //일단 주석처리해둠
-                    // 실시간으로 추가되는 데이터가 있다면 isAddedNewMessage 변수 토글해서 scroll down
-//                    querySnapshot.documentChanges.forEach { change in
-//                        if change.type == .added {
-//                            self.isAddedNewMessage.toggle()
-//                        }
-//                    }
-                    //저장된 메세지 배열에 추가 - 출력
-                    var newMessage: [Message] = []
-                    for document in querySnapshot.documents {
-                        do {
-                            var item = try document.data(as: Message.self)
-                            // sender id로 travelCalculation 멤버 정보 찾기
-                            if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
-                                item.userImage = member.userImage
-                                item.userName = member.name
-                            }
-                            print(item)
-                            newMessage.append(item)
-                        } catch {
-                            print("Failed to fetch chat message: \(error)")
+            if self.messages.isEmpty {
+                // firestore message에 해당하는 여행 id 채팅 데이터 시간 순으로 불러오기
+                db.document(travelCalculation.id)
+                //descending: true -> 내림차순
+                    .collection("Message").order(by: "sendDate", descending: true)
+                    .limit(to: count)
+                    .addSnapshotListener { snapshot, error in
+                        if let error = error {
+                            print("Failed fetching messages: \(error)")
+                            return
                         }
+                        guard let querySnapshot = snapshot else {
+                            print("No messages available")
+                            return
+                        }
+                        //일단 주석처리해둠
+                        // 실시간으로 추가되는 데이터가 있다면 isAddedNewMessage 변수 토글해서 scroll down
+                        //                    querySnapshot.documentChanges.forEach { change in
+                        //                        if change.type == .added {
+                        //                            self.isAddedNewMessage.toggle()
+                        //                        }
+                        //                    }
+                        //저장된 메세지 배열에 추가 - 출력
+                        var newMessage: [Message] = []
+                        for document in querySnapshot.documents {
+                            do {
+                                var item = try document.data(as: Message.self)
+                                // sender id로 travelCalculation 멤버 정보 찾기
+                                if let member = travelCalculation.members.first(where: { $0.userId == item.senderId }) {
+                                    item.userImage = member.userImage
+                                    item.userName = member.name
+                                }
+                                //                            print(item)
+                                newMessage.append(item)
+                            } catch {
+                                print("Failed to fetch chat message: \(error)")
+                            }
+                        }
+                        //불러온 마지막 메시지 쿼리 스냅샷 저장
+                        self.lastDoc = snapshot?.documents.last
+                        self.messages = newMessage
                     }
-                    //불러온 마지막 메시지 쿼리 스냅샷 저장
-                    self.lastDoc = snapshot?.documents.last
-                    self.messages = newMessage
-                }
+            }
         }
         
     }

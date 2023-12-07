@@ -173,7 +173,6 @@ struct ChattingRoomView: View {
                                 guard let index = messageStore.messages.firstIndex(where: {$0.id == message.id}) else {
                                     return
                                 }
-                                //                                print("Index -> \(index)")
                                 //스크롤해서 맨 위의 인덱스가 마지막 인덱스 인지 확인
                                 if index == messageStore.messages.count - 1 {
                                     //                                    print("페이징 실행")
@@ -183,20 +182,24 @@ struct ChattingRoomView: View {
                         } else {
                             HStack {
                                 VStack {
-//                                    if let userImage = userService.currentUser?.userImage {
-//                                        KFImage(URL(string: userImage)!)
-//                                            .placeholder {
-//                                                ProgressView()
-//                                                    .frame(width: 40, height: 40)
-//                                            }
-//                                            .resizable()
-//                                            .frame(width: 40, height: 40)
-//                                            .clipShape(Circle())
-//                                    } else {
-                                        Image(.defaultUser)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-//                                    }
+                                    ForEach(travel.members) { member in
+                                        if member.userId == message.senderId {
+                                            if member.userImage != "" {
+                                                KFImage(URL(string: member.userImage))
+                                                    .placeholder {
+                                                        ProgressView()
+                                                            .frame(width: 40, height: 40)
+                                                    }
+                                                    .resizable()
+                                                    .frame(width: 40, height: 40)
+                                                    .clipShape(Circle())
+                                            } else {
+                                                Image(.defaultUser)
+                                                    .resizable()
+                                                    .frame(width: 40, height: 40)
+                                            }
+                                        }
+                                    }
                                     Spacer()
                                 }
                                 VStack(alignment: .leading) {
