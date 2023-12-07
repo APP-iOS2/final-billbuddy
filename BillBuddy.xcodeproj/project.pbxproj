@@ -283,6 +283,24 @@
 			path = "SF-Pro";
 			sourceTree = "<group>";
 		};
+		27039A572B2205B80048027A /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				2785ECC42AE053EA003E8D9D /* TabBarVisivilyStore.swift */,
+				278563012B08A5F500B465DB /* TabViewStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		27039A582B22063B0048027A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				276647FC2ABD53F8000F8A10 /* ContentView.swift */,
+				2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -534,10 +552,8 @@
 		276648172ABD55C2000F8A10 /* Content */ = {
 			isa = PBXGroup;
 			children = (
-				276647FC2ABD53F8000F8A10 /* ContentView.swift */,
-				2717D0F62ACD78390002D620 /* BillBuddyTabView.swift */,
-				2785ECC42AE053EA003E8D9D /* TabBarVisivilyStore.swift */,
-				278563012B08A5F500B465DB /* TabViewStore.swift */,
+				27039A572B2205B80048027A /* Store */,
+				27039A582B22063B0048027A /* Views */,
 			);
 			path = Content;
 			sourceTree = "<group>";

@@ -53,7 +53,7 @@ final class TabViewStore: ObservableObject {
     }
     
     @MainActor
-    func poToRoow() {
+    func popToRoow() {
         isPresentedDetail = false
         isPresentedChat = false
         isPresnetedNoti = false
