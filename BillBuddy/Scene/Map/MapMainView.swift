@@ -9,15 +9,15 @@ import SwiftUI
 
 struct MapMainView: View {
     @StateObject var locationManager: LocationManager
-    @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var paymentStore: PaymentStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @Binding var selectedDate: Double
     
     var body: some View {
         ScrollView {
-            MapSubView(locationManager: locationManager, paymentStore: paymentStore, selectedDate: $selectedDate)
+            MapSubView(locationManager: locationManager, selectedDate: $selectedDate)
                 .frame(height: 230)
-            MapDetailView(paymentStore: paymentStore)
+            MapDetailView()
         }
     }
 }

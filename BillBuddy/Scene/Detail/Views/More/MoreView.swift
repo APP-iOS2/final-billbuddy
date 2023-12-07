@@ -44,13 +44,18 @@ struct MoreView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var tabViewStore: TabViewStore
-    @State var itemList: [ListItem] = ListItem.allCases
-    @State var isPresentedLeaveAlert: Bool = false
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
+    @State private var itemList: [ListItem] = ListItem.allCases
+    @State private var isPresentedLeaveAlert: Bool = false
+        
+    let callback: () -> Void
     
-    let travel: TravelCalculation
-
     var body: some View {
         VStack {
+            Button("test") {
+                dismiss()
+                callback()
+            }
             Divider()
                 .padding(.bottom, 16)
             ScrollView {
@@ -59,11 +64,11 @@ struct MoreView: View {
                         NavigationLink {
                             switch item {
                             case .chat:
-                                ChattingRoomView(travel: travel)
+                                ChattingRoomView(travel: travelDetailStore.travel)
                                 // case .editDate:
                                 // SpendingListView()
                             case .mamberManagement:
-                                MemberManagementView(travel: travel)
+                                MemberManagementView(travel: travelDetailStore.travel)
                             case .settledAccount:
                                 SettledAccountView()
                             }
@@ -119,8 +124,8 @@ struct MoreView: View {
         .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
             Button("머물기", role: .cancel) { }
             Button("여행 떠나기", role: .destructive) {
-                userTravelStore.leaveTravel(travel: travel)
-                tabViewStore.poToRoow()
+                userTravelStore.leaveTravel(travel: travelDetailStore.travel)
+                tabViewStore.popToRoow()
             }
 
         }
@@ -129,7 +134,7 @@ struct MoreView: View {
 
 #Preview {
     NavigationStack {
-        MoreView(travel: .sampletravel)
+        MoreView(callback: { })
             .environmentObject(UserTravelStore())
     }
 }

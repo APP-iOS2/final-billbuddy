@@ -8,7 +8,11 @@
 import Foundation
 
 final class SettlementExpensesStore: ObservableObject {
-    @Published var settlementExpenses = SettlementExpenses()
+    @Published var settlementExpenses = SettlementExpenses() {
+        didSet {
+            print("=> settlementExpenses")
+        }
+    }
     
     func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
         settlementExpenses = SettlementExpenses()

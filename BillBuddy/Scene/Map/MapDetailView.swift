@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MapDetailView: View {
-    @ObservedObject var paymentStore: PaymentStore
+    @EnvironmentObject private var paymentStore: PaymentStore
     
     var body: some View {
         VStack {
@@ -46,5 +46,5 @@ struct MapDetailView: View {
 }
 
 #Preview {
-    MapDetailView(paymentStore: PaymentStore(travel: TravelCalculation.sampletravel))
+    MapDetailView()
 }

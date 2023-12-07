@@ -9,18 +9,32 @@ import Foundation
 import FirebaseFirestore
 
 final class PaymentStore: ObservableObject {
-    @Published var payments: [Payment] = []
-    @Published var filteredPayments: [Payment] = []
-    @Published var isFetchingList: Bool = false
+    @Published var payments: [Payment] = [] {
+        didSet {
+            print("=> payments1")
+        }
+    }
+    @Published var filteredPayments: [Payment] = [] {
+        didSet {
+            print("=> payments2")
+        }
+    }
+    @Published var isFetchingList: Bool = false {
+        didSet {
+            print("=> payments3")
+        }
+    }
     public var updateContentDate: Double = 0
     
-    var members: [TravelCalculation.Member]
-    var travelCalculationId: String
-    var dbRef: CollectionReference
+    var members: [TravelCalculation.Member] = []
+    var travelCalculationId: String = ""
+    var dbRef: CollectionReference = Firestore.firestore()
+        .collection("TravelCalculation")
     
     var sumAllPayment: Int = 0
     
-    init(travel: TravelCalculation) {
+    @MainActor
+    func setTravel(_ travel: TravelCalculation) {
         self.travelCalculationId = travel.id
         self.dbRef = Firestore.firestore()
             .collection("TravelCalculation")
@@ -71,7 +85,6 @@ final class PaymentStore: ObservableObject {
     }
     
     func filterCategory(category: Payment.PaymentType) {
-    
         filteredPayments = payments.filter({ (payment: Payment) in
             return payment.type == category
         })

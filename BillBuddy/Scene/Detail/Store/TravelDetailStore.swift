@@ -10,30 +10,40 @@ import Firebase
 import FirebaseFirestoreSwift
 
 final class TravelDetailStore: ObservableObject {
-    @Published var travel: TravelCalculation = TravelCalculation.sampletravel
-    @Published var isChangedTravel: Bool = false
-    @Published var isFirstFetch: Bool = true
+    @Published var travel: TravelCalculation = TravelCalculation.sampletravel {
+        didSet {
+            print("=> travel1")
+        }
+    }
+    @Published var isChangedTravel: Bool = false {
+        didSet {
+            print("=> travel2")
+        }
+    }
+    @Published var isFetchedFirst: Bool = false {
+        didSet {
+            print("=> travel3")
+        }
+    }
 
-    var travelTump: TravelCalculation
-    let travelId: String
+    var travelId: String = ""
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil
     
-    init(travel: TravelCalculation) {
-        self.travelTump = travel
-        self.travelId = travel.id
-    }
-    
     @MainActor
-    func setTravel() {
-        self.travel = travelTump
+    func setTravel(_ travel: TravelCalculation) {
+        self.travel = travel
+        self.travelId = travel.id
+        checkAndResaveToken()
+        isFetchedFirst = true
+        listenTravelDate()
     }
     
-    func checkAndResaveToken() {
-        guard let index = travelTump.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
-        if travelTump.members[index].reciverToken != UserService.shared.reciverToken {
-            travelTump.members[index].reciverToken = UserService.shared.reciverToken
-            travelTump.updateContentDate = Date.now.timeIntervalSince1970
+    private func checkAndResaveToken() {
+        guard let index = travel.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
+        if travel.members[index].reciverToken != UserService.shared.reciverToken {
+            travel.members[index].reciverToken = UserService.shared.reciverToken
+            travel.updateContentDate = Date.now.timeIntervalSince1970
             do {
                 try Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(from: travel.self)
             } catch {
@@ -63,10 +73,9 @@ final class TravelDetailStore: ObservableObject {
             do {
                 guard let snapshot = querySnapshot else { return }
                 let travel = try snapshot.data(as: TravelCalculation.self)
-                print(" => listener \(travel.members.count). \(travel.updateContentDate) => \(self.travel.updateContentDate)")
                 // 여행 변경사항이 있을 시
                 DispatchQueue.main.async {
-                    if self.isFirstFetch {
+                    if self.isFetchedFirst == false {
                         self.travel = travel
                         return
                     }
@@ -94,5 +103,6 @@ final class TravelDetailStore: ObservableObject {
         listener?.remove()
         print("stop listening")
         isChangedTravel = false
+        isFetchedFirst = false
     }
 }

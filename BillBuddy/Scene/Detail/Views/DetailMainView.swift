@@ -7,14 +7,27 @@
 
 import SwiftUI
 
+struct DetailMainRootView: View {
+    @StateObject private var travelDetailStore = TravelDetailStore()
+    @StateObject private var paymentStore = PaymentStore()
+    
+    let travel: TravelCalculation
+    
+    var body: some View {
+        DetailMainView()
+            .environmentObject(travelDetailStore)
+            .environmentObject(paymentStore)
+    }
+}
+
 struct DetailMainView: View {
     
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
-    @StateObject var paymentStore: PaymentStore
-    @StateObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var paymentStore: PaymentStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @StateObject private var locationManager = LocationManager()
     
     @State private var selection: String = "내역"
@@ -48,7 +61,6 @@ struct DetailMainView: View {
             if selection == "내역" {
                 ZStack {
                     PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore)
-                        .environmentObject(travelDetailStore)
                     
                     if travelDetailStore.isChangedTravel &&
                         paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate &&
@@ -90,7 +102,7 @@ struct DetailMainView: View {
                 }
             }
             else if selection == "지도" {
-                MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
+                MapMainView(locationManager: locationManager, selectedDate: $selectedDate)
             }
         }
         .onChange(of: selectedDate, perform: { date in
@@ -105,16 +117,12 @@ struct DetailMainView: View {
             tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
                 Task {
-                    if travelDetailStore.isFirstFetch {
-                        travelDetailStore.setTravel()
-
-                        travelDetailStore.checkAndResaveToken()
+                    if travelDetailStore.isFetchedFirst == false {
+                        travelDetailStore.setTravel(travelDetailStore.travel)
+                        paymentStore.setTravel(travelDetailStore.travel)
                         fetchPaymentAndSettledAccount(edit: false)
-                        travelDetailStore.isFirstFetch = false
-                        
                     }
                 }
-                travelDetailStore.listenTravelDate()
             } else {
                 paymentStore.filterDate(date: selectedDate)
             }
@@ -146,7 +154,14 @@ struct DetailMainView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    MoreView(travel: travelDetailStore.travel)
+                    MoreView() {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            dismiss()
+                            print("dd")
+                        }
+                    }
+                    .environmentObject(travelDetailStore)
+
                 } label: {
                     Image("steps-1 3")
                         .resizable()
@@ -159,9 +174,6 @@ struct DetailMainView: View {
             }
             
         })
-        
-        
-        
     }
     
     var sliderSection: some View {
@@ -239,7 +251,6 @@ struct DetailMainView: View {
             DateSheet(locationManager: locationManager, paymentStore: paymentStore,isShowingDateSheet: $isShowingDateSheet, selectedDate: $selectedDate, startDate: travelDetailStore.travel.startDate, endDate: travelDetailStore.travel.endDate)
                 .presentationDetents([.fraction(0.4)])
         })
-        
         
     }
 }

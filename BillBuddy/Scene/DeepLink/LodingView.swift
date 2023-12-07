@@ -22,7 +22,7 @@ struct LodingView: View {
                 .ignoresSafeArea(.all)
         }
         .onAppear {
-            tabViewStore.poToRoow()
+            tabViewStore.popToRoow()
             invitTravelService.joinAndFetchTravel { travel in
                 userTravelStore.fetchTravelCalculation()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {

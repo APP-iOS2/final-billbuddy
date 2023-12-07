@@ -20,7 +20,6 @@ struct TravelListView: View {
     @State private var isShowingEditTravelView = false
 //    @Namespace var animation
     
-    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -117,10 +116,7 @@ struct TravelListView: View {
             
         } //MARK: ZSTACK
         .navigationDestination(isPresented: $tabViewStore.isPresentedDetail) {
-            DetailMainView(
-                paymentStore: PaymentStore(travel: tabViewStore.seletedTravel),
-                travelDetailStore: TravelDetailStore(travel: tabViewStore.seletedTravel)
-            )
+            DetailMainRootView(travel: tabViewStore.seletedTravel)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
