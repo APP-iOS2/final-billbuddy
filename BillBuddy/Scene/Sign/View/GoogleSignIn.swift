@@ -10,31 +10,31 @@ import Firebase
 import FirebaseAuth
 import GoogleSignInSwift
 import GoogleSignIn
+import FirebaseCore
 
 struct GoogleSignIn: View {
-    
-    @EnvironmentObject var googleSignIn: GoogleSignInModel
+    //이거 아래 주석 코드 필요한지 확인 부탁
+//    @EnvironmentObject var googleSignIn: GoogleSignInModel
+    private var googleSignInStore: GoogleSignInStore = GoogleSignInStore()
     
     var body: some View {
         VStack {
-            GoogleSignInButton(action: handleSignInButton)
-//            Button(action: {
-//                viewModel.signIn()
-//            }) {
-//                HStack {
-//                    Image(.google)
-//                    Spacer()
-//                    Text("구글로 로그인")
-//                        .font(.body02)
-//                        .foregroundStyle(Color.systemBlack)
-//                    Spacer()
-//                }
-//            }.padding(20)
-//                .frame(width: 351, height: 52)
-//                .background(Color.gray050)
-//                .cornerRadius(12)
+            Button(action: {
+                handleSignInButton()
+            }) {
+                HStack {
+                    Image(.google)
+                    Spacer()
+                    Text("구글로 로그인")
+                        .font(.body02)
+                        .foregroundStyle(Color.systemBlack)
+                    Spacer()
+                }
+            }.padding(20)
+                .frame(width: 351, height: 52)
+                .background(Color.gray050)
+                .cornerRadius(12)
         }
-//        .padding()
     }
     
     func handleSignInButton() {
@@ -50,15 +50,22 @@ struct GoogleSignIn: View {
                 return
             }
             
-            guard let user = signResult?.user,
-                  let idToken = user.idToken else { return }
+            guard let user = signResult?.user, let idToken = user.idToken else { return }
             
             let accessToken = user.accessToken
             
-            _ = GoogleAuthProvider.credential(withIDToken: idToken.tokenString, accessToken: accessToken.tokenString)
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString, accessToken: accessToken.tokenString)
             
             // Use the credential to authenticate with Firebase
-            
+            Auth.auth().signIn(with: credential) { result, error in
+                //v0roNcPUoGbFjZycF8jWUm266dn1
+                guard let userId = result?.user.uid else { return }
+                guard let name = result?.user.displayName else { return }
+                guard let email = result?.user.email else { return }
+                let phoneNum = result?.user.phoneNumber ?? ""
+                
+                googleSignInStore.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+            }
         }
         
     }
