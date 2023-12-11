@@ -31,6 +31,7 @@ struct MemberShareSheet: View {
                         .padding(.leading, 12)
                         .padding(.trailing, 8)
                     TextField("이름 또는 이메일을 입력해주세요", text: $searchText)
+                        .textInputAutocapitalization(.never)
                         .font(.body04)
                         .onChange(of: searchText) { _ in
                             sampleMemeberStore.isfinishsearched = true
