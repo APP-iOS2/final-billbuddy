@@ -100,12 +100,6 @@ final class InvitTravelService: ObservableObject {
                 
                 let userTravel = UserTravel(travelId: travelId)
                 
-//                try await dbRef.collection(StoreCollection.travel.path)
-//                    .document(travelId)
-//                    .setData([
-//                        "members" : members
-//                    ], merge: true)
-                
                 travel.members = members
                 
                 do {

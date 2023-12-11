@@ -10,17 +10,17 @@ import Foundation
 final class SettlementExpensesStore: ObservableObject {
     @Published var settlementExpenses = SettlementExpenses()
     
+    @MainActor
     func setSettlementExpenses(payments: [Payment], members: [TravelCalculation.Member]) {
-        settlementExpenses = SettlementExpenses()
-        settlementExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
+        var newExpenses = SettlementExpenses()
+        newExpenses.totalExpenditure = payments.reduce(0, { $0 + $1.payment } )
+        newExpenses.totalTransportation = payments.filter{ $0.type == .transportation }.reduce(0, { $0 + $1.payment } )
+        newExpenses.totalAccommodation = payments.filter{ $0.type == .accommodation }.reduce(0, { $0 + $1.payment } )
+        newExpenses.totalTourism = payments.filter{ $0.type == .tourism }.reduce(0, { $0 + $1.payment } )
+        newExpenses.totalFood = payments.filter{ $0.type == .food }.reduce(0, { $0 + $1.payment } )
+        newExpenses.totalEtc = payments.filter{ $0.type == .etc }.reduce(0, { $0 + $1.payment } )
         
-        settlementExpenses.totalTransportation = payments.filter{ $0.type == .transportation }.reduce(0, { $0 + $1.payment } )
-        settlementExpenses.totalAccommodation = payments.filter{ $0.type == .accommodation }.reduce(0, { $0 + $1.payment } )
-        settlementExpenses.totalTourism = payments.filter{ $0.type == .tourism }.reduce(0, { $0 + $1.payment } )
-        settlementExpenses.totalFood = payments.filter{ $0.type == .food }.reduce(0, { $0 + $1.payment } )
-        settlementExpenses.totalEtc = payments.filter{ $0.type == .etc }.reduce(0, { $0 + $1.payment } )
-        
-        settlementExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, 총참여한나온금액: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
+        newExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, 총참여한나온금액: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
         
         for payment in payments {
             var personaPayment = 0
@@ -29,10 +29,12 @@ final class SettlementExpensesStore: ObservableObject {
             }
             for participant in payment.participants {
                 let index = members.firstIndex(where: { $0.id == participant.memberId } )
-                settlementExpenses.members[index!].총참여한나온금액 += participant.seperateAmount
-                settlementExpenses.members[index!].총참여한나온금액 -= participant.advanceAmount
+                newExpenses.members[index!].총참여한나온금액 += participant.seperateAmount
+                newExpenses.members[index!].총참여한나온금액 -= participant.advanceAmount
             }
         }
+        
+        settlementExpenses = newExpenses
     }
     
     func addExpenses(payment: Payment) {
