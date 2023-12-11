@@ -207,7 +207,9 @@ struct FillInPaymentInfoView: View {
                 Spacer()
                 
                 
-                TextField("결제금액을 입력해주세요", text: $priceString)
+                TextField("결제금액을 입력해주세요", text: $priceString, onCommit: {
+                    
+                })
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .font(.body04)
@@ -215,6 +217,13 @@ struct FillInPaymentInfoView: View {
                     .onTapGesture {
                         priceString = ""
                     }
+                    .onChange(of: priceString, perform: { value in
+                        for idx in 0..<participants.count {
+                            if let price = Int(priceString) {
+                                participants[idx].seperateAmount = price / participants.count
+                            }
+                        }
+                    })
             }
             .padding(.leading, 16)
             .padding(.top, 16)
