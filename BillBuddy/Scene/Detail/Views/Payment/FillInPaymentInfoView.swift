@@ -207,7 +207,9 @@ struct FillInPaymentInfoView: View {
                 Spacer()
                 
                 
-                TextField("결제금액을 입력해주세요", text: $priceString)
+                TextField("결제금액을 입력해주세요", text: $priceString, onCommit: {
+                    // 다음 Field로 이동
+                })
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
                     .font(.body04)

@@ -269,12 +269,27 @@ struct PaymentMemberManagementView: View {
             Button(action: {
                 isShowingMemberSheet = false
                 
-                participants = []
+                var tempParticipants: [Payment.Participant] = []
                 for m in tempMembers {
-                    participants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+                    if let participant = participants.first(where: { p in
+                        p.memberId == m.id
+                    }) {
+                        tempParticipants.append(participant)
+                    }
+                    else {
+                        tempParticipants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+                    }
                 }
+                
+                participants = tempParticipants
                 payment?.participants = participants
                 members = tempMembers
+                
+                var sum = 0
+                for participant in participants {
+                    sum += participant.seperateAmount
+                }
+                priceString = String(sum)
             }, label: {
                 HStack {
                     Spacer()
@@ -347,6 +362,7 @@ struct PaymentMemberManagementView: View {
                             }) {
                                 advanceAmountString = String(participants[idx].advanceAmount)
                                 seperateAmountString = String(participants[idx].seperateAmount)
+                                personalMemo = participants[idx].memo
                             }
                         })
                     if isShowingDescription {
