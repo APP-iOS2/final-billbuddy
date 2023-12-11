@@ -60,50 +60,75 @@ final class InvitTravelService: ObservableObject {
         Task {
             guard let travelId = componentedUrl?.querys["travelId"] else { return }
             guard let memberId = componentedUrl?.querys["memberId"] else { return }
-            
+
             do {
+                guard let user = UserService.shared.currentUser else { return }
+                
                 let snapshotData = try await self.dbRef.collection("TravelCalculation").document(travelId).getDocument()
                 
                 var travel = try snapshotData.data(as: TravelCalculation.self)
-                guard let user = UserService.shared.currentUser else { return }
-                
+
                 // 현재 맴버에 자신이 포함되어있으면 return
                 if travel.members.firstIndex(where: { $0.userId == user.id }) != nil {
                     removeUrl()
                     return
                 }
                 
-                var member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
-                if let index = travel.members.firstIndex(where: { $0.id == memberId }),
+                var members = travel.members
+                var newMember = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
+                
+                //
+                if let index = members.firstIndex(where: { $0.id == memberId }),
                    travel.members[index].userId == nil {
-                    member = travel.members[index]
+                    newMember = members[index]
                 }
                 
-                member.userId = AuthStore.shared.userUid
-                member.name = user.name
-                member.bankName = user.bankName
-                member.bankAccountNum = user.bankAccountNum
-                member.isInvited = true
-                member.reciverToken = UserService.shared.reciverToken
-                travel.updateContentDate = Date.now.timeIntervalSince1970
+                //
                 
+                newMember.userId = AuthStore.shared.userUid
+                newMember.name = user.name
+                newMember.bankName = user.bankName
+                newMember.bankAccountNum = user.bankAccountNum
+                newMember.isInvited = true
+                newMember.reciverToken = UserService.shared.reciverToken
+
                 if let index = travel.members.firstIndex(where: { $0.id == memberId }) {
-                    travel.members[index] = member
+                    members[index] = newMember
                 } else {
-                    travel.members.append(member)
+                    members.append(newMember)
                 }
                 
                 let userTravel = UserTravel(travelId: travelId)
-                try dbRef.collection(StoreCollection.travel.path)
-                    .document(travelId)
-                    .setData(from: travel.self)
                 
-                try dbRef.collection(StoreCollection.user.path)
-                    .document(AuthStore.shared.userUid).collection(StoreCollection.userTravel.path)
-                    .addDocument(from: userTravel)
+//                try await dbRef.collection(StoreCollection.travel.path)
+//                    .document(travelId)
+//                    .setData([
+//                        "members" : members
+//                    ], merge: true)
+                
+                travel.members = members
+                
+                do {
+                    try await dbRef.collection(StoreCollection.travel.path)
+                        .document(travelId)
+                        .setData(from: travel.self)
+                } catch {
+                    print("invite error1 - \(error)")
+                }
+                
+                
+                do {
+                    try dbRef.collection(StoreCollection.user.path)
+                        .document(AuthStore.shared.userUid).collection(StoreCollection.userTravel.path)
+                        .addDocument(from: userTravel)
+                    
+                } catch {
+                    print("invite error2 - \(error)")
+                }
                 self.isLoading = false
                 onComplete(travel)
             } catch {
+                print("invite error - \(error)")
                 removeUrl()
             }
         }
