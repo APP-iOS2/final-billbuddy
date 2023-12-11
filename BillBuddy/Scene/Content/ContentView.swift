@@ -11,7 +11,7 @@ struct ContentView: View {
     @StateObject private var signInStore: SignInStore = SignInStore()
     @StateObject private var signUpStore: SignUpStore = SignUpStore()
     @StateObject private var userService: UserService = .shared
-    @StateObject private var schemeServie: InvitTravelService = .shared
+    @StateObject private var invitTravelService: InvitTravelService = .shared
     @StateObject private var userTravelStore = UserTravelStore()
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
     @StateObject private var messageStore = MessageStore()
@@ -20,12 +20,13 @@ struct ContentView: View {
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
+    @StateObject private var googleSignIn = GoogleSignInModel()
     @StateObject private var tabViewStore = TabViewStore()
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
             if userService.isSignIn {
-                if schemeServie.isLoading == false {
+                if invitTravelService.isLoading == false {
                     BillBuddyTabView()
                         .environmentObject(settlementExpensesStore)
                         .environmentObject(userTravelStore)
@@ -35,7 +36,7 @@ struct ContentView: View {
                         .environmentObject(signUpStore)
                         .environmentObject(tabBarVisivilyStore)
                         .environmentObject(notificationStore)
-                        .environmentObject(schemeServie)
+                        .environmentObject(invitTravelService)
                         .environmentObject(nativeViewModel)
                         .environmentObject(myPageStore)
                         .environmentObject(adViewModel)
@@ -43,7 +44,7 @@ struct ContentView: View {
                 } else {
                     NavigationStack {
                         LodingView()
-                            .environmentObject(schemeServie)
+                            .environmentObject(invitTravelService)
                             .environmentObject(tabViewStore)
                             .environmentObject(userTravelStore)
                     }
@@ -54,6 +55,7 @@ struct ContentView: View {
                 SignInView(signInStore: signInStore)
                     .environmentObject(signInStore)
                     .environmentObject(userService)
+                    .environmentObject(googleSignIn)
             }
         }
     }

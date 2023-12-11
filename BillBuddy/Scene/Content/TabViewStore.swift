@@ -7,12 +7,6 @@
 
 import Foundation
 
-enum PushViewType {
-    case travel
-    case chatting
-    case noti
-}
-
 final class TabViewStore: ObservableObject {
     @Published var selectedTab: Int = 0 {
         didSet {
@@ -35,17 +29,26 @@ final class TabViewStore: ObservableObject {
     }
     
     @MainActor
-    func pushView(type: PushViewType, travel: TravelCalculation? = nil) {
+    func pushView(type: NotiType, travel: TravelCalculation? = nil) {
         if let travel {
             seletedTravel = travel
         }
         switch type {
-        case .travel:
-            isPresentedDetail = true
+        case .travel, .invite:
+            selectedTab = 0
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresentedDetail = true
+            }
         case .chatting:
-            isPresentedChat = true
-        case .noti:
-            isPresnetedNoti = true
+            selectedTab = 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresentedChat = true
+            }
+        case .notice:
+            selectedTab = 2
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.isPresnetedNoti = true
+            }
         }
     }
     
