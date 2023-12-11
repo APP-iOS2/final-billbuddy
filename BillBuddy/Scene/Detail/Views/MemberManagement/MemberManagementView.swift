@@ -191,7 +191,11 @@ struct MemberManagementView: View {
         .sheet(isPresented: $isShowingShareSheet) {
             // onDismiss
         } content: {
-            MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet)
+            MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    dismiss()
+                }
+            }
                 .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
         }
