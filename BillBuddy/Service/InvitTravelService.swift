@@ -143,6 +143,7 @@ final class InvitTravelService: ObservableObject {
                 newMember.bankAccountNum = user.bankAccountNum
                 newMember.isInvited = true
                 newMember.reciverToken = UserService.shared.reciverToken
+                newMember.userImage = user.userImage ?? ""
                 
                 members[index] = newMember
                 
