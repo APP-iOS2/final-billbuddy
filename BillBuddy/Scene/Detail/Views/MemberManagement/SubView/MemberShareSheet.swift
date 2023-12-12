@@ -17,9 +17,7 @@ struct MemberShareSheet: View {
     @State private var isShowingInviteAlert: Bool = false
     @State private var seletedUser: User = User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now, reciverToken: "")
     @State private var isfinishsearched: Bool = true
-    
-    let callback: () -> Void
-    
+        
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -106,7 +104,6 @@ struct MemberShareSheet: View {
                                         await sampleMemeberStore.inviteMemberAndSave()
                                         notificationStore.sendNotification(users: [seletedUser], notification: noti)
                                         isShowingShareSheet = false
-                                        callback()
                                     }
                                 }))
                             }
@@ -164,7 +161,7 @@ struct MemberShareSheet: View {
 
 #Preview {
     NavigationStack {
-        MemberShareSheet(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(true), callback: { })
+        MemberShareSheet(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(true))
             .environmentObject(NotificationStore())
     }
 }
