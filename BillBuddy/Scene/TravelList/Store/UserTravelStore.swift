@@ -84,7 +84,7 @@ final class UserTravelStore: ObservableObject {
             for index in 1...memberCount {
                 if index == 1 {
                     guard let user = UserService.shared.currentUser else { return }
-                    let member = TravelCalculation.Member(userId: user.id, name: user.name, isExcluded: false, isInvited: true, advancePayment: 0, payment: 0, bankName: user.bankName, bankAccountNum: user.bankAccountNum, reciverToken: user.reciverToken)
+                    let member = TravelCalculation.Member(userId: user.id, name: user.name, isExcluded: false, isInvited: true, advancePayment: 0, payment: 0, userImage: user.userImage ?? "",bankName: user.bankName, bankAccountNum: user.bankAccountNum, reciverToken: user.reciverToken)
                     tempMembers.append(member)
                 } else {
                     let member = TravelCalculation.Member(name: "인원\(index)", advancePayment: 0, payment: 0)
