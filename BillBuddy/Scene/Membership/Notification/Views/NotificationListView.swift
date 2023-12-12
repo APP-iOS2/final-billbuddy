@@ -11,13 +11,15 @@ import FirebaseFirestore
 
 struct NotificationListView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var isAllRead = false
+    @State private var isAllRead: Bool = false
+    @State private var isPresentedAlert: Bool = false
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabViewStore: TabViewStore
     @EnvironmentObject private var userTravelStore: UserTravelStore
 
     private var db = Firestore.firestore()
     @State private var notifications: [UserNotification] = []
+    @State private var selectedNotification: UserNotification?
     
     var body: some View {
         ScrollView {
@@ -29,7 +31,8 @@ struct NotificationListView: View {
                             let travel = userTravelStore.getTravel(id: notification.contentId)
                             tabViewStore.pushView(type: notification.type, travel: travel)
                         case .invite:
-                            InvitTravelService.shared.getInviteNoti(notification)
+                            selectedNotification = notification
+                            isPresentedAlert = true
                         case .notice:
                             print("NotificationCell - notice")
                         }
@@ -42,6 +45,15 @@ struct NotificationListView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $isPresentedAlert) {
+            Alert(title: Text("초대에 응하시겠습니까?"),
+                  primaryButton: .destructive(Text("거절"), action: {
+                getInvited(accept: false, selectedNotification: selectedNotification)
+            }),
+                  secondaryButton: .default(Text("들어가기"), action: {
+                getInvited(accept: true, selectedNotification: selectedNotification)
+            }))
+        }
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
@@ -80,6 +92,16 @@ struct NotificationListView: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func getInvited(accept: Bool, selectedNotification: UserNotification?) {
+        guard let selectedNotification else { return }
+        switch accept {
+        case true:
+            InvitTravelService.shared.getInviteNoti(selectedNotification)
+        case false:
+            InvitTravelService.shared.denialInviteNoti(selectedNotification)
         }
     }
 }

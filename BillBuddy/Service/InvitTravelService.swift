@@ -33,16 +33,20 @@ final class InvitTravelService: ObservableObject {
     var componentedUrl: PushType? = nil
     
     /// DeepLink - openUrl 로 진입 시
-    @MainActor
-    func transformUrl(url: URL) {
-        self.isLoading = true
+    private func transformUrl(url: URL) -> PushType {
         var push = PushType(host: .invite, querys: [:])
         if let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) {
             components.queryItems?.forEach {
                 push.querys[$0.name] = $0.value
             }
         }
-        self.componentedUrl = push
+        return push
+    }
+    
+    @MainActor
+    func getInviteURL(_ url: URL) {
+        self.isLoading = true
+        self.componentedUrl = transformUrl(url: url)
     }
     
     /// Notification - 여행방 초대 알림으로 진입 시
@@ -51,7 +55,44 @@ final class InvitTravelService: ObservableObject {
         let urlString = noti.contentId
         guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let url = URL(string: encodeString) else { return }
-        transformUrl(url: url)
+        self.isLoading = true
+        self.componentedUrl = transformUrl(url: url)
+
+    }
+    
+    func denialInviteNoti(_ noti: UserNotification) {
+        let urlString = noti.contentId
+        guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        guard let url = URL(string: encodeString) else { return }
+        let push = transformUrl(url: url)
+        changeMemberInvitingBoolean(push)
+        removeNoti(noti.id)
+    }
+    
+    private func removeNoti(_ notiId: String?) {
+        guard let notiId = notiId else { return }
+        dbRef.collection(StoreCollection.user.path).document(AuthStore.shared.userUid).collection(StoreCollection.notification.path).document(notiId).delete()
+    }
+    
+    private func changeMemberInvitingBoolean(_ push: PushType) {
+        Task {
+            guard let travelId = push.querys["travelId"] else { return }
+            let memberId = push.querys["memberId"]
+            do {
+                let snapshotData = try await self.dbRef.collection("TravelCalculation").document(travelId).getDocument()
+                var travel = try snapshotData.data(as: TravelCalculation.self)
+                
+                guard let index = travel.members.firstIndex(where: { $0.id == memberId }) else { return }
+                travel.members[index].isInvited = false
+                
+                try dbRef.collection(StoreCollection.travel.path)
+                    .document(travelId)
+                    .setData(from: travel.self)
+                
+            } catch {
+                print("false change Member InvitingBoolean")
+            }
+        }
     }
     
     /// 여행 입장 및 fetch
