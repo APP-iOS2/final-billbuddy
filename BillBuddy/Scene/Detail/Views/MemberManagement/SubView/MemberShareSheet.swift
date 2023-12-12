@@ -17,7 +17,7 @@ struct MemberShareSheet: View {
     @State private var isShowingInviteAlert: Bool = false
     @State private var seletedUser: User = User(email: "", name: "", phoneNum: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now, reciverToken: "")
     @State private var isfinishsearched: Bool = true
-    
+        
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -29,6 +29,7 @@ struct MemberShareSheet: View {
                         .padding(.leading, 12)
                         .padding(.trailing, 8)
                     TextField("이름 또는 이메일을 입력해주세요", text: $searchText)
+                        .textInputAutocapitalization(.never)
                         .font(.body04)
                         .onChange(of: searchText) { _ in
                             sampleMemeberStore.isfinishsearched = true

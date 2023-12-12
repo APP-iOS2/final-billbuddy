@@ -44,6 +44,7 @@ struct MoreView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var tabViewStore: TabViewStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @State var itemList: [ListItem] = ListItem.allCases
     @State var isPresentedLeaveAlert: Bool = false
     
@@ -64,6 +65,7 @@ struct MoreView: View {
                                 // SpendingListView()
                             case .mamberManagement:
                                 MemberManagementView(travel: travel)
+                                    .environmentObject(travelDetailStore)
                             case .settledAccount:
                                 SettledAccountView()
                             }
@@ -131,5 +133,7 @@ struct MoreView: View {
     NavigationStack {
         MoreView(travel: .sampletravel)
             .environmentObject(UserTravelStore())
+            .environmentObject(TabViewStore())
+            .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
     }
 }

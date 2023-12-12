@@ -118,14 +118,11 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
-    
-    
     func addPayment(travelCalculation: TravelCalculation, payment: Payment) {
         try! service.collection("TravelCalculation").document(travelCalculation.id).collection("Payment").addDocument(from: payment.self)
     }
     
     func findTravelCalculation(userTravel: UserTravel) -> TravelCalculation? {
-        
         return travels.first { travel in
             userTravel.travelId == travel.id
         }
@@ -145,19 +142,17 @@ final class UserTravelStore: ObservableObject {
         
         Task {
             do {
-                try await Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
-                    .delete()
+                try await Firestore.firestore()
+                    .collection("User").document(userId)
+                    .collection("UserTravel").document(userTravel.id ?? "").delete()
+                
                 if members.filter({ $0.userId != nil }).isEmpty {
                     try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId).delete()
                 } else {
-                    let encodedMembers = try JSONEncoder().encode(members)
-                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
-                        .setData(
-                            [
-                                "members" : encodedMembers
-                            ]
-                            ,merge: true
-                        )
+                    var updatedTravel = travel
+                    updatedTravel.members = members
+                    try Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
+                        .setData(from: updatedTravel.self, merge: true)
                 }
                 self.fetchTravelCalculation()
             } catch {

@@ -8,12 +8,24 @@
 import Foundation
 
 enum StoreCollection: String {
-    case user = "User"
-    case travel = "TravelCalculation"
-    case payment = "Payment"
-    case userTravel = "UserTravel"
+    case user
+    case travel
+    case payment
+    case userTravel
+    case notification
     
     var path: String {
-        return self.rawValue
+        switch self {
+        case .user:
+            return "User"
+        case .travel:
+            return "TravelCalculation"
+        case .payment:
+            return "Payment"
+        case .userTravel:
+            return "UserTravel"
+        case .notification:
+            return "Notification"
+        }
     }
 }

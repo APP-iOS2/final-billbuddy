@@ -19,7 +19,7 @@ struct BillBuddyApp: App {
         WindowGroup {
             ContentView()
                 .onOpenURL(perform: { url in
-                    InvitTravelService.shared.transformUrl(url: url)
+                    InvitTravelService.shared.getInviteURL(url)
                 })
         }
     }
