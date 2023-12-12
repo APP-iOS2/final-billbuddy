@@ -17,7 +17,7 @@ enum URLSchemeBase: String {
     case query = "query"
 }
 
-struct PushType {
+struct PushData {
     let scheme: String = "billbuddybuddy"
     let host: NotiType
     var querys: [String:String]
@@ -25,16 +25,17 @@ struct PushType {
 
 final class InvitTravelService: ObservableObject {
     @Published var isLoading = false
+    @Published var isShowingAlert = false
     
     static let shared: InvitTravelService = InvitTravelService()
     private init() { }
 
     let dbRef = Firestore.firestore()
-    var componentedUrl: PushType? = nil
+    var pushData: PushData? = nil
     
     /// DeepLink - openUrl 로 진입 시
-    private func transformUrl(url: URL) -> PushType {
-        var push = PushType(host: .invite, querys: [:])
+    private func transformUrl(url: URL) -> PushData {
+        var push = PushData(host: .invite, querys: [:])
         if let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) {
             components.queryItems?.forEach {
                 push.querys[$0.name] = $0.value
@@ -46,7 +47,7 @@ final class InvitTravelService: ObservableObject {
     @MainActor
     func getInviteURL(_ url: URL) {
         self.isLoading = true
-        self.componentedUrl = transformUrl(url: url)
+        self.pushData = transformUrl(url: url)
     }
     
     /// Notification - 여행방 초대 알림으로 진입 시
@@ -56,8 +57,8 @@ final class InvitTravelService: ObservableObject {
         guard let encodeString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
         guard let url = URL(string: encodeString) else { return }
         self.isLoading = true
-        self.componentedUrl = transformUrl(url: url)
-
+        self.pushData = transformUrl(url: url)
+        pushData?.querys["notiId"] = noti.id!
     }
     
     func denialInviteNoti(_ noti: UserNotification) {
@@ -74,7 +75,7 @@ final class InvitTravelService: ObservableObject {
         dbRef.collection(StoreCollection.user.path).document(AuthStore.shared.userUid).collection(StoreCollection.notification.path).document(notiId).delete()
     }
     
-    private func changeMemberInvitingBoolean(_ push: PushType) {
+    private func changeMemberInvitingBoolean(_ push: PushData) {
         Task {
             guard let travelId = push.querys["travelId"] else { return }
             let memberId = push.querys["memberId"]
@@ -99,32 +100,42 @@ final class InvitTravelService: ObservableObject {
     @MainActor
     func joinAndFetchTravel(onComplete: @escaping (TravelCalculation) -> ()) {
         Task {
-            guard let travelId = componentedUrl?.querys["travelId"] else { return }
-            guard let memberId = componentedUrl?.querys["memberId"] else { return }
-
+            guard let travelId = pushData?.querys["travelId"] else { return }
+            guard let memberId = pushData?.querys["memberId"] else { return }
+            
             do {
                 guard let user = UserService.shared.currentUser else { return }
                 
                 let snapshotData = try await self.dbRef.collection("TravelCalculation").document(travelId).getDocument()
                 
                 var travel = try snapshotData.data(as: TravelCalculation.self)
-
+                
+                
                 // 현재 맴버에 자신이 포함되어있으면 return
                 if travel.members.firstIndex(where: { $0.userId == user.id }) != nil {
-                    removeUrl()
+                    isShowingAlert = true
+                    guard let notiId = pushData?.querys["notiId"] else { return }
+                    deleteNotification()
                     return
                 }
                 
-                var members = travel.members
-                var newMember = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
-                
-                //
-                if let index = members.firstIndex(where: { $0.id == memberId }),
-                   travel.members[index].userId == nil {
-                    newMember = members[index]
+                // id와 매칭되는 맴버가 없을 시 return
+                guard let index = travel.members.firstIndex(where: { $0.id == memberId }) else {
+                    isShowingAlert = true
+                    deleteNotification()
+                    return
                 }
                 
-                //
+                // 초대중이 아닌경우 return 후 alert
+                if travel.members[index].isInvited == false {
+                    isShowingAlert = true
+                    deleteNotification()
+                    return
+                }
+                
+                
+                var members = travel.members
+                var newMember = members[index]
                 
                 newMember.userId = AuthStore.shared.userUid
                 newMember.name = user.name
@@ -132,19 +143,15 @@ final class InvitTravelService: ObservableObject {
                 newMember.bankAccountNum = user.bankAccountNum
                 newMember.isInvited = true
                 newMember.reciverToken = UserService.shared.reciverToken
-
-                if let index = travel.members.firstIndex(where: { $0.id == memberId }) {
-                    members[index] = newMember
-                } else {
-                    members.append(newMember)
-                }
+                
+                members[index] = newMember
                 
                 let userTravel = UserTravel(travelId: travelId)
                 
                 travel.members = members
                 
                 do {
-                    try await dbRef.collection(StoreCollection.travel.path)
+                    try dbRef.collection(StoreCollection.travel.path)
                         .document(travelId)
                         .setData(from: travel.self)
                 } catch {
@@ -164,13 +171,22 @@ final class InvitTravelService: ObservableObject {
                 onComplete(travel)
             } catch {
                 print("invite error - \(error)")
-                removeUrl()
+                removePushData()
             }
         }
     }
     
-    func removeUrl() {
+    func removePushData() {
+        self.isShowingAlert = false
         self.isLoading = false
-        self.componentedUrl = nil
+        self.pushData = nil
+    }
+    
+    func deleteNotification() {
+        guard let notiId = pushData?.querys["notiId"] else { return }
+        dbRef.collection(StoreCollection.user.path)
+            .document(AuthStore.shared.userUid)
+            .collection(StoreCollection.notification.path)
+            .document(notiId)
     }
 }

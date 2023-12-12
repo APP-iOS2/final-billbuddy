@@ -20,6 +20,11 @@ struct LodingView: View {
                 }
                 .foregroundStyle(Color.myPrimary)
                 .ignoresSafeArea(.all)
+                .alert("만료된 초대입니다.", isPresented: $invitTravelService.isShowingAlert) {
+                    Button("확인") {
+                        invitTravelService.removePushData()
+                    }
+                }
         }
         .onAppear {
             tabViewStore.poToRoow()
