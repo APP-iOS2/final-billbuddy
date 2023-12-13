@@ -9,6 +9,8 @@ import SwiftUI
 
 struct NotificationCell: View {
     var notification: UserNotification
+    var isRead: Bool
+    let deleteAction: () -> Void
     let callBack: () -> Void
     
     var body: some View {
@@ -41,7 +43,16 @@ struct NotificationCell: View {
             .padding(.horizontal, 16)
 
         }
-
+        .contextMenu {
+                Button(action: {
+                    deleteAction()
+                }) {
+                    Text("삭제")
+                        .foregroundColor(.red)
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
     }
     
     private func getImage(for type: NotiType, isRead: Bool) -> Image {
@@ -88,7 +99,7 @@ struct NotificationCell: View {
     }
 }
 
-#Preview {
-    let notification = UserNotification(id: "1", type: .chatting, content: "읽지 않은 메세지를 확인해보세요", contentId: "contentId", addDate: Date(), isChecked: false)
-    return NotificationCell(notification: notification, callBack: { })
-}
+//#Preview {
+//    let notification = UserNotification(id: "1", type: .chatting, content: "읽지 않은 메세지를 확인해보세요", contentId: "contentId", addDate: Date(), isChecked: false)
+//    return NotificationCell(notification: notification, callBack: { })
+//}
