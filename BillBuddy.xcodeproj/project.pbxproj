@@ -1229,7 +1229,7 @@
 				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = B369A6R9BP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BillBuddy/Config/Info.plist;
@@ -1246,7 +1246,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = education.techit.billbuddy.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dondock.billbuddy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1265,7 +1265,7 @@
 				CODE_SIGN_ENTITLEMENTS = BillBuddy/Config/BillBuddy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 6R3M7VGRP2;
+				DEVELOPMENT_TEAM = B369A6R9BP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BillBuddy/Config/Info.plist;
@@ -1282,7 +1282,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = education.techit.billbuddy.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dondock.billbuddy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
