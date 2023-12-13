@@ -31,11 +31,7 @@ struct NotificationListView: View {
                 ForEach(notifications.sorted(by: { $0.addDate > $1.addDate }), id: \.id) { notification in
                     NotificationCell(notification: notification, isRead: false) {
                         deleteNotification(notification)
-                    }
-                }
-                                                                                         
-                ForEach(notifications.sorted(by: { $0.addDate > $1.addDate }) { notification in
-                    NotificationCell(notification: notification) {
+                    } callBack: {
                         switch notification.type {
                         case .chatting, .travel:
                             let travel = userTravelStore.getTravel(id: notification.contentId)
