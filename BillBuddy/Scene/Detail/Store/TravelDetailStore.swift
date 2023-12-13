@@ -88,6 +88,16 @@ final class TravelDetailStore: ObservableObject {
         }
     }
     
+    func settleAccount() {
+        dbRef.document(travelId).setData(
+            [
+                "isPaymentSettled": true
+            ], merge: true)
+        DispatchQueue.main.async {
+            self.travel.isPaymentSettled = true
+        }
+    }
+    
     /// 인원관리뷰 리스닝
     func listenTravelDate(callback: @escaping (TravelCalculation) -> Void) {
         self.listener = dbRef.document(travelId).addSnapshotListener { querySnapshot, error in

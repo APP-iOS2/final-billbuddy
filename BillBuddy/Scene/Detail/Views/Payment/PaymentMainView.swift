@@ -62,8 +62,9 @@ struct PaymentMainView: View {
                     
                     NavigationLink {
                         SettledAccountView()
+                            .environmentObject(travelDetailStore)
                     } label: {
-                        Text("정산하기")
+                        Text(travelDetailStore.travel.isPaymentSettled ? "정산내역": "정산하기")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
