@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseCore
 import GoogleMobileAds
 import FirebaseMessaging
+import GoogleSignIn
 
 @main
 struct BillBuddyApp: App {
@@ -18,7 +19,7 @@ struct BillBuddyApp: App {
         WindowGroup {
             ContentView()
                 .onOpenURL(perform: { url in
-                    InvitTravelService.shared.transformUrl(url: url)
+                    InvitTravelService.shared.getInviteURL(url)
                 })
         }
     }
@@ -57,6 +58,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
+    
+    // Google SignIn
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any])
+    -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
+    }
+    
 }
 
 extension AppDelegate : MessagingDelegate {

@@ -15,12 +15,15 @@ struct NotificationListView: View {
         didSet {
             updateAllReadStatus()
         }
-    }
-    
+    } 
+    @State private var isPresentedAlert: Bool = false
     @EnvironmentObject private var notificationStore: NotificationStore
-    
+    @EnvironmentObject private var tabViewStore: TabViewStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+
     private var db = Firestore.firestore()
     @State private var notifications: [UserNotification] = []
+    @State private var selectedNotification: UserNotification?
     
     var body: some View {
         ScrollView {
@@ -30,6 +33,21 @@ struct NotificationListView: View {
                         deleteNotification(notification)
                     }
                 }
+                                                                                         
+                ForEach(notifications.sorted(by: { $0.addDate > $1.addDate }) { notification in
+                    NotificationCell(notification: notification) {
+                        switch notification.type {
+                        case .chatting, .travel:
+                            let travel = userTravelStore.getTravel(id: notification.contentId)
+                            tabViewStore.pushView(type: notification.type, travel: travel)
+                        case .invite:
+                            selectedNotification = notification
+                            isPresentedAlert = true
+                        case .notice:
+                            print("NotificationCell - notice")
+                        }
+                    }
+                }
             }
         }
         .onAppear {
@@ -37,6 +55,15 @@ struct NotificationListView: View {
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $isPresentedAlert) {
+            Alert(title: Text("초대에 응하시겠습니까?"),
+                  primaryButton: .destructive(Text("거절"), action: {
+                getInvited(accept: false, selectedNotification: selectedNotification)
+            }),
+                  secondaryButton: .default(Text("들어가기"), action: {
+                getInvited(accept: true, selectedNotification: selectedNotification)
+            }))
+        }
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
@@ -69,11 +96,14 @@ struct NotificationListView: View {
             if let error = error {
                 print("Error fetching notifications: \(error)")
             } else {
+                // var notifications: [UserNotification] = []
                 for document in querySnapshot!.documents {
                     if let notification = try? document.data(as: UserNotification.self) {
                         notifications.append(notification)
                     }
                 }
+                // notifications.sorted(by: { $0.addDate > $1.addDate }
+                // self.notifications = notifications
             }
         }
     }
@@ -98,9 +128,20 @@ struct NotificationListView: View {
             notifications[index].isChecked = isAllRead
         }
     }
+          
+    private func getInvited(accept: Bool, selectedNotification: UserNotification?) {
+        guard let selectedNotification else { return }
+        switch accept {
+        case true:
+            InvitTravelService.shared.getInviteNoti(selectedNotification)
+        case false:
+            InvitTravelService.shared.denialInviteNoti(selectedNotification)
+        }
+    }
 }
 
 #Preview {
     NotificationListView()
         .environmentObject(NotificationStore())
+        .environmentObject(TabViewStore())
 }

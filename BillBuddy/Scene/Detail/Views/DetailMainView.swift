@@ -147,6 +147,7 @@ struct DetailMainView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
                     MoreView(travel: travelDetailStore.travel)
+                        .environmentObject(travelDetailStore)
                 } label: {
                     Image("steps-1 3")
                         .resizable()

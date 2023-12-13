@@ -94,20 +94,8 @@ struct SignInView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("SNS계정으로 로그인")
                     .font(.body02)
-                Link(destination: URL(string: "https://google.com")!, label: {
-                    HStack{
-                        Image(.google)
-                        Spacer()
-                        Text("구글로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.systemBlack)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.gray050)
-                    .cornerRadius(12)
-                })
+                
+                GoogleSignIn()
                 
                 Link(destination: URL(string: "https://naver.com")!, label: {
                     HStack{

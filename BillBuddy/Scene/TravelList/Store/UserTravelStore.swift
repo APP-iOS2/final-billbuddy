@@ -73,13 +73,18 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
+    func getTravel(id: String) -> TravelCalculation {
+        guard let travelIndex = travels.firstIndex(where: { $0.id == id }) else { return TravelCalculation.sampletravel }
+        return travels[travelIndex]
+    }
+    
     func addTravel(_ title: String, memberCount: Int, startDate: Date, endDate: Date) {
         var tempMembers: [TravelCalculation.Member] = []
         if memberCount > 0 {
             for index in 1...memberCount {
                 if index == 1 {
                     guard let user = UserService.shared.currentUser else { return }
-                    let member = TravelCalculation.Member(userId: user.id, name: user.name, isExcluded: false, isInvited: true, advancePayment: 0, payment: 0, bankName: user.bankName, bankAccountNum: user.bankAccountNum, reciverToken: user.reciverToken)
+                    let member = TravelCalculation.Member(userId: user.id, name: user.name, isExcluded: false, isInvited: true, advancePayment: 0, payment: 0, userImage: user.userImage ?? "",bankName: user.bankName, bankAccountNum: user.bankAccountNum, reciverToken: user.reciverToken)
                     tempMembers.append(member)
                 } else {
                     let member = TravelCalculation.Member(name: "인원\(index)", advancePayment: 0, payment: 0)
@@ -93,8 +98,8 @@ final class UserTravelStore: ObservableObject {
             hostId: userId,
             travelTitle: title,
             managerId: userId,
-            startDate: startDate.timeIntervalSince1970.timeTo00_00_00().convertGMT(),
-            endDate: endDate.timeIntervalSince1970.timeTo11_59_59().convertGMT(),
+            startDate: startDate.timeIntervalSince1970.timeTo00_00_00(),
+            endDate: endDate.timeIntervalSince1970.timeTo11_59_59(),
             updateContentDate: 0,
             isPaymentSettled: false,
             members: tempMembers
@@ -113,14 +118,11 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
-    
-    
     func addPayment(travelCalculation: TravelCalculation, payment: Payment) {
         try! service.collection("TravelCalculation").document(travelCalculation.id).collection("Payment").addDocument(from: payment.self)
     }
     
     func findTravelCalculation(userTravel: UserTravel) -> TravelCalculation? {
-        
         return travels.first { travel in
             userTravel.travelId == travel.id
         }
@@ -140,19 +142,17 @@ final class UserTravelStore: ObservableObject {
         
         Task {
             do {
-                try await Firestore.firestore().collection("User").document(userId).collection("UserTravel").document(userTravel.id ?? "")
-                    .delete()
+                try await Firestore.firestore()
+                    .collection("User").document(userId)
+                    .collection("UserTravel").document(userTravel.id ?? "").delete()
+                
                 if members.filter({ $0.userId != nil }).isEmpty {
                     try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId).delete()
                 } else {
-                    let encodedMembers = try JSONEncoder().encode(members)
-                    try await Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
-                        .setData(
-                            [
-                                "members" : encodedMembers
-                            ]
-                            ,merge: true
-                        )
+                    var updatedTravel = travel
+                    updatedTravel.members = members
+                    try Firestore.firestore().collection(StoreCollection.travel.path).document(travelId)
+                        .setData(from: updatedTravel.self, merge: true)
                 }
                 self.fetchTravelCalculation()
             } catch {

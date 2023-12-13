@@ -29,7 +29,7 @@ struct ProfileView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 80, height: 80)
-                            .cornerRadius(50)
+                            .clipShape(Circle())
                     } else {
                         Image("profileImage")
                             .resizable()
@@ -52,9 +52,6 @@ struct ProfileView: View {
                     Text(userService.currentUser?.name ?? "")
                         .font(.body01)
                         .padding(.bottom, 8)
-                    Text("애플 계정 연결중")
-                        .font(.caption02)
-                        .foregroundColor(.gray600)
                 }
                 .padding(16)
                 Spacer()
