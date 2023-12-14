@@ -14,6 +14,8 @@ struct PaymentListView: View {
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     
     @State private var isShowingDeletePayment: Bool = false
+    @State private var selectedPayment: Payment?
+    
     @Binding var isEditing: Bool
     @Binding var forDeletePayments: [Payment]
     
@@ -91,23 +93,14 @@ struct PaymentListView: View {
             .padding(.trailing, 24)
             .swipeActions {
                 Button(role: .destructive) {
-                    Task {
-                        await paymentStore.deletePayment(payment: payment)
-                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
-                    }
-                    //                    isShowingDeletePayment = true
+                    selectedPayment = payment
+                    isShowingDeletePayment = true
                 } label: {
                     Text("삭제")
                 }
                 .frame(width: 88)
                 .buttonStyle(.plain)
-                .alert(isPresented: $isShowingDeletePayment) {
-                    return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
-                        Task {
-                            await paymentStore.deletePayment(payment: payment)
-                        }
-                    }), secondaryButton: .cancel(Text("아니오")))
-                }
+                
                 
                 NavigationLink {
                     PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
@@ -124,6 +117,16 @@ struct PaymentListView: View {
                 }
             }
             
+        }
+        .alert(isPresented: $isShowingDeletePayment) {
+            return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                Task {
+                    if let payment = selectedPayment {
+                        await paymentStore.deletePayment(payment: payment)
+                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                    }
+                }
+            }), secondaryButton: .cancel(Text("아니오")))
         }
         .listRowInsets(nil)
         

@@ -17,6 +17,7 @@ struct PaymentMainView: View {
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     
     @State private var isShowingSelectCategorySheet: Bool = false
+    @State private var isShowingDeletePayment: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
     @State private var isEditing: Bool = false
     @State private var selection = Set<String>()
@@ -35,6 +36,17 @@ struct PaymentMainView: View {
             }
             else {
                 editingPaymentDeleteButton
+                    .alert(isPresented: $isShowingDeletePayment) {
+                        return Alert(title: Text("선택된 항목을 삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                            Task {
+                                await paymentStore.deletePayments(payment: forDeletePayments)
+                                settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                            }
+                            isEditing.toggle()
+                        }), secondaryButton: .cancel(Text("아니오"), action: {
+                            isEditing.toggle()
+                        }))
+                    }
             }
         }
     }
@@ -91,13 +103,7 @@ struct PaymentMainView: View {
     
     var editingPaymentDeleteButton: some View {
         Button(action: {
-            if isEditing {
-                Task {
-                    await paymentStore.deletePayments(payment: forDeletePayments)
-                    settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
-                }
-            }
-            isEditing.toggle()
+            isShowingDeletePayment = true
         }, label: {
             
             HStack {
@@ -113,6 +119,7 @@ struct PaymentMainView: View {
             .padding(.bottom, 24)
         })
         .background(Color.myPrimary)
+        
     }
     
     var addPaymentButton: some View {

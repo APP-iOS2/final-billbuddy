@@ -16,8 +16,8 @@ struct PaymentMemberManagementView: View {
     @Binding var payment: Payment?
     @Binding var selectedMember: TravelCalculation.Member
     @Binding var participants: [Payment.Participant]
+    @Binding var isShowingMemberSheet: Bool
     
-    @State private var isShowingMemberSheet: Bool = false
     @State private var isShowingDescription: Bool = false
     @State private var isShowingPersonalMemberSheet: Bool = false
     @State private var paidButton: Bool = false
@@ -371,8 +371,8 @@ struct PaymentMemberManagementView: View {
                             .background {
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(Color.white)
+                                    .shadow(radius: 6)
                             }
-                            .shadow(radius: 6)
                             .offset(y: -10)
                     }
                 }
@@ -443,8 +443,9 @@ struct PaymentMemberManagementView: View {
                     Button(action: {
                         isShowingDescription = true
                     }, label: {
-                        Image(.info)
+                        Image(systemName: "info.circle")
                             .renderingMode(.template)
+                            .frame(width: 24, height: 24)
                             .foregroundStyle(Color.positive)
                     })
                     
@@ -630,5 +631,5 @@ struct PaymentMemberManagementView: View {
 }
 
 #Preview {
-    PaymentMemberManagementView(priceString: .constant("15000"), travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]))
+    PaymentMemberManagementView(priceString: .constant("15000"), travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]), isShowingMemberSheet: .constant(false))
 }

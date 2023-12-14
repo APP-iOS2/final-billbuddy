@@ -23,6 +23,7 @@ struct FillInPaymentInfoView: View {
     @Binding var paymentDate: Date
     @Binding var payment: Payment?
     @Binding var participants: [Payment.Participant]
+    @Binding var isShowingMemberSheet: Bool
     
     var focusedField: FocusState<PaymentFocusField?>.Binding
     
@@ -45,7 +46,7 @@ struct FillInPaymentInfoView: View {
                 typePickerSection
                 contentSection
                 priceSection
-                PaymentMemberManagementView(mode: mode, priceString: $priceString, travelCalculation: $travelCalculation, members: $members, payment: $payment, selectedMember: $selectedMember, participants: $participants)
+                PaymentMemberManagementView(mode: mode, priceString: $priceString, travelCalculation: $travelCalculation, members: $members, payment: $payment, selectedMember: $selectedMember, participants: $participants, isShowingMemberSheet: $isShowingMemberSheet)
             }
             .onTapGesture {
                 hideKeyboard()
