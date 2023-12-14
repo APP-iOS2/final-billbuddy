@@ -6,17 +6,24 @@
 //
 
 import Foundation
+import UIKit
 import MapKit
 
-//class CustomAnnotation: NSObject, MKAnnotation {
-//
-//    @objc dynamic var coordinate: CLLocationCoordinate2D
-//    var title: String?
-//    var subtitle: String?
-//    var imageName: String?
-//    
-//    init(title: String, coordinate: CLLocationCoordinate2D) {
-//        self.title = title
-//        self.coordinate = coordinate
-//    }
-//}
+class CustomAnnotation: NSObject, MKAnnotation {
+    
+    let pinIndex: String
+    
+    let customPinImage: String
+    
+    @objc dynamic var coordinate: CLLocationCoordinate2D
+    
+    init(
+        pinIndex: String,
+        customPinImage: String,
+        coordinate: CLLocationCoordinate2D
+    ) {
+        self.pinIndex = pinIndex
+        self.customPinImage = customPinImage
+        self.coordinate = coordinate
+    }
+}

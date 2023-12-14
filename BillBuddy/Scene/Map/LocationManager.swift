@@ -26,6 +26,7 @@ final class LocationManager: NSObject, ObservableObject {
         super.init()
         configure()
         requestAuthorizqtion()
+        registerMapAnnotationView()
     }
     
     func configure() {
@@ -102,34 +103,7 @@ extension LocationManager {
             }
         })
     }
-    
-    // MARK: - 커스텀한 어노테이션 셋팅
-    func setAnnotations(filteredPayments: [Payment]) {
-        
-        mapView.removeAnnotations(mapView.annotations)
-        
-        for payment in filteredPayments {
-            let pinIndex: Int = 1
-            let customPinImage: UIImage = UIImage(named: "customPinImage")!
-            let coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
-            
-            let pin = CustomAnnotation(pinIndex: pinIndex, customPinImage: customPinImage, coordinate: coordinate)
-            mapView.addAnnotation(pin)
-        }
-        getCenterCoordinate(filteredPayments: filteredPayments)
-        
-    }
-    // MARK: - Annotaions Center
-    func getCenterCoordinate(filteredPayments: [Payment]) {
-            let count = Double(filteredPayments.count)
-        if count > 1 {
-            let latitude = filteredPayments.map({ $0.address }).map({ $0.latitude }).reduce(0, +) / count
-            let longitude = filteredPayments.map({ $0.address }).map({ $0.longitude }).reduce(0, +) / count
-            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            moveFocusChange(location: coordinate)
-        }
-    }
+   
 }
 
 extension LocationManager: CLLocationManagerDelegate {
@@ -151,7 +125,7 @@ extension LocationManager: CLLocationManagerDelegate {
 
 extension LocationManager: MKMapViewDelegate {
     
-    // 이동할 때마다 중앙 핀이 움직이게 하는
+    // 이동할 때마다 중앙 핀이 움직이게 함
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         if !isChaging {
             DispatchQueue.main.async {
@@ -174,38 +148,76 @@ extension LocationManager: MKMapViewDelegate {
         }
     }
     
-    // MARK: - Annotaion Delegate
+    // MARK: - 커스텀한 어노테이션 셋팅
+    func setAnnotations(filteredPayments: [Payment]) {
+        
+        mapView.removeAnnotations(mapView.annotations)
+        
+        var pinIndex: Int = 1
+        
+        for payment in filteredPayments {
+            let customPinImage = "customPinImage"
+            let coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
+            
+            let annotation = CustomAnnotation(pinIndex: String(pinIndex), customPinImage: customPinImage, coordinate: coordinate)
+            mapView.addAnnotation(annotation)
+            
+            pinIndex += 1
+        }
+        getCenterCoordinate(filteredPayments: filteredPayments)
+    }
+    
+    // MARK: - 어노테이션의 사이 좌표로 시야 이동
+    func getCenterCoordinate(filteredPayments: [Payment]) {
+            let count = Double(filteredPayments.count)
+        if count > 1 {
+            let latitude = filteredPayments.map({ $0.address }).map({ $0.latitude }).reduce(0, +) / count
+            let longitude = filteredPayments.map({ $0.address }).map({ $0.longitude }).reduce(0, +) / count
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            moveFocusChange(location: coordinate)
+        }
+    }
+    
+    // MARK: - 어노테이션 커스터마이징
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        guard let annotation = annotation as? CustomAnnotation else {
+        guard !(annotation is MKUserLocation) else {
             return nil
         }
         
-        var annotationView = self.mapView.dequeueReusableAnnotationView(withIdentifier: CustomAnnotationView.identifier)
+        var annotationView: MKAnnotationView?
         
-        if annotationView == nil {
-            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: CustomAnnotationView.identifier)
-            annotationView?.canShowCallout = false
-            annotationView?.contentMode = .scaleAspectFit
-            
+        if let annotation = annotation as? CustomAnnotation {
+            annotationView = setupCustomAnnotationView(for: annotation, on: mapView)
         } else {
             annotationView?.annotation = annotation
         }
         
         // Custom Annotation
         let customPinImage: UIImage!
+        customPinImage = UIImage(named: "customPinImage")
+
         let pinSize = CGSize(width: 46, height: 54)
         UIGraphicsBeginImageContext(pinSize)
-        
-        customPinImage = UIImage(named: "customPinImage")
         
         customPinImage.draw(in: CGRect(x: 0, y: 0, width: pinSize.width, height: pinSize.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         annotationView?.image = resizedImage
         
+        
         return annotationView
     }
     
+    private func setupCustomAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
+        return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotation.self), for: annotation)
+    }
+    
+    private func registerMapAnnotationView() {
+        mapView.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(CustomAnnotation.self))
+    }
+    
+    // MARK: - 어노테이션 선택시
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
     }
