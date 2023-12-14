@@ -74,6 +74,15 @@ public class AuthStore {
     
     func deleteUser() async throws {
         let user = Auth.auth().currentUser
+        userUid = ""
+//        var credential = EmailAuthProvider.credential(withEmail: user?.email ?? "", password: signInStore.signInData.password)
+//        
+//        do {
+//            try await user?.reauthenticate(with: credential)
+//        } catch {
+//            print("Error ReAuth : \(error)")
+//        }
+//        
         do {
             try await user?.delete()
         } catch {
