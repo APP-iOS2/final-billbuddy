@@ -37,7 +37,7 @@ struct PaymentMainView: View {
             else {
                 editingPaymentDeleteButton
                     .alert(isPresented: $isShowingDeletePayment) {
-                        return Alert(title: Text("선택된 항목을 삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+                        return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
                             Task {
                                 await paymentStore.deletePayments(payment: forDeletePayments)
                                 settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)

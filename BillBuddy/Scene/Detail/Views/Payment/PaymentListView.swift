@@ -119,7 +119,7 @@ struct PaymentListView: View {
             
         }
         .alert(isPresented: $isShowingDeletePayment) {
-            return Alert(title: Text("삭제하시겠습니까?"), primaryButton: .destructive(Text("네"), action: {
+            return Alert(title: Text(PaymentAlertText.paymentDelete), primaryButton: .destructive(Text("네"), action: {
                 Task {
                     if let payment = selectedPayment {
                         await paymentStore.deletePayment(payment: payment)

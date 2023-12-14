@@ -153,7 +153,7 @@ struct PaymentManageView: View {
         }
         .alert(isPresented: $isShowingNoTravelAlert, content: {
             
-            return Alert(title: Text("생성된 여행이 없습니다"),
+            return Alert(title: Text(PaymentAlertText.noTravel),
                          dismissButton: .default(Text("확인"), action: { dismiss()}))
         })
         
@@ -271,22 +271,22 @@ struct PaymentManageView: View {
         })
         .alert(isPresented: $isShowingAlert, content: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
-                return Alert(title: Text("여행을 선택해주세요"))
+                return Alert(title: Text(PaymentAlertText.selectTravel))
             }
             else if selectedCategory == nil {
-                return Alert(title: Text("분류를 선택해주세요"))
+                return Alert(title: Text(PaymentAlertText.selectCategory))
             }
             else if expandDetails.isEmpty {
                 focusedField = .content
-                return Alert(title: Text("내용을 입력해주세요"))
+                return Alert(title: Text(PaymentAlertText.typeContent))
             }
             else if priceString.isEmpty {
                 focusedField = .price
-                return Alert(title: Text("결제 금액을 입력해주세요"))
+                return Alert(title: Text(PaymentAlertText.price))
             }
             else if participants.isEmpty {
                 focusedField = .none
-                return Alert(title: Text("이 지출에 포함되는 인원을 선택해주세요"), dismissButton: .default(Text("인원 추가하기"), action: {
+                return Alert(title: Text(PaymentAlertText.selectMember), dismissButton: .default(Text("인원 추가하기"), action: {
                     hideKeyboard()
                     isShowingMemberSheet = true
                 }))
@@ -294,17 +294,17 @@ struct PaymentManageView: View {
             else {
                 switch(mode) {
                 case .add:
-                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.add), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         addPayment()
                         dismiss()
                     }))
                 case .mainAdd:
-                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.add), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         mainAddPayment()
                         dismiss()
                     }))
                 case .edit:
-                    return Alert(title: Text("수정하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.edit), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         editPayment()
                         dismiss()
                     }))
