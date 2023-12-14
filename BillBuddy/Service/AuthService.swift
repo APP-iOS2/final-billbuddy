@@ -72,12 +72,15 @@ public class AuthStore {
         }
     }
     
-    func deleteUser() async throws {
+    func deleteUser() async throws -> Int {
         let user = Auth.auth().currentUser
+        
         do {
             try await user?.delete()
+            return 0
         } catch {
-            print("Error delete user: \(error)")
+            let error = error as NSError
+            return error.code
         }
     }
     
