@@ -112,20 +112,8 @@ struct SignInView: View {
                     .cornerRadius(12)
                 })
                 
-                Link(destination: URL(string: "https://apple.com")!, label: {
-                    HStack{
-                        Image(.apple)
-                        Spacer()
-                        Text("애플로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.systemBlack)
-                    .cornerRadius(12)
-                })
+                AppleSignInView()
+                
             }
         }
         .onTapGesture {
