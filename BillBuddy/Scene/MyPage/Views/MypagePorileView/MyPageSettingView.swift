@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MyPageSettingView: View {
     
@@ -17,6 +18,8 @@ struct MyPageSettingView: View {
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
+    @State private var isReAuthAlert: Bool = false
+    @State private var isErrorAlert: Bool = false
     
     var body: some View {
         ScrollView {
@@ -133,15 +136,28 @@ struct MyPageSettingView: View {
                     Button("취소", role: .cancel) {}
                     Button("탈퇴", role: .destructive) {
                         Task {
-                            try await signUpStore.deleteUser()
-                            signInStore.deleteUser()
-                            UserService.shared.isSignIn = false
-                            notificationStore.resetStore()
-                            userTravelStore.resetStore()
+                            let resultErrorCode = try await signInStore.deleteUser()
+                            if resultErrorCode == 0 {
+                                try await signUpStore.deleteUser()
+                                UserService.shared.isSignIn = false
+                                AuthStore.shared.userUid = ""
+                                notificationStore.resetStore()
+                                userTravelStore.resetStore()
+                            } else if resultErrorCode == AuthErrorCode.requiresRecentLogin.rawValue{
+                                isReAuthAlert.toggle()
+                            } else {
+                                isErrorAlert.toggle()
+                            }
                         }
                     }
                 } message: {
                     Text("서비스 탈퇴를 합니다.")
+                }
+                .alert("인증이 만료되어 재로그인이 필요한 작업입니다.", isPresented: $isReAuthAlert) {
+                    Button("확인") {}
+                }
+                .alert("알 수 없는 오류가 발생했습니다.", isPresented: $isErrorAlert) {
+                    Button("확인") {}
                 }
             }
             .padding(.horizontal, 24)
