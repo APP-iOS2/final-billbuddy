@@ -61,33 +61,6 @@ final class CustomAnnotationView: MKAnnotationView {
                     
                     customImageView.topAnchor.constraint(equalTo: stackView.topAnchor, constant: 0)
                 ])
-
-//        NSLayoutConstraint.activate([
-//            
-//            backgroundUIView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-//            backgroundUIView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            backgroundUIView.topAnchor.constraint(equalTo: self.topAnchor),
-//            backgroundUIView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-//            
-//            customImageView.leadingAnchor.constraint(equalTo: backgroundUIView.leadingAnchor),
-//            customImageView.trailingAnchor.constraint(equalTo: backgroundUIView.trailingAnchor),
-//            customImageView.topAnchor.constraint(equalTo: backgroundUIView.topAnchor),
-//            customImageView.bottomAnchor.constraint(equalTo: backgroundUIView.bottomAnchor),
-//            
-//            stackView.leadingAnchor.constraint(equalTo: backgroundUIView.leadingAnchor),
-//            stackView.trailingAnchor.constraint(equalTo: backgroundUIView.trailingAnchor),
-//            stackView.topAnchor.constraint(equalTo: backgroundUIView.topAnchor),
-//            stackView.bottomAnchor.constraint(equalTo: backgroundUIView.bottomAnchor),
-//        
-//            
-//            pinIndexLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor),
-//            pinIndexLabel.heightAnchor.constraint(equalTo: stackView.heightAnchor),
-//            pinIndexLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-//            pinIndexLabel.topAnchor.constraint(equalTo: stackView.topAnchor),
-//            
-//        ])
-        
-       
     }
     
     override func prepareForReuse() {
@@ -111,9 +84,10 @@ final class CustomAnnotationView: MKAnnotationView {
         
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+    // 레이아웃 사이즈 설정
     }
 }
 
