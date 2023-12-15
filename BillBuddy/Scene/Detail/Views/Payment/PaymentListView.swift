@@ -14,7 +14,7 @@ struct PaymentListView: View {
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
 
     @State private var isShowingDeletePayment: Bool = false
-    
+    @State private var isUpdated: Bool = false
     
     var body: some View {
         
@@ -83,7 +83,7 @@ struct PaymentListView: View {
                 }
                 
                 NavigationLink {
-                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
+                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel, isUpdated: $isUpdated)
                         .environmentObject(paymentStore)
                 } label: {
                     Text("수정")

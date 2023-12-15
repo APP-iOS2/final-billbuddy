@@ -16,18 +16,65 @@ struct PaymentMainView: View {
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @State private var isShowingSelectCategorySheet: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var isEditing: Bool = false
+    @State private var isUpdated: Bool = false
     @State private var selection = Set<String>()
     
     var body: some View {
-        VStack(spacing: 0) {
-            header
-                .onChange(of: selectedDate) { _ in
-                    paymentStore.filterDate(date: 0)
-                    selectedCategory = nil
+        ZStack {
+            VStack(spacing: 0) {
+                header
+                    .onChange(of: selectedDate) { _ in
+                        paymentStore.filterDate(date: 0)
+                        selectedCategory = nil
+                    }
+                paymentList
+                addPaymentButton
+            }
+            
+            changesButton
+                .padding(.top, 300)
+        }
+    }
+    
+    var changesButton: some View {
+        Section {
+        // paymentStore.updateContentDate 내가 업데이트한 시간
+        // travelDetailStore.travel.updateContentDate 내가? or 남이? -> update 하고 조금 이따 updateContentDate 수정! ..
+            if travelDetailStore.isChangedTravel && paymentStore.updateContentDate < travelDetailStore.travel.updateContentDate && paymentStore.isFetchingList == false {
+                    Button {
+                        Task {
+                            await paymentStore.fetchAll()
+                            settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                            
+                            travelDetailStore.isChangedTravel = false
+                        }
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(.info)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                            Text("새로운 변경사항이 있어요")
+                                .font(.body01)
+                            Image(.chevronRight)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        .padding(.leading, 12)
+                        .padding(.trailing, 12)
+                        .padding(.top, 10)
+                        .padding(.bottom, 10)
+                    }
+                    .frame(height: 44)
+                    .background {
+                        RoundedRectangle(cornerRadius: 22.5)
+                            .stroke(Color.myPrimary, style: StrokeStyle(lineWidth: 1))
+                    }
+                    .background{
+                        RoundedRectangle(cornerRadius: 22.5)
+                            .fill(Color.white)
+                    }
+                    
                 }
-            paymentList
-            addPaymentButton
         }
     }
     
@@ -93,7 +140,7 @@ struct PaymentMainView: View {
     
     var addPaymentButton: some View {
         NavigationLink {
-            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
+            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel, isUpdated: $isUpdated)
                 .environmentObject(paymentStore)
         } label: {
             HStack(spacing: 12) {
@@ -141,14 +188,17 @@ struct PaymentMainView: View {
                     Spacer()
                 }
             }
-            List {
-                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
-                    .padding(.bottom, 12)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
+            else {
+                List {
+                    PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                        .padding(.bottom, 12)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
+            Spacer()
         }
     }
     
@@ -176,7 +226,12 @@ struct PaymentMainView: View {
                     CategorySelectView(mode: .sheet, selectedCategory: $selectedCategory)
                         .presentationDetents([.fraction(0.3)])
                 }
-                
+                .onChange(of: isUpdated, perform: { _ in
+                    if isUpdated {
+                        selectedCategory = nil
+                        isUpdated = true
+                    }
+                })
                 .onChange(of: selectedCategory, perform: { category in
                     
                     // 날짜 전체일때
