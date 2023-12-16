@@ -19,11 +19,7 @@ extension View {
 
 struct SpendingModifier: ViewModifier {
     @Binding var isPresented: Bool
-    @Binding var name: String {
-        didSet {
-            print("change Name1")
-        }
-    }
+    @Binding var name: String
     @Binding var spendingList: [Payment]
     
     func body(content: Content) -> some View {
@@ -55,11 +51,7 @@ struct SpendingModifier: ViewModifier {
 
 struct SpendingAlert: View {
     @Binding var isPresented: Bool
-    @Binding var name: String {
-        didSet {
-            print("change Name1")
-        }
-    }
+    @Binding var name: String
     @Binding var spendingList: [Payment]
     
     var body: some View {

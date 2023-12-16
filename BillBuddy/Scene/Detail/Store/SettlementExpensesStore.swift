@@ -70,7 +70,7 @@ final class SettlementExpensesStore: ObservableObject {
         case .totalEtc:
             return payments.filter { $0.type == .etc }
         case .personalSettlement:
-            return []
+            return settlementExpenses.members.map { Payment(id: UUID().uuidString, type: .accommodation, content: $0.memberData.name, payment: $0.lastDividedAmount, address: .init(address: "", latitude: 0, longitude: 0), participants: [], paymentDate: 0.0)}
         }
     }
     
@@ -85,7 +85,7 @@ final class SettlementExpensesStore: ObservableObject {
         newExpenses.totalFood = payments.filter{ $0.type == .food }.reduce(0, { $0 + $1.payment } )
         newExpenses.totalEtc = payments.filter{ $0.type == .etc }.reduce(0, { $0 + $1.payment } )
         
-        newExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, 총참여한나온금액: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
+        newExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, totalParticipationAmount: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
         
         for payment in payments {
             var personaPayment = 0
@@ -94,8 +94,8 @@ final class SettlementExpensesStore: ObservableObject {
             }
             for participant in payment.participants {
                 let index = members.firstIndex(where: { $0.id == participant.memberId } )
-                newExpenses.members[index!].총참여한나온금액 += participant.seperateAmount
-                newExpenses.members[index!].총참여한나온금액 -= participant.advanceAmount
+                newExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
+                newExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
             }
         }
         
@@ -122,8 +122,8 @@ final class SettlementExpensesStore: ObservableObject {
         
         for participant in payment.participants {
             let index = settlementExpenses.members.firstIndex { $0.memberData.id == participant.memberId }
-            settlementExpenses.members[index!].총참여한나온금액 += participant.seperateAmount
-            settlementExpenses.members[index!].총참여한나온금액 -= participant.advanceAmount
+            settlementExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
+            settlementExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
         }
     }
     
@@ -147,8 +147,8 @@ final class SettlementExpensesStore: ObservableObject {
         
         for participant in payment.participants {
             let index = settlementExpenses.members.firstIndex { $0.memberData.id == participant.memberId }
-            settlementExpenses.members[index!].총참여한나온금액 += participant.seperateAmount
-            settlementExpenses.members[index!].총참여한나온금액 -= participant.advanceAmount
+            settlementExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
+            settlementExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
         }
     }
     
