@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChattingMenuDetailView: View {
+    @EnvironmentObject private var messageStore: MessageStore
     @Environment(\.dismiss) private var dismiss
     @State var selection: String
     
@@ -35,6 +36,11 @@ struct ChattingMenuDetailView: View {
                 }
             }
             .padding(.horizontal, 16)
+        }
+        .onAppear {
+            Task {
+                await messageStore.getChatRoomData(travelCalculation: travel)
+            }
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -115,35 +121,28 @@ struct ChattingMenuDetailView: View {
             }
             .padding(.vertical, 3)
             ScrollView {
-                LazyVGrid(columns: columns) {
-                    AsyncImage(url: URL(string: "https://cdn.discordapp.com/attachments/1153285644345417808/1166330851068481576/IMG_08E8F2FC92C8-1.jpeg?ex=654a1940&is=6537a440&hm=e87507612dbf2aa7d3ef3687584525291c51391574cf34071ff702444ac9b34f&")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:112, height: 112)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width:112, height: 112)
+                if let existImageList = messageStore.travel.chatImages {
+                    LazyVGrid(columns: columns) {
+                        ForEach(existImageList.reversed(), id: \.self) { image in
+                            AsyncImage(url: URL(string: image)) { img in
+                                img
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width:112, height: 112)
+                            } placeholder: {
+                                ProgressView()
+                                    .frame(width:112, height: 112)
+                            }
+                        }
                     }
-                    AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F207331C0-607C-42C3-8C1D-D6D9E4FB0704.jpeg?alt=media&token=e39f9b1c-8baf-40cf-b0ed-965d2b7889c7&_gl=1*1dnu1kr*_ga*MjA4MDU0NTgyNS4xNjkxMDU5NjQ2*_ga_CW55HF8NVT*MTY5ODE0NTI1NC4xNDkuMC4xNjk4MTQ1MjU0LjYwLjAuMA..")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:112, height: 112)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width:112, height: 112)
+                } else {
+                    VStack {
+                        Text("등록된 사진이 없습니다.")
+                            .font(Font.body04)
+                            .foregroundColor(.gray500)
+                            .padding()
+                        Spacer()
                     }
-                    AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F4D336765-6D93-4220-9F74-27A862E16954.jpeg?alt=media&token=a34f9d7b-20e7-462b-9714-a4341ca9851b")) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:112, height: 112)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width:112, height: 112)
-                    }
-                    
                 }
             }
         }
@@ -152,4 +151,5 @@ struct ChattingMenuDetailView: View {
 
 #Preview {
     ChattingMenuDetailView(selection: "사진", travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
+        .environmentObject(MessageStore())
 }

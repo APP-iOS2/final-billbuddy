@@ -27,6 +27,10 @@ struct TravelCalculation: Identifiable, Codable {
     var lastMessageDate: Double?
     // 채팅: 읽지 않은 메세지 수 [유저아이디 : 갯수]
     var unreadMessageCount: [String : Int]?
+    // 채팅방 공지
+    var chatNotice: String?
+    // 채팅방 이미지 리스트
+    var chatImages: [String]?
     
     struct Member: Codable, Identifiable, Hashable {
         var id: String = UUID().uuidString

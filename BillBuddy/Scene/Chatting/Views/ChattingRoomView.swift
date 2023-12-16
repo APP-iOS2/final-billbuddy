@@ -345,6 +345,7 @@ struct ChattingRoomView: View {
                     isRead: false
                 )
                 messageStore.sendMessage(travelCalculation: travel, message: newMessage)
+                messageStore.updateChatRoomImages(travelCalculation: travel, message: newMessage)
                 imageData?.removeAll()
             }
         } else {
