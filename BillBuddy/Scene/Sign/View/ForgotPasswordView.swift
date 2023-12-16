@@ -37,6 +37,8 @@ struct ForgotPasswordView: View {
                     RoundedRectangle(cornerRadius: 12)
                     .stroke(Color.gray300, lineWidth: 1)
                 )
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
             
             Button(action: {
                 Task {

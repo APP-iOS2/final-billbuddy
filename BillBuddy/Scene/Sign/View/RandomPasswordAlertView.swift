@@ -17,6 +17,7 @@ struct RandomPasswordAlertView: View {
             Group {
                 Text(firstLineMessage)
                     .padding(.top, 46)
+                    .multilineTextAlignment(.center)
                 Text(secondLineMessage)
             }
             .font(.body04)
@@ -72,5 +73,5 @@ struct RandomPasswordAlertmodifier: ViewModifier {
 }
 
 #Preview {
-    RandomPasswordAlertView(isPresented: .constant(true), firstLineMessage: "임시 비밀번호가 발송되었어요.", secondLineMessage: "로그인 후 비밀번호를 꼭 변경해주세요.")
+    RandomPasswordAlertView(isPresented: .constant(true), firstLineMessage: "sikim4991@gmail.com로 메일이 발송되었어요.", secondLineMessage: "메일에 기재된 링크를 클릭하여 변경해주세요.")
 }
