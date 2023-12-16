@@ -128,6 +128,7 @@
 		D2C95AE82AD7B59900DFCB03 /* MyPageSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */; };
 		D2EF00B22AE787D400ABD4F0 /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */; };
 		D2EF00B42AE78DBF00ABD4F0 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */; };
+		FF17CCA72B2D7D5A000ACF72 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17CCA62B2D7D5A000ACF72 /* ChangePasswordView.swift */; };
 		FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */; };
 		FF37A72E2AFBD20B00784E8A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FF37A72D2AFBD20B00784E8A /* Kingfisher */; };
 		FF635D1E2AD7CD41002C0B67 /* TossPayments in Frameworks */ = {isa = PBXBuildFile; productRef = FF635D1D2AD7CD41002C0B67 /* TossPayments */; };
@@ -261,6 +262,7 @@
 		D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingView.swift; sourceTree = "<group>"; };
 		D2EF00B12AE787D400ABD4F0 /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
 		D2EF00B32AE78DBF00ABD4F0 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		FF17CCA62B2D7D5A000ACF72 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		FF2974A52AD310D400E10AC4 /* NativeAdTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAdTestView.swift; sourceTree = "<group>"; };
 		FF635D262AD81EEF002C0B67 /* TossPaymentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsView.swift; sourceTree = "<group>"; };
 		FF635D282AD821E4002C0B67 /* TossPaymentsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TossPaymentsStore.swift; sourceTree = "<group>"; };
@@ -912,6 +914,7 @@
 				D2C95AE72AD7B59900DFCB03 /* MyPageSettingView.swift */,
 				D21BD5EE2AD62E590074FA80 /* ProfileView.swift */,
 				D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */,
+				FF17CCA62B2D7D5A000ACF72 /* ChangePasswordView.swift */,
 			);
 			path = MypagePorileView;
 			sourceTree = "<group>";
@@ -1134,6 +1137,7 @@
 				276648482ABD8E19000F8A10 /* ChattingView.swift in Sources */,
 				276647FB2ABD53F8000F8A10 /* BillBuddyApp.swift in Sources */,
 				276648372ABD8CFD000F8A10 /* SignInView.swift in Sources */,
+				FF17CCA72B2D7D5A000ACF72 /* ChangePasswordView.swift in Sources */,
 				278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */,
 				D2713EF72AD78C980020B2F4 /* ProfileEditView.swift in Sources */,
 				638A9F492ADA812100C931DD /* MapViewCoordinater.swift in Sources */,

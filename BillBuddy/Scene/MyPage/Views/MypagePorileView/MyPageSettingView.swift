@@ -20,6 +20,7 @@ struct MyPageSettingView: View {
     @State private var isPresentedAlert: Bool = false
     @State private var isReAuthAlert: Bool = false
     @State private var isErrorAlert: Bool = false
+    @State private var isCheckingProvider: Bool = AuthStore.shared.checkCurrentUserProviderId()
     
     var body: some View {
         ScrollView {
@@ -89,7 +90,19 @@ struct MyPageSettingView: View {
                                 .frame(width: 24, height: 24)
                         }
                     }
-                    .padding(.bottom, 32)
+                    .padding(.bottom, isCheckingProvider ? 36 : 32)
+                    if isCheckingProvider {
+                        NavigationLink(destination: ChangePasswordView()){
+                            HStack {
+                                Text("비밀번호 변경")
+                                Spacer()
+                                Image("chevron_right")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                        }
+                        .padding(.bottom, 32)
+                    }
                 }
                 .font(.body04)
                 .foregroundColor(.systemBlack)

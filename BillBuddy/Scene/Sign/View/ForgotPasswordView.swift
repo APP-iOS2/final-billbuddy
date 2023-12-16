@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct ForgotPasswordView: View {
     @EnvironmentObject private var signUpStore: SignUpStore
+    @Environment(\.dismiss) var dismiss
     @State private var email: String = ""
     @State private var isShowingAlert = false
     @State private var firstLineMessage: String = ""
@@ -18,7 +19,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("비밀번호 찾기")
-                .padding(.top, 86)
+                .padding(.top, 25)
                 .font(.title04)
             Group {
                 Text("가입한 이메일을 입력해주세요.")
@@ -43,11 +44,11 @@ struct ForgotPasswordView: View {
             Button(action: {
                 Task {
                     if try await AuthStore.shared.sendEmailPasswordReset(email: email) {
-                        self.firstLineMessage = "\(email)로 메일이 발송되었어요."
-                        self.secondLineMessage = "메일에 기재된 링크를 클릭하여 변경해주세요."
+                        self.firstLineMessage = "\(email)로 메일이 발송되었어요"
+                        self.secondLineMessage = "메일에 기재된 링크를 클릭하여 변경해주세요"
                     } else {
-                        self.firstLineMessage = "알 수 없는 오류가 발생했습니다."
-                        self.secondLineMessage = "잠시 후 다시 시도해주세요."
+                        self.firstLineMessage = "알 수 없는 오류가 발생했습니다"
+                        self.secondLineMessage = "잠시 후 다시 시도해주세요"
                     }
                     isShowingAlert.toggle()
                 }
@@ -67,11 +68,27 @@ struct ForgotPasswordView: View {
         }
         .padding(21)
         .randomPasswordAlert(isPresented: $isShowingAlert, firstLineMessage: firstLineMessage, secondLineMessage: secondLineMessage)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image("arrow_back")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(.systemBlack)
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    ForgotPasswordView()
-        .environmentObject(SignUpStore())
+    NavigationStack {
+        ForgotPasswordView()
+            .environmentObject(SignUpStore())
+    }
 }
 
