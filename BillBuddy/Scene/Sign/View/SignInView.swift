@@ -72,15 +72,14 @@ struct SignInView: View {
                 } label: {
                     Text("이메일 가입")
                 }
+                
                 Spacer()
-                NavigationLink {
-                    //
-                } label: {
-                    Text("이메일 찾기")
-                }
+                Divider()
+                    .frame(height: 16)
                 Spacer()
+                
                 NavigationLink {
-                    //
+                    ForgotPasswordView()
                 } label: {
                     Text("비밀번호 찾기")
                 }
@@ -112,20 +111,8 @@ struct SignInView: View {
                     .cornerRadius(12)
                 })
                 
-                Link(destination: URL(string: "https://apple.com")!, label: {
-                    HStack{
-                        Image(.apple)
-                        Spacer()
-                        Text("애플로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.systemBlack)
-                    .cornerRadius(12)
-                })
+                AppleSignInView()
+                
             }
         }
         .onTapGesture {
