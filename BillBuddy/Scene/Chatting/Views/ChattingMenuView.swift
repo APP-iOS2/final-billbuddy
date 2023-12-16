@@ -88,13 +88,20 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
-            Text("공지사항입니다. 기차 출발 삼십분 전에는 꼬옥 도착하기로해요~ 아시겠어요????")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .lineLimit(6)
-                .lineSpacing(3)
-                .font(.body04)
-                .foregroundColor(.gray700)
-                .padding(.bottom, 50)
+            if let noticeExist = messageStore.travel.chatNotice {
+                Text(noticeExist)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .lineLimit(6)
+                    .lineSpacing(3)
+                    .font(.body04)
+                    .foregroundColor(.gray700)
+                    .padding(.bottom, 50)
+            } else {
+                Text("등록된 공지가 없습니다.")
+                    .font(Font.body04)
+                    .foregroundColor(.gray500)
+                    .padding()
+            }
             Spacer()
         }
         .frame(minHeight: 100)

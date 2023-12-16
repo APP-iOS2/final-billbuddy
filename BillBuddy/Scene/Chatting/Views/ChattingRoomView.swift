@@ -144,6 +144,19 @@ struct ChattingRoomView: View {
                                                     .padding(.vertical, 10)
                                                     .background(Color.lightBlue300)
                                                     .cornerRadius(12)
+                                                    .contextMenu {
+                                                        Button {
+                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                        } label: {
+                                                            HStack {
+                                                                Image(.announcementMegaphone)
+                                                                    .resizable()
+                                                                    .frame(width: 24, height: 24)
+                                                                Text("공지등록")
+                                                                    .font(.body01)
+                                                            }
+                                                        }
+                                                    }
                                             }
                                         }
                                     }
@@ -226,6 +239,19 @@ struct ChattingRoomView: View {
                                                     .padding(.vertical, 10)
                                                     .background(Color.gray050)
                                                     .cornerRadius(12)
+                                                    .contextMenu {
+                                                        Button {
+                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                        } label: {
+                                                            HStack {
+                                                                Image(.announcementMegaphone)
+                                                                    .resizable()
+                                                                    .frame(width: 24, height: 24)
+                                                                Text("공지등록")
+                                                                    .font(.body01)
+                                                            }
+                                                        }
+                                                    }
                                             }
                                         }
                                         VStack {
