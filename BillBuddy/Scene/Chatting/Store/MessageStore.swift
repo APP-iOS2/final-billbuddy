@@ -170,10 +170,15 @@ final class MessageStore: ObservableObject {
     /// 채팅방 공지사항 업데이트
     func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) {
         guard let existMessage = message.message else { return }
-        let data = [ "chatNotice" : existMessage ]
+        let data = [ "notice" : existMessage,
+                     "name" : message.userName as Any,
+                     "date" : message.sendDate
+        ] as [String : Any]
         Task {
             try await db.document(travelCalculation.id)
-                .setData(data, merge: true)
+                .updateData([
+                    "chatNotice": FieldValue.arrayUnion([data])
+                ])
         }
     }
     

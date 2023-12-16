@@ -54,7 +54,7 @@ struct ChattingMenuView: View {
                     .font(.title05)
                     .foregroundColor(.systemBlack)
                     .frame(alignment: .leading)
-                Text("\(travel.members.count)명 \(travel.startDate.toFormattedDate()) 개설")
+                Text("\(travel.members.count)명 \(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
                     .font(.body04)
                     .foregroundColor(.gray600)
             }
@@ -88,14 +88,17 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
+            
             if let noticeExist = messageStore.travel.chatNotice {
-                Text(noticeExist)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .lineLimit(6)
-                    .lineSpacing(3)
-                    .font(.body04)
-                    .foregroundColor(.gray700)
-                    .padding(.bottom, 50)
+                ForEach(noticeExist.reversed().prefix(1), id: \.self) { notice in
+                    Text(notice.notice)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .lineLimit(6)
+                        .lineSpacing(3)
+                        .font(.body04)
+                        .foregroundColor(.gray700)
+                        .padding(.bottom, 50)
+                }
             } else {
                 Text("등록된 공지가 없습니다.")
                     .font(Font.body04)

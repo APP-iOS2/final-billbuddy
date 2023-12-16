@@ -88,19 +88,19 @@ struct ChattingMenuDetailView: View {
     private var noticeList: some View {
         ScrollView {
             if let noticeExist = messageStore.travel.chatNotice {
-                ForEach(0..<1) { item in
+                ForEach(noticeExist.reversed(), id: \.self) { notice in
                     VStack(spacing: 3) {
                         HStack {
-                            Text(noticeExist)
+                            Text(notice.notice)
                                 .font(.body04)
                                 .foregroundColor(.systemBlack)
                             Spacer()
                         }
                         HStack {
-                            Text("2023.10.20")
+                            Text("\(notice.date.toFormattedYearandMonthandDay())")
                                 .font(.caption02)
                                 .foregroundColor(.gray600)
-                            Text("윤지호")
+                            Text(notice.name)
                                 .font(.caption02)
                                 .foregroundColor(.gray600)
                             Spacer()
