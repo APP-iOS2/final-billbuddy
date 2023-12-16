@@ -44,19 +44,20 @@ struct ContentView: View {
                 } else {
                     NavigationStack {
                         LodingView()
-                            .environmentObject(invitTravelService)
-                            .environmentObject(tabViewStore)
-                            .environmentObject(userTravelStore)
                     }
+                    .environmentObject(invitTravelService)
+                    .environmentObject(tabViewStore)
+                    .environmentObject(userTravelStore)
                 }
             }
         } else {
             NavigationStack {
                 SignInView(signInStore: signInStore)
-                    .environmentObject(signInStore)
-                    .environmentObject(userService)
-                    .environmentObject(googleSignIn)
             }
+            .environmentObject(signInStore)
+            .environmentObject(signUpStore)
+            .environmentObject(userService)
+            .environmentObject(googleSignIn)
         }
     }
 }

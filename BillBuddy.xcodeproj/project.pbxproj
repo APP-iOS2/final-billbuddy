@@ -135,6 +135,8 @@
 		FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */; };
 		FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */; };
 		FF8D9E872B2BB12D00ECDBB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FF8D9E862B2BB12D00ECDBB0 /* GoogleService-Info.plist */; };
+		FFBA42A22B2C6D4F00915D2F /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */; };
+		FFBA42A42B2C9A9400915D2F /* RandomPasswordAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */; };
 		FFCF22592B24500000B79BF9 /* GoogleSignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCF22582B24500000B79BF9 /* GoogleSignInStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -260,6 +262,8 @@
 		FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeContentView.swift; sourceTree = "<group>"; };
 		FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
 		FF8D9E862B2BB12D00ECDBB0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPasswordAlertView.swift; sourceTree = "<group>"; };
 		FFCF22582B24500000B79BF9 /* GoogleSignInStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -848,6 +852,8 @@
 				276648392ABD8D13000F8A10 /* SignUpView.swift */,
 				D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */,
 				D29BBF862AFFB3A9000120CD /* GoogleSignIn.swift */,
+				FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */,
+				FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1017,6 +1023,7 @@
 				278563022B08A5F500B465DB /* TabViewStore.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */,
+				FFBA42A22B2C6D4F00915D2F /* ForgotPasswordView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */,
 				C47F6C772AD51878006B77D6 /* PaymentMainView.swift in Sources */,
@@ -1063,6 +1070,7 @@
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
 				C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */,
+				FFBA42A42B2C9A9400915D2F /* RandomPasswordAlertView.swift in Sources */,
 				278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */,
 				2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */,
 				27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */,
