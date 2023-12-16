@@ -17,6 +17,7 @@ final class MessageStore: ObservableObject {
     var lastDoc: QueryDocumentSnapshot?
     @Published var messages: [Message] = []
     @Published var isAddedNewMessage: Bool = false
+    @Published var travel: TravelCalculation = TravelCalculation.sampletravel
     
     /// 채팅 메세지 보내기
     func sendMessage(travelCalculation: TravelCalculation, message: Message) {
@@ -146,7 +147,7 @@ final class MessageStore: ObservableObject {
     /// 마지막 채팅 메세지 travelCalculation 에 업데이트
     private func updateLastMessage(travelCalculation: TravelCalculation, message: Message) {
         let data = [
-            "lastMessage" : message.message,
+            "lastMessage" : message.message ?? "사진",
             "lastMessageDate" : message.sendDate
         ] as [String : Any]
         Task {
@@ -155,34 +156,28 @@ final class MessageStore: ObservableObject {
         }
     }
     
-    /// 채팅방별 이미지 불러오기
-    func getChatRoomImages(travelCalculation: TravelCalculation) -> [String] {
-        
-        var images: [String] = []
-        let path = "chat/\(travelCalculation.id)"
-        
-        storage.child(path).listAll { result, error in
-            if let resultItem = result {
-                for item in resultItem.items {
-                    // 폴더 안 이미지 이름 담기
-                    let storageLocation = String(describing: item)
-                    
-                    // url 가져오기
-                    Storage.storage().reference(forURL: storageLocation).downloadURL { url, error in
-                        if let error = error {
-                            print("Failed to get url \(error)")
-                        } else {
-                            if let urlString = url?.absoluteString {
-                                images.append(urlString)
-                            }
-                        }
-                    }
-                }
-            } else {
-                print("Failed to get images: \(String(describing: error))")
-            }
+    /// 채팅방 사이드메뉴 이미지 배열 업데이트
+    func updateChatRoomImages(travelCalculation: TravelCalculation, message: Message) {
+        guard let imageExist = message.imageString else { return }
+        Task {
+            try await db.document(travelCalculation.id)
+                .updateData([
+                    "chatImages": FieldValue.arrayUnion([imageExist])
+                ])
         }
-        return images
+    }
+    
+    /// 채팅방 데이터 가져오기
+    func getChatRoomData(travelCalculation: TravelCalculation) async {
+        do {
+            let snapshotData = try await db.document(travelCalculation.id).getDocument()
+            let travelData = try snapshotData.data(as: TravelCalculation.self)
+            DispatchQueue.main.async {
+                self.travel = travelData
+            }
+        } catch {
+            print(error)
+        }
     }
 }
 

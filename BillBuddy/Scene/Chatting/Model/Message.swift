@@ -19,7 +19,7 @@ struct Message: Identifiable, Codable {
     // 채팅 작성자 이미지
     var userImage: String?
     // 채팅 메세지 내용
-    let message: String
+    var message: String?
     // 채팅 이미지 업로드
     var imageString: String?
     // 채팅 메세지 보낸 날짜 시간
