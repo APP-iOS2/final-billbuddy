@@ -76,6 +76,7 @@
 		278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC152ACC396D00B2EC50 /* FirestoreService.swift */; };
 		278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */; };
 		278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */; };
+		278FA0A52B2CDCC00031E987 /* CustomSpendingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278FA0A42B2CDCC00031E987 /* CustomSpendingAlert.swift */; };
 		27933F6A2AD33D9A00E6A545 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F692AD33D9A00E6A545 /* Int+Extension.swift */; };
 		27933F702AD3402300E6A545 /* CategoryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6D2AD3402300E6A545 /* CategoryLabel.swift */; };
 		27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6E2AD3402300E6A545 /* MemeberAcountCell.swift */; };
@@ -209,6 +210,7 @@
 		278DDC152ACC396D00B2EC50 /* FirestoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreService.swift; sourceTree = "<group>"; };
 		278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
 		278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMemeberStore.swift; sourceTree = "<group>"; };
+		278FA0A42B2CDCC00031E987 /* CustomSpendingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpendingAlert.swift; sourceTree = "<group>"; };
 		27933F692AD33D9A00E6A545 /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		27933F6D2AD3402300E6A545 /* CategoryLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryLabel.swift; sourceTree = "<group>"; };
 		27933F6E2AD3402300E6A545 /* MemeberAcountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeberAcountCell.swift; sourceTree = "<group>"; };
@@ -303,6 +305,15 @@
 				02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */,
 			);
 			path = "SF-Pro";
+			sourceTree = "<group>";
+		};
+		270D783C2B2AFB11006E46E8 /* SpendingList */ = {
+			isa = PBXGroup;
+			children = (
+				278FA0A32B2CDCAA0031E987 /* SubView */,
+				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
+			);
+			path = SpendingList;
 			sourceTree = "<group>";
 		};
 		2717D0EB2ACD76C90002D620 /* Model */ = {
@@ -749,6 +760,14 @@
 			path = DeepLink;
 			sourceTree = "<group>";
 		};
+		278FA0A32B2CDCAA0031E987 /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				278FA0A42B2CDCC00031E987 /* CustomSpendingAlert.swift */,
+			);
+			path = SubView;
+			sourceTree = "<group>";
+		};
 		27933F6B2AD3402300E6A545 /* SettledAccount */ = {
 			isa = PBXGroup;
 			children = (
@@ -809,7 +828,7 @@
 				C48F7C3D2ACEA5F800466308 /* Payment */,
 				278544692AC413AF009032CE /* MemberManagement */,
 				27933F6B2AD3402300E6A545 /* SettledAccount */,
-				C4860EF62AC4151100392D29 /* SpendingListView.swift */,
+				270D783C2B2AFB11006E46E8 /* SpendingList */,
 				278193C22ADBDD750041A6BF /* More */,
 			);
 			path = Views;
@@ -1085,6 +1104,7 @@
 				D29BBF872AFFB3A9000120CD /* GoogleSignIn.swift in Sources */,
 				2785446B2AC41CE0009032CE /* InvitTravelService.swift in Sources */,
 				278DDC162ACC396D00B2EC50 /* FirestoreService.swift in Sources */,
+				278FA0A52B2CDCC00031E987 /* CustomSpendingAlert.swift in Sources */,
 				2785ECC52AE053EB003E8D9D /* TabBarVisivilyStore.swift in Sources */,
 				02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,

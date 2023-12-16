@@ -56,12 +56,23 @@ struct PaymentMainView: View {
             
             /// 총 지출 >
             Group {
-                HStack {
+                HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 4, content: {
-                        HStack(spacing: 0) {
-                            Text("총 지출")
-                                .font(.body04)
-                                .foregroundStyle(Color.gray600)
+                        
+                        NavigationLink {
+                            SpendingListView()
+                                .environmentObject(travelDetailStore)
+                        } label: {
+                            HStack(spacing: 0) {
+                                Text("총 지출")
+                                    .font(.body04)
+                                    .padding(.trailing, 9)
+                                Image(.arrowForwardIos)
+                                    .resizable()
+                                    .frame(width: 11.2, height: 11.2)
+                            }
+                            .foregroundStyle(Color.gray600)
+
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
@@ -74,8 +85,9 @@ struct PaymentMainView: View {
                     
                     NavigationLink {
                         SettledAccountView()
+                            .environmentObject(travelDetailStore)
                     } label: {
-                        Text("정산하기")
+                        Text(travelDetailStore.travel.isPaymentSettled ? "정산내역": "정산하기")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
