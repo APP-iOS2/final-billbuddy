@@ -136,8 +136,8 @@ struct ChattingRoomView: View {
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width:120, height: 120)
                                             }
-                                            if message.message != "" {
-                                                Text(message.message)
+                                            if let messageExist = message.message {
+                                                Text(messageExist)
                                                     .font(Font.body04)
                                                     .foregroundColor(.systemBlack)
                                                     .padding(.horizontal)
@@ -218,8 +218,8 @@ struct ChattingRoomView: View {
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width:120, height: 120)
                                             }
-                                            if message.message != ""  {
-                                                Text(message.message)
+                                            if let messageExist = message.message {
+                                                Text(messageExist)
                                                     .font(Font.body04)
                                                     .foregroundColor(.systemBlack)
                                                     .padding(.horizontal)
@@ -340,7 +340,6 @@ struct ChattingRoomView: View {
                 imagePath = await messageStore.getImagePath(item: photoItem, travelCalculation: travel)
                 let newMessage = Message(
                     senderId: AuthStore.shared.userUid,
-                    message: inputText,
                     imageString: imagePath,
                     sendDate: Date().timeIntervalSince1970,
                     isRead: false
