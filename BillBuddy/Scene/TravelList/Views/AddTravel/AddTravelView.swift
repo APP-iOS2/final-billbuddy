@@ -88,7 +88,7 @@ struct AddTravelView: View {
                                 .shadow(color: Color.gray, radius: 0)
                                 .sheet(isPresented: $isShowingCalendarView) {
                                     CalendarSheetView(startDate: $startDate, endDate: $endDate, isShowingCalendarView: $isShowingCalendarView)
-                                        .presentationDetents([.height(500)])
+                                        .presentationDetents([.height(560)])
                                 }
                             }
                             

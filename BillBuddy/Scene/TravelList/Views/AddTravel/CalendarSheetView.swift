@@ -15,7 +15,8 @@ struct CalendarSheetView: View {
     @Binding var isShowingCalendarView: Bool
     
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 0) {
+            Spacer()
             HStack {
                 Button(action: {
                     calendarStore.selectBackMonth()
@@ -40,9 +41,10 @@ struct CalendarSheetView: View {
                 }
                 .padding(.leading, 27)
             } //MARK: HSTACK
-            .padding(.top, 10)
+            .padding(.top, 27)
+            .padding(.bottom, 34)
             
-            VStack(spacing: 3) {
+            VStack(spacing: 0) {
                 HStack(spacing: 0) {
                     ForEach(calendarStore.days, id: \.self) { day in
                         Text(day)
@@ -51,12 +53,11 @@ struct CalendarSheetView: View {
                             .frame(height: 36)
                             .frame(maxWidth: .infinity)
                     }
-                    .padding(.top, 37)
+                    
                 }
-            }
-            
-            VStack(spacing: 6) {
-                VStack(spacing: 6) {
+                .padding(.bottom, 12)
+                
+                VStack {
                     ForEach(calendarStore.weeks, id: \.self) { week in
                         ZStack {
                             HStack(spacing: 0) {
@@ -90,29 +91,29 @@ struct CalendarSheetView: View {
                         }
                     }
                 }
+                Spacer()
                 
-            }
-            
-            Button(action: {
-                saveSelectedDate()
-            }) {
-                Text(calendarStore.instructionText)
-                    .foregroundColor(calendarStore.buttonFontColor)
-                    .font(Font.body02)
+                Button(action: {
+                    saveSelectedDate()
+                }) {
+                    Text(calendarStore.instructionText)
+                        .foregroundColor(calendarStore.buttonFontColor)
+                        .font(Font.body02)
+                    
+                }
+                .disabled(calendarStore.instructionText != "여행 일정 선택 완료")
+                .frame(width: 335, height: 52)
+                .background(calendarStore.buttonBackgroundColor.cornerRadius(8))
+                .foregroundColor(.white)
+                .padding(.bottom, 52)
                 
-            }
-            .disabled(calendarStore.instructionText != "여행 일정 선택 완료")
-            .frame(width: 335, height: 52)
-            .background(calendarStore.buttonBackgroundColor.cornerRadius(8))
-            .foregroundColor(.white)
-            .padding(.top, 30)
+                
+            } //MARK: VSTACK
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
             
-            
-        } //MARK: VSTACK
-        .padding(.vertical, 10)
-        .padding(.horizontal, 20)
-        
-    } //MARK: BODY
+        } //MARK: BODY
+    }
     
     func fillRange(day: Date, week: [Date], index: Int) -> some View {
         HStack(spacing: 0) {
@@ -176,13 +177,13 @@ struct CalendarSheetView: View {
             return
         }
         
-//        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: firstDate)!
-//        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: secondDate)!
+        //        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: firstDate)!
+        //        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: secondDate)!
         
         startDate = firstDate
         endDate = secondDate
-//        startDate = adjustedFirstDate
-//        endDate = adjustedSecondDate
+        //        startDate = adjustedFirstDate
+        //        endDate = adjustedSecondDate
         
         isShowingCalendarView = false
         print("시작일: \(firstDate)")
