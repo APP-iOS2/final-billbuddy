@@ -29,6 +29,20 @@ final class TravelDetailStore: ObservableObject {
         self.travel = travelTump
     }
     
+    func fetchTravel() {
+        Task {
+            do {
+                let snapshot = try await dbRef.document(travelId).getDocument()
+                let travel = try snapshot.data(as: TravelCalculation.self)
+                DispatchQueue.main.async {
+                    self.travel = travel
+                }
+            } catch {
+                print("false fetch travel - \(error)")
+            }
+        }
+    }
+    
     func checkAndResaveToken() {
         guard let index = travelTump.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
         if travelTump.members[index].reciverToken != UserService.shared.reciverToken {

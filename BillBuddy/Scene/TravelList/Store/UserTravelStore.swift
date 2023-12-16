@@ -128,6 +128,13 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
+    func setTravelDate(travelId: String, startDate: Date, endDate: Date ) {
+        guard let index = travels.firstIndex(where: { $0.id == travelId }) else { return }
+        travels[index].startDate = startDate.timeIntervalSince1970
+        travels[index].endDate = endDate.timeIntervalSince1970
+
+    }
+    
     @MainActor
     func leaveTravel(travel: TravelCalculation) {
         let userId = AuthStore.shared.userUid

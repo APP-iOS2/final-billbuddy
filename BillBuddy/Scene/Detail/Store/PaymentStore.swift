@@ -20,6 +20,10 @@ final class PaymentStore: ObservableObject {
     
     var sumAllPayment: Int = 0
     
+    var paymentDates: [Date] {
+        payments.map { $0.paymentDate.toDate() }
+    }
+    
     init(travel: TravelCalculation) {
         self.travelCalculationId = travel.id
         self.dbRef = Firestore.firestore()
