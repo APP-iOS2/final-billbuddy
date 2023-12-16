@@ -38,7 +38,7 @@ final class FirestoreService {
     
     func deleteDocument(collectionId: StoreCollection, documentId: String) async throws {
         do {
-            try await dbRef.collection(collectionId.rawValue).document(documentId).delete()
+            try await dbRef.collection(collectionId.path).document(documentId).delete()
         } catch {
             throw error
         }

@@ -14,6 +14,7 @@
 		023EF92C2ACC06C3005C3F30 /* AddTravelButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */; };
 		023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF92D2ACC0731005C3F30 /* AddTravelView.swift */; };
 		0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */; };
+		028AC2322B2D570100CA1421 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 028AC2312B2D570100CA1421 /* GoogleService-Info.plist */; };
 		02C5A7D92AE0239800CBD8D1 /* FloatingButtonMenuStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5A7D82AE0239800CBD8D1 /* FloatingButtonMenuStore.swift */; };
 		02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C949962AD7D90300DFF9D4 /* CalendarStore.swift */; };
 		2655B7052ADD976D002E051B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 2655B7042ADD976D002E051B /* FirebaseMessaging */; };
@@ -95,7 +96,6 @@
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
-		90BA673B2B2AC2D2002911DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90BA673A2B2AC2D2002911DB /* GoogleService-Info.plist */; };
 		90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
 		C45E24EE2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */; };
@@ -137,6 +137,8 @@
 		FF6364912AE6257D00DDA16D /* AdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6364902AE6257D00DDA16D /* AdView.swift */; };
 		FF8217682ACEFB9C002ACD4C /* NativeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */; };
 		FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */; };
+		FFBA42A22B2C6D4F00915D2F /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */; };
+		FFBA42A42B2C9A9400915D2F /* RandomPasswordAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */; };
 		FFCF22592B24500000B79BF9 /* GoogleSignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCF22582B24500000B79BF9 /* GoogleSignInStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -148,6 +150,7 @@
 		023EF92B2ACC06C3005C3F30 /* AddTravelButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelButtonView.swift; sourceTree = "<group>"; };
 		023EF92D2ACC0731005C3F30 /* AddTravelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTravelView.swift; sourceTree = "<group>"; };
 		0266B7382ADA6A1500DBF07D /* CalendarSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSheetView.swift; sourceTree = "<group>"; };
+		028AC2312B2D570100CA1421 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02B06CA92AE0C90F00486005 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
 		02B06CAB2AE0C91000486005 /* SF-Pro-Rounded-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Rounded-Semibold.otf"; sourceTree = "<group>"; };
 		02B06CAD2AE0C91000486005 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -226,7 +229,6 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
-		90BA673A2B2AC2D2002911DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAlertText.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMemberManagementView.swift; sourceTree = "<group>"; };
@@ -264,6 +266,8 @@
 		FF6364902AE6257D00DDA16D /* AdView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdView.swift; sourceTree = "<group>"; };
 		FF8217672ACEFB9B002ACD4C /* NativeContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativeContentView.swift; sourceTree = "<group>"; };
 		FF8217692ACEFBA3002ACD4C /* NativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NativeAdView.xib; sourceTree = "<group>"; };
+		FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPasswordAlertView.swift; sourceTree = "<group>"; };
 		FFCF22582B24500000B79BF9 /* GoogleSignInStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -504,7 +508,7 @@
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
-				90BA673A2B2AC2D2002911DB /* GoogleService-Info.plist */,
+				028AC2312B2D570100CA1421 /* GoogleService-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -854,6 +858,9 @@
 				D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */,
 				D29BBF862AFFB3A9000120CD /* GoogleSignIn.swift */,
 				D26894182B2AF67200D37357 /* AppleSignInView.swift */,
+				FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */,
+				FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */,
+
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -976,7 +983,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90BA673B2B2AC2D2002911DB /* GoogleService-Info.plist in Resources */,
+				028AC2322B2D570100CA1421 /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
@@ -1023,6 +1030,7 @@
 				278563022B08A5F500B465DB /* TabViewStore.swift in Sources */,
 				2766484B2ABD8E34000F8A10 /* PaymentListView.swift in Sources */,
 				0266B7392ADA6A1500DBF07D /* CalendarSheetView.swift in Sources */,
+				FFBA42A22B2C6D4F00915D2F /* ForgotPasswordView.swift in Sources */,
 				276648312ABD8B6E000F8A10 /* TravelCalculation.swift in Sources */,
 				FF635D272AD81EEF002C0B67 /* TossPaymentsView.swift in Sources */,
 				C47F6C772AD51878006B77D6 /* PaymentMainView.swift in Sources */,
@@ -1069,6 +1077,7 @@
 				2766483C2ABD8D29000F8A10 /* TravelListView.swift in Sources */,
 				2766484E2ABD8E4D000F8A10 /* MyPageView.swift in Sources */,
 				C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */,
+				FFBA42A42B2C9A9400915D2F /* RandomPasswordAlertView.swift in Sources */,
 				278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */,
 				2663484B2AD8DD6C002CCCF4 /* NotificationListView.swift in Sources */,
 				27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */,

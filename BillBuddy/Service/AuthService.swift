@@ -72,12 +72,15 @@ public class AuthStore {
         }
     }
     
-    func deleteUser() async throws {
+    func deleteUser() async throws -> Int {
         let user = Auth.auth().currentUser
+        
         do {
             try await user?.delete()
+            return 0
         } catch {
-            print("Error delete user: \(error)")
+            let error = error as NSError
+            return error.code
         }
     }
     
@@ -86,6 +89,15 @@ public class AuthStore {
             try await Auth.auth().currentUser?.updatePassword(to: password)
         } catch {
             print("Error changePassword: \(error)")
+        }
+    }
+    
+    func sendEmailPasswordReset(email: String) async throws -> Bool {
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+            return true
+        } catch {
+            return false
         }
     }
 }

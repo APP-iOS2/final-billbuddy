@@ -28,7 +28,7 @@ struct TravelListView: View {
                     travelFilterButton
                     Spacer()
                 }
-                .padding(.leading, 16)
+                .padding(.leading, 20)
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
@@ -50,14 +50,14 @@ struct TravelListView: View {
                                         .foregroundColor(.gray600)
                                         .padding(.top, 270)
                                         .lineLimit(1)
-                                        .lineSpacing(15)
+                                        .lineSpacing(25)
                             } else if selectedFilter == .paymentSettled && createTravelList().isEmpty {
                                     Text("정산이 완료된 여행이 없습니다.")
                                         .font(.body04)
                                         .foregroundColor(.gray600)
                                         .padding(.top, 270)
                                         .lineLimit(1)
-                                        .lineSpacing(15)
+                                        .lineSpacing(25)
                             } else {
                                 ForEach(createTravelList()) { travel in
                                     Button {
@@ -96,11 +96,10 @@ struct TravelListView: View {
                                         .frame(height: 94)
                                         .background(Color.gray1000.cornerRadius(12))
                                     }
-                                    
-                                    .padding(.top, 16)
+                                    .padding(.top, 12)
                                     
                                 } //MARK: LIST
-                                .padding(.horizontal, 16)
+                                .padding(.horizontal, 12)
                             }
                             
                         } else {
@@ -234,10 +233,10 @@ extension TravelListView {
                     }
                 }
                 .onTapGesture {
-                    withAnimation(Animation.smooth) {
+//                    withAnimation(Animation.default) {
                         self.selectedFilter = filter
                         print(self.selectedFilter)
-                    }
+//                    }
                 }
             }
         }
