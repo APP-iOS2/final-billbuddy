@@ -110,6 +110,8 @@
 		C4F433B22ADE41AC00C8D20C /* PaymentManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */; };
 		C4F87C0C2AC160FE00472876 /* PaymentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F87C0B2AC160FE00472876 /* PaymentStore.swift */; };
 		D21BD5EF2AD62E590074FA80 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21BD5EE2AD62E590074FA80 /* ProfileView.swift */; };
+		D26894172B2AF45400D37357 /* AppleSignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26894162B2AF45400D37357 /* AppleSignInStore.swift */; };
+		D26894192B2AF67200D37357 /* AppleSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26894182B2AF67200D37357 /* AppleSignInView.swift */; };
 		D2713EF72AD78C980020B2F4 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */; };
 		D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1132ACF0F0D0087712F /* SignUpData.swift */; };
 		D279D1182ACFE6670087712F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1172ACFE6670087712F /* UserService.swift */; };
@@ -241,6 +243,8 @@
 		C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentManageView.swift; sourceTree = "<group>"; };
 		C4F87C0B2AC160FE00472876 /* PaymentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentStore.swift; sourceTree = "<group>"; };
 		D21BD5EE2AD62E590074FA80 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		D26894162B2AF45400D37357 /* AppleSignInStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInStore.swift; sourceTree = "<group>"; };
+		D26894182B2AF67200D37357 /* AppleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInView.swift; sourceTree = "<group>"; };
 		D2713EF62AD78C980020B2F4 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		D279D1132ACF0F0D0087712F /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
 		D279D1172ACFE6670087712F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -662,6 +666,7 @@
 				277403E42AC3E579000537DF /* SignInStore.swift */,
 				277403E32AC3E579000537DF /* SignUpStore.swift */,
 				FFCF22582B24500000B79BF9 /* GoogleSignInStore.swift */,
+				D26894162B2AF45400D37357 /* AppleSignInStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -852,8 +857,10 @@
 				276648392ABD8D13000F8A10 /* SignUpView.swift */,
 				D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */,
 				D29BBF862AFFB3A9000120CD /* GoogleSignIn.swift */,
+				D26894182B2AF67200D37357 /* AppleSignInView.swift */,
 				FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */,
 				FFBA42A32B2C9A9400915D2F /* RandomPasswordAlertView.swift */,
+
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1083,6 +1090,7 @@
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				022B2EED2ADD394F001B8C4D /* EditTravelSheetView.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
+				D26894172B2AF45400D37357 /* AppleSignInStore.swift in Sources */,
 				FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */,
 				023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */,
 				27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */,
@@ -1093,6 +1101,7 @@
 				277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */,
 				273201282ADB09BA00AE528B /* MemberShareSheet.swift in Sources */,
 				278266472AE2008400118C21 /* NotificationStore.swift in Sources */,
+				D26894192B2AF67200D37357 /* AppleSignInView.swift in Sources */,
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				FFCF22592B24500000B79BF9 /* GoogleSignInStore.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
