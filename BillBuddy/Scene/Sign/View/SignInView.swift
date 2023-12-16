@@ -72,15 +72,14 @@ struct SignInView: View {
                 } label: {
                     Text("이메일 가입")
                 }
+                
                 Spacer()
-                NavigationLink {
-                    //
-                } label: {
-                    Text("이메일 찾기")
-                }
+                Divider()
+                    .frame(height: 16)
                 Spacer()
+                
                 NavigationLink {
-                    //
+                    ForgotPasswordView()
                 } label: {
                     Text("비밀번호 찾기")
                 }

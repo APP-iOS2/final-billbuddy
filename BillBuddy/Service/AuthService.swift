@@ -91,4 +91,13 @@ public class AuthStore {
             print("Error changePassword: \(error)")
         }
     }
+    
+    func sendEmailPasswordReset(email: String) async throws -> Bool {
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+            return true
+        } catch {
+            return false
+        }
+    }
 }
