@@ -51,21 +51,13 @@ struct SignUpView: View {
                     .autocapitalization(.none)
                     .frame(width: 351, height: 52)
                     .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? Color.error : Color.gray300, lineWidth: 2))
+                        .stroke(signUpStore.isEmailTextError ? Color.error : Color.gray300, lineWidth: 2))
                     .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? 0 : 12)
+                    .padding(.bottom, signUpStore.isEmailTextError ? 0 : 12)
                     .focused($isKeyboardUp)
                 
                 if signUpStore.isEmailTextError {
                     Text("정확한 이메일을 입력해주세요")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-                
-                if signUpStore.isEmailInUseError {
-                    Text("이미 가입한 이메일 입니다.")
                         .font(.caption03)
                         .foregroundColor(.error)
                         .padding(.leading, 3)
@@ -138,42 +130,38 @@ struct SignUpView: View {
             Group {
                 Button(action: {
                     isShowingProgressView = true
-
+                    
                     let isNameValid = signUpStore.signUpData.name.count >= 2
                     let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
-
-                    signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
-                        let isPasswordValid = signUpStore.signUpData.password.count >= 6
-                        let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
-                        let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
-                        let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
-                        let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
+                    let isPasswordValid = signUpStore.signUpData.password.count >= 6
+                    let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
+                    let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+                    let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
+                    let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
+                    
+                    if isNameValid && isEmailValid && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
+                        isShowingAlert = true
                         
-                        if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
-                            isShowingAlert = true
-                            
-                            Task {
-                                if await signUpStore.postSignUp() {
-                                    // Success
-                                } else {
-                                    print("실패")
-                                }
+                        Task {
+                            if await signUpStore.postSignUp() {
+                                
+                            } else {
+                                print("실패")
                             }
-                        } else {
-                            signUpStore.isNameTextError = !isNameValid
-                            signUpStore.isEmailTextError = !isEmailValid
-                            signUpStore.isEmailInUseError = !isEmailInUse
-                            signUpStore.isPasswordCountError = !isPasswordValid
-                            signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
-                            signUpStore.isPhoneNumError = !isPhoneNumValid
                         }
+                    } else {
+                        signUpStore.isNameTextError = !isNameValid
+                        signUpStore.isEmailTextError = !isEmailValid
+                        signUpStore.isPasswordCountError = !isPasswordValid
+                        signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
+                        signUpStore.isPhoneNumError = !isPhoneNumValid
                     }
                 }, label: {
                     Text("가입하기")
                         .font(.body02)
                         .foregroundColor(.white)
                         .frame(width: 351, height: 52)
-                        .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
+                        .background(Color.myPrimary)
                         .cornerRadius(12)
                 })
                 .disabled(!signUpStore.checkSignUp() ? true : false)

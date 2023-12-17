@@ -46,7 +46,9 @@ final class SignInStore: ObservableObject {
     }
     
     @MainActor
-    func deleteUser() async throws -> Int{
-        return try await AuthStore.shared.deleteUser()
+    func deleteUser() {
+        Task {
+            try await AuthStore.shared.deleteUser()
+        }
     }
 }

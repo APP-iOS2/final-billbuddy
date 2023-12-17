@@ -16,7 +16,6 @@ final class SignUpStore: ObservableObject {
     
     @Published var isNameTextError: Bool = false
     @Published var isEmailTextError: Bool = false
-    @Published var isEmailInUseError: Bool = false
     @Published var isPasswordUnCorrectError: Bool = false
     @Published var isPasswordCountError: Bool = false
     @Published var isPhoneNumError: Bool = false
@@ -41,17 +40,19 @@ final class SignUpStore: ObservableObject {
     }
     
     // 이메일 중복 검사
-    func emailCheck(email: String, completion: @escaping (Bool) -> Void) {
-        let userDB = Firestore.firestore().collection("User")
-        let query = userDB.whereField("email", isEqualTo: email)
-        
-        query.getDocuments() { (qs, err) in
-            if qs!.documents.isEmpty {
-                print("데이터 중복 안 됨 가입 진행 가능")
-                completion(true)
+    func checkEmailAvailability() {
+        Auth.auth().fetchSignInMethods(forEmail: signUpData.email) { methods, error in
+            if let error = error {
+                print("Error checking email availability: \(error.localizedDescription)")
+                return
+            }
+            
+            if methods == nil || methods?.isEmpty == true {
+                // 이메일이 사용 가능한 경우
+                self.isEmailValid = true
             } else {
-                print("데이터 중복 됨 가입 진행 불가")
-                completion(false)
+                // 이메일이 이미 사용 중인 경우
+                self.isEmailValid = false
             }
         }
     }

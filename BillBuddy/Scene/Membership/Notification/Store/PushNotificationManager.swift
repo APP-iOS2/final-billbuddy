@@ -6,30 +6,12 @@
 //
 
 import Foundation
-import FirebaseFirestore
 
 class PushNotificationManager {
-    static func sendPushNotification(toTravel travel: TravelCalculation, title: String, body: String, senderToken: String) {
-        if let serverKey = ServerKeyManager.loadServerKey() {
-            let db = Firestore.firestore()
-            let roomRef = db.collection("TravelCalculation").document(travel.id)
-            
-            let members = travel.members.filter { member in
-                return member.userId != nil && !member.reciverToken.isEmpty && member.userId != AuthStore.shared.userUid
-            }
-            
-            for member in members {
-                let receiverToken = member.reciverToken
-                
-                sendPushNotificationToToken(receiverToken, title: title, body: body, senderToken: senderToken, serverKey: serverKey)
-            }
-            print("member \(members)")
-        } else {
-            print("Failed to load server key.")
-        }
-    }
-    
-    static func sendPushNotificationToToken(_ token: String, title: String, body: String, senderToken: String, serverKey: String) {
+    static func sendPushNotification(title: String, body: String) {
+        let receiverFCM = "fVrQ-YApOkEAnXsjqoJPrb:APA91bF9kM2ioml9o0XCzDM7THy2L1zaqk28ySlQnGz7yqQSsfqZX4jnOkW2Jc1ASHSjnqKy0zsWnDmjPFGj3mGFXD_0-fVQliFWFoe9Yw5sfwA3S1p2q15QgtY_-4l9OZrHM9fNZcax"
+        let serverKey = "AAAAArtiVKU:APA91bHe859jtxmBznArhr7CQtgCfrj-ozXQeqZkXXKEMBwUt29jNUDDllZMDIIyGvp9FTpLd04R72FQEThYuqsiQmRnzxTiBxBl0Auh2naxwd6IvG-grCxwADigJtlBn5nzICo_uh2K"
+        
         let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -38,13 +20,10 @@ class PushNotificationManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let requestBody: [String: Any] = [
-            "to": token,
+            "to": receiverFCM,
             "notification": [
                 "title": title,
                 "body": body
-            ],
-            "data": [
-                "senderToken": senderToken
             ]
         ]
         

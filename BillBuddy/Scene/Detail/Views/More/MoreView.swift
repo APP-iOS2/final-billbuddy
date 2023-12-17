@@ -42,63 +42,36 @@ enum ListItem: String, CaseIterable {
 
 struct MoreView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var userTravelStore: UserTravelStore
-    @EnvironmentObject private var tabViewStore: TabViewStore
-    @EnvironmentObject private var travelDetailStore: TravelDetailStore
+
+    var travel: TravelCalculation
     @State var itemList: [ListItem] = ListItem.allCases
-    @State var isPresentedLeaveAlert: Bool = false
     
-    let travel: TravelCalculation
-
     var body: some View {
-        VStack {
-            Divider()
-                .padding(.bottom, 16)
-            ScrollView {
-                VStack {
-                    ForEach(ListItem.allCases, id: \.self) { item in
-                        NavigationLink {
-                            switch item {
-                            case .chat:
-                                ChattingRoomView(travel: travel)
-                                // case .editDate:
-                                // SpendingListView()
-                            case .mamberManagement:
-                                MemberManagementView(travel: travel)
-                                    .environmentObject(travelDetailStore)
-                            case .settledAccount:
-                                SettledAccountView()
-                            }
-                        } label: {
-                            MoreListCell(item: item)
+        Divider()
+            .padding(.bottom, 16)
+        ScrollView {
+            VStack {
+                ForEach(ListItem.allCases, id: \.self) { item in
+                    NavigationLink {
+                        switch item {
+                        case .chat:
+                            ChattingRoomView(travel: travel)
+//                        case .editDate:
+//                            SpendingListView()
+                        case .mamberManagement:
+                            MemberManagementView(travel: travel)
+                        case .settledAccount:
+                            SettledAccountView()
                         }
-                        .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-                    }
-                    Spacer()
-                }
-            }
-            Spacer()
-            Rectangle()
-                .frame(height: 83)
-                .foregroundStyle(Color.gray050)
-                .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
-                    Button {
-                        isPresentedLeaveAlert = true
-
                     } label: {
-                        HStack {
-                            Image(.exit)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                            Text("나가기")
-                                .foregroundStyle(Color.gray600)
-                                .font(Font.body04)
-                        }
+                        MoreListCell(item: item)
                     }
-                    .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden, edges: /*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
                 }
+                
+                Spacer()
+            }
         }
-        .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -118,22 +91,11 @@ struct MoreView: View {
                     .foregroundColor(Color.systemBlack)
             }
         }
-        .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
-            Button("머물기", role: .cancel) { }
-            Button("여행 떠나기", role: .destructive) {
-                userTravelStore.leaveTravel(travel: travel)
-                tabViewStore.poToRoow()
-            }
-
-        }
     }
 }
 
 #Preview {
     NavigationStack {
         MoreView(travel: .sampletravel)
-            .environmentObject(UserTravelStore())
-            .environmentObject(TabViewStore())
-            .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
     }
 }

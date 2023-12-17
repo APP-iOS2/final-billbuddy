@@ -26,7 +26,7 @@ struct SettlementExpenses {
     struct MemberPayment {
         var memberData: TravelCalculation.Member = TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)
         /// 총참여한 나온 금액
-        var totalParticipationAmount: Int = 0
+        var 총참여한나온금액: Int = 0
         /// 총개인 결제 금액
         var personaPayment: Int = 0
         /// 선금
@@ -34,8 +34,8 @@ struct SettlementExpenses {
         
         /// 최종 n/1 금액
         ///  - 시 받아야할 금액 / + 시 내야할 금액
-        var lastDividedAmount: Int {
-            totalParticipationAmount - personaPayment - advancePayment
+        var 최종n빵금액: Int {
+            총참여한나온금액 - personaPayment - advancePayment
         }
     }
 }

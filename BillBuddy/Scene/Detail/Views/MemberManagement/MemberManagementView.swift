@@ -12,8 +12,6 @@ import SwiftUI
 struct MemberManagementView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
-    @EnvironmentObject private var travelDetailStore: TravelDetailStore
-
     var travel: TravelCalculation
     @State private var isShowingAlert: Bool = false
     @State private var isShowingSaveAlert: Bool = false
@@ -140,10 +138,7 @@ struct MemberManagementView: View {
         .padding(.top, 3)
         .onAppear {
             if sampleMemeberStore.InitializedStore == false {
-                sampleMemeberStore.initStore(travel: travelDetailStore.travel)
-            }
-            travelDetailStore.listenTravelDate { travel in
-                sampleMemeberStore.initStore(travel: travelDetailStore.travel)
+                sampleMemeberStore.initStore(travel: self.travel)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -154,7 +149,6 @@ struct MemberManagementView: View {
                     if sampleMemeberStore.isSelectedMember {
                         self.isShowingSaveAlert = true
                     } else {
-                        travelDetailStore.stoplistening()
                         dismiss()
                     }
                 }, label: {
@@ -175,12 +169,10 @@ struct MemberManagementView: View {
             Alert(title: Text("변경사항을 저장하시겠습니까?"),
                   message: Text("뒤로가기 시 변경사항이 삭제됩니다."),
                   primaryButton: .destructive(Text("취소하고 나가기"), action: {
-                travelDetailStore.stoplistening()
                 dismiss()
             }),
                   secondaryButton: .default(Text("저장"), action: {
                 Task {
-                    travelDetailStore.stoplistening()
                     await sampleMemeberStore.saveMemeber()
                     dismiss()
                 }

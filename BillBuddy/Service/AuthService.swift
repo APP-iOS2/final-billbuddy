@@ -72,67 +72,20 @@ public class AuthStore {
         }
     }
     
-    func deleteUser() async throws -> Int {
+    func deleteUser() async throws {
         let user = Auth.auth().currentUser
-        
         do {
             try await user?.delete()
-            return 0
         } catch {
-            let error = error as NSError
-            return error.code
+            print("Error delete user: \(error)")
         }
     }
     
-    func checkCurrentPassword(password: String) async -> Bool {
-        let user = Auth.auth().currentUser
-        var credential: AuthCredential = EmailAuthProvider.credential(withEmail: user?.email ?? "", password: password)
-        do {
-            let authResult = try await user?.reauthenticate(with: credential)
-            return true
-        } catch {
-            print("Error Re-Auth -> \(error)")
-            return false
-        }
-    }
-    
-    func changePassword(password: String) async throws -> String{
+    func changePassword(password: String) async throws {
         do {
             try await Auth.auth().currentUser?.updatePassword(to: password)
-            return "비밀번호가 변경되었습니다"
         } catch {
-            let error = error as NSError
-            switch error {
-            case AuthErrorCode.weakPassword:
-                return "안전성이 낮은 비밀번호입니다"
-            case AuthErrorCode.operationNotAllowed:
-                return "사용이 중지된 계정입니다"
-            case AuthErrorCode.requiresRecentLogin:
-                return "인증이 만료되어 재로그인이 필요한 작업입니다"
-            default:
-                return "알 수 없는 오류가 발생하였습니다"
-            }
+            print("Error changePassword: \(error)")
         }
-    }
-    
-    func sendEmailPasswordReset(email: String) async throws -> Bool {
-        do {
-            Auth.auth().languageCode = "ko"
-            try await Auth.auth().sendPasswordReset(withEmail: email)
-            return true
-        } catch {
-            return false
-        }
-    }
-    
-    func checkCurrentUserProviderId() -> Bool {
-        guard let providerData = Auth.auth().currentUser?.providerData else { return false }
-        for providerInfo in providerData {
-            print("제공업체 정보 -> \(providerInfo.providerID)")
-            if providerInfo.providerID == "password" {
-                return true
-            }
-        }
-        return false
     }
 }

@@ -74,13 +74,12 @@ struct AddTravelButtonView: View {
                 }) {
                     Image(floatingButtonMenuStore.buttonImage)
                         .resizable()
-                        .frame(width: 60, height: 60)
+                        .frame(width: 56, height: 56)
                         .shadow(color: Color.gray.opacity(0.2), radius: 0, y: 5)
                         .animation(nil, value: UUID())
                     
                 }
                 .padding(.trailing, 12)
-                .padding(.bottom, 15)
                 
             } //MARK: HSTACK
             

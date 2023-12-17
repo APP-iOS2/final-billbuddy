@@ -20,7 +20,7 @@ struct MemeberAcountCell: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(member.memberData.name)
                     .font(.body04)
-                Text(member.lastDividedAmount.wonAndDecimal)
+                Text(member.최종n빵금액.wonAndDecimal)
                     .font(.body02)
             }
             .foregroundStyle(Color.systemBlack)

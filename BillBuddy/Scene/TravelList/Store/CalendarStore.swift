@@ -19,27 +19,21 @@ final class CalendarStore: ObservableObject {
     @Published var buttonFontColor = Color.gray600
     
     var weeks: [[Date]] {
+        calendar.firstWeekday = -5
         var weeks = [[Date]]()
 
         let components = calendar.dateComponents([.year, .month], from: date)
         if let firstDayOfMonth = calendar.date(from: components) {
-            let range = calendar.range(of: .weekOfMonth, in: .month, for: firstDayOfMonth)!
-            let weekCount = range.count
-
+            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
             var offsetComponent = DateComponents()
-            offsetComponent.day = -calendar.component(.weekday, from: firstDayOfMonth) + calendar.firstWeekday
-
+            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
             if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
-                for week in 0..<weekCount {
+                for week in 0..<6 {
                     var weekDays = [Date]()
-
                     for day in 0..<7 {
-                        if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth) {
+                        let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth)!
                             weekDays.append(date)
-                        } else {
-                            // Add nil for days outside the month
-                            weeks.append(weekDays)
-                        }
+                        
                     }
                     weeks.append(weekDays)
                 }
@@ -48,66 +42,32 @@ final class CalendarStore: ObservableObject {
 
         return weeks
     }
-
-    
-//    var weeks: [[Date]] {
-//        var weeks = [[Date]]()
-//
-//        let components = calendar.dateComponents([.year, .month], from: date)
-//        if let firstDayOfMonth = calendar.date(from: components) {
-//            let range = calendar.range(of: .weekOfMonth, in: .month, for: firstDayOfMonth)!
-//            let weekCount = range.count
-//
-//            var offsetComponent = DateComponents()
-//            offsetComponent.day = -calendar.component(.weekday, from: firstDayOfMonth) + calendar.firstWeekday
-//
-//            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
-//                for week in 0..<weekCount {
-//                    var weekDays = [Date]()
-//
-//                    for day in 0..<7 {
-//                        if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth),
-//                            calendar.component(.month, from: date) == calendar.component(.month, from: firstDayOfMonth) {
-//                            weekDays.append(date)
-//                        } else {
-//                            // Add placeholder dates for days outside the month
-//                            weekDays.append(Date(timeIntervalSince1970: 0))
-//                        }
-//                    }
-//                    weeks.append(weekDays)
-//                }
-//            }
-//        }
-//
-//        return weeks
-//    }
-
     
     
-//    var weeks: [[Date]] {
-//        calendar.firstWeekday = -5
-//        var weeks = [[Date]]()
-//        
-//        let components = calendar.dateComponents([.year, .month], from: date)
-//        if let firstDayOfMonth = calendar.date(from: components) {
-//            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
-//            var offsetComponent = DateComponents()
-//            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
-//            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
-//                for week in 0..<6 {
-//                    var weekDays = [Date]()
-//                    for day in 0..<7 {
-//                        let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth)!
-//                        weekDays.append(date)
-//                        
-//                    }
-//                    weeks.append(weekDays)
-//                }
-//            }
-//        }
-//        
-//        return weeks
-//    }
+    //    var weeks: [[Date]] {
+    //        calendar.firstWeekday = 1
+    //        var weeks = [[Date]]()
+    //
+    //        let components = calendar.dateComponents([.year, .month], from: date)
+    //        if let firstDayOfMonth = calendar.date(from: components) {
+    //            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
+    //            var offsetComponent = DateComponents()
+    //            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
+    //            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
+    //                for week in 0..<6 {
+    //                    var weekDays = [Date]()
+    //                    for day in 0..<7 {
+    //                        if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth) {
+    //                            weekDays.append(date)
+    //                        }
+    //                    }
+    //                    weeks.append(weekDays)
+    //                }
+    //            }
+    //        }
+    //
+    //        return weeks
+    //    }
     
     //    // 각 주의 날짜들을 반환
     //    var weeks: [[Date]] {
@@ -144,9 +104,9 @@ final class CalendarStore: ObservableObject {
         ["월", "화", "수", "목", "금", "토", "일"]
     }
     
-    //    init(_ currentDate: Date = Date()) {
-    //        date = currentDate
-    //    }
+//    init(_ currentDate: Date = Date()) {
+//        date = currentDate
+//    }
     
     // 날짜 선택
     func selectDay(_ day: Date) {
@@ -259,7 +219,7 @@ final class CalendarStore: ObservableObject {
 //    func startOfMonth(_ calendar: Calendar) -> Date {
 //        return calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self)))!
 //    }
-//
+//    
 //    // 해당 월의 첫 번째 주 반환
 //    func startOfWeek(_ week: Int, calendar: Calendar) -> Date {
 //        var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
@@ -267,7 +227,7 @@ final class CalendarStore: ObservableObject {
 //        components.weekday = calendar.firstWeekday
 //        return calendar.date(from: components)!
 //    }
-//
+//    
 //    func endOfMonth(calendar: Calendar) -> Date {
 //        let components = calendar.dateComponents([.year, .month], from: self)
 //        let startOfMonth = calendar.date(from: components)!

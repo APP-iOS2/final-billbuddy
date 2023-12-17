@@ -14,7 +14,7 @@ struct BillBuddyTabView: View {
 
     @StateObject private var floatingButtonMenuStore = FloatingButtonMenuStore()
     @EnvironmentObject private var userService: UserService
-    @EnvironmentObject private var tabViewStore: TabViewStore
+    
     
     init() {
         //        UITabBar.appearance().unselectedItemTintColor = UIColor(Color.gray900)
@@ -22,7 +22,7 @@ struct BillBuddyTabView: View {
     }
     
     var body: some View {
-        TabView(selection: $tabViewStore.selectedTab) {
+        TabView(selection: $selectedTab) {
             NavigationStack {
                 TravelListView(floatingButtonMenuStore: floatingButtonMenuStore)
             }
@@ -35,6 +35,7 @@ struct BillBuddyTabView: View {
                 Image(.hometap)
                     .renderingMode(.template)
                 Text("홈")
+                
             }
             
             .fullScreenCover(isPresented: $isShowingAdScreen, content: {

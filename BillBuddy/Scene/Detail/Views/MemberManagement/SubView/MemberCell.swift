@@ -42,9 +42,6 @@ struct MemberCell: View {
                         sampleMemeberStore.selectMember(member.id)
                         isShowingShareSheet = true
                     }
-                    if member.inviteState == .wating {
-                        sampleMemeberStore.cancelInvite(member.id)
-                    }
                 }
                 .frame(width: 80, height: 28)
                 .background(member.inviteState == .dummy ? Color.myPrimaryLight : Color.myGreenLight)

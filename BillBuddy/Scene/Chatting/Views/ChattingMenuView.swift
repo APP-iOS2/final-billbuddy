@@ -9,10 +9,6 @@ import SwiftUI
 
 struct ChattingMenuView: View {
     @Environment(\.dismiss) private var dismiss
-    @EnvironmentObject private var userTravelStore: UserTravelStore
-    @EnvironmentObject private var messageStore: MessageStore
-    @EnvironmentObject private var tabViewStore: TabViewStore
-    @State private var isPresentedLeaveAlert: Bool = false
     var travel: TravelCalculation
     
     var body: some View {
@@ -26,12 +22,6 @@ struct ChattingMenuView: View {
             Spacer()
             exitView
         }
-        .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
-        }
-        .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -54,7 +44,7 @@ struct ChattingMenuView: View {
                     .font(.title05)
                     .foregroundColor(.systemBlack)
                     .frame(alignment: .leading)
-                Text("\(travel.members.count)명 \(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
+                Text("\(travel.members.count)명 \(travel.startDate.toFormattedDate()) 개설")
                     .font(.body04)
                     .foregroundColor(.gray600)
             }
@@ -88,23 +78,13 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
-            
-            if let noticeExist = messageStore.travel.chatNotice {
-                ForEach(noticeExist.reversed().prefix(1), id: \.self) { notice in
-                    Text(notice.notice)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .lineLimit(6)
-                        .lineSpacing(3)
-                        .font(.body04)
-                        .foregroundColor(.gray700)
-                        .padding(.bottom, 50)
-                }
-            } else {
-                Text("등록된 공지가 없습니다.")
-                    .font(Font.body04)
-                    .foregroundColor(.gray500)
-                    .padding()
-            }
+            Text("공지사항입니다. 기차 출발 삼십분 전에는 꼬옥 도착하기로해요~ 아시겠어요????")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .lineLimit(6)
+                .lineSpacing(3)
+                .font(.body04)
+                .foregroundColor(.gray700)
+                .padding(.bottom, 50)
             Spacer()
         }
         .frame(minHeight: 100)
@@ -135,32 +115,35 @@ struct ChattingMenuView: View {
                 }
             }
             .padding(.bottom, 10)
-            
-            if let existImageList = messageStore.travel.chatImages {
-                LazyVGrid(columns: [
-                    GridItem(.flexible()),
-                    GridItem(.flexible()),
-                    GridItem(.flexible())
-                ]) {
-                    ForEach(existImageList.reversed().prefix(6), id: \.self) { image in
-                        AsyncImage(url: URL(string: image)) { img in
-                            img
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width:112, height: 112)
-                        } placeholder: {
-                            ProgressView()
-                                .frame(width:112, height: 112)
-                        }
-                    }
+            LazyVGrid(columns: [
+                GridItem(.adaptive(minimum: 100))
+            ], spacing: 12) {
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB37138E7-C45E-450E-B46C-26065E79155B.jpeg?alt=media&token=14272592-2a1f-4ffd-a392-dbb42cfa75ce")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
                 }
-            } else {
-                VStack {
-                    Text("등록된 사진이 없습니다.")
-                        .font(Font.body04)
-                        .foregroundColor(.gray500)
-                        .padding()
-                    Spacer()
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB745C0F1-33B6-4009-900A-C755491BEB17.jpeg?alt=media&token=b79b160a-9569-417d-a8a1-d74bef7b3a40")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
+                }
+                AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F4D336765-6D93-4220-9F74-27A862E16954.jpeg?alt=media&token=a34f9d7b-20e7-462b-9714-a4341ca9851b")) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:112, height: 112)
+                } placeholder: {
+                    ProgressView()
+                        .frame(width:112, height: 112)
                 }
             }
             Spacer()
@@ -170,40 +153,27 @@ struct ChattingMenuView: View {
     }
     
     private var exitView: some View {
-        Rectangle()
-            .frame(height: 83)
-            .foregroundStyle(Color.gray050)
-            .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
-                Button {
-                    isPresentedLeaveAlert = true
-
-                } label: {
-                    HStack {
-                        Image(.exit)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                        Text("나가기")
-                            .foregroundStyle(Color.gray600)
-                            .font(Font.body04)
-                    }
-                }
-                .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
-            }
-        .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
-            Button("머물기", role: .cancel) { }
-            Button("여행 떠나기", role: .destructive) {
-                userTravelStore.leaveTravel(travel: travel)
-                tabViewStore.poToRoow()
-            }
-
+        HStack(alignment: .bottom) {
+            Button(action: {
+                
+            }, label: {
+                Image(.exit)
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.gray600)
+                Text("나가기")
+                    .font(.body04)
+                    .foregroundColor(.gray600)
+            })
+            Spacer()
         }
+        .padding(16)
+        .frame(height: 83)
+        .frame(maxWidth: .infinity)
+        .background(Color.gray050)
     }
-        
 }
 
 #Preview {
     ChattingMenuView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
-        .environmentObject(UserTravelStore())
-        .environmentObject(MessageStore())
-        .environmentObject(TabViewStore())
 }

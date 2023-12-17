@@ -11,7 +11,6 @@ struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
-    @EnvironmentObject private var tabViewStore: TabViewStore
     
     var body: some View {
         VStack {
@@ -25,9 +24,6 @@ struct ChattingView: View {
                     )
             }
             Divider().padding(0)
-        }
-        .navigationDestination(isPresented: $tabViewStore.isPresentedChat) {
-            ChattingRoomView(travel: tabViewStore.seletedTravel)
         }
         .onAppear {
             tabBarVisivilyStore.showTabBar()
@@ -57,8 +53,9 @@ struct ChattingView: View {
     
     private var chattingItems: some View {
         ForEach(travelStore.travels) { travel in
-            Button {
-                tabViewStore.pushView(type: .chatting, travel: travel)
+            NavigationLink {
+                ChattingRoomView(travel: travel)
+
             } label: {
                 HStack {
                     Circle()

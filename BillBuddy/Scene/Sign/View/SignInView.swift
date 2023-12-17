@@ -14,13 +14,9 @@ struct SignInView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Group {
-                Text("간편하게 가입하고")
-                Text("서비스를 이용해보세요.")
-                    .padding(.bottom, 24)
-            }
-            .lineLimit(2)
-            .font(.title04)
+            Text("간편하게 가입하고\n서비스를 이용해보세요.")
+                .font(.title04)
+                .padding(.bottom, 24)
             VStack(spacing: 12) {
                 TextField("이메일",text: $signInStore.emailText)
                     .padding(16)
@@ -72,14 +68,15 @@ struct SignInView: View {
                 } label: {
                     Text("이메일 가입")
                 }
-                
                 Spacer()
-                Divider()
-                    .frame(height: 16)
-                Spacer()
-                
                 NavigationLink {
-                    ForgotPasswordView()
+                    //
+                } label: {
+                    Text("이메일 찾기")
+                }
+                Spacer()
+                NavigationLink {
+                    //
                 } label: {
                     Text("비밀번호 찾기")
                 }
@@ -88,13 +85,25 @@ struct SignInView: View {
             .font(.body04)
             .foregroundStyle(Color.systemBlack)
             .padding(.top, 20)
-            .padding(.bottom, 30)
+            .padding(.bottom, 77)
             
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 16) {
                 Text("SNS계정으로 로그인")
                     .font(.body02)
-                
-                GoogleSignIn()
+                Link(destination: URL(string: "https://google.com")!, label: {
+                    HStack{
+                        Image(.google)
+                        Spacer()
+                        Text("구글로 로그인")
+                            .font(.body02)
+                            .foregroundStyle(Color.systemBlack)
+                        Spacer()
+                    }
+                    .padding(20)
+                    .frame(width: 351, height: 52)
+                    .background(Color.gray050)
+                    .cornerRadius(12)
+                })
                 
                 Link(destination: URL(string: "https://naver.com")!, label: {
                     HStack{
@@ -111,8 +120,20 @@ struct SignInView: View {
                     .cornerRadius(12)
                 })
                 
-                AppleSignInView()
-                
+                Link(destination: URL(string: "https://apple.com")!, label: {
+                    HStack{
+                        Image(.apple)
+                        Spacer()
+                        Text("애플로 로그인")
+                            .font(.body02)
+                            .foregroundStyle(Color.white)
+                        Spacer()
+                    }
+                    .padding(20)
+                    .frame(width: 351, height: 52)
+                    .background(Color.systemBlack)
+                    .cornerRadius(12)
+                })
             }
         }
         .onTapGesture {

@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ChattingMenuDetailView: View {
-    @EnvironmentObject private var messageStore: MessageStore
     @Environment(\.dismiss) private var dismiss
     @State var selection: String
     
@@ -36,11 +35,6 @@ struct ChattingMenuDetailView: View {
                 }
             }
             .padding(.horizontal, 16)
-        }
-        .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -87,72 +81,69 @@ struct ChattingMenuDetailView: View {
     
     private var noticeList: some View {
         ScrollView {
-            if let noticeExist = messageStore.travel.chatNotice {
-                ForEach(noticeExist.reversed(), id: \.self) { notice in
-                    VStack(spacing: 3) {
-                        HStack {
-                            Text(notice.notice)
-                                .font(.body04)
-                                .foregroundColor(.systemBlack)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("\(notice.date.toFormattedYearandMonthandDay())")
-                                .font(.caption02)
-                                .foregroundColor(.gray600)
-                            Text(notice.name)
-                                .font(.caption02)
-                                .foregroundColor(.gray600)
-                            Spacer()
-                        }
+            ForEach(0..<1) { item in
+                VStack(spacing: 3) {
+                    HStack {
+                        Text("늦으면 버리고 갑니다.")
+                            .font(.body04)
+                            .foregroundColor(.systemBlack)
+                        Spacer()
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .frame(height: 64)
+                    HStack {
+                        Text("2023.10.20")
+                            .font(.caption02)
+                            .foregroundColor(.gray600)
+                        Text("윤지호")
+                            .font(.caption02)
+                            .foregroundColor(.gray600)
+                        Spacer()
+                    }
                 }
-            } else {
-                VStack {
-                    Text("등록된 공지가 없습니다.")
-                        .font(Font.body04)
-                        .foregroundColor(.gray500)
-                        .padding()
-                    Spacer()
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(height: 64)
             }
         }
     }
     
     private var photoList: some View {
         VStack {
-            if let existImageList = messageStore.travel.chatImages {
-                HStack {
-                    Text("\(existImageList.count)개")
-                        .font(.caption02)
-                        .foregroundColor(.gray600)
-                    Spacer()
-                }
-                .padding(.vertical, 3)
-                ScrollView {
-                    LazyVGrid(columns: columns) {
-                        ForEach(existImageList.reversed(), id: \.self) { image in
-                            AsyncImage(url: URL(string: image)) { img in
-                                img
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:112, height: 112)
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width:112, height: 112)
-                            }
-                        }
+            HStack {
+                Text("3개")
+                    .font(.caption02)
+                    .foregroundColor(.gray600)
+                Spacer()
+            }
+            .padding(.vertical, 3)
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB37138E7-C45E-450E-B46C-26065E79155B.jpeg?alt=media&token=14272592-2a1f-4ffd-a392-dbb42cfa75ce")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:112, height: 112)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width:112, height: 112)
                     }
-                }
-            } else {
-                VStack {
-                    Text("등록된 사진이 없습니다.")
-                        .font(Font.body04)
-                        .foregroundColor(.gray500)
-                        .padding()
-                    Spacer()
+                    AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2F3E720E57-2CEA-4CA1-A921-B0C4236EDBB5%2FB745C0F1-33B6-4009-900A-C755491BEB17.jpeg?alt=media&token=b79b160a-9569-417d-a8a1-d74bef7b3a40")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:112, height: 112)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width:112, height: 112)
+                    }
+                    AsyncImage(url: URL(string: "https://firebasestorage.googleapis.com:443/v0/b/billbuddy-6de01.appspot.com/o/chat%2FB8C13D17-5F29-4EAD-B725-D19499385248%2F4D336765-6D93-4220-9F74-27A862E16954.jpeg?alt=media&token=a34f9d7b-20e7-462b-9714-a4341ca9851b")) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:112, height: 112)
+                    } placeholder: {
+                        ProgressView()
+                            .frame(width:112, height: 112)
+                    }
+                    
                 }
             }
         }
@@ -161,5 +152,4 @@ struct ChattingMenuDetailView: View {
 
 #Preview {
     ChattingMenuDetailView(selection: "사진", travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
-        .environmentObject(MessageStore())
 }

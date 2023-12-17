@@ -36,23 +36,21 @@ class SampleMemeberStore: ObservableObject {
     
     var travel: TravelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     
-    @MainActor
     func initStore(travel: TravelCalculation) {
         self.travel = travel
         self.members = travel.members
         self.InitializedStore = true
     }
     
-    @MainActor
     func selectMember(_ id: String) {
         guard let index = members.firstIndex(where: { $0.id == id }) else { return }
         selectedmemberIndex = index
     }
     
-    @MainActor
     func saveMemeber() async {
         Task {
             do {
+                self.travel.updateContentDate = Date.now.timeIntervalSince1970
                 self.travel.members = members
                 try await FirestoreService.shared.saveDocument(collection: .travel, documentId: self.travel.id, data: self.travel)
                 
@@ -63,7 +61,6 @@ class SampleMemeberStore: ObservableObject {
         }
     }
     
-    @MainActor
     func addMember() {
         let newMemeber = TravelCalculation.Member(name: "인원\(members.count + 1)", advancePayment: 0, payment: 0)
         members.append(newMemeber)
@@ -71,7 +68,6 @@ class SampleMemeberStore: ObservableObject {
         print(isSelectedMember)
     }
     
-    @MainActor
     func removeMember(memberId: String) {
         guard let index = members.firstIndex(where: { $0.id == memberId }) else { return }
         guard members[index].userId != nil else { return }
@@ -79,20 +75,10 @@ class SampleMemeberStore: ObservableObject {
         isSelectedMember = true
     }
     
-    @MainActor
     func inviteMemberAndSave() async {
         members[selectedmemberIndex].isInvited = true
         await saveMemeber()
         isSelectedMember = false
-    }
-    
-    @MainActor
-    func cancelInvite(_ memberId: String) {
-        Task {
-            guard let index = members.firstIndex(where: { $0.id == memberId }) else { return }
-            members[index].isInvited = false
-            await saveMemeber()
-        }
     }
     
     func getURL(memberId: String) -> URL {
