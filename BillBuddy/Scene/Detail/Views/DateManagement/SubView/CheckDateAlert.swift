@@ -37,7 +37,7 @@ struct CheckDateModifier: ViewModifier {
             }
         }
         .animation(
-            isPresented ? .spring(response: 0.25) : .none,
+            isPresented ? .snappy(duration: 4, extraBounce: 0.9) : .none,
             value: isPresented
         )
     }
