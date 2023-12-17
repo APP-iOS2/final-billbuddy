@@ -22,22 +22,25 @@ struct ChattingRoomView: View {
     @State private var selectedPhoto: PhotosPickerItem? = nil
     @State private var imageData: Data?
     @State private var imagePath: String?
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
-        if messageStore.messages.isEmpty {
-            emptyChat
-        } else {
-            if messageStore.travel.chatNotice != nil {
-                chattingItem
-                    .padding(.top, 40)
-                    .overlay(alignment: .top) {
-                        noticeBar
-                    }
+        VStack {
+            if messageStore.messages.isEmpty {
+                emptyChat
             } else {
-                chattingItem
+                if messageStore.travel.chatNotice != nil {
+                    chattingItem
+                        .padding(.top, 40)
+                        .overlay(alignment: .top) {
+                            noticeBar
+                        }
+                } else {
+                    chattingItem
+                }
             }
+            chattingInputBar
         }
-        chattingInputBar
             .onAppear {
                 tabBarVisivilyStore.hideTabBar()
                 Task {
@@ -67,6 +70,9 @@ struct ChattingRoomView: View {
                         fatalError("\(failure)")
                     }
                 }
+            }
+            .onTapGesture {
+                isKeyboardUp = false
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
@@ -364,6 +370,7 @@ struct ChattingRoomView: View {
                         .padding()
                 } else {
                     TextField("내용을 입력해주세요", text: $inputText)
+                        .focused($isKeyboardUp)
                         .padding()
                 }
                 PhotosPicker(selection: $selectedPhoto, matching: .images) {
