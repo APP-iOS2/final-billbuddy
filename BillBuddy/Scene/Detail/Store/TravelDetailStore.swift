@@ -15,7 +15,7 @@ final class TravelDetailStore: ObservableObject {
     @Published var isFirstFetch: Bool = true
 
     var travelTump: TravelCalculation
-    let travelId: String
+    var travelId: String
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil
     
@@ -27,6 +27,11 @@ final class TravelDetailStore: ObservableObject {
     @MainActor
     func setTravel() {
         self.travel = travelTump
+    }
+    
+    func setTravel(travel: TravelCalculation) {
+        self.travelTump = travel
+        self.travelId = travel.id
     }
     
     func fetchTravel() {

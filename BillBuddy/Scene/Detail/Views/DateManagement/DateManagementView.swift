@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct DateManagementView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @State private var isPresentedSheet: Bool = false
     @State var travel: TravelCalculation
-    var paymentDates: [Date] = []
+    @State var paymentDates: [Date]
+    let entryViewtype: EntryViewType
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -46,6 +49,9 @@ struct DateManagementView: View {
                 .padding(.top, 16)
 
         }
+        .onAppear {
+            getPaymentDates()
+        }
         .modifier(
             DateManagementModifier(
                 isPresented: $isPresentedSheet,
@@ -77,11 +83,29 @@ struct DateManagementView: View {
             }
         }
     }
+    
+    func getPaymentDates()  {
+        if entryViewtype == .list {
+            Task {
+                do {
+                    let snapshot = try await Firestore.firestore()
+                        .collection(StoreCollection.travel.path).document(travel.id)
+                        .collection(StoreCollection.payment.path).getDocuments()
+                    
+                    let result = try snapshot.documents.map { try $0.data(as: Payment.self) }.map { $0.paymentDate.toDate() }
+                    self.paymentDates = result
+                    
+                } catch {
+                    print("false fetch payments - \(error)")
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     NavigationStack {
-        DateManagementView(travel: TravelCalculation.sampletravel)
+        DateManagementView(travel: TravelCalculation.sampletravel, paymentDates: [], entryViewtype: .list)
     }
     .environmentObject(UserTravelStore())
 }

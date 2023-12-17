@@ -14,10 +14,16 @@ struct TravelListView: View {
     @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @EnvironmentObject private var userService: UserService
     @EnvironmentObject private var tabViewStore: TabViewStore
+    @StateObject private var travelDetailStore: TravelDetailStore = TravelDetailStore(travel: .sampletravel)
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
+    @State private var selectedTravel: TravelCalculation = .sampletravel
+    
+    @State private var isPresentedDateView: Bool = false
+    @State private var isPresentedMemeberView: Bool = false
+    @State private var isPresentedSpendingView: Bool = false
 //    @Namespace var animation
     
     
@@ -79,6 +85,8 @@ struct TravelListView: View {
                                             Spacer()
                                             
                                             Button {
+                                                selectedTravel = travel
+                                                travelDetailStore.setTravel(travel: travel)
                                                 isShowingEditTravelView.toggle()
                                             } label: {
                                                 Image(.steps13)
@@ -87,8 +95,30 @@ struct TravelListView: View {
                                             }
                                             .padding(.trailing, 23)
                                             .sheet(isPresented: $isShowingEditTravelView) {
-                                                EditTravelSheetView()
-                                                    .presentationDetents([.height(250)])
+                                                EditTravelSheetView(
+                                                    isPresentedSheet: $isShowingEditTravelView,
+                                                    isPresentedDateView: $isPresentedDateView,
+                                                    isPresentedMemeberView: $isPresentedMemeberView,
+                                                    isPresentedSpendingView: $isPresentedSpendingView,
+                                                    travel: selectedTravel
+                                                )
+                                                .presentationDetents([.height(250)])
+                                            }
+                                            .navigationDestination(isPresented: $isPresentedDateView) {
+                                                DateManagementView(
+                                                    travel: travel,
+                                                    paymentDates: [],
+                                                    entryViewtype: .list
+                                                )
+                                            }
+                                            .navigationDestination(isPresented: $isPresentedMemeberView) {
+                                                MemberManagementView(
+                                                    travel: selectedTravel
+                                                )
+                                                .environmentObject(travelDetailStore)
+                                            }
+                                            .navigationDestination(isPresented: $isPresentedSpendingView) {
+                                                SpendingListView(entryViewtype: .list, travelId: selectedTravel.id)
                                             }
                                             
                                         }

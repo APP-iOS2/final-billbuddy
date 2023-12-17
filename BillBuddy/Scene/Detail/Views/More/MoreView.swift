@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+enum EntryViewType {
+    case list
+    case more
+}
+
 enum ListItem: String, CaseIterable {
     case chat
     case editDate
@@ -65,7 +70,8 @@ struct MoreView: View {
                             case .editDate:
                                 DateManagementView(
                                     travel: travelDetailStore.travel,
-                                    paymentDates: paymentStore.paymentDates
+                                    paymentDates: paymentStore.paymentDates, 
+                                    entryViewtype: .more
                                 )
                             case .mamberManagement:
                                 MemberManagementView(travel: travel)
