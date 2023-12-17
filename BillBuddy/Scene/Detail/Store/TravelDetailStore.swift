@@ -10,24 +10,30 @@ import Firebase
 import FirebaseFirestoreSwift
 
 final class TravelDetailStore: ObservableObject {
-    @Published var travel: TravelCalculation
+    @Published var travel: TravelCalculation = TravelCalculation.sampletravel
     @Published var isChangedTravel: Bool = false
     @Published var isFirstFetch: Bool = true
 
-    var travelId : String = ""
+    var travelTump: TravelCalculation
+    let travelId: String
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil
     
     init(travel: TravelCalculation) {
-        self.travel = travel
+        self.travelTump = travel
         self.travelId = travel.id
     }
     
+    @MainActor
+    func setTravel() {
+        self.travel = travelTump
+    }
+    
     func checkAndResaveToken() {
-        guard let index = travel.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
-        if travel.members[index].reciverToken != UserService.shared.reciverToken {
-            travel.members[index].reciverToken = UserService.shared.reciverToken
-            travel.updateContentDate = Date.now.timeIntervalSince1970
+        guard let index = travelTump.members.firstIndex(where: { $0.userId == AuthStore.shared.userUid }) else { return }
+        if travelTump.members[index].reciverToken != UserService.shared.reciverToken {
+            travelTump.members[index].reciverToken = UserService.shared.reciverToken
+            travelTump.updateContentDate = Date.now.timeIntervalSince1970
             do {
                 try Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(from: travel.self)
             } catch {
@@ -47,35 +53,83 @@ final class TravelDetailStore: ObservableObject {
         // - detele
     } 
     
-    // 리스닝
+    /// DetailView 리스닝
     func listenTravelDate() {
         self.listener = dbRef.document(travelId).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error retreiving collection: \(error)")
             }
-            
+            print("listenTravelDate1")
             do {
-                print("l => listener")
                 guard let snapshot = querySnapshot else { return }
-                print("2 => listener")
                 let travel = try snapshot.data(as: TravelCalculation.self)
-                print("3 => listener \(travel.members.count). \(travel.updateContentDate) => \(self.travel.updateContentDate)")
                 // 여행 변경사항이 있을 시
                 DispatchQueue.main.async {
                     if self.isFirstFetch {
                         self.travel = travel
                         return
                     }
+                    // 맴버가 바뀌었을시엔 바로 바꿔줌
+                    if travel.members != self.travel.members {
+                        self.travel = travel
+                    }
+                    // updateContentDate가 변경됐을 시엔
                     if travel.updateContentDate > self.travel.updateContentDate {
-                        // 30초뒤 다시 돌기시작 후 payment fetch하시겠습니까 버튼 활성화
                         self.travel = travel
                         self.isChangedTravel = true
                     } else {
                         self.isChangedTravel = false
                     }
+                    
                 }
             } catch {
-                print("decoding false")
+                print("travel Detail - decoding false")
+            }
+        }
+    }
+    
+    func settleAccount() {
+        dbRef.document(travelId).setData(
+            [
+                "isPaymentSettled": true
+            ], merge: true)
+        DispatchQueue.main.async {
+            self.travel.isPaymentSettled = true
+        }
+    }
+    
+    /// 인원관리뷰 리스닝
+    func listenTravelDate(callback: @escaping (TravelCalculation) -> Void) {
+        self.listener = dbRef.document(travelId).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error retreiving collection: \(error)")
+            }
+            print("listenTravelDate2")
+            do {
+                guard let snapshot = querySnapshot else { return }
+                let travel = try snapshot.data(as: TravelCalculation.self)
+                // 여행 변경사항이 있을 시
+                DispatchQueue.main.async {
+                    if self.isFirstFetch {
+                        self.travel = travel
+                    }
+                    // 맴버가 바뀌었을시엔 바로 바꿔줌
+                    if travel.members != self.travel.members {
+                        self.travel = travel
+                        callback(travel)
+                    }
+                    // updateContentDate가 변경됐을 시엔
+                    if travel.updateContentDate > self.travel.updateContentDate {
+                        self.travel = travel
+                        callback(travel)
+                        self.isChangedTravel = true
+                    } else {
+                        self.isChangedTravel = false
+                    }
+                    
+                }
+            } catch {
+                print("travel Detail - decoding false")
             }
         }
     }

@@ -29,7 +29,7 @@ final class FirestoreService {
     
     func saveDocument<T: Codable>(collection: StoreCollection, documentId: String, data: T) async throws {
         do {
-            try dbRef.collection(collection.rawValue).document(documentId).setData(from: data.self)
+            try dbRef.collection(collection.path).document(documentId).setData(from: data.self, merge: true)
         } catch {
             print("false saveDocument \(collection), \(error)")
             throw error
@@ -38,7 +38,7 @@ final class FirestoreService {
     
     func deleteDocument(collectionId: StoreCollection, documentId: String) async throws {
         do {
-            try await dbRef.collection(collectionId.rawValue).document(documentId).delete()
+            try await dbRef.collection(collectionId.path).document(documentId).delete()
         } catch {
             throw error
         }

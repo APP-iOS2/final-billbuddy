@@ -72,8 +72,7 @@ struct NativeAdView: UIViewRepresentable {
     @ObservedObject var nativeViewModel: NativeAdViewModel
     
     func makeUIView(context: Context) -> GADNativeAdView {
-        return
-        Bundle.main.loadNibNamed(
+        return Bundle.main.loadNibNamed(
             "NativeAdView",
             owner: nil,
             options: nil)?.first as! GADNativeAdView

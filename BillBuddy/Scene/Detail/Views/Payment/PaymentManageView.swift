@@ -24,8 +24,8 @@ struct PaymentManageView: View {
     @StateObject var locationManager = LocationManager()
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
-    @EnvironmentObject var paymentStore: PaymentStore
-    @EnvironmentObject var userTravelStore: UserTravelStore
+    @EnvironmentObject private var paymentStore: PaymentStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     
     @State var travelCalculation: TravelCalculation
@@ -35,15 +35,18 @@ struct PaymentManageView: View {
     @State private var searchAddress: String = ""
     @State private var selectedCategory: Payment.PaymentType?
     @State private var paymentDate: Date = Date.now
-    @State private var members: [TravelCalculation.Member] = []
     @State private var isShowingSelectTripSheet: Bool = false
     @State private var isShowingNoTravelAlert: Bool = false
     @State private var navigationTitleString: String = "지출 내역 추가"
     @State private var isShowingAlert: Bool = false
-    @State private var isSelectedDate: Bool = false
+    @State private var participants: [Payment.Participant] = []
+    @State private var isShowingMemberSheet: Bool = false
     
     @FocusState private var focusedField: PaymentFocusField?
     
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
     var body: some View {
         VStack(spacing: 0) {
             ScrollView {
@@ -150,7 +153,7 @@ struct PaymentManageView: View {
         }
         .alert(isPresented: $isShowingNoTravelAlert, content: {
             
-            return Alert(title: Text("생성된 여행이 없습니다"),
+            return Alert(title: Text(PaymentAlertText.noTravel),
                          dismissButton: .default(Text("확인"), action: { dismiss()}))
         })
         
@@ -167,23 +170,22 @@ struct PaymentManageView: View {
         Section {
             switch mode {
             case .add:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: .constant(nil), participants: $participants, isShowingMemberSheet: $isShowingMemberSheet, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
             case .edit:
-                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: $payment, focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(mode: .edit, travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: $payment, participants: $participants, isShowingMemberSheet: $isShowingMemberSheet, focusedField: $focusedField)
                     .onAppear {
                         if let payment = payment {
                             selectedCategory = payment.type
                             expandDetails = payment.content
                             priceString = String(payment.payment)
                             paymentDate = payment.paymentDate.toDate()
-                            isSelectedDate = true
                         }
                     }
             case .mainAdd:
-                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, members: $members, payment: .constant(nil), focusedField: $focusedField, isSelectedDate: $isSelectedDate)
+                FillInPaymentInfoView(travelCalculation: $travelCalculation, expandDetails: $expandDetails, priceString: $priceString, selectedCategory: $selectedCategory, paymentDate: $paymentDate, payment: .constant(nil), participants: $participants, isShowingMemberSheet: $isShowingMemberSheet, focusedField: $focusedField)
                     .onAppear {
                         paymentDate = travelCalculation.startDate.toDate()
                     }
@@ -252,17 +254,11 @@ struct PaymentManageView: View {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
                 isShowingSelectTripSheet = true
             }
-            else if !isSelectedDate {
-//                isShowingDateSheet = true
-            }
             else if selectedCategory == nil {
                 focusedField = .type
             }
             else if expandDetails.isEmpty {
                 focusedField = .content
-            }
-            else if members.isEmpty {
-//                isShowingMemberSheet = true
             }
             else if priceString.isEmpty {
                 focusedField = .price
@@ -275,37 +271,40 @@ struct PaymentManageView: View {
         })
         .alert(isPresented: $isShowingAlert, content: {
             if mode == .mainAdd && travelCalculation.travelTitle.isEmpty {
-                return Alert(title: Text("여행을 선택해주세요"))
-            }
-            else if !isSelectedDate {
-                return Alert(title: Text("지출 날짜를 선택해주세요"))
+                return Alert(title: Text(PaymentAlertText.selectTravel))
             }
             else if selectedCategory == nil {
-                return Alert(title: Text("분류를 선택해주세요"))
+                return Alert(title: Text(PaymentAlertText.selectCategory))
             }
             else if expandDetails.isEmpty {
-                return Alert(title: Text("내용을 입력해주세요"))
-            }
-            else if members.isEmpty {
-                return Alert(title: Text("이 지출에 포함되는 인원을 선택해주세요"))
+                focusedField = .content
+                return Alert(title: Text(PaymentAlertText.typeContent))
             }
             else if priceString.isEmpty {
-                return Alert(title: Text("쓴 돈을 입력해주세요"))
+                focusedField = .price
+                return Alert(title: Text(PaymentAlertText.price))
+            }
+            else if participants.isEmpty {
+                focusedField = .none
+                return Alert(title: Text(PaymentAlertText.selectMember), dismissButton: .default(Text("인원 추가하기"), action: {
+                    hideKeyboard()
+                    isShowingMemberSheet = true
+                }))
             }
             else {
                 switch(mode) {
                 case .add:
-                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.add), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         addPayment()
                         dismiss()
                     }))
                 case .mainAdd:
-                    return Alert(title: Text("추가하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.add), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         mainAddPayment()
                         dismiss()
                     }))
                 case .edit:
-                    return Alert(title: Text("수정하시겠습니까?"), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
+                    return Alert(title: Text(PaymentAlertText.edit), primaryButton: .cancel(Text("아니오")), secondaryButton: .default(Text("네"), action: {
                         editPayment()
                         dismiss()
                     }))
@@ -319,12 +318,6 @@ struct PaymentManageView: View {
 extension PaymentManageView {
     
     func addPayment() {
-        var participants: [Payment.Participant] = []
-        
-        for m in members {
-            participants.append(Payment.Participant(memberId: m.id, payment: m.payment))
-        }
-        
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         
@@ -334,30 +327,22 @@ extension PaymentManageView {
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
         }
         
-        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
-        
-        // TODO: ADD 하고 나면 날짜랑 카테고리 전체로 변경되도록 변경하기
     }
     
     func mainAddPayment() {
-        var participants: [Payment.Participant] = []
-        
-        for m in members {
-            participants.append(Payment.Participant(memberId: m.id, payment: m.payment))
-        }
-        
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
         userTravelStore.addPayment(travelCalculation: travelCalculation, payment: newPayment)
         
-        PushNotificationManager.sendPushNotification(title: "\(travelCalculation.travelTitle)채팅방", body: "지출이 추가 되었습니다.")
+        PushNotificationManager.sendPushNotification(toTravel: travelCalculation, title: "\(travelCalculation.travelTitle)여행방", body: "지출이 추가 되었습니다.", senderToken: "senderToken")
         NotificationStore().sendNotification(members: travelCalculation.members, notification: UserNotification(type: .travel, content: "지출이 추가되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travelCalculation.id)", addDate: Date(), isChecked: false))
     }
     
     func editPayment() {
         if let payment = payment {
-            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: payment.participants, paymentDate: paymentDate.timeIntervalSince1970)
+            let newPayment = Payment(id: payment.id, type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
             Task {
                 await paymentStore.editPayment(payment: newPayment)
                 settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
@@ -365,8 +350,8 @@ extension PaymentManageView {
         }
     }
 }
-
+//
 //#Preview {
-//    PaymentManageView(mode: .mainAdd, travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)])))
+//    PaymentManageView(mode: .mainAdd, travelCalculation: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [TravelCalculation.Member(name: "인원1", advancePayment: 0, payment: 0)]))
 //        .environmentObject(TabBarVisivilyStore())
 //}

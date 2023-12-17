@@ -11,23 +11,43 @@ import SwiftUI
 struct PaymentMainView: View {
     
     @Binding var selectedDate: Double
+    
     @ObservedObject var paymentStore: PaymentStore
-    @ObservedObject var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
+    
     @State private var isShowingSelectCategorySheet: Bool = false
+    @State private var isShowingDeletePayment: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
     @State private var isEditing: Bool = false
     @State private var selection = Set<String>()
+    @State private var forDeletePayments: [Payment] = []
     
     var body: some View {
         VStack(spacing: 0) {
             header
                 .onChange(of: selectedDate) { _ in
-                    paymentStore.filterDate(date: 0)
+//                    paymentStore.filterDate(date: selectedDate)
                     selectedCategory = nil
                 }
             paymentList
-            addPaymentButton
+            if !isEditing  {
+                addPaymentButton
+            }
+            else {
+                editingPaymentDeleteButton
+                    .alert(isPresented: $isShowingDeletePayment) {
+                        return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
+                            Task {
+                                await paymentStore.deletePayments(payment: forDeletePayments)
+                                settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                            }
+                            isEditing.toggle()
+                        }), secondaryButton: .cancel(Text("아니오"), action: {
+                            isEditing.toggle()
+                        }))
+                    }
+            }
         }
     }
     
@@ -36,22 +56,23 @@ struct PaymentMainView: View {
             
             /// 총 지출 >
             Group {
-                HStack {
+                HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 4, content: {
-                        HStack(spacing: 0) {
-                            Text("총 지출")
-                                .font(.body04)
-                                .foregroundStyle(Color.gray600)
-//                            NavigationLink {
-//                                SpendingListView()
-//                            } label: {
-//                                Text("총 지출")
-//                                    .font(.body04)
-//                                    .foregroundStyle(Color.gray600)
-//                                Image("chevron_right")
-//                                    .resizable()
-//                                    .frame(width: 24, height: 24)
-//                            }
+                        
+                        NavigationLink {
+                            SpendingListView()
+                                .environmentObject(travelDetailStore)
+                        } label: {
+                            HStack(spacing: 0) {
+                                Text("총 지출")
+                                    .font(.body04)
+                                    .padding(.trailing, 9)
+                                Image(.arrowForwardIos)
+                                    .resizable()
+                                    .frame(width: 11.2, height: 11.2)
+                            }
+                            .foregroundStyle(Color.gray600)
+
                         }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
@@ -64,8 +85,9 @@ struct PaymentMainView: View {
                     
                     NavigationLink {
                         SettledAccountView()
+                            .environmentObject(travelDetailStore)
                     } label: {
-                        Text("정산하기")
+                        Text(travelDetailStore.travel.isPaymentSettled ? "정산내역": "정산하기")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
@@ -91,10 +113,37 @@ struct PaymentMainView: View {
         }
     }
     
+    var editingPaymentDeleteButton: some View {
+        Button(action: {
+            isShowingDeletePayment = true
+        }, label: {
+            
+            HStack {
+                Spacer()
+                
+                Text("삭제하기")
+                    .font(.title05)
+                    .foregroundColor(.white)
+                
+                Spacer()
+            }
+            .padding(.top, 24)
+            .padding(.bottom, 24)
+        })
+        .background(Color.myPrimary)
+        
+    }
+    
     var addPaymentButton: some View {
         NavigationLink {
             PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                 .environmentObject(paymentStore)
+                .onDisappear {
+                    if travelDetailStore.isChangedTravel {
+                        selectedCategory = nil
+                        selectedDate = 0
+                    }
+                }
         } label: {
             HStack(spacing: 12) {
                 Spacer()
@@ -111,7 +160,6 @@ struct PaymentMainView: View {
             .padding(.top, 12)
             .padding(.bottom, 12)
         }
-        
         
         .background {
             RoundedRectangle(cornerRadius: 12)
@@ -142,7 +190,7 @@ struct PaymentMainView: View {
                 }
             }
             List {
-                PaymentListView(paymentStore: paymentStore, travelDetailStore: travelDetailStore)
+                PaymentListView(paymentStore: paymentStore, isEditing: $isEditing, forDeletePayments: $forDeletePayments)
                     .padding(.bottom, 12)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
@@ -204,20 +252,20 @@ struct PaymentMainView: View {
                 
                 Spacer()
                 
-//                Button(action: {
-//                    isEditing.toggle()
-//                }, label: {
-//                    if isEditing {
-//                        Text("편집 완료")
-//                            .font(.body04)
-//                            .foregroundStyle(Color.gray600)
-//                    }
-//                    else {
-//                        Text("편집")
-//                            .font(.body04)
-//                            .foregroundStyle(Color.gray600)
-//                    }
-//                })
+                Button(action: {
+                    isEditing.toggle()
+                }, label: {
+                    if isEditing {
+                        Text("편집 완료")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                    else {
+                        Text("편집")
+                            .font(.body04)
+                            .foregroundStyle(Color.gray600)
+                    }
+                })
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)

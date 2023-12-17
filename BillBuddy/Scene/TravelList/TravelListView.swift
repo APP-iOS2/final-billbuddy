@@ -13,23 +13,23 @@ struct TravelListView: View {
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject private var nativeAdViewModel: NativeAdViewModel
     @EnvironmentObject private var userService: UserService
+    @EnvironmentObject private var tabViewStore: TabViewStore
     @ObservedObject var floatingButtonMenuStore: FloatingButtonMenuStore
     
     @State private var selectedFilter: TravelFilter = .paymentInProgress
     @State private var isShowingEditTravelView = false
-    @Namespace var animation
+//    @Namespace var animation
     
     
     var body: some View {
         ZStack {
-            
             VStack(spacing: 0) {
                 HStack {
                     travelFilterButton
                     Spacer()
                 }
-                .padding(.leading, 16)
-               
+                .padding(.leading, 20)
+                
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         if let isPremium = userService.currentUser?.isPremium {
@@ -43,51 +43,70 @@ struct TravelListView: View {
                             }
                         }
                         if !userTravelStore.isFetching {
-                            ForEach(createTravelList()) { travel in
-                                NavigationLink {
-                                    // FIXME: 무한루프 -> 안에 들어가서 생성
-                                    DetailMainView(paymentStore: PaymentStore(travel: travel), travelDetailStore: TravelDetailStore(travel: travel))
-                                } label: {
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(travel.travelTitle)
-                                                .font(.body01)
-                                                .foregroundColor(.black)
-                                                .padding(.bottom, 5)
+                            //.onAppear 애니메이션 효과 때문에 문장이 접혔다 펴지는 문제가 있음
+                            if selectedFilter == .paymentInProgress && createTravelList().isEmpty {
+                                    Text("정산 중인 여행이 없습니다.")
+                                        .font(.body04)
+                                        .foregroundColor(.gray600)
+                                        .padding(.top, 270)
+                                        .lineLimit(1)
+                                        .lineSpacing(25)
+                            } else if selectedFilter == .paymentSettled && createTravelList().isEmpty {
+                                    Text("정산이 완료된 여행이 없습니다.")
+                                        .font(.body04)
+                                        .foregroundColor(.gray600)
+                                        .padding(.top, 270)
+                                        .lineLimit(1)
+                                        .lineSpacing(25)
+                            } else {
+                                ForEach(createTravelList()) { travel in
+                                    Button {
+                                        tabViewStore.pushView(type: .travel, travel: travel)
+                                    } label: {
+                                        HStack {
+                                            VStack(alignment: .leading) {
+                                                Text(travel.travelTitle)
+                                                    .font(.body01)
+                                                    .foregroundColor(.black)
+                                                    .padding(.bottom, 5)
+                                                
+                                                Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
+                                                    .font(.caption02)
+                                                    .foregroundColor(Color.gray600)
+                                            }
+                                            .padding(.leading, 26)
                                             
-                                            Text("\(travel.startDate.toFormattedYearandMonthandDay()) - \(travel.endDate.toFormattedYearandMonthandDay())")
-                                                .font(.caption02)
-                                                .foregroundColor(Color.gray600)
+                                            Spacer()
+                                            
+                                            Button {
+                                                isShowingEditTravelView.toggle()
+                                            } label: {
+                                                Image(.steps13)
+                                                    .resizable()
+                                                    .frame(width: 24, height: 24)
+                                            }
+                                            .padding(.trailing, 23)
+                                            .sheet(isPresented: $isShowingEditTravelView) {
+                                                EditTravelSheetView()
+                                                    .presentationDetents([.height(250)])
+                                            }
+                                            
                                         }
-                                        .padding(.leading, 26)
-                                        
-                                        Spacer()
-                                        
-                                        Button {
-                                            isShowingEditTravelView.toggle()
-                                        } label: {
-                                            Image(.steps13)
-                                                .resizable()
-                                                .frame(width: 24, height: 24)
-                                        }
-                                        .padding(.trailing, 23)
-                                        .sheet(isPresented: $isShowingEditTravelView) {
-                                            EditTravelSheetView()
-                                                .presentationDetents([.height(250)])
-                                        }
-                                        
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 94)
+                                        .background(Color.gray1000.cornerRadius(12))
                                     }
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 94)
-                                    .background(Color.gray1000.cornerRadius(12))
-                                }
-                                .padding(.top, 16)
-                                
-                            } //MARK: LIST
-                            .padding(.horizontal, 16)
+                                    .padding(.top, 12)
+                                    
+                                } //MARK: LIST
+                                .padding(.horizontal, 12)
+                            }
+                            
                         } else {
                             progressView
                         } //MARK: else
+                        
+                        
                     }
                     
                 } //MARK: SCROLLVIEW
@@ -96,6 +115,12 @@ struct TravelListView: View {
             } //MARK: VSTACK
             
         } //MARK: ZSTACK
+        .navigationDestination(isPresented: $tabViewStore.isPresentedDetail) {
+            DetailMainView(
+                paymentStore: PaymentStore(travel: tabViewStore.seletedTravel),
+                travelDetailStore: TravelDetailStore(travel: tabViewStore.seletedTravel)
+            )
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -145,13 +170,12 @@ struct TravelListView: View {
                     nativeAdViewModel.refreshAd()
                 }
             }
+            userTravelStore.fetchFirstInit()
             if !AuthStore.shared.userUid.isEmpty {
-                userTravelStore.fetchTravelCalculation()
                 if notificationStore.didFetched == false {
                     notificationStore.getUserUid()
                 }
             }
-            
         }
         .onDisappear {
             floatingButtonMenuStore.isDimmedBackground = false
@@ -201,7 +225,7 @@ extension TravelListView {
                         Capsule()
                             .foregroundColor(Color.myPrimary)
                             .frame(width: 100, height: 3)
-                            .matchedGeometryEffect(id: "filter", in: animation)
+//                            .matchedGeometryEffect(id: "filter", in: animation)
                     } else {
                         Capsule()
                             .foregroundColor(.gray100)
@@ -209,10 +233,10 @@ extension TravelListView {
                     }
                 }
                 .onTapGesture {
-                    withAnimation(Animation.default) {
+//                    withAnimation(Animation.default) {
                         self.selectedFilter = filter
                         print(self.selectedFilter)
-                    }
+//                    }
                 }
             }
         }
@@ -220,6 +244,7 @@ extension TravelListView {
     
     var progressView: some View {
         VStack(spacing: 0) {
+            
             ForEach(0..<userTravelStore.travelCount) { _ in
                 HStack {
                     VStack(alignment: .leading) {
@@ -254,15 +279,15 @@ extension TravelListView {
         .padding(.horizontal, 16)
     }
 }
-#Preview {
-    NavigationStack {
-        TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
-            .environmentObject(UserTravelStore())
-            .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
-            .environmentObject(UserService.shared)
-            .environmentObject(NativeAdViewModel())
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        TravelListView(floatingButtonMenuStore: FloatingButtonMenuStore())
+//            .environmentObject(UserTravelStore())
+//            .environmentObject(TabBarVisivilyStore())
+//            .environmentObject(NotificationStore())
+//            .environmentObject(UserService.shared)
+//            .environmentObject(NativeAdViewModel())
+//    }
+//}
 
 

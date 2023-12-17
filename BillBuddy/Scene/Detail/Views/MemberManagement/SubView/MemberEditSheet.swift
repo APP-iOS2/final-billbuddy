@@ -93,7 +93,9 @@ struct MemberEditSheet: View {
             .padding(.bottom, 54)
         }
         .onTapGesture {
-            isKeyboardUp = false
+            DispatchQueue.main.async {
+                self.isKeyboardUp = false
+            }
         }
     }
 }
