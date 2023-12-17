@@ -24,17 +24,25 @@ struct ChattingRoomView: View {
     @State private var imagePath: String?
     
     var body: some View {
-        //각 뷰 내에 스택들이 중복되는 것 같아 주석처리해둠
-        //        VStack {
         if messageStore.messages.isEmpty {
             emptyChat
         } else {
-            chattingItem
+            if messageStore.travel.chatNotice != nil {
+                chattingItem
+                    .padding(.top, 40)
+                    .overlay(alignment: .top) {
+                        noticeBar
+                    }
+            } else {
+                chattingItem
+            }
         }
         chattingInputBar
-        //        }
             .onAppear {
                 tabBarVisivilyStore.hideTabBar()
+                Task {
+                    await messageStore.getChatRoomData(travelCalculation: travel)
+                }
                 //처음에 leadingCount 수만큼 메시지 데이터 불러옴
                 messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
             }
@@ -98,6 +106,35 @@ struct ChattingRoomView: View {
                 .foregroundColor(.gray500)
                 .padding()
             Spacer()
+        }
+    }
+    
+    /// 채팅방 공지 바
+    private var noticeBar: some View {
+        NavigationLink {
+            ChattingMenuView(travel: travel)
+        } label: {
+            HStack {
+                Image(.announcementMegaphoneBlue)
+                    .resizable()
+                    .foregroundColor(.myPrimary)
+                    .frame(width: 24, height: 24)
+                    .padding(.leading, 12)
+                if let notice = messageStore.travel.chatNotice?.last?.notice {
+                    Text(notice)
+                        .font(Font.body04)
+                        .foregroundColor(.systemBlack)
+                        .padding(.vertical)
+                }
+                Spacer()
+            }
+            .frame(height: 40)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray050)
+            )
+            .padding(.horizontal)
         }
     }
     
