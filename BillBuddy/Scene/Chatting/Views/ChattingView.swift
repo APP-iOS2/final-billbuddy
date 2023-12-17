@@ -56,7 +56,7 @@ struct ChattingView: View {
     }
     
     private var chattingItems: some View {
-        ForEach(travelStore.travels) { travel in
+        ForEach(sortedList()) { travel in
             Button {
                 tabViewStore.pushView(type: .chatting, travel: travel)
             } label: {
@@ -106,6 +106,26 @@ struct ChattingView: View {
         }
         .padding(2)
     }
+    
+    private func sortedList() -> [TravelCalculation] {
+        let sortedItems = travelStore.travels.sorted { (firstTravel, secondTravel) in
+                if let firstDate = firstTravel.lastMessageDate, let secondDate = secondTravel.lastMessageDate {
+                    // 1. lastMessageDate 최신순
+                    return firstDate > secondDate
+                } else if firstTravel.lastMessageDate != nil {
+                    // firstTravel은 lastMessageDate가 있고, secondTravel은 없는 경우
+                    return true
+                } else if secondTravel.lastMessageDate != nil {
+                    // secondTravel은 lastMessageDate가 있고, firstTravel은 없는 경우
+                    return false
+                } else {
+                    // 2. startDate 빠른순
+                    return firstTravel.startDate < secondTravel.startDate
+                }
+            }
+        return sortedItems
+    }
+
 }
 
 #Preview {
