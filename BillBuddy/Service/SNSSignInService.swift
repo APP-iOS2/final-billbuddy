@@ -8,29 +8,26 @@
 import Foundation
 import FirebaseFirestore
 
-class GoogleSignInStore {
+class SNSSignInService {
     private let db = Firestore.firestore().collection("User")
     
-    func checkUserInFirestore(userId: String, user: User) async -> Bool {
-        let name: String = user.name
-        let email: String = user.email
+    static let shared = SNSSignInService()
+    
+    func checkUserInFirestore(userId: String) async -> Bool {
         do {
             let snapshot = try await db.document(userId).getDocument()
-            let data = try snapshot.data(as: User.self)
-            if data.name == name && data.email == email {
-                return false
-            }
+            let _ = try snapshot.data(as: User.self)
+            return true
         } catch {
-            print(error)
+            return false
         }
-        return true
     }
     
     func signInUser(userId: String, name: String, email: String, phoneNum: String) {
         let user: User = User(email: email, name: name, phoneNum: phoneNum, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
         
         Task {
-            if await checkUserInFirestore(userId: userId, user: user) {
+            if await !checkUserInFirestore(userId: userId) {
                 try await FirestoreService.shared.saveDocument(collection: .user, documentId: userId, data: user)
             }
             AuthStore.shared.userUid = userId

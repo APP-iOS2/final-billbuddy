@@ -12,8 +12,6 @@ import CryptoKit
 import AuthenticationServices
 
 class AppleSignInStore: NSObject {
-    
-    private var googleSignInStore: GoogleSignInStore = GoogleSignInStore()
     var current: String?
     
     let window: UIWindow?
@@ -113,7 +111,7 @@ extension AppleSignInStore: ASAuthorizationControllerDelegate {
                 let phoneNum = authResult?.user.phoneNumber ?? ""
                 print(userId)
                 print(phoneNum)
-                self.googleSignInStore.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
             }
         }
     }

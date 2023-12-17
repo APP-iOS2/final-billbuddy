@@ -94,7 +94,7 @@ struct SignInView: View {
                 Text("SNS계정으로 로그인")
                     .font(.body02)
                 
-                GoogleSignIn()
+                GoogleSignInView()
                 
                 Link(destination: URL(string: "https://naver.com")!, label: {
                     HStack{
