@@ -189,7 +189,9 @@ struct ChattingRoomView: View {
                                                     .cornerRadius(12)
                                                     .contextMenu {
                                                         Button {
-                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            Task {
+                                                                await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
@@ -284,7 +286,9 @@ struct ChattingRoomView: View {
                                                     .cornerRadius(12)
                                                     .contextMenu {
                                                         Button {
-                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            Task {
+                                                                await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
@@ -393,6 +397,8 @@ struct ChattingRoomView: View {
                         .resizable()
                         .frame(width: 24, height: 24)
                         .foregroundColor(.gray600)
+                            .foregroundColor(.gray600)
+                    }
                 }
                 .padding(.trailing, 10)
             }
@@ -415,7 +421,7 @@ struct ChattingRoomView: View {
                     isRead: false
                 )
                 messageStore.sendMessage(travelCalculation: travel, message: newMessage)
-                messageStore.updateChatRoomImages(travelCalculation: travel, message: newMessage)
+                await messageStore.updateChatRoomImages(travelCalculation: travel, message: newMessage)
                 imageData?.removeAll()
             }
         } else {
