@@ -393,11 +393,14 @@ struct ChattingRoomView: View {
                         inputText.removeAll()
                     }
                 } label: {
-                    Image(.mailSendEmailMessage35)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.gray600)
-                            .foregroundColor(.gray600)
+                    if !inputText.isEmpty || selectedPhoto != nil {
+                        Image(.sendMessageBlue)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    } else {
+                        Image(.mailSendEmailMessage35)
+                            .resizable()
+                            .frame(width: 24, height: 24)
                     }
                 }
                 .padding(.trailing, 10)
