@@ -87,41 +87,51 @@ struct ChattingMenuDetailView: View {
     
     private var noticeList: some View {
         ScrollView {
-            ForEach(0..<1) { item in
-                VStack(spacing: 3) {
-                    HStack {
-                        Text("늦으면 버리고 갑니다.")
-                            .font(.body04)
-                            .foregroundColor(.systemBlack)
-                        Spacer()
+            if let noticeExist = messageStore.travel.chatNotice {
+                ForEach(noticeExist.reversed(), id: \.self) { notice in
+                    VStack(spacing: 3) {
+                        HStack {
+                            Text(notice.notice)
+                                .font(.body04)
+                                .foregroundColor(.systemBlack)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("\(notice.date.toFormattedYearandMonthandDay())")
+                                .font(.caption02)
+                                .foregroundColor(.gray600)
+                            Text(notice.name)
+                                .font(.caption02)
+                                .foregroundColor(.gray600)
+                            Spacer()
+                        }
                     }
-                    HStack {
-                        Text("2023.10.20")
-                            .font(.caption02)
-                            .foregroundColor(.gray600)
-                        Text("윤지호")
-                            .font(.caption02)
-                            .foregroundColor(.gray600)
-                        Spacer()
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(height: 64)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: 64)
+            } else {
+                VStack {
+                    Text("등록된 공지가 없습니다.")
+                        .font(Font.body04)
+                        .foregroundColor(.gray500)
+                        .padding()
+                    Spacer()
+                }
             }
         }
     }
     
     private var photoList: some View {
         VStack {
-            HStack {
-                Text("3개")
-                    .font(.caption02)
-                    .foregroundColor(.gray600)
-                Spacer()
-            }
-            .padding(.vertical, 3)
-            ScrollView {
-                if let existImageList = messageStore.travel.chatImages {
+            if let existImageList = messageStore.travel.chatImages {
+                HStack {
+                    Text("\(existImageList.count)개")
+                        .font(.caption02)
+                        .foregroundColor(.gray600)
+                    Spacer()
+                }
+                .padding(.vertical, 3)
+                ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach(existImageList.reversed(), id: \.self) { image in
                             AsyncImage(url: URL(string: image)) { img in
@@ -135,14 +145,14 @@ struct ChattingMenuDetailView: View {
                             }
                         }
                     }
-                } else {
-                    VStack {
-                        Text("등록된 사진이 없습니다.")
-                            .font(Font.body04)
-                            .foregroundColor(.gray500)
-                            .padding()
-                        Spacer()
-                    }
+                }
+            } else {
+                VStack {
+                    Text("등록된 사진이 없습니다.")
+                        .font(Font.body04)
+                        .foregroundColor(.gray500)
+                        .padding()
+                    Spacer()
                 }
             }
         }

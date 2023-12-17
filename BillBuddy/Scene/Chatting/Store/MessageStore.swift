@@ -167,6 +167,21 @@ final class MessageStore: ObservableObject {
         }
     }
     
+    /// 채팅방 공지사항 업데이트
+    func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) {
+        guard let existMessage = message.message else { return }
+        let data = [ "notice" : existMessage,
+                     "name" : message.userName as Any,
+                     "date" : message.sendDate
+        ] as [String : Any]
+        Task {
+            try await db.document(travelCalculation.id)
+                .updateData([
+                    "chatNotice": FieldValue.arrayUnion([data])
+                ])
+        }
+    }
+    
     /// 채팅방 데이터 가져오기
     func getChatRoomData(travelCalculation: TravelCalculation) async {
         do {

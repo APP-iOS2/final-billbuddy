@@ -22,19 +22,30 @@ struct ChattingRoomView: View {
     @State private var selectedPhoto: PhotosPickerItem? = nil
     @State private var imageData: Data?
     @State private var imagePath: String?
+    @FocusState private var isKeyboardUp: Bool
     
     var body: some View {
-        //각 뷰 내에 스택들이 중복되는 것 같아 주석처리해둠
-        //        VStack {
-        if messageStore.messages.isEmpty {
-            emptyChat
-        } else {
-            chattingItem
+        VStack {
+            if messageStore.messages.isEmpty {
+                emptyChat
+            } else {
+                if messageStore.travel.chatNotice != nil {
+                    chattingItem
+                        .padding(.top, 40)
+                        .overlay(alignment: .top) {
+                            noticeBar
+                        }
+                } else {
+                    chattingItem
+                }
+            }
+            chattingInputBar
         }
-        chattingInputBar
-        //        }
             .onAppear {
                 tabBarVisivilyStore.hideTabBar()
+                Task {
+                    await messageStore.getChatRoomData(travelCalculation: travel)
+                }
                 //처음에 leadingCount 수만큼 메시지 데이터 불러옴
                 messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
             }
@@ -59,6 +70,9 @@ struct ChattingRoomView: View {
                         fatalError("\(failure)")
                     }
                 }
+            }
+            .onTapGesture {
+                isKeyboardUp = false
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
@@ -98,6 +112,35 @@ struct ChattingRoomView: View {
                 .foregroundColor(.gray500)
                 .padding()
             Spacer()
+        }
+    }
+    
+    /// 채팅방 공지 바
+    private var noticeBar: some View {
+        NavigationLink {
+            ChattingMenuView(travel: travel)
+        } label: {
+            HStack {
+                Image(.announcementMegaphoneBlue)
+                    .resizable()
+                    .foregroundColor(.myPrimary)
+                    .frame(width: 24, height: 24)
+                    .padding(.leading, 12)
+                if let notice = messageStore.travel.chatNotice?.last?.notice {
+                    Text(notice)
+                        .font(Font.body04)
+                        .foregroundColor(.systemBlack)
+                        .padding(.vertical)
+                }
+                Spacer()
+            }
+            .frame(height: 40)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray050)
+            )
+            .padding(.horizontal)
         }
     }
     
@@ -144,6 +187,19 @@ struct ChattingRoomView: View {
                                                     .padding(.vertical, 10)
                                                     .background(Color.lightBlue300)
                                                     .cornerRadius(12)
+                                                    .contextMenu {
+                                                        Button {
+                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                        } label: {
+                                                            HStack {
+                                                                Image(.announcementMegaphone)
+                                                                    .resizable()
+                                                                    .frame(width: 24, height: 24)
+                                                                Text("공지등록")
+                                                                    .font(.body01)
+                                                            }
+                                                        }
+                                                    }
                                             }
                                         }
                                     }
@@ -226,6 +282,19 @@ struct ChattingRoomView: View {
                                                     .padding(.vertical, 10)
                                                     .background(Color.gray050)
                                                     .cornerRadius(12)
+                                                    .contextMenu {
+                                                        Button {
+                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                        } label: {
+                                                            HStack {
+                                                                Image(.announcementMegaphone)
+                                                                    .resizable()
+                                                                    .frame(width: 24, height: 24)
+                                                                Text("공지등록")
+                                                                    .font(.body01)
+                                                            }
+                                                        }
+                                                    }
                                             }
                                         }
                                         VStack {
@@ -301,6 +370,7 @@ struct ChattingRoomView: View {
                         .padding()
                 } else {
                     TextField("내용을 입력해주세요", text: $inputText)
+                        .focused($isKeyboardUp)
                         .padding()
                 }
                 PhotosPicker(selection: $selectedPhoto, matching: .images) {
