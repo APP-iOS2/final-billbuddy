@@ -29,9 +29,16 @@ final class TravelDetailStore: ObservableObject {
         self.travel = travelTump
     }
     
+    @MainActor
     func setTravel(travel: TravelCalculation) {
         self.travelTump = travel
         self.travelId = travel.id
+    }
+    
+    @MainActor
+    func setTravelDates(_ startDate: Date, _ endDate: Date) {
+        self.travel.startDate = startDate.timeIntervalSince1970
+        self.travel.endDate = endDate.timeIntervalSince1970
     }
     
     func fetchTravel() {

@@ -110,6 +110,7 @@ struct TravelListView: View {
                                                     paymentDates: [],
                                                     entryViewtype: .list
                                                 )
+                                                .environmentObject(travelDetailStore)
                                             }
                                             .navigationDestination(isPresented: $isPresentedMemeberView) {
                                                 MemberManagementView(

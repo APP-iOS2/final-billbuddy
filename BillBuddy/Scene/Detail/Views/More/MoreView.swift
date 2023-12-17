@@ -73,6 +73,7 @@ struct MoreView: View {
                                     paymentDates: paymentStore.paymentDates, 
                                     entryViewtype: .more
                                 )
+                                .environmentObject(travelDetailStore)
                             case .mamberManagement:
                                 MemberManagementView(travel: travel)
                                     .environmentObject(travelDetailStore)
@@ -107,6 +108,12 @@ struct MoreView: View {
                     }
                     .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
                 }
+        }
+        .onAppear {
+            travelDetailStore.listenTravelDate()
+        }
+        .onDisappear {
+            travelDetailStore.stoplistening()
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden()

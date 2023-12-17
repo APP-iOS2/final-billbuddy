@@ -12,6 +12,7 @@ import FirebaseFirestore
 struct DateManagementView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @State private var isPresentedSheet: Bool = false
     @State var travel: TravelCalculation
     @State var paymentDates: [Date]
@@ -61,6 +62,7 @@ struct DateManagementView: View {
                 paymentDates: paymentDates,
                 saveAction: { startDate, endDate in
                     userTravelStore.setTravelDate(travelId: travel.id, startDate: startDate, endDate: endDate)
+                    travelDetailStore.setTravelDates(startDate, endDate)
                 }
             )
         )
@@ -108,4 +110,5 @@ struct DateManagementView: View {
         DateManagementView(travel: TravelCalculation.sampletravel, paymentDates: [], entryViewtype: .list)
     }
     .environmentObject(UserTravelStore())
+    .environmentObject(TravelDetailStore(travel: .sampletravel))
 }
