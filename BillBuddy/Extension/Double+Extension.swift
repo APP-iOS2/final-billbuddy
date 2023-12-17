@@ -33,6 +33,15 @@ extension Double {
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
     
+    func toFormattedMonthAndDate() -> String {
+        let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
+        
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.dateFormat = "MM.dd"
+        
+        return Self.dateFormatter.string(from: dateCreatedAt)
+    }
+    
     func toFormattedChatDate() -> String {
         let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         let distanceHour = Calendar.current.dateComponents([.hour], from: dateCreatedAt, to: Date()).hour

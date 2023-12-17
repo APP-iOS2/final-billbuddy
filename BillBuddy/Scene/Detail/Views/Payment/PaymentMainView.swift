@@ -60,7 +60,7 @@ struct PaymentMainView: View {
                     VStack(alignment: .leading, spacing: 4, content: {
                         
                         NavigationLink {
-                            SpendingListView()
+                            SpendingListView(entryViewtype: .more, travelId: nil)
                                 .environmentObject(travelDetailStore)
                         } label: {
                             HStack(spacing: 0) {

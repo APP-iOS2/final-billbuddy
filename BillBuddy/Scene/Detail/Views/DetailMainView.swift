@@ -148,6 +148,7 @@ struct DetailMainView: View {
                 NavigationLink {
                     MoreView(travel: travelDetailStore.travel)
                         .environmentObject(travelDetailStore)
+                        .environmentObject(paymentStore)
                 } label: {
                     Image("steps-1 3")
                         .resizable()

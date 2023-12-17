@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+enum EntryViewType {
+    case list
+    case more
+}
+
 enum ListItem: String, CaseIterable {
     case chat
-//    case editDate
+    case editDate
     case mamberManagement
     case settledAccount
     
@@ -17,12 +22,12 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "채팅"
-//        case .editDate:
-//            "날짜 수정"
+        case .editDate:
+            "날짜 관리"
         case .mamberManagement:
-            "인원관리"
+            "인원 관리"
         case .settledAccount:
-            "결산"
+            "정산"
         }
     }
     
@@ -30,8 +35,8 @@ enum ListItem: String, CaseIterable {
         switch self {
         case .chat:
             "chat-bubble-text-square1"
-//        case .editDate:
-//            "calendar-check-1"
+        case .editDate:
+            "calendar-check-1"
         case .mamberManagement:
             "user-single-neutral-male-4"
         case .settledAccount:
@@ -45,6 +50,7 @@ struct MoreView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var tabViewStore: TabViewStore
     @EnvironmentObject private var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var paymentStore: PaymentStore
     @State var itemList: [ListItem] = ListItem.allCases
     @State var isPresentedLeaveAlert: Bool = false
     
@@ -61,8 +67,13 @@ struct MoreView: View {
                             switch item {
                             case .chat:
                                 ChattingRoomView(travel: travel)
-                                // case .editDate:
-                                // SpendingListView()
+                            case .editDate:
+                                DateManagementView(
+                                    travel: travelDetailStore.travel,
+                                    paymentDates: paymentStore.paymentDates, 
+                                    entryViewtype: .more
+                                )
+                                .environmentObject(travelDetailStore)
                             case .mamberManagement:
                                 MemberManagementView(travel: travel)
                                     .environmentObject(travelDetailStore)
@@ -97,6 +108,12 @@ struct MoreView: View {
                     }
                     .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
                 }
+        }
+        .onAppear {
+            travelDetailStore.listenTravelDate()
+        }
+        .onDisappear {
+            travelDetailStore.stoplistening()
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarBackButtonHidden()
@@ -135,5 +152,6 @@ struct MoreView: View {
             .environmentObject(UserTravelStore())
             .environmentObject(TabViewStore())
             .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
+            .environmentObject(PaymentStore(travel: TravelCalculation.sampletravel))
     }
 }

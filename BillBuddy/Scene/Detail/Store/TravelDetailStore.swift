@@ -15,7 +15,7 @@ final class TravelDetailStore: ObservableObject {
     @Published var isFirstFetch: Bool = true
 
     var travelTump: TravelCalculation
-    let travelId: String
+    var travelId: String
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
     var listener: ListenerRegistration? = nil
     
@@ -27,6 +27,32 @@ final class TravelDetailStore: ObservableObject {
     @MainActor
     func setTravel() {
         self.travel = travelTump
+    }
+    
+    @MainActor
+    func setTravel(travel: TravelCalculation) {
+        self.travelTump = travel
+        self.travelId = travel.id
+    }
+    
+    @MainActor
+    func setTravelDates(_ startDate: Date, _ endDate: Date) {
+        self.travel.startDate = startDate.timeIntervalSince1970
+        self.travel.endDate = endDate.timeIntervalSince1970
+    }
+    
+    func fetchTravel() {
+        Task {
+            do {
+                let snapshot = try await dbRef.document(travelId).getDocument()
+                let travel = try snapshot.data(as: TravelCalculation.self)
+                DispatchQueue.main.async {
+                    self.travel = travel
+                }
+            } catch {
+                print("false fetch travel - \(error)")
+            }
+        }
     }
     
     func checkAndResaveToken() {
