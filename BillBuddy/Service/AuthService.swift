@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 import SwiftUI
 
 enum SignInCase {
@@ -86,9 +87,9 @@ public class AuthStore {
     
     func checkCurrentPassword(password: String) async -> Bool {
         let user = Auth.auth().currentUser
-        var credential: AuthCredential = EmailAuthProvider.credential(withEmail: user?.email ?? "", password: password)
+        let credential: AuthCredential = EmailAuthProvider.credential(withEmail: user?.email ?? "", password: password)
         do {
-            let authResult = try await user?.reauthenticate(with: credential)
+            let _ = try await user?.reauthenticate(with: credential)
             return true
         } catch {
             print("Error Re-Auth -> \(error)")
@@ -116,11 +117,16 @@ public class AuthStore {
     }
     
     func sendEmailPasswordReset(email: String) async throws -> Bool {
-        do {
-            Auth.auth().languageCode = "ko"
-            try await Auth.auth().sendPasswordReset(withEmail: email)
-            return true
-        } catch {
+        let documents = try await Firestore.firestore().collection("User").whereField("email", isEqualTo: email).getDocuments()
+        if !documents.isEmpty {
+            do {
+                Auth.auth().languageCode = "ko"
+                try await Auth.auth().sendPasswordReset(withEmail: email)
+                return true
+            } catch {
+                return false
+            }
+        } else {
             return false
         }
     }
