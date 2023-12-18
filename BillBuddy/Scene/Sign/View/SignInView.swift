@@ -11,6 +11,8 @@ struct SignInView: View {
     
     @ObservedObject var signInStore: SignInStore
     @FocusState private var isKeyboardUp: Bool
+    @State private var isShowingAlert: Bool = false
+    @State private var name: String = ""
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -118,11 +120,24 @@ struct SignInView: View {
         .onTapGesture {
             isKeyboardUp = false
         }
+        .onReceive(SNSSignInService.shared.$tempUser.receive(on: DispatchQueue.main), perform: { newValue in
+            if let newValue {
+                if newValue.name == "" {
+                    isShowingAlert.toggle()
+                } else {
+                    SNSSignInService.shared.signInUserFirstTime()
+                }
+            }
+        })
         .padding(24)
         .onAppear {
             signInStore.emailText = ""
             signInStore.passwordText = ""
         }
+        .textFieldAlert(isPresented: $isShowingAlert, textField: $name, message: "이름을 입력하세요", isDismiss: false, action: {
+            SNSSignInService.shared.tempUser?.name = name
+            SNSSignInService.shared.signInUserFirstTime()
+        })
     }
 }
 
