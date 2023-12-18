@@ -11,6 +11,7 @@ struct MemberCell: View {
     @ObservedObject var sampleMemeberStore: SampleMemeberStore
     @Binding var isShowingShareSheet: Bool
     var member: TravelCalculation.Member
+    let isPaymentSettled: Bool
     
     var onEditing: () -> Void
     var onRemove: () -> Void
@@ -54,18 +55,18 @@ struct MemberCell: View {
                 .padding(.trailing, 12)
             }
         }
-        
         .swipeActions(edge: .trailing) {
-            Button("삭제") {
-                onRemove()
+            if isPaymentSettled == false {
+                Button("삭제") {
+                    onRemove()
+                }
+                .tint(Color.error)
+                
+                Button("수정") {
+                    onEditing()
+                }
+                .tint(Color.gray500)
             }
-            .tint(Color.error)
-            
-            Button("수정") {
-                onEditing()
-            }
-            .tint(Color.gray500)
-            
         }
         .frame(height: 40)
         .padding([.top, .bottom], 12)
@@ -73,5 +74,5 @@ struct MemberCell: View {
 }
 
 #Preview {
-    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), onEditing: { print("edit") }, onRemove: { print("remove") })
+    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), isPaymentSettled: false, onEditing: { print("edit") }, onRemove: { print("remove") })
 }

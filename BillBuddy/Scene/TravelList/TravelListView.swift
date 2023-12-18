@@ -85,8 +85,8 @@ struct TravelListView: View {
                                             Spacer()
                                             
                                             Button {
-                                                selectedTravel = travel
                                                 travelDetailStore.setTravel(travel: travel)
+                                                selectedTravel = travel
                                                 isShowingEditTravelView.toggle()
                                             } label: {
                                                 Image(.steps13)
@@ -119,7 +119,9 @@ struct TravelListView: View {
                                                 .environmentObject(travelDetailStore)
                                             }
                                             .navigationDestination(isPresented: $isPresentedSpendingView) {
-                                                SpendingListView(entryViewtype: .list, travelId: selectedTravel.id)
+                                                SettledAccountView(entryViewtype: .list)
+                                                    .environmentObject(travelDetailStore)
+
                                             }
                                             
                                         }
