@@ -47,8 +47,8 @@ struct ForgotPasswordView: View {
                         self.firstLineMessage = "\(email)로 메일이 발송되었어요"
                         self.secondLineMessage = "메일에 기재된 링크를 클릭하여 변경해주세요"
                     } else {
-                        self.firstLineMessage = "알 수 없는 오류가 발생했습니다"
-                        self.secondLineMessage = "잠시 후 다시 시도해주세요"
+                        self.firstLineMessage = "가입된 이메일이 아니거나"
+                        self.secondLineMessage = "알 수 없는 오류가 발생했습니다"
                     }
                     isShowingAlert.toggle()
                 }
