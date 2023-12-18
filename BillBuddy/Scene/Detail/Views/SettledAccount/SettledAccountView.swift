@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct SettledAccountView: View {
     @Environment(\.dismiss) private var dismiss
@@ -15,11 +17,30 @@ struct SettledAccountView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     
     @State private var isPresentedAlert: Bool = false
+    var entryViewtype: EntryViewType
     
     func settleAction(isSettle: Bool) {
         travelDetailStore.setIsPaymentSettled(isSettle: isSettle)
         dismiss()
         userTravelStore.fetchTravelCalculation()
+    }
+    
+    func fetchPayments() {
+        if entryViewtype == .list {
+            Task {
+                do {
+                    let snapshot = try await Firestore.firestore()
+                        .collection(StoreCollection.travel.path).document(travelDetailStore.travelId)
+                        .collection(StoreCollection.payment.path).getDocuments()
+                    
+                    let result = try snapshot.documents.map { try $0.data(as: Payment.self) }
+                    settlementExpensesStore.setSettlementExpenses(payments: result, members: travelDetailStore.travel.members)
+                    
+                } catch {
+                    print("false fetch payments - \(error)")
+                }
+            }
+        }
     }
     
     var body: some View {
@@ -93,6 +114,9 @@ struct SettledAccountView: View {
                 .padding(.bottom, 5)
             }
         }
+        .onAppear {
+            fetchPayments()
+        }
         .alert(isPresented: $isPresentedAlert) {
             Alert(title: Text("정산"),
                   message: Text(travelDetailStore.travel.isPaymentSettled ? "다시 여행을 시작하시겠습니까?" : "최종 정산이 완료되었습니까?"),
@@ -123,13 +147,15 @@ struct SettledAccountView: View {
             }
         }
     }
+    
+    
 }
 
 #Preview {
     NavigationStack {
-        SettledAccountView()
+        SettledAccountView(entryViewtype: .more)
             .environmentObject(SettlementExpensesStore())
-            .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
+            .environmentObject(TravelDetailStore(travel: .sampletravel))
             .environmentObject(UserTravelStore())
     }
     

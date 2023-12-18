@@ -84,7 +84,7 @@ struct PaymentMainView: View {
                     Spacer()
                     
                     NavigationLink {
-                        SettledAccountView()
+                        SettledAccountView(entryViewtype: .more)
                             .environmentObject(travelDetailStore)
                     } label: {
                         Text(travelDetailStore.travel.isPaymentSettled ? "정산내역": "정산하기")

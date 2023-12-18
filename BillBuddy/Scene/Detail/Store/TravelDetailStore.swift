@@ -32,6 +32,7 @@ final class TravelDetailStore: ObservableObject {
     @MainActor
     func setTravel(travel: TravelCalculation) {
         self.travelTump = travel
+        self.travel = travel
         self.travelId = travel.id
     }
     
