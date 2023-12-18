@@ -120,6 +120,8 @@
 		D279D1142ACF0F0D0087712F /* SignUpData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1132ACF0F0D0087712F /* SignUpData.swift */; };
 		D279D1182ACFE6670087712F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D279D1172ACFE6670087712F /* UserService.swift */; };
 		D2913E992B2F41CE00B373B1 /* TextFieldAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2913E982B2F41CE00B373B1 /* TextFieldAlertView.swift */; };
+		D2913E9B2B30391D00B373B1 /* TextFieldAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2913E9A2B30391D00B373B1 /* TextFieldAlert.swift */; };
+		D2913E9D2B3044EC00B373B1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2913E9C2B3044EC00B373B1 /* GoogleService-Info.plist */; };
 		D2940EF72AFFBAED00E74B0F /* GoogleSignInModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2940EF62AFFBAED00E74B0F /* GoogleSignInModel.swift */; };
 		D29BBF7F2AFFAE56000120CD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = D29BBF7E2AFFAE56000120CD /* GoogleSignIn */; };
 		D29BBF812AFFAE56000120CD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D29BBF802AFFAE56000120CD /* GoogleSignInSwift */; };
@@ -260,6 +262,8 @@
 		D279D1132ACF0F0D0087712F /* SignUpData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpData.swift; sourceTree = "<group>"; };
 		D279D1172ACFE6670087712F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D2913E982B2F41CE00B373B1 /* TextFieldAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlertView.swift; sourceTree = "<group>"; };
+		D2913E9A2B30391D00B373B1 /* TextFieldAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlert.swift; sourceTree = "<group>"; };
+		D2913E9C2B3044EC00B373B1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D2940EF62AFFBAED00E74B0F /* GoogleSignInModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInModel.swift; sourceTree = "<group>"; };
 		D29BBF862AFFB3A9000120CD /* GoogleSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInView.swift; sourceTree = "<group>"; };
 		D2A8B6DF2ADE481800A469D7 /* AgreementCheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementCheckButton.swift; sourceTree = "<group>"; };
@@ -549,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
+				D2913E9C2B3044EC00B373B1 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -559,6 +564,7 @@
 			children = (
 				2766480D2ABD5509000F8A10 /* Custom.swift */,
 				FFBA42A32B2C9A9400915D2F /* MessageAlertView.swift */,
+				D2913E9A2B30391D00B373B1 /* TextFieldAlert.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1035,6 +1041,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2913E9D2B3044EC00B373B1 /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
@@ -1145,6 +1152,7 @@
 				02C949972AD7D90300DFF9D4 /* CalendarStore.swift in Sources */,
 				276648112ABD5549000F8A10 /* Color+Extension.swift in Sources */,
 				022B2EED2ADD394F001B8C4D /* EditTravelSheetView.swift in Sources */,
+				D2913E9B2B30391D00B373B1 /* TextFieldAlert.swift in Sources */,
 				FFFFF4212B2F019F0040B72B /* GoogleSIgnInStore.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
 				D26894172B2AF45400D37357 /* AppleSignInStore.swift in Sources */,
