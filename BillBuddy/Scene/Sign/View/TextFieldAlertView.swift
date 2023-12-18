@@ -7,18 +7,30 @@
 
 import SwiftUI
 
-struct NameTextAllertView: View {
+struct TextFieldAlertView: View {
+    @Environment(\.dismiss) private var dismiss
     @Binding var isPresented: Bool
     @ObservedObject var signUpStore: SignUpStore
     
     var body: some View {
         VStack {
-            TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
-                .padding(16)
-                .background(RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray300, lineWidth: 1))
-                .font(.body04)
-                .padding(.bottom, 20)
+            
+            Spacer()
+            
+            Group {
+                Text("이름을 입력 해주세요.")
+                    .multilineTextAlignment(.center)
+                
+                TextField("이름", text: $signUpStore.signUpData.name)
+                    .padding(16)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 52)
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.gray300, lineWidth: 1))
+                    .padding(.bottom, 8)
+            }
+            .padding(.bottom, 12)
+            .font(.body04)
             
             Button(action: {
                 isPresented.toggle()
@@ -42,5 +54,5 @@ struct NameTextAllertView: View {
 }
 
 #Preview {
-    NameTextAllertView(isPresented: .constant(true), signUpStore: SignUpStore())
+    TextFieldAlertView(isPresented: .constant(true), signUpStore: SignUpStore())
 }
