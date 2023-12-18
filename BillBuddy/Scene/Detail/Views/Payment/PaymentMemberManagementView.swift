@@ -214,28 +214,24 @@ struct PaymentMemberManagementView: View {
         VStack {
             memberSheet
             
-            Button(action: {
+            Button {
                 participants = []
                 for member in tempMembers {
                     participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: (Int(priceString) ?? 0) / tempMembers.count, memo: ""))
                 }
                 members = tempMembers
                 isShowingMemberSheet = false
-            }, label: {
-                HStack {
-                    Spacer()
-                    Text("인원 추가")
-                        .font(.body02)
-                        .padding(.top, 16)
-                        .padding(.bottom, 16)
-                    Spacer()
-                }
-            })
-            .buttonStyle(.borderedProminent)
-            .padding(.leading, 31)
-            .padding(.trailing, 31)
-            .frame(height: 52)
+            } label: {
+                Text("인원 추가")
+                    .font(Font.body02)
+            }
+            .frame(width: 332, height: 52)
+            .background(Color.myPrimary)
+            .cornerRadius(12)
+            .foregroundColor(.white)
+            .padding(.bottom, 54)
         }
+        .ignoresSafeArea(.all, edges: .bottom)
     }
     var editPaymentMember: some View {
         VStack(spacing: 0) {
