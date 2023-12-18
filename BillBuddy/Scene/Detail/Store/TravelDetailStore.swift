@@ -13,7 +13,7 @@ final class TravelDetailStore: ObservableObject {
     @Published var travel: TravelCalculation = TravelCalculation.sampletravel
     @Published var isChangedTravel: Bool = false
     @Published var isFirstFetch: Bool = true
-
+    
     var travelTump: TravelCalculation
     var travelId: String
     let dbRef = Firestore.firestore().collection(StoreCollection.travel.path)
@@ -37,11 +37,13 @@ final class TravelDetailStore: ObservableObject {
     
     @MainActor
     func setTravelDates(_ startDate: Date, _ endDate: Date) {
+        if travel.isPaymentSettled == true { return }
         self.travel.startDate = startDate.timeIntervalSince1970
         self.travel.endDate = endDate.timeIntervalSince1970
     }
     
     func fetchTravel() {
+        if travel.isPaymentSettled == true { return }
         Task {
             do {
                 let snapshot = try await dbRef.document(travelId).getDocument()
@@ -70,6 +72,7 @@ final class TravelDetailStore: ObservableObject {
     
     // 해당 여행에 updateDate 최신화
     func saveUpdateDate() {
+        if travel.isPaymentSettled == true { return }
         Task {
             try await Firestore.firestore().collection(StoreCollection.travel.path).document(self.travelId).setData(["updateContentDate":Date.now.timeIntervalSince1970], merge: true)
         }
@@ -77,10 +80,11 @@ final class TravelDetailStore: ObservableObject {
         // - save
         // - edit
         // - detele
-    } 
+    }
     
     /// DetailView 리스닝
     func listenTravelDate() {
+        if travel.isPaymentSettled == true { return }
         self.listener = dbRef.document(travelId).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error retreiving collection: \(error)")
@@ -114,18 +118,20 @@ final class TravelDetailStore: ObservableObject {
         }
     }
     
-    func settleAccount() {
+    func setIsPaymentSettled(isSettle: Bool) {
         dbRef.document(travelId).setData(
             [
-                "isPaymentSettled": true
+                "isPaymentSettled": isSettle
             ], merge: true)
         DispatchQueue.main.async {
-            self.travel.isPaymentSettled = true
+            self.travel.isPaymentSettled = isSettle
         }
     }
+
     
     /// 인원관리뷰 리스닝
     func listenTravelDate(callback: @escaping (TravelCalculation) -> Void) {
+        if travel.isPaymentSettled == true { return }
         self.listener = dbRef.document(travelId).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error retreiving collection: \(error)")
