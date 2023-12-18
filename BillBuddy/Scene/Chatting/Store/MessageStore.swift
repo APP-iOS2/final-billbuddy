@@ -157,28 +157,31 @@ final class MessageStore: ObservableObject {
     }
     
     /// 채팅방 사이드메뉴 이미지 배열 업데이트
-    func updateChatRoomImages(travelCalculation: TravelCalculation, message: Message) {
+    func updateChatRoomImages(travelCalculation: TravelCalculation, message: Message) async {
         guard let imageExist = message.imageString else { return }
-        Task {
+        do {
             try await db.document(travelCalculation.id)
                 .updateData([
                     "chatImages": FieldValue.arrayUnion([imageExist])
                 ])
+        } catch {
+            print("failed to update image list \(error)")
         }
     }
     
     /// 채팅방 공지사항 업데이트
-    func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) {
+    func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) async {
         guard let existMessage = message.message else { return }
         let data = [ "notice" : existMessage,
-                     "name" : message.userName as Any,
+                     "name" : message.userName ?? "이름없음",
                      "date" : message.sendDate
         ] as [String : Any]
-        Task {
-            try await db.document(travelCalculation.id)
-                .updateData([
+        do {
+            try await db.document(travelCalculation.id).updateData([
                     "chatNotice": FieldValue.arrayUnion([data])
                 ])
+        } catch {
+            print("failed to update notice \(error)")
         }
     }
     
