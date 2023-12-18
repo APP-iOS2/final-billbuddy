@@ -87,5 +87,5 @@ struct TravelCalculation: Identifiable, Codable {
         }
     }
     
-    static let sampletravel = TravelCalculation(id: "F92969E9-4F81-4F7E-A41D-86082C8F35FE", hostId: "UjxYzXDaALUqPKuDPL8kbJrYCml2", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
+    static let sampletravel = TravelCalculation(id: "273202B9-5ABD-4FC4-823C-41DBA038CC68", hostId: "UjxYzXDaALUqPKuDPL8kbJrYCml2", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
 }

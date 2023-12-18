@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct SpendingListView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
-    @EnvironmentObject private var travelDetailStore: TravelDetailStore
     
     @State private var isPresentedCustomAlert: Bool = false
     @State private var selectedType: String = ""
     @State private var paymentsOfType: [Payment] = []
+    let entryViewtype: EntryViewType
+    let travelId: String?
     
     private let allCase = SpendingType.allCases
     
@@ -62,16 +65,6 @@ struct SpendingListView: View {
                         .frame(width: 24, height: 24)
                 }
             }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    MoreView(travel: travelDetailStore.travel)
-                        .environmentObject(travelDetailStore)
-                } label: {
-                    Image("steps-1 3")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                }
-            }
             ToolbarItem(placement: .principal) {
                 Text("자세히보기")
                     .font(.title05)
@@ -101,12 +94,30 @@ struct SpendingListView: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
+    
+    func fetchPayments() {
+        if entryViewtype == .list {
+            Task {
+                do {
+                    guard let travelId else { return }
+                    let snapshot = try await Firestore.firestore()
+                        .collection(StoreCollection.travel.path).document(travelId)
+                        .collection(StoreCollection.payment.path).getDocuments()
+                    
+                    let result = try snapshot.documents.map { try $0.data(as: Payment.self) }
+                    self.paymentsOfType = result
+                    
+                } catch {
+                    print("false fetch payments - \(error)")
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     NavigationStack {
-        SpendingListView()
+        SpendingListView(entryViewtype: .more, travelId: nil)
             .environmentObject(SettlementExpensesStore())
-            .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
     }
 }

@@ -30,10 +30,9 @@ final class InvitTravelService: ObservableObject {
     static let shared: InvitTravelService = InvitTravelService()
     private init() { }
 
-    let dbRef = Firestore.firestore()
-    var pushData: PushData? = nil
+    private let dbRef = Firestore.firestore()
+    private var pushData: PushData? = nil
     
-    /// DeepLink - openUrl 로 진입 시
     private func transformUrl(url: URL) -> PushData {
         var push = PushData(host: .invite, querys: [:])
         if let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true) {
@@ -44,6 +43,7 @@ final class InvitTravelService: ObservableObject {
         return push
     }
     
+    /// DeepLink - openUrl 로 진입 시
     @MainActor
     func getInviteURL(_ url: URL) {
         self.isLoading = true
@@ -106,7 +106,7 @@ final class InvitTravelService: ObservableObject {
             do {
                 guard let user = UserService.shared.currentUser else { return }
                 
-                let snapshotData = try await self.dbRef.collection("TravelCalculation").document(travelId).getDocument()
+                let snapshotData = try await self.dbRef.collection(StoreCollection.travel.path).document(travelId).getDocument()
                 
                 var travel = try snapshotData.data(as: TravelCalculation.self)
                 

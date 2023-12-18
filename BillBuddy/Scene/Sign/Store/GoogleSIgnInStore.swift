@@ -1,42 +1,18 @@
 //
-//  GoogleSignIn.swift
+//  GoogleSIgnInStore.swift
 //  BillBuddy
 //
-//  Created by 박지현 on 11/11/23.
+//  Created by SIKim on 12/17/23.
 //
 
-import SwiftUI
+import Foundation
 import Firebase
 import FirebaseAuth
 import GoogleSignInSwift
 import GoogleSignIn
 import FirebaseCore
 
-struct GoogleSignIn: View {
-    //이거 아래 주석 코드 필요한지 확인 부탁
-//    @EnvironmentObject var googleSignIn: GoogleSignInModel
-    private var googleSignInStore: GoogleSignInStore = GoogleSignInStore()
-    
-    var body: some View {
-        VStack {
-            Button(action: {
-                handleSignInButton()
-            }) {
-                HStack {
-                    Image(.google)
-                    Spacer()
-                    Text("구글로 로그인")
-                        .font(.body02)
-                        .foregroundStyle(Color.systemBlack)
-                    Spacer()
-                }
-            }.padding(20)
-                .frame(width: 351, height: 52)
-                .background(Color.gray050)
-                .cornerRadius(12)
-        }
-    }
-    
+class GoogleSIgnInStore {
     func handleSignInButton() {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         
@@ -60,11 +36,11 @@ struct GoogleSignIn: View {
             Auth.auth().signIn(with: credential) { result, error in
                 //v0roNcPUoGbFjZycF8jWUm266dn1
                 guard let userId = result?.user.uid else { return }
-                guard let name = result?.user.displayName else { return }
                 guard let email = result?.user.email else { return }
+                let name = result?.user.displayName ?? ""
                 let phoneNum = result?.user.phoneNumber ?? ""
                 
-                googleSignInStore.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
             }
         }
         
@@ -82,8 +58,4 @@ struct GoogleSignIn: View {
         
         return root
     }
-}
-
-#Preview {
-    GoogleSignIn()
 }

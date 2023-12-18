@@ -67,7 +67,7 @@ struct ForgotPasswordView: View {
             Spacer()
         }
         .padding(21)
-        .randomPasswordAlert(isPresented: $isShowingAlert, firstLineMessage: firstLineMessage, secondLineMessage: secondLineMessage)
+        .messageAlert(isPresented: $isShowingAlert, firstLineMessage: firstLineMessage, secondLineMessage: secondLineMessage, isDismiss: true, action: {})
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
