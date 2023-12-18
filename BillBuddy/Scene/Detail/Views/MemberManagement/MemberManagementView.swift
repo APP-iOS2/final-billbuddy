@@ -140,8 +140,8 @@ struct MemberManagementView: View {
             .foregroundColor(.white)
             .padding(.bottom, 54)
             .animation(.easeIn(duration: 2), value: sampleMemeberStore.members)
-            
         }
+        .ignoresSafeArea(.all, edges: .bottom)
         .padding(.top, 3)
         .onAppear {
             if sampleMemeberStore.InitializedStore == false {
