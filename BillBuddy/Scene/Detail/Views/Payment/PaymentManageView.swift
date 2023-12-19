@@ -29,6 +29,7 @@ struct PaymentManageView: View {
     @EnvironmentObject private var notificationStore: NotificationStore
     
     @State var travelCalculation: TravelCalculation
+    @Binding var isUpdated: Bool
     
     @State private var expandDetails: String = ""
     @State private var priceString: String = ""
@@ -347,6 +348,7 @@ extension PaymentManageView {
                 await paymentStore.editPayment(payment: newPayment)
                 settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: self.travelCalculation.members)
             }
+            isUpdated = true
         }
     }
 }

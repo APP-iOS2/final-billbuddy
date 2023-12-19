@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddPaymentMapView: View {
-    @StateObject var locationManager: LocationManager
+    @ObservedObject var locationManager: LocationManager
     
     @State private var isShowingAddress: Bool = false
     @State private var isShowingMapView: Bool = false
@@ -76,8 +76,6 @@ struct AddPaymentMapView: View {
                             Image("my_location")
                                 .resizable()
                                 .frame(width: 24, height: 24)
-//                                .renderingMode(.template)
-                                
                         }
                 }
                 .onTapGesture {
@@ -87,7 +85,7 @@ struct AddPaymentMapView: View {
                 
                 Image(systemName: "mappin")
                     .resizable()
-                    .position(CGPoint(x: geometry.size.width / 2, y: locationManager.isChaging ? (geometry.size.height / 1.6 - 5) : (geometry.size.height / 1.6)))
+                    .position(CGPoint(x: geometry.size.width / 2, y: locationManager.isChaging ? (geometry.size.height / 2 - 5) : (geometry.size.height / 2)))
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 24, alignment: .center)
                     .foregroundStyle(Color.myPrimary)

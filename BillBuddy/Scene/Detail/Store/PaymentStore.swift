@@ -50,9 +50,11 @@ final class PaymentStore: ObservableObject {
                 tempPayment.append(newPayment)
             }
             
-            self.payments = tempPayment
-            self.filteredPayments = tempPayment
-            self.isFetchingList = false
+            DispatchQueue.main.async {
+                self.payments = tempPayment
+                self.filteredPayments = tempPayment
+                self.isFetchingList = false
+            }
         } catch {
             print("payment fetch false \(error)")
         }
@@ -105,8 +107,7 @@ final class PaymentStore: ObservableObject {
                 if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
                     filteredPayments[index] = payment
                 }
-            }
-            
+            }            
             self.isFetchingList = false
         }
     }
@@ -127,11 +128,11 @@ final class PaymentStore: ObservableObject {
                     }
                 }
                 
+                await saveUpdateDate()
                 try await dbRef.document(id).delete()
             } catch {
                 print("delete payment false")
             }
-            
             self.isFetchingList = false
         }
     }

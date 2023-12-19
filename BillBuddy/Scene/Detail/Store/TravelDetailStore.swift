@@ -96,10 +96,11 @@ final class TravelDetailStore: ObservableObject {
                 let travel = try snapshot.data(as: TravelCalculation.self)
                 // 여행 변경사항이 있을 시
                 DispatchQueue.main.async {
+                    
                     if self.isFirstFetch {
                         self.travel = travel
                         return
-                    }
+                    }                    
                     // 맴버가 바뀌었을시엔 바로 바꿔줌
                     if travel.members != self.travel.members {
                         self.travel = travel
