@@ -17,7 +17,8 @@ final class PaymentStore: ObservableObject {
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
     var dbRef: CollectionReference
-    
+    var isPaymentSettled: Bool
+
     var sumAllPayment: Int = 0
     
     var paymentDates: [Date] {
@@ -32,6 +33,7 @@ final class PaymentStore: ObservableObject {
             .collection("Payment")
         self.members = travel.members
         self.updateContentDate = travel.updateContentDate
+        self.isPaymentSettled = travel.isPaymentSettled
     }
     
     @MainActor
@@ -82,12 +84,14 @@ final class PaymentStore: ObservableObject {
     }
     
     func addPayment(newPayment: Payment) async {
+        if isPaymentSettled == true { return }
         try! dbRef.addDocument(from: newPayment.self)
         await saveUpdateDate()
         await fetchAll()
     }
     
     func editPayment(payment: Payment) async {
+        if isPaymentSettled == true { return }
         if let id = payment.id {
             self.isFetchingList = true
             await saveUpdateDate()
@@ -108,6 +112,7 @@ final class PaymentStore: ObservableObject {
     }
     
     func deletePayment(payment: Payment) async {
+        if isPaymentSettled == true { return }
         if let id = payment.id {
             self.isFetchingList = true
             do {
@@ -132,12 +137,14 @@ final class PaymentStore: ObservableObject {
     }
     
     func deletePayments(payment: [Payment]) async {
+        if isPaymentSettled == true { return }
         for p in payment {
             await self.deletePayment(payment: p)
         }
     }
     
     func saveUpdateDate() async {
+        if isPaymentSettled == true { return }
         do {
             let newUpdateDate = Date.now.timeIntervalSince1970
             try await Firestore.firestore()

@@ -78,7 +78,8 @@ struct MoreView: View {
                                 MemberManagementView(travel: travel)
                                     .environmentObject(travelDetailStore)
                             case .settledAccount:
-                                SettledAccountView()
+                                SettledAccountView(entryViewtype: .more)
+                                    .environmentObject(travelDetailStore)
                             }
                         } label: {
                             MoreListCell(item: item)

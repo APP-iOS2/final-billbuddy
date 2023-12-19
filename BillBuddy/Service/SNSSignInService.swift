@@ -9,6 +9,8 @@ import Foundation
 import FirebaseFirestore
 
 class SNSSignInService {
+    @Published var tempUser: User?
+    var tempUid: String = ""
     private let db = Firestore.firestore().collection("User")
     
     static let shared = SNSSignInService()
@@ -25,14 +27,32 @@ class SNSSignInService {
     
     func signInUser(userId: String, name: String, email: String, phoneNum: String) {
         let user: User = User(email: email, name: name, phoneNum: phoneNum, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
-        
         Task {
             if await !checkUserInFirestore(userId: userId) {
-                try await FirestoreService.shared.saveDocument(collection: .user, documentId: userId, data: user)
+                tempUser = user
             }
-            AuthStore.shared.userUid = userId
+            tempUid = userId
+            
+            if tempUser == nil {
+                AuthStore.shared.userUid = tempUid
+                try await UserService.shared.fetchUser()
+                UserDefaults.standard.setValue(tempUid, forKey: "User")
+                tempUid = ""
+                tempUser = nil
+            }
+        }
+    }
+    
+    func signInUserFirstTime() {
+        Task {
+            if await !checkUserInFirestore(userId: tempUid) {
+                try await FirestoreService.shared.saveDocument(collection: .user, documentId: tempUid, data: tempUser)
+            }
+            AuthStore.shared.userUid = tempUid
             try await UserService.shared.fetchUser()
-            UserDefaults.standard.setValue(userId, forKey: "User")
+            UserDefaults.standard.setValue(tempUid, forKey: "User")
+            tempUid = ""
+            tempUser = nil
         }
     }
 }
