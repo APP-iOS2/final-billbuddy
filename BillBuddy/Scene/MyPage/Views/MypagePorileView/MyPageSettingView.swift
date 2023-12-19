@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import WebKit
 
 struct MyPageSettingView: View {
     
@@ -14,13 +15,15 @@ struct MyPageSettingView: View {
     @EnvironmentObject private var signUpStore: SignUpStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var userTravelStore: UserTravelStore
-
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
     @State private var isReAuthAlert: Bool = false
     @State private var isErrorAlert: Bool = false
     @State private var isCheckingProvider: Bool = AuthStore.shared.checkCurrentUserProviderId()
+    
+    @State private var isShowingSafari: Bool = false
+    private var termsWebView = "https://cut-hospital-213.notion.site/5e186613d1024010ad528f6ade1f09ae?pvs=4"
     
     var body: some View {
         ScrollView {
@@ -50,7 +53,9 @@ struct MyPageSettingView: View {
                     })
                     .padding(.bottom, 36)
                    
-                    NavigationLink(destination: ProfileView()){
+                    Button(action: {
+                        isShowingSafari = true
+                    }, label: {
                         HStack {
                             Text("개인정보 이용 동의")
                             Spacer()
@@ -58,10 +63,17 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.bottom, 36)
-                    
-                    NavigationLink(destination: InquiryView()){
+                    .sheet(isPresented: $isShowingSafari, content: {
+                        WebView(url: termsWebView)
+                    })
+
+                    Button(action: {
+                        if let emailURL = URL(string: "mailto:2023billbuddy@gmail.com") {
+                                UIApplication.shared.open(emailURL)
+                            }
+                    }, label: {
                         HStack {
                             Text("문의하기")
                             Spacer()
@@ -69,7 +81,7 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.bottom, 36)
                     
                     NavigationLink(destination: LicenseView()){

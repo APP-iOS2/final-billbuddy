@@ -85,12 +85,6 @@ struct ProfileView: View {
                     })
                 }
                 HStack {
-                    Text("휴대폰 번호")
-                    Spacer()
-                    Text(userService.currentUser?.phoneNum ?? "")
-                        .foregroundColor(.gray600)
-                }
-                HStack {
                     Text("이메일 주소")
                     Spacer()
                     Text(userService.currentUser?.email ?? "")
