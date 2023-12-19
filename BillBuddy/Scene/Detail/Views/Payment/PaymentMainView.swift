@@ -25,55 +25,34 @@ struct PaymentMainView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            // 총 지출
             header
-                .onChange(of: selectedDate) { _ in
-//                    paymentStore.filterDate(date: selectedDate)
-                    selectedCategory = nil
-                }
+            // 카테고리 필터링 + 편집/편집 완료 버튼
+            filteringSection
+            // 지출 내역 리스트
             paymentList
+            // 편집시 addPaymentButton 대신 editingPaymentDeleteButton을 내보여야함
             if !isEditing  {
                 addPaymentButton
             }
             else {
                 editingPaymentDeleteButton
-                    .alert(isPresented: $isShowingDeletePayment) {
-                        return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
-                            Task {
-                                await paymentStore.deletePayments(payment: forDeletePayments)
-                                settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
-                            }
-                            isEditing.toggle()
-                        }), secondaryButton: .cancel(Text("아니오"), action: {
-                            isEditing.toggle()
-                        }))
-                    }
             }
         }
     }
+}
+
+extension PaymentMainView {
     
     var header: some View {
         VStack(spacing: 0) {
-            
-            /// 총 지출 >
             Group {
                 HStack(spacing: 0) {
                     VStack(alignment: .leading, spacing: 4, content: {
+                        Text("총 지출")
+                            .font(.body04)
+                            .padding(.trailing, 9)
                         
-                        NavigationLink {
-                            SpendingListView(entryViewtype: .more, travelId: nil)
-                                .environmentObject(travelDetailStore)
-                        } label: {
-                            HStack(spacing: 0) {
-                                Text("총 지출")
-                                    .font(.body04)
-                                    .padding(.trailing, 9)
-                                Image(.arrowForwardIos)
-                                    .resizable()
-                                    .frame(width: 11.2, height: 11.2)
-                            }
-                            .foregroundStyle(Color.gray600)
-
-                        }
                         Text(settlementExpensesStore.settlementExpenses.totalExpenditure.wonAndDecimal)
                             .font(.body01)
                     })
@@ -108,8 +87,9 @@ struct PaymentMainView: View {
             .padding(.leading, 16)
             .padding(.trailing, 16)
             .padding(.bottom, 32)
-            
-            filteringSection
+        }
+        .onChange(of: selectedDate) { _ in
+            selectedCategory = nil
         }
     }
     
@@ -131,7 +111,17 @@ struct PaymentMainView: View {
             .padding(.bottom, 24)
         })
         .background(Color.myPrimary)
-        
+        .alert(isPresented: $isShowingDeletePayment) {
+            return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
+                Task {
+                    await paymentStore.deletePayments(payment: forDeletePayments)
+                    settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+                }
+                isEditing.toggle()
+            }), secondaryButton: .cancel(Text("아니오"), action: {
+                isEditing.toggle()
+            }))
+        }
     }
     
     var addPaymentButton: some View {
@@ -179,24 +169,29 @@ struct PaymentMainView: View {
                         .padding(.top, 59)
                     Spacer()
                 }
-            } else if paymentStore.payments.isEmpty {
+                Spacer()
+            }
+            else if paymentStore.payments.isEmpty {
                 HStack {
                     Spacer()
                     Text("지출을 추가해주세요")
                         .foregroundStyle(Color.gray600)
                         .font(.body02)
-                        .padding(.top, 30)
+                        .padding(.top, 59)
                     Spacer()
                 }
+                Spacer()
             }
-            List {
-                PaymentListView(paymentStore: paymentStore, isEditing: $isEditing, forDeletePayments: $forDeletePayments)
-                    .padding(.bottom, 12)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
+            else {
+                List {
+                    PaymentListView(paymentStore: paymentStore, isEditing: $isEditing, forDeletePayments: $forDeletePayments)
+                        .padding(.bottom, 12)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
-            .listStyle(.plain)
-            .scrollContentBackground(.hidden)
         }
     }
     
@@ -217,8 +212,10 @@ struct PaymentMainView: View {
                             .foregroundStyle(Color.gray600)
                     }
                     Image("expand_more")
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
                 })
                 .sheet(isPresented: $isShowingSelectCategorySheet) {
                     CategorySelectView(mode: .sheet, selectedCategory: $selectedCategory)
@@ -278,6 +275,4 @@ struct PaymentMainView: View {
                 .padding(.bottom, 16)
         }
     }
-    
-    
 }

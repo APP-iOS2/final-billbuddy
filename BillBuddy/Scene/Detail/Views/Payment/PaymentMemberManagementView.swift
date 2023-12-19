@@ -307,7 +307,6 @@ struct PaymentMemberManagementView: View {
             Button(action: {
                 selectedMember = member
                 isShowingPersonalMemberSheet = true
-                print(participants)
             }, label: {
                 HStack(spacing: 2) {
                     Text(member.name)

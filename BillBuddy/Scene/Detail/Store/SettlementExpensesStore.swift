@@ -88,10 +88,10 @@ final class SettlementExpensesStore: ObservableObject {
         newExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, totalParticipationAmount: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
         
         for payment in payments {
-            var personaPayment = 0
-            if !payment.participants.isEmpty {
-                personaPayment = payment.payment / payment.participants.count
-            }
+//            var personaPayment = 0
+//            if !payment.participants.isEmpty {
+//                personaPayment = payment.payment / payment.participants.count
+//            }
             for participant in payment.participants {
                 guard let index = members.firstIndex(where: { $0.id == participant.memberId } ) else {
                     continue
