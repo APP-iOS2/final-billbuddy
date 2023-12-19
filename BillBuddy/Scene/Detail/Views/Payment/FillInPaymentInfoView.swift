@@ -198,6 +198,7 @@ struct FillInPaymentInfoView: View {
         .padding(.leading, 16)
         .padding(.trailing, 16)
     }
+    
     var priceSection: some View {
         Section {
             
@@ -205,6 +206,8 @@ struct FillInPaymentInfoView: View {
                 Text("결제금액")
                     .font(.body02)
                 Spacer()
+                
+                
                 TextField("결제금액을 입력해주세요", text: $priceString, onCommit: {
                     
                 })
