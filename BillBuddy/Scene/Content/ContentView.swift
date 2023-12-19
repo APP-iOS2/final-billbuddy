@@ -41,6 +41,9 @@ struct ContentView: View {
                         .environmentObject(myPageStore)
                         .environmentObject(adViewModel)
                         .environmentObject(tabViewStore)
+                        .onAppear {
+                            notificationStore.fetchNotification()
+                        }
                 } else {
                     NavigationStack {
                         LodingView()

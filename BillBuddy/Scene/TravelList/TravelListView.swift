@@ -166,9 +166,18 @@ struct TravelListView: View {
                 NavigationLink {
                     NotificationListView()
                 } label: {
-                    Image(.ringingBellNotification3)
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    if notificationStore.hasUnReadNoti {
+                        Image("ringing-bell-notification-3")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(Color.red)
+                    }
+                    else {
+                        Image("ringing-bell-notification-3")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
         }
