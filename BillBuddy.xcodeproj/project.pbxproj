@@ -101,6 +101,7 @@
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
 		63EF15642B319EAC0031F617 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63EF15632B319EAC0031F617 /* GoogleService-Info.plist */; };
+		63EF15662B319FA50031F617 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF15652B319FA50031F617 /* CustomAnnotation.swift */; };
 		90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
 		C45E24EE2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */; };
@@ -242,6 +243,7 @@
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		63EF15632B319EAC0031F617 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		63EF15652B319FA50031F617 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAlertText.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMemberManagementView.swift; sourceTree = "<group>"; };
@@ -842,6 +844,7 @@
 		63A3F1742ADF7888006EE206 /* CustomAnnotation */ = {
 			isa = PBXGroup;
 			children = (
+				63EF15652B319FA50031F617 /* CustomAnnotation.swift */,
 				63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */,
 			);
 			name = CustomAnnotation;
@@ -1152,6 +1155,7 @@
 				FFFFF4212B2F019F0040B72B /* GoogleSIgnInStore.swift in Sources */,
 				023EF9262ACC034E005C3F30 /* TravelCalculationStore.swift in Sources */,
 				D26894172B2AF45400D37357 /* AppleSignInStore.swift in Sources */,
+				63EF15662B319FA50031F617 /* CustomAnnotation.swift in Sources */,
 				FF2974A62AD310D400E10AC4 /* NativeAdTestView.swift in Sources */,
 				023EF92E2ACC0731005C3F30 /* AddTravelView.swift in Sources */,
 				27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */,
