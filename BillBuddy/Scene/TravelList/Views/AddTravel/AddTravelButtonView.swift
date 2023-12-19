@@ -13,7 +13,6 @@ struct AddTravelButtonView: View {
     @State private var backgroundColor: Color = .gray700
     @State private var travelCalculation = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])
     @State private var isShowingNoTravelAlert: Bool = false
-    @State private var isUpdated: Bool = false
     
     var body: some View {
         VStack {
@@ -22,7 +21,7 @@ struct AddTravelButtonView: View {
                 Spacer()
                 if floatingButtonMenuStore.showMenuItem1 {
                     NavigationLink {
-                        PaymentManageView(mode: .mainAdd, travelCalculation: travelCalculation, isUpdated: $isUpdated)
+                        PaymentManageView(mode: .mainAdd, travelCalculation: travelCalculation)
                             .navigationBarBackButtonHidden()
                             .environmentObject(userTravelStore)
                             .onAppear {

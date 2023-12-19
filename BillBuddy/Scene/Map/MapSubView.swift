@@ -13,7 +13,7 @@ struct MapSubView: View {
     @StateObject var paymentStore: PaymentStore
     
     @Binding var selectedDate: Double
-        
+    
     var body: some View {
         VStack {
             GeometryReader { geometry in

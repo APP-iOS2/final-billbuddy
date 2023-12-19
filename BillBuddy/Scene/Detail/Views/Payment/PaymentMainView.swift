@@ -19,7 +19,7 @@ struct PaymentMainView: View {
     @State private var isShowingSelectCategorySheet: Bool = false
     @State private var isShowingDeletePayment: Bool = false
     @State private var selectedCategory: Payment.PaymentType?
-    @State private var isUpdated: Bool = false
+    @State private var isEditing: Bool = false
     @State private var selection = Set<String>()
     @State private var forDeletePayments: [Payment] = []
     
@@ -136,7 +136,7 @@ struct PaymentMainView: View {
     
     var addPaymentButton: some View {
         NavigationLink {
-            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel, isUpdated: $isUpdated)
+            PaymentManageView(mode: .add, travelCalculation: travelDetailStore.travel)
                 .environmentObject(paymentStore)
                 .onDisappear {
                     if travelDetailStore.isChangedTravel {
@@ -195,7 +195,8 @@ struct PaymentMainView: View {
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
             }
-            Spacer()
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
         }
     }
     
@@ -223,12 +224,7 @@ struct PaymentMainView: View {
                     CategorySelectView(mode: .sheet, selectedCategory: $selectedCategory)
                         .presentationDetents([.fraction(0.3)])
                 }
-                .onChange(of: isUpdated, perform: { _ in
-                    if isUpdated {
-                        selectedCategory = nil
-                        isUpdated = true
-                    }
-                })
+                
                 .onChange(of: selectedCategory, perform: { category in
                     
                     // 날짜 전체일때
