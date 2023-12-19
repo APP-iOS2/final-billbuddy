@@ -227,13 +227,6 @@ extension FillInPaymentInfoView {
                     .onTapGesture {
                         priceString = ""
                     }
-                    .onChange(of: priceString, perform: { value in
-                        for idx in 0..<participants.count {
-                            if let price = Int(priceString) {
-                                participants[idx].seperateAmount = price / participants.count
-                            }
-                        }
-                    })
             }
             .padding(.leading, 16)
             .padding(.top, 16)

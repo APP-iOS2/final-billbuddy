@@ -27,7 +27,7 @@ struct PaymentMemberManagementView: View {
     @State private var advanceAmountString: String = ""
     @State private var seperateAmountString: String = ""
     @State private var personalMemo: String = ""
-    
+    @State private var seperate: [Int] = [0, 0]
     
     var body: some View {
         Section {
@@ -53,6 +53,7 @@ struct PaymentMemberManagementView: View {
                             }
                         }
                         participants = payment.participants
+                        howManySeperate()
                     }
                 }
             }
@@ -221,7 +222,7 @@ struct PaymentMemberManagementView: View {
                         .padding(.top, 12)
                         .padding(.bottom, 12)
                     Spacer()
-                    // MARK: 가격
+                    
                     if let idx = participants.firstIndex(where: { p in
                         p.memberId == member.id
                     }) {
@@ -413,6 +414,9 @@ struct PaymentMemberManagementView: View {
                             .multilineTextAlignment(.trailing)
                             .font(.body04)
                             .padding(.trailing, 14)
+                            .onTapGesture {
+                                advanceAmountString = ""
+                            }
                     }
                     else if personalButton {
                         TextField("금액을 입력해주세요", text: $seperateAmountString)
@@ -420,6 +424,9 @@ struct PaymentMemberManagementView: View {
                             .multilineTextAlignment(.trailing)
                             .font(.body04)
                             .padding(.trailing, 14)
+                            .onTapGesture {
+                                seperateAmountString = ""
+                            }
                     }
                     else {
                         Text("분류를 먼저 선택해주세요")
@@ -527,7 +534,7 @@ extension PaymentMemberManagementView {
     func addButton() {
         participants = []
         for member in tempMembers {
-            participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: (Int(priceString) ?? 0) / tempMembers.count, memo: ""))
+            participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
         }
         members = tempMembers
         isShowingMemberSheet = false
@@ -551,32 +558,58 @@ extension PaymentMemberManagementView {
         participants = tempParticipants
         payment?.participants = participants
         members = tempMembers
-        
-        var sum = 0
-        for participant in participants {
-            sum += participant.seperateAmount
-        }
-        priceString = String(sum)
     }
     
     func personalPrice() {
-        isShowingPersonalMemberSheet = false
         if let idx = participants.firstIndex(where: { p in
             p.memberId == selectedMember.id
         }) {
             participants[idx].advanceAmount = Int(advanceAmountString) ?? 0
             participants[idx].seperateAmount = Int(seperateAmountString) ?? 0
         }
-        
-        var sum = 0
-        for participant in participants {
-            sum += participant.seperateAmount
-        }
-        priceString = String(sum)
+        howManySeperate()
+        isShowingPersonalMemberSheet = false
     }
     
     func getPersonalPrice(idx: Int) -> Int {
-        return participants[idx].seperateAmount - participants[idx].advanceAmount
+        print("getPersonalPrice!!! \(participants[idx])")
+        if participants[idx].seperateAmount != 0 {
+            return participants[idx].seperateAmount - participants[idx].advanceAmount
+        }
+        else {
+            let numOfDutch = participants.count - seperate[0]
+            var amountOfDutch = 0
+            if mode == .add {
+                if priceString != "" {
+                    amountOfDutch = Int(priceString)! - seperate[1]
+                }
+                else {
+                    amountOfDutch = 0 - seperate[1]
+                }
+            }
+            else if mode == .edit {
+                if let p = payment {
+                    amountOfDutch = p.payment - seperate[1]
+                }
+            }
+            
+            return amountOfDutch / numOfDutch - participants[idx].advanceAmount
+        }
+    }
+    
+    func howManySeperate() {
+        var result = 0
+        var amount = 0
+        
+        for participant in self.participants {
+            if participant.seperateAmount != 0 {
+                result += 1
+                amount += participant.seperateAmount
+            }
+        }
+        
+        seperate[0] = result
+        seperate[1] = amount
     }
 }
 
