@@ -97,22 +97,6 @@ struct SignInView: View {
                     .font(.body02)
                 
                 GoogleSignInView()
-                
-                Link(destination: URL(string: "https://naver.com")!, label: {
-                    HStack{
-                        Image(.naver)
-                        Spacer()
-                        Text("네이버로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.naverSignature)
-                    .cornerRadius(12)
-                })
-                
                 AppleSignInView()
                 
             }
