@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaymentMemberManagementView: View {
-    @State var mode: Mode = .add
+    @State var mode: PaymentCreateMode = .add
     
     @Binding var priceString: String
     @Binding var travelCalculation: TravelCalculation
