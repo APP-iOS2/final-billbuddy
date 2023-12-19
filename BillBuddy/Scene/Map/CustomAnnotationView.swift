@@ -87,7 +87,10 @@ final class CustomAnnotationView: MKAnnotationView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
     // 레이아웃 사이즈 설정
+        bounds.size = CGSize(width: 46, height: 54)
+        centerOffset = CGPoint(x: 0, y: 27)
     }
 }
 

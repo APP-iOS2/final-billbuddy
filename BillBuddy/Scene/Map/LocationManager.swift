@@ -209,6 +209,7 @@ extension LocationManager: MKMapViewDelegate {
         return annotationView
     }
     
+    // MARK: - 어노테이션 셋업 및 등록
     private func setupCustomAnnotationView(for annotation: CustomAnnotation, on mapView: MKMapView) -> MKAnnotationView {
         return mapView.dequeueReusableAnnotationView(withIdentifier: NSStringFromClass(CustomAnnotation.self), for: annotation)
     }
@@ -217,9 +218,12 @@ extension LocationManager: MKMapViewDelegate {
         mapView.register(CustomAnnotationView.self, forAnnotationViewWithReuseIdentifier: NSStringFromClass(CustomAnnotation.self))
     }
     
-    // MARK: - 어노테이션 선택시
+    // MARK: - 어노테이션 이미지 선택시 작동하는 함수
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
+        if let customAnnotation = view.annotation as? CustomAnnotation {
+            moveFocusChange(location: customAnnotation.coordinate)
+        }
     }
 }
 
