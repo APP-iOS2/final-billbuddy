@@ -61,21 +61,25 @@ struct CategorySelectView: View {
                             }
                             else {
                                 Image(type.getImageString(type: .thin))
+                                    .renderingMode(.template)
                                     .resizable()
                                     .frame(width: 24, height: 24)
+                                    .foregroundStyle(Color.gray600)
                                 Text(type.rawValue)
                                     .font(.caption02)
-                                    .foregroundStyle(Color.gray500)
+                                    .foregroundStyle(Color.gray600)
                                 
                             }
                         }
                         else {
                             Image(type.getImageString(type: .thin))
+                                .renderingMode(.template)
                                 .resizable()
                                 .frame(width: 24, height: 24)
+                                .foregroundStyle(Color.gray600)
                             Text(type.rawValue)
                                 .font(.caption02)
-                                .foregroundStyle(Color.gray500)
+                                .foregroundStyle(Color.gray600)
                             
                         }
                         

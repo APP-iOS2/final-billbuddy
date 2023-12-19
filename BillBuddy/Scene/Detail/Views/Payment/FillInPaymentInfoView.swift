@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-enum Mode {
+enum PaymentCreateMode {
     case add
     case edit
 }
 
 struct FillInPaymentInfoView: View {
     
-    @State var mode: Mode = .add
+    @State var mode: PaymentCreateMode = .add
     
     @Binding var travelCalculation: TravelCalculation
     @Binding var expandDetails: String
@@ -33,19 +33,18 @@ struct FillInPaymentInfoView: View {
     @State private var selectedMember: TravelCalculation.Member = TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)
     @State private var members: [TravelCalculation.Member] = []
     
-
-    
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-    
     var body: some View {
         ZStack {
             VStack(spacing: 16) {
+                // 날짜
                 datePickerSection
+                // 분류
                 typePickerSection
+                // 내용
                 contentSection
+                // 가격
                 priceSection
+                // 인원
                 PaymentMemberManagementView(mode: mode, priceString: $priceString, travelCalculation: $travelCalculation, members: $members, payment: $payment, selectedMember: $selectedMember, participants: $participants, isShowingMemberSheet: $isShowingMemberSheet)
             }
             .onTapGesture {
@@ -54,38 +53,48 @@ struct FillInPaymentInfoView: View {
                 isShowingTimePicker = false
             }
             
-            
             if isShowingDatePicker {
-                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.date], label: {
-                    Text("날짜")
-                        .font(.body02)
-                })
-                .labelsHidden()
-                .datePickerStyle(.graphical)
-                .background {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white)
-                }
-                .frame(width: 361, height: 400)
-                .offset(y: 20)
+                datePickerView
             }
             
             
             if isShowingTimePicker {
-                DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.hourAndMinute], label: {
-                    Text("날짜")
-                        .font(.body02)
-                })
-                .labelsHidden()
-                .datePickerStyle(.wheel)
-                .background {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white)
-                }
-                .frame(width: 198, height: 213)
-                .offset(x: 20, y: -40)
+                timePickerView
             }
         }
+    }
+    
+}
+
+extension FillInPaymentInfoView {
+    var datePickerView: some View {
+        DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.date], label: {
+            Text("날짜")
+                .font(.body02)
+        })
+        .labelsHidden()
+        .datePickerStyle(.graphical)
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+        }
+        .frame(width: 361, height: 400)
+        .offset(y: 20)
+    }
+    
+    var timePickerView: some View {
+        DatePicker(selection: $paymentDate, in: travelCalculation.startDate.toDate()...travelCalculation.endDate.toDate(), displayedComponents: [.hourAndMinute], label: {
+            Text("시간")
+                .font(.body02)
+        })
+        .labelsHidden()
+        .datePickerStyle(.wheel)
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+        }
+        .frame(width: 198, height: 213)
+        .offset(x: 20, y: -40)
     }
     
     var datePickerSection: some View {
@@ -218,13 +227,6 @@ struct FillInPaymentInfoView: View {
                     .onTapGesture {
                         priceString = ""
                     }
-                    .onChange(of: priceString, perform: { value in
-                        for idx in 0..<participants.count {
-                            if let price = Int(priceString) {
-                                participants[idx].seperateAmount = price / participants.count
-                            }
-                        }
-                    })
             }
             .padding(.leading, 16)
             .padding(.top, 16)
@@ -237,5 +239,13 @@ struct FillInPaymentInfoView: View {
         }
         .padding(.leading, 16)
         .padding(.trailing, 16)
+    }
+}
+
+
+extension FillInPaymentInfoView {
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
