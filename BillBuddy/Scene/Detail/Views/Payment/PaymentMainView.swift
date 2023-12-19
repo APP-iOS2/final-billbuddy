@@ -97,20 +97,8 @@ extension PaymentMainView {
         Button(action: {
             isShowingDeletePayment = true
         }, label: {
-            
-            HStack {
-                Spacer()
-                
-                Text("삭제하기")
-                    .font(.title05)
-                    .foregroundColor(.white)
-                
-                Spacer()
-            }
-            .padding(.top, 24)
-            .padding(.bottom, 24)
+            PaymentButtonView(scale: .big, text: "삭제하기")
         })
-        .background(Color.myPrimary)
         .alert(isPresented: $isShowingDeletePayment) {
             return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
                 deleteSelectedPayments()
