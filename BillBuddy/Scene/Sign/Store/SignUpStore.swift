@@ -19,7 +19,6 @@ final class SignUpStore: ObservableObject {
     @Published var isEmailInUseError: Bool = false
     @Published var isPasswordUnCorrectError: Bool = false
     @Published var isPasswordCountError: Bool = false
-    @Published var isPhoneNumError: Bool = false
     
     @Published var isShowingAlert: Bool = false
     @Published var isEmailValid = true
@@ -27,7 +26,7 @@ final class SignUpStore: ObservableObject {
     var showError = false
     
     func checkSignUp() -> Bool {
-        if signUpData.name.isEmpty || signUpData.email.isEmpty || signUpData.password.isEmpty || signUpData.passwordConfirm.isEmpty || signUpData.phoneNum.isEmpty || signUpData.isPrivacyAgree == false || signUpData.isTermOfUseAgree == false {
+        if signUpData.name.isEmpty || signUpData.email.isEmpty || signUpData.password.isEmpty || signUpData.passwordConfirm.isEmpty || signUpData.isPrivacyAgree == false || signUpData.isTermOfUseAgree == false {
             return false
         }
         return true

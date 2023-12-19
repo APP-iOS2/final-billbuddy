@@ -71,7 +71,6 @@ final class UserService: ObservableObject {
         do {
             let userRef = Firestore.firestore().collection("User").document(AuthStore.shared.userUid)
             let updatedData = [
-                "phoneNum": user.phoneNum,
                 "email": user.email,
                 "bankName": user.bankName,
                 "bankAccountNum": user.bankAccountNum

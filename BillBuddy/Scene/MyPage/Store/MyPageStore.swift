@@ -25,10 +25,6 @@ final class MyPageStore: ObservableObject {
         return (accountNumber.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil) || (accountNumber == "")
     }
     
-    func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
-        return (phoneNumber.count == 11) && (phoneNumber.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil) || (phoneNumber == "")
-    }
-    
     func isValidEmail(_ email: String) -> Bool {
         let emailRegex = try! NSRegularExpression(pattern: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}", options: .caseInsensitive)
         return (emailRegex.firstMatch(in: email, options: [], range: NSRange(location: 0, length: email.count)) != nil) || (email == "")

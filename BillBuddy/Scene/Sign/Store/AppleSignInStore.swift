@@ -107,9 +107,8 @@ extension AppleSignInStore: ASAuthorizationControllerDelegate {
                     guard let userId = authResult?.user.uid else { return }
                     let name =  (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
                     guard let email = authResult?.user.email else { return }
-                    let phoneNum = authResult?.user.phoneNumber ?? ""
                     
-                    SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+                    SNSSignInService.shared.signInUser(userId: userId, name: name, email: email)
             }
         }
     }

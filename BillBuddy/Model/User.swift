@@ -15,7 +15,6 @@ struct User: Identifiable, Codable {
     
     var email: String
     var name: String
-    var phoneNum: String
     var bankName: String
     var bankAccountNum: String
     var isPremium: Bool
