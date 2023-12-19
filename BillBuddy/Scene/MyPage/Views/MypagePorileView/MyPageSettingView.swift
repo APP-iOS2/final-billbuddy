@@ -41,7 +41,7 @@ struct MyPageSettingView: View {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }, label: {
                         HStack {
-                            Text("알림 설정")
+                            Text("알림 및 위치 설정")
                             Spacer()
                             Image("chevron_right")
                                 .resizable()
@@ -49,18 +49,7 @@ struct MyPageSettingView: View {
                         }
                     })
                     .padding(.bottom, 36)
-                    Button(action: {
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    }, label: {
-                        HStack {
-                            Text("위치 설정")
-                            Spacer()
-                            Image("chevron_right")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                    })
-                    .padding(.bottom, 36)
+                   
                     NavigationLink(destination: ProfileView()){
                         HStack {
                             Text("개인정보 이용 동의")
@@ -71,6 +60,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
+                    
                     NavigationLink(destination: InquiryView()){
                         HStack {
                             Text("문의하기")
@@ -81,6 +71,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
+                    
                     NavigationLink(destination: LicenseView()){
                         HStack {
                             Text("오픈소스 라이센스")
@@ -91,6 +82,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, isCheckingProvider ? 36 : 32)
+                    
                     if isCheckingProvider {
                         NavigationLink(destination: ChangePasswordView()){
                             HStack {
