@@ -120,7 +120,9 @@ struct ChattingMenuView: View {
             HStack {
                 Image(.gallery)
                     .resizable()
-                    .frame(width: 24, height: 24)
+                    .renderingMode(.template)
+                    .foregroundColor(.black)
+                    .frame(width: 17, height: 17)
                 Text("사진")
                     .font(.body04)
                     .foregroundColor(.gray900)

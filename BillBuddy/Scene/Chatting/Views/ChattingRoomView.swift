@@ -119,8 +119,9 @@ struct ChattingRoomView: View {
             ChattingMenuView(travel: travel)
         } label: {
             HStack {
-                Image(.announcementMegaphoneBlue)
+                Image(.announcementMegaphone)
                     .resizable()
+                    .renderingMode(.template)
                     .foregroundColor(.myPrimary)
                     .frame(width: 24, height: 24)
                     .padding(.leading, 12)
@@ -156,9 +157,6 @@ struct ChattingRoomView: View {
                             HStack {
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text(message.userName ?? "이름없음")
-                                        .font(Font.caption02)
-                                        .foregroundColor(.systemBlack)
                                     HStack {
                                         VStack {
                                             Spacer()
@@ -203,23 +201,6 @@ struct ChattingRoomView: View {
                                             }
                                         }
                                     }
-                                }
-                                VStack {
-                                    if let userImage = userService.currentUser?.userImage {
-                                        KFImage(URL(string: userImage)!)
-                                            .placeholder {
-                                                ProgressView()
-                                                    .frame(width: 40, height: 40)
-                                            }
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Image(.defaultUser)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                    }
-                                    Spacer()
                                 }
                             }
                             .padding(.horizontal)
@@ -392,11 +373,13 @@ struct ChattingRoomView: View {
                     }
                 } label: {
                     if !inputText.isEmpty || selectedPhoto != nil {
-                        Image(.sendMessageBlue)
+                        Image(.sendMessage)
                             .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.myPrimary)
                             .frame(width: 24, height: 24)
                     } else {
-                        Image(.mailSendEmailMessage35)
+                        Image(.sendMessage)
                             .resizable()
                             .frame(width: 24, height: 24)
                     }
