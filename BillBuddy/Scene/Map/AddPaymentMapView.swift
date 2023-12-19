@@ -15,8 +15,6 @@ struct AddPaymentMapView: View {
     
     @Binding var searchAddress: String
     @FocusState private var isKeyboardUp: Bool
-//    @Binding var searchlatitude: Double
-//    @Binding var searchlongitude: Double
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,6 +25,7 @@ struct AddPaymentMapView: View {
                     Spacer()
                     if isShowingAddress {
                         Text("\(locationManager.selectedAddress)")
+                            .font(.body04)
                     }
                 }
                 if isShowingMapView == false {
