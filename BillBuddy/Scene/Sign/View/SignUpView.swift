@@ -117,54 +117,56 @@ struct SignUpView: View {
                 
                 Spacer()
             }
-                Group {
-                    Button(action: {
-                        isShowingProgressView = true
+            .scrollIndicators(.hidden)
+            
+            Group {
+                Button(action: {
+                    isShowingProgressView = true
+                    
+                    let isNameValid = signUpStore.signUpData.name.count >= 2
+                    let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
+                    
+                    signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
+                        let isPasswordValid = signUpStore.signUpData.password.count >= 6
+                        let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
+                        let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
+                        let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
                         
-                        let isNameValid = signUpStore.signUpData.name.count >= 2
-                        let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
-                        
-                        signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
-                            let isPasswordValid = signUpStore.signUpData.password.count >= 6
-                            let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
-                            let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
-                            let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
+                        if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isTermOfUseAgreeValid && isPrivacyAgreeValid {
+                            isShowingAlert = true
                             
-                            if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isTermOfUseAgreeValid && isPrivacyAgreeValid {
-                                isShowingAlert = true
-                                
-                                Task {
-                                    if await signUpStore.postSignUp() {
-                                        // Success
-                                    } else {
-                                        print("실패")
-                                    }
+                            Task {
+                                if await signUpStore.postSignUp() {
+                                    // Success
+                                } else {
+                                    print("실패")
                                 }
-                            } else {
-                                signUpStore.isNameTextError = !isNameValid
-                                signUpStore.isEmailTextError = !isEmailValid
-                                signUpStore.isEmailInUseError = !isEmailInUse
-                                signUpStore.isPasswordCountError = !isPasswordValid
-                                signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
                             }
-                        }
-                        
-                    }, label: {
-                        Text("가입하기")
-                            .font(.body02)
-                            .foregroundColor(.white)
-                            .frame(width: 351, height: 52)
-                            .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
-                            .cornerRadius(12)
-                    })
-                    .padding(.bottom, 59)
-                    .disabled(!signUpStore.checkSignUp() ? true : false)
-                    .alert("회원가입 완료", isPresented: $isShowingAlert) {
-                        Button("확인") {
-                            dismiss()
+                        } else {
+                            signUpStore.isNameTextError = !isNameValid
+                            signUpStore.isEmailTextError = !isEmailValid
+                            signUpStore.isEmailInUseError = !isEmailInUse
+                            signUpStore.isPasswordCountError = !isPasswordValid
+                            signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
                         }
                     }
+                    
+                }, label: {
+                    Text("가입하기")
+                        .font(.body02)
+                        .foregroundColor(.white)
+                        .frame(width: 351, height: 52)
+                        .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
+                        .cornerRadius(12)
+                })
+                .padding(.bottom, 20)
+                .disabled(!signUpStore.checkSignUp() ? true : false)
+                .alert("회원가입 완료", isPresented: $isShowingAlert) {
+                    Button("확인") {
+                        dismiss()
+                    }
                 }
+            }
         }
         .onTapGesture {
             isKeyboardUp = false
