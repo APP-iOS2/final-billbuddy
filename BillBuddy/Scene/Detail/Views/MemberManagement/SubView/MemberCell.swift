@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MemberCell: View {
     @ObservedObject var sampleMemeberStore: SampleMemeberStore
@@ -18,11 +19,20 @@ struct MemberCell: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            Image(.profile)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-                .padding(.leading, 8)
+            if member.userImage != "" {
+                KFImage(URL(string: member.userImage))
+                    .placeholder {
+                        ProgressView()
+                            .frame(width: 40, height: 40)
+                    }
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+            } else {
+                Image(.defaultUser)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+            }
 
             
             VStack(alignment: .leading, spacing: 0) {

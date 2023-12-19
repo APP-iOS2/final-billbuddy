@@ -158,7 +158,7 @@ struct MyPageSettingView: View {
                 } message: {
                     Text("서비스 탈퇴를 합니다.")
                 }
-                .alert("인증이 만료되어 재로그인이 필요한 작업입니다.", isPresented: $isReAuthAlert) {
+                .alert("인증이 만료되어 다시 로그인후 탈퇴해주세요.", isPresented: $isReAuthAlert) {
                     Button("확인") {}
                 }
                 .alert("알 수 없는 오류가 발생했습니다.", isPresented: $isErrorAlert) {
