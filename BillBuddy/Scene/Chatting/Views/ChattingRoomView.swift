@@ -119,8 +119,9 @@ struct ChattingRoomView: View {
             ChattingMenuView(travel: travel)
         } label: {
             HStack {
-                Image(.announcementMegaphoneBlue)
+                Image(.announcementMegaphone)
                     .resizable()
+                    .renderingMode(.template)
                     .foregroundColor(.myPrimary)
                     .frame(width: 24, height: 24)
                     .padding(.leading, 12)
@@ -392,11 +393,13 @@ struct ChattingRoomView: View {
                     }
                 } label: {
                     if !inputText.isEmpty || selectedPhoto != nil {
-                        Image(.sendMessageBlue)
+                        Image(.sendMessage)
                             .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.myPrimary)
                             .frame(width: 24, height: 24)
                     } else {
-                        Image(.mailSendEmailMessage35)
+                        Image(.sendMessage)
                             .resizable()
                             .frame(width: 24, height: 24)
                     }

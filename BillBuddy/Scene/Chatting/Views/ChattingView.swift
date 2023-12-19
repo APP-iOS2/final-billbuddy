@@ -70,9 +70,9 @@ struct ChattingView: View {
                 tabViewStore.pushView(type: .chatting, travel: travel)
             } label: {
                 HStack {
-                    Circle()
+                    Image(.chatroom)
+                        .resizable()
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
                             Text(travel.travelTitle)
