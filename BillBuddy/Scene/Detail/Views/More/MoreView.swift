@@ -76,10 +76,16 @@ struct MoreView: View {
                                 )
                                 .environmentObject(travelDetailStore)
                             case .mamberManagement:
-                                MemberManagementView(travel: travel)
+                                MemberManagementView(
+                                    paymentsOfType: paymentStore.payments, 
+                                    travel: travel,
+                                    entryViewtype: .more
+                                )
                                     .environmentObject(travelDetailStore)
                             case .settledAccount:
-                                SettledAccountView(entryViewtype: .more)
+                                SettledAccountView(
+                                    entryViewtype: .more
+                                )
                                     .environmentObject(travelDetailStore)
                             }
                         } label: {
