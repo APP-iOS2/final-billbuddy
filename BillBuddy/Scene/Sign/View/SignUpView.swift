@@ -23,163 +23,165 @@ struct SignUpView: View {
                 .font(.title05)
                 .padding(.bottom, 24)
                 .padding(.top, 17)
-            
-            VStack(alignment: .leading) {
-                TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
-                    .padding(16)
-                    .font(.body04)
-                    .autocapitalization(.none)
-                    .frame(width: 351, height: 52)
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isNameTextError ? Color.error : Color.gray300, lineWidth: 2))
-                    .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isNameTextError ? 0 : 12)
-                    .focused($isKeyboardUp)
-                
-                if signUpStore.isNameTextError {
-                    Text("이름은 2자리 이상 입력해주세요.")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
+            scro
+            ScrollView {
+                VStack(alignment: .leading) {
+                    TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
+                        .padding(16)
+                        .font(.body04)
+                        .autocapitalization(.none)
+                        .frame(width: 351, height: 52)
+                        .background(RoundedRectangle(cornerRadius: 12)
+                            .stroke(signUpStore.isNameTextError ? Color.error : Color.gray300, lineWidth: 2))
+                        .cornerRadius(12)
+                        .padding(.bottom, signUpStore.isNameTextError ? 0 : 12)
+                        .focused($isKeyboardUp)
+                    
+                    if signUpStore.isNameTextError {
+                        Text("이름은 2자리 이상 입력해주세요.")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    TextField("이메일을 입력해주세요", text: $signUpStore.signUpData.email)
+                        .padding(16)
+                        .font(.body04)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .frame(width: 351, height: 52)
+                        .background(RoundedRectangle(cornerRadius: 12)
+                            .stroke(signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? Color.error : Color.gray300, lineWidth: 2))
+                        .cornerRadius(12)
+                        .padding(.bottom, signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? 0 : 12)
+                        .focused($isKeyboardUp)
+                    
+                    if signUpStore.isEmailTextError {
+                        Text("정확한 이메일을 입력해주세요")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    if signUpStore.isEmailInUseError {
+                        Text("이미 가입한 이메일 입니다.")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    SecureField("비밀번호를 입력해주세요", text: $signUpStore.signUpData.password)
+                        .padding(16)
+                        .font(.body04)
+                        .autocapitalization(.none)
+                        .frame(width: 351, height: 52)
+                        .background(RoundedRectangle(cornerRadius: 12)
+                            .stroke(signUpStore.isPasswordCountError ? Color.error : Color.gray300, lineWidth: 2))
+                        .cornerRadius(12)
+                        .padding(.bottom, signUpStore.isPasswordCountError ? 0 : 12)
+                        .focused($isKeyboardUp)
+                    
+                    if signUpStore.isPasswordCountError {
+                        Text("비밀번호는 6자리 이상 입력해주세요")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    SecureField("비밀번호 확인", text:$signUpStore.signUpData.passwordConfirm)
+                        .padding(16)
+                        .font(.body04)
+                        .autocapitalization(.none)
+                        .frame(width: 351, height: 52)
+                        .background(RoundedRectangle(cornerRadius: 12)
+                            .stroke(signUpStore.isPasswordUnCorrectError ? Color.error : Color.gray300, lineWidth: 2))
+                        .cornerRadius(12)
+                        .padding(.bottom, signUpStore.isPasswordUnCorrectError ? 0 : 12)
+                        .focused($isKeyboardUp)
+                    
+                    if signUpStore.isPasswordUnCorrectError {
+                        Text("비밀번호가 서로 다릅니다")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
+                    
+                    TextField("전화번호를 입력해주세요", text: $signUpStore.signUpData.phoneNum)
+                        .padding(16)
+                        .font(.body04)
+                        .autocapitalization(.none)
+                        .frame(width: 351, height: 52)
+                        .background(RoundedRectangle(cornerRadius: 12)
+                            .stroke(signUpStore.isPhoneNumError ? Color.error : Color.gray300, lineWidth: 2))
+                        .cornerRadius(12)
+                        .padding(.bottom, signUpStore.isPhoneNumError ? 0 : 12)
+                        .focused($isKeyboardUp)
+                    
+                    if signUpStore.isPhoneNumError {
+                        Text("휴대폰 번호 11자리 입력해주세요")
+                            .font(.caption03)
+                            .foregroundColor(.error)
+                            .padding(.leading, 3)
+                            .padding(.bottom, 12)
+                    }
                 }
-                
-                TextField("이메일을 입력해주세요", text: $signUpStore.signUpData.email)
-                    .padding(16)
-                    .font(.body04)
-                    .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
-                    .frame(width: 351, height: 52)
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? Color.error : Color.gray300, lineWidth: 2))
-                    .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isEmailTextError || signUpStore.isEmailInUseError ? 0 : 12)
-                    .focused($isKeyboardUp)
-                
-                if signUpStore.isEmailTextError {
-                    Text("정확한 이메일을 입력해주세요")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-                
-                if signUpStore.isEmailInUseError {
-                    Text("이미 가입한 이메일 입니다.")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-                
-                SecureField("비밀번호를 입력해주세요", text: $signUpStore.signUpData.password)
-                    .padding(16)
-                    .font(.body04)
-                    .autocapitalization(.none)
-                    .frame(width: 351, height: 52)
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isPasswordCountError ? Color.error : Color.gray300, lineWidth: 2))
-                    .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isPasswordCountError ? 0 : 12)
-                    .focused($isKeyboardUp)
-                
-                if signUpStore.isPasswordCountError {
-                    Text("비밀번호는 6자리 이상 입력해주세요")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-                
-                SecureField("비밀번호 확인", text:$signUpStore.signUpData.passwordConfirm)
-                    .padding(16)
-                    .font(.body04)
-                    .autocapitalization(.none)
-                    .frame(width: 351, height: 52)
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isPasswordUnCorrectError ? Color.error : Color.gray300, lineWidth: 2))
-                    .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isPasswordUnCorrectError ? 0 : 12)
-                    .focused($isKeyboardUp)
-                
-                if signUpStore.isPasswordUnCorrectError {
-                    Text("비밀번호가 서로 다릅니다")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-                
-                TextField("전화번호를 입력해주세요", text: $signUpStore.signUpData.phoneNum)
-                    .padding(16)
-                    .font(.body04)
-                    .autocapitalization(.none)
-                    .frame(width: 351, height: 52)
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .stroke(signUpStore.isPhoneNumError ? Color.error : Color.gray300, lineWidth: 2))
-                    .cornerRadius(12)
-                    .padding(.bottom, signUpStore.isPhoneNumError ? 0 : 12)
-                    .focused($isKeyboardUp)
-                
-                if signUpStore.isPhoneNumError {
-                    Text("휴대폰 번호 11자리 입력해주세요")
-                        .font(.caption03)
-                        .foregroundColor(.error)
-                        .padding(.leading, 3)
-                        .padding(.bottom, 12)
-                }
-            }
             
             AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
             AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
             
             Spacer()
             
-            Group {
-                Button(action: {
-                    isShowingProgressView = true
-
-                    let isNameValid = signUpStore.signUpData.name.count >= 2
-                    let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
-
-                    signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
-                        let isPasswordValid = signUpStore.signUpData.password.count >= 6
-                        let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
-                        let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
-                        let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
-                        let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
+                Group {
+                    Button(action: {
+                        isShowingProgressView = true
                         
-                        if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
-                            isShowingAlert = true
+                        let isNameValid = signUpStore.signUpData.name.count >= 2
+                        let isEmailValid = signUpStore.isValidEmailId(signUpStore.signUpData.email)
+                        
+                        signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
+                            let isPasswordValid = signUpStore.signUpData.password.count >= 6
+                            let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
+                            let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
+                            let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
+                            let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
                             
-                            Task {
-                                if await signUpStore.postSignUp() {
-                                    // Success
-                                } else {
-                                    print("실패")
+                            if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
+                                isShowingAlert = true
+                                
+                                Task {
+                                    if await signUpStore.postSignUp() {
+                                        // Success
+                                    } else {
+                                        print("실패")
+                                    }
                                 }
+                            } else {
+                                signUpStore.isNameTextError = !isNameValid
+                                signUpStore.isEmailTextError = !isEmailValid
+                                signUpStore.isEmailInUseError = !isEmailInUse
+                                signUpStore.isPasswordCountError = !isPasswordValid
+                                signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
+                                signUpStore.isPhoneNumError = !isPhoneNumValid
                             }
-                        } else {
-                            signUpStore.isNameTextError = !isNameValid
-                            signUpStore.isEmailTextError = !isEmailValid
-                            signUpStore.isEmailInUseError = !isEmailInUse
-                            signUpStore.isPasswordCountError = !isPasswordValid
-                            signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
-                            signUpStore.isPhoneNumError = !isPhoneNumValid
                         }
-                    }
-                }, label: {
-                    Text("가입하기")
-                        .font(.body02)
-                        .foregroundColor(.white)
-                        .frame(width: 351, height: 52)
-                        .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
-                        .cornerRadius(12)
-                })
-                .disabled(!signUpStore.checkSignUp() ? true : false)
-                .alert("회원가입 완료", isPresented: $isShowingAlert) {
-                    Button("확인") {
-                        dismiss()
+                    }, label: {
+                        Text("가입하기")
+                            .font(.body02)
+                            .foregroundColor(.white)
+                            .frame(width: 351, height: 52)
+                            .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
+                            .cornerRadius(12)
+                    })
+                    .disabled(!signUpStore.checkSignUp() ? true : false)
+                    .alert("회원가입 완료", isPresented: $isShowingAlert) {
+                        Button("확인") {
+                            dismiss()
+                        }
                     }
                 }
             }
@@ -204,6 +206,7 @@ struct SignUpView: View {
         .onAppear {
             signUpStore.signUpData = SignUpData()
         }
+        
     }
 }
 
