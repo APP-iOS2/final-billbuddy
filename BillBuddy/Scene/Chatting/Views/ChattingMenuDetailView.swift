@@ -39,9 +39,7 @@ struct ChattingMenuDetailView: View {
             .padding(.horizontal, 16)
         }
         .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
+            messageStore.getChatRoomData(travelCalculation: travel)
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)

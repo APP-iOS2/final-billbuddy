@@ -28,9 +28,7 @@ struct ChattingMenuView: View {
             exitView
         }
         .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
+            messageStore.getChatRoomData(travelCalculation: travel)
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarTitleDisplayMode(.inline)

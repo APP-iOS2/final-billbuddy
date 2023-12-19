@@ -101,6 +101,7 @@
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
 		90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */; };
+		A5F56A272B30ADC90000F6A9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5F56A262B30ADC90000F6A9 /* GoogleService-Info.plist */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
 		C45E24EE2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */; };
 		C478B1922AC6BAE8005EE427 /* FillInPaymentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */; };
@@ -146,7 +147,6 @@
 		FFBA42A22B2C6D4F00915D2F /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */; };
 		FFBA42A42B2C9A9400915D2F /* MessageAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBA42A32B2C9A9400915D2F /* MessageAlertView.swift */; };
 		FFCF22592B24500000B79BF9 /* SNSSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFCF22582B24500000B79BF9 /* SNSSignInService.swift */; };
-		FFD341AE2B304D7C00602FE4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FFD341AD2B304D7C00602FE4 /* GoogleService-Info.plist */; };
 		FFFFF4212B2F019F0040B72B /* GoogleSIgnInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFFF4202B2F019F0040B72B /* GoogleSIgnInStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -242,6 +242,7 @@
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAlertText.swift; sourceTree = "<group>"; };
+		A5F56A262B30ADC90000F6A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMemberManagementView.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillInPaymentInfoView.swift; sourceTree = "<group>"; };
@@ -283,7 +284,6 @@
 		FFBA42A12B2C6D4F00915D2F /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		FFBA42A32B2C9A9400915D2F /* MessageAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAlertView.swift; sourceTree = "<group>"; };
 		FFCF22582B24500000B79BF9 /* SNSSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SNSSignInService.swift; sourceTree = "<group>"; };
-		FFD341AD2B304D7C00602FE4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FFFFF4202B2F019F0040B72B /* GoogleSIgnInStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSIgnInStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -551,7 +551,7 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
-				FFD341AD2B304D7C00602FE4 /* GoogleService-Info.plist */,
+				A5F56A262B30ADC90000F6A9 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -1038,7 +1038,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FFD341AE2B304D7C00602FE4 /* GoogleService-Info.plist in Resources */,
+				A5F56A272B30ADC90000F6A9 /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,

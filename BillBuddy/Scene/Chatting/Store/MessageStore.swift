@@ -186,15 +186,22 @@ final class MessageStore: ObservableObject {
     }
     
     /// 채팅방 데이터 가져오기
-    func getChatRoomData(travelCalculation: TravelCalculation) async {
-        do {
-            let snapshotData = try await db.document(travelCalculation.id).getDocument()
-            let travelData = try snapshotData.data(as: TravelCalculation.self)
-            DispatchQueue.main.async {
-                self.travel = travelData
+    func getChatRoomData(travelCalculation: TravelCalculation)  {
+        db.document(travelCalculation.id).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Failed to load chat room data: \(error)")
+                return
             }
-        } catch {
-            print(error)
+            guard let querySnapshot = snapshot else {
+                print("No data available")
+                return
+            }
+            do {
+                let item = try querySnapshot.data(as: TravelCalculation.self)
+                self.travel = item
+            } catch {
+                print("Failed to fetch chat message: \(error)")
+            }
         }
     }
 }

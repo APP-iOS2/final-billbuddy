@@ -43,9 +43,7 @@ struct ChattingRoomView: View {
         }
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
+            messageStore.getChatRoomData(travelCalculation: travel)
             //처음에 leadingCount 수만큼 메시지 데이터 불러옴
             messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
         }
