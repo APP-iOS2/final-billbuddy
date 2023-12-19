@@ -111,12 +111,12 @@ struct SignUpView: View {
                             .padding(.bottom, 12)
                     }
                 }
-            
-            AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
-            AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
-            
-            Spacer()
-            
+                
+                AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
+                AgreementCheckButton(agreement: $signUpStore.signUpData.isPrivacyAgree, text: "개인정보 취급방침에 동의합니다.(필수)")
+                
+                Spacer()
+            }
                 Group {
                     Button(action: {
                         isShowingProgressView = true
@@ -148,6 +148,7 @@ struct SignUpView: View {
                                 signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
                             }
                         }
+                        
                     }, label: {
                         Text("가입하기")
                             .font(.body02)
@@ -156,6 +157,7 @@ struct SignUpView: View {
                             .background(!signUpStore.checkSignUp() ? Color.gray400 : Color.myPrimary)
                             .cornerRadius(12)
                     })
+                    .padding(.bottom, 59)
                     .disabled(!signUpStore.checkSignUp() ? true : false)
                     .alert("회원가입 완료", isPresented: $isShowingAlert) {
                         Button("확인") {
@@ -163,7 +165,6 @@ struct SignUpView: View {
                         }
                     }
                 }
-            }
         }
         .onTapGesture {
             isKeyboardUp = false
