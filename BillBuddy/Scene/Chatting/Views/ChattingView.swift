@@ -15,14 +15,13 @@ struct ChattingView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                chattingItems
-                    .padding(.top, 5)
-                    .overlay(
-                        Rectangle()
-                            .frame(height: 1, alignment: .top)
-                            .foregroundColor(.gray100), alignment: .top
-                    )
+            if sortedList().isEmpty {
+                emptyList
+            } else {
+                ScrollView {
+                    chattingItems
+                        .padding(.top, 5)
+                }
             }
             Divider().padding(0)
         }
@@ -52,6 +51,16 @@ struct ChattingView: View {
                         .foregroundColor(.systemBlack)
                 }
             }
+        }
+    }
+    
+    private var emptyList: some View {
+        VStack {
+            Spacer()
+            Text("참여 중인 채팅이 없습니다.")
+                .font(.body04)
+                .foregroundColor(.gray600)
+            Spacer()
         }
     }
     
