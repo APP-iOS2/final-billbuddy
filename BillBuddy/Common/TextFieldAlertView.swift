@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TextFieldAlert: View {
+struct TextFieldAlertView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var isPresented: Bool
     @Binding var textField: String
@@ -80,7 +80,7 @@ struct TextAlertModifier: ViewModifier {
                         .fill(.black.opacity(0.5))
                         .blur(radius: isPresented ? 2 : 0)
                         .ignoresSafeArea()
-                    TextFieldAlert(isPresented: self.$isPresented, textField: self.$textField, message: self.message, isDismiss: self.isDismiss, action: self.action)
+                    TextFieldAlertView(isPresented: self.$isPresented, textField: self.$textField, message: self.message, isDismiss: self.isDismiss, action: self.action)
                         .transition(.asymmetric(insertion: .scale(scale: 1.1).animation(.spring(response: 0.2)), removal: .opacity.animation(.spring(response: 0.2))))
                 }
             }
@@ -91,5 +91,5 @@ struct TextAlertModifier: ViewModifier {
 
 
 #Preview {
-    TextFieldAlert(isPresented: .constant(true), textField: .constant(""), message: "", isDismiss: false, action: {})
+    TextFieldAlertView(isPresented: .constant(true), textField: .constant(""), message: "", isDismiss: false, action: {})
 }

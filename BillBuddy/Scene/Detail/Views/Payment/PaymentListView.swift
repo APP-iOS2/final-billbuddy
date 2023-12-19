@@ -92,24 +92,26 @@ struct PaymentListView: View {
             .padding(.leading, 16)
             .padding(.trailing, 24)
             .swipeActions {
-                Button(role: .destructive) {
-                    selectedPayment = payment
-                    isShowingDeletePayment = true
-                } label: {
-                    Text("삭제")
+                if travelDetailStore.travel.isPaymentSettled == false {
+                    Button(role: .destructive) {
+                        selectedPayment = payment
+                        isShowingDeletePayment = true
+                    } label: {
+                        Text("삭제")
+                    }
+                    .frame(width: 88)
+                    .buttonStyle(.plain)
+                    
+                    
+                    NavigationLink {
+                        PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
+                            .environmentObject(paymentStore)
+                    } label: {
+                        Text("수정")
+                    }
+                    .frame(width: 88)
+                    .background(Color.gray500)
                 }
-                .frame(width: 88)
-                .buttonStyle(.plain)
-                
-                
-                NavigationLink {
-                    PaymentManageView(mode: .edit, payment: payment, travelCalculation: travelDetailStore.travel)
-                        .environmentObject(paymentStore)
-                } label: {
-                    Text("수정")
-                }
-                .frame(width: 88)
-                .background(Color.gray500)
             }
             .onChange(of: isEditing) { newValue in
                 if isEditing == false {

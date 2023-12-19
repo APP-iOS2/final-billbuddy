@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChattingMenuDetailView: View {
     @EnvironmentObject private var messageStore: MessageStore
@@ -38,9 +39,7 @@ struct ChattingMenuDetailView: View {
             .padding(.horizontal, 16)
         }
         .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
+            messageStore.getChatRoomData(travelCalculation: travel)
         }
         .navigationBarBackButtonHidden()
         .navigationBarTitleDisplayMode(.inline)
@@ -134,15 +133,14 @@ struct ChattingMenuDetailView: View {
                 ScrollView {
                     LazyVGrid(columns: columns) {
                         ForEach(existImageList.reversed(), id: \.self) { image in
-                            AsyncImage(url: URL(string: image)) { img in
-                                img
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:112, height: 112)
-                            } placeholder: {
-                                ProgressView()
-                                    .frame(width:112, height: 112)
-                            }
+                            KFImage(URL(string: image))
+                                .placeholder{
+                                    ProgressView()
+                                        .frame(width:112, height: 112)
+                                }
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:112, height: 112)
                         }
                     }
                 }

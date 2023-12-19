@@ -93,9 +93,11 @@ final class SettlementExpensesStore: ObservableObject {
                 personaPayment = payment.payment / payment.participants.count
             }
             for participant in payment.participants {
-                let index = members.firstIndex(where: { $0.id == participant.memberId } )
-                newExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
-                newExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
+                guard let index = members.firstIndex(where: { $0.id == participant.memberId } ) else {
+                    continue
+                }
+                newExpenses.members[index].totalParticipationAmount += participant.seperateAmount
+                newExpenses.members[index].totalParticipationAmount -= participant.advanceAmount
             }
         }
         

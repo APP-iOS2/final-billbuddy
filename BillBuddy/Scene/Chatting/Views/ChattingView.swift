@@ -15,14 +15,13 @@ struct ChattingView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                chattingItems
-                    .padding(.top, 5)
-                    .overlay(
-                        Rectangle()
-                            .frame(height: 1, alignment: .top)
-                            .foregroundColor(.gray100), alignment: .top
-                    )
+            if sortedList().isEmpty {
+                emptyList
+            } else {
+                ScrollView {
+                    chattingItems
+                        .padding(.top, 5)
+                }
             }
             Divider().padding(0)
         }
@@ -55,15 +54,25 @@ struct ChattingView: View {
         }
     }
     
+    private var emptyList: some View {
+        VStack {
+            Spacer()
+            Text("참여 중인 채팅이 없습니다.")
+                .font(.body04)
+                .foregroundColor(.gray600)
+            Spacer()
+        }
+    }
+    
     private var chattingItems: some View {
         ForEach(sortedList()) { travel in
             Button {
                 tabViewStore.pushView(type: .chatting, travel: travel)
             } label: {
                 HStack {
-                    Circle()
+                    Image(.chatroom)
+                        .resizable()
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
                             Text(travel.travelTitle)

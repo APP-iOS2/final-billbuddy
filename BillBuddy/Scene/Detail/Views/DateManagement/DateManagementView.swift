@@ -14,6 +14,7 @@ struct DateManagementView: View {
     @EnvironmentObject private var userTravelStore: UserTravelStore
     @EnvironmentObject private var travelDetailStore: TravelDetailStore
     @State private var isPresentedSheet: Bool = false
+    @State private var isPresentedSettledAlert: Bool = false
     @State var travel: TravelCalculation
     @State var paymentDates: [Date]
     let entryViewtype: EntryViewType
@@ -34,7 +35,11 @@ struct DateManagementView: View {
                             .font(.body02)
                         Spacer()
                         Button("\(travel.startDate.toFormattedMonthAndDate()) - \(travel.endDate.toFormattedMonthAndDate())") {
-                            isPresentedSheet = true
+                            if travel.isPaymentSettled {
+                                isPresentedSettledAlert = true
+                            } else {
+                                isPresentedSheet = true
+                            }
                         }
                         .frame(width: 100, height: 30)
                         .background(Color.myPrimaryLight)
@@ -47,7 +52,12 @@ struct DateManagementView: View {
                 }
                 .frame(width: 361, height: 52)
                 .padding(.top, 16)
-
+            
+        }
+        .alert("정산된 여행입니다.", isPresented: $isPresentedSettledAlert) {
+            Button("확인") {
+                isPresentedSettledAlert = false
+            }
         }
         .onAppear {
             getPaymentDates()

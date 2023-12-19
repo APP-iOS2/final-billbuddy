@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ChattingMenuView: View {
     @Environment(\.dismiss) private var dismiss
@@ -27,9 +28,7 @@ struct ChattingMenuView: View {
             exitView
         }
         .onAppear {
-            Task {
-                await messageStore.getChatRoomData(travelCalculation: travel)
-            }
+            messageStore.getChatRoomData(travelCalculation: travel)
         }
         .ignoresSafeArea(.all, edges: .bottom)
         .navigationBarTitleDisplayMode(.inline)
@@ -121,7 +120,9 @@ struct ChattingMenuView: View {
             HStack {
                 Image(.gallery)
                     .resizable()
-                    .frame(width: 24, height: 24)
+                    .renderingMode(.template)
+                    .foregroundColor(.black)
+                    .frame(width: 17, height: 17)
                 Text("사진")
                     .font(.body04)
                     .foregroundColor(.gray900)
@@ -143,15 +144,14 @@ struct ChattingMenuView: View {
                     GridItem(.flexible())
                 ]) {
                     ForEach(existImageList.reversed().prefix(6), id: \.self) { image in
-                        AsyncImage(url: URL(string: image)) { img in
-                            img
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width:112, height: 112)
-                        } placeholder: {
-                            ProgressView()
-                                .frame(width:112, height: 112)
-                        }
+                        KFImage(URL(string: image))
+                            .placeholder{
+                                ProgressView()
+                                    .frame(width:112, height: 112)
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:112, height: 112)
                     }
                 }
             } else {
@@ -176,7 +176,6 @@ struct ChattingMenuView: View {
             .overlay(alignment: .init(horizontal: .leading, vertical: .top)) {
                 Button {
                     isPresentedLeaveAlert = true
-
                 } label: {
                     HStack {
                         Image(.exit)
@@ -189,16 +188,14 @@ struct ChattingMenuView: View {
                 }
                 .padding(EdgeInsets(top: 18, leading: 16, bottom: 0, trailing: 0))
             }
-        .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
-            Button("머물기", role: .cancel) { }
-            Button("여행 떠나기", role: .destructive) {
-                userTravelStore.leaveTravel(travel: travel)
-                tabViewStore.poToRoow()
+            .alert("여행을 나가시겠습니까", isPresented: $isPresentedLeaveAlert) {
+                Button("머물기", role: .cancel) { }
+                Button("여행 떠나기", role: .destructive) {
+                    userTravelStore.leaveTravel(travel: travel)
+                    tabViewStore.poToRoow()
+                }
             }
-
-        }
     }
-        
 }
 
 #Preview {

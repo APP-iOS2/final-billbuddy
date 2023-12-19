@@ -41,67 +41,65 @@ struct ChattingRoomView: View {
             }
             chattingInputBar
         }
-            .onAppear {
-                tabBarVisivilyStore.hideTabBar()
-                Task {
-                    await messageStore.getChatRoomData(travelCalculation: travel)
-                }
-                //처음에 leadingCount 수만큼 메시지 데이터 불러옴
-                messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
-            }
+        .onAppear {
+            tabBarVisivilyStore.hideTabBar()
+            messageStore.getChatRoomData(travelCalculation: travel)
+            //처음에 leadingCount 수만큼 메시지 데이터 불러옴
+            messageStore.fetchMessages(travelCalculation: travel, count: leadingCount)
+        }
         //해당 뷰에서 나갈 경우 비워주기
-            .onDisappear {
-                messageStore.messages.removeAll()
-                messageStore.lastDoc = nil
+        .onDisappear {
+            messageStore.messages.removeAll()
+            messageStore.lastDoc = nil
+        }
+        .onChange(of: selectedPhoto) { newValue in
+            guard let item = selectedPhoto else {
+                return
             }
-            .onChange(of: selectedPhoto) { newValue in
-                guard let item = selectedPhoto else {
-                    return
-                }
-                item.loadTransferable(type: Data.self) { result in
-                    switch result {
-                    case .success(let data):
-                        if let data = data {
-                            self.imageData = data
-                        } else {
-                            print("no image")
-                        }
-                    case .failure(let failure):
-                        fatalError("\(failure)")
+            item.loadTransferable(type: Data.self) { result in
+                switch result {
+                case .success(let data):
+                    if let data = data {
+                        self.imageData = data
+                    } else {
+                        print("no image")
                     }
+                case .failure(let failure):
+                    fatalError("\(failure)")
                 }
             }
-            .onTapGesture {
-                isKeyboardUp = false
+        }
+        .onTapGesture {
+            isKeyboardUp = false
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    dismiss()
+                }, label: {
+                    Image(.arrowBack)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                })
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar(tabBarVisivilyStore.visivility, for: .tabBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }, label: {
-                        Image(.arrowBack)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    })
-                }
-                ToolbarItem(placement: .principal) {
-                    Text(travel.travelTitle)
-                        .font(.title05)
-                        .foregroundColor(.systemBlack)
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        ChattingMenuView(travel: travel)
-                    } label: {
-                        Image(.steps13)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                    }
+            ToolbarItem(placement: .principal) {
+                Text(travel.travelTitle)
+                    .font(.title05)
+                    .foregroundColor(.systemBlack)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    ChattingMenuView(travel: travel)
+                } label: {
+                    Image(.steps13)
+                        .resizable()
+                        .frame(width: 24, height: 24)
                 }
             }
+        }
     }
     
     /// 아직 채팅을 시작하지 않았을 때
@@ -121,8 +119,9 @@ struct ChattingRoomView: View {
             ChattingMenuView(travel: travel)
         } label: {
             HStack {
-                Image(.announcementMegaphoneBlue)
+                Image(.announcementMegaphone)
                     .resizable()
+                    .renderingMode(.template)
                     .foregroundColor(.myPrimary)
                     .frame(width: 24, height: 24)
                     .padding(.leading, 12)
@@ -158,9 +157,6 @@ struct ChattingRoomView: View {
                             HStack {
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text(message.userName ?? "이름없음")
-                                        .font(Font.caption02)
-                                        .foregroundColor(.systemBlack)
                                     HStack {
                                         VStack {
                                             Spacer()
@@ -189,7 +185,9 @@ struct ChattingRoomView: View {
                                                     .cornerRadius(12)
                                                     .contextMenu {
                                                         Button {
-                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            Task {
+                                                                await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
@@ -203,23 +201,6 @@ struct ChattingRoomView: View {
                                             }
                                         }
                                     }
-                                }
-                                VStack {
-                                    if let userImage = userService.currentUser?.userImage {
-                                        KFImage(URL(string: userImage)!)
-                                            .placeholder {
-                                                ProgressView()
-                                                    .frame(width: 40, height: 40)
-                                            }
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Image(.defaultUser)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                    }
-                                    Spacer()
                                 }
                             }
                             .padding(.horizontal)
@@ -284,7 +265,9 @@ struct ChattingRoomView: View {
                                                     .cornerRadius(12)
                                                     .contextMenu {
                                                         Button {
-                                                            messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            Task {
+                                                                await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                            }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
@@ -389,10 +372,17 @@ struct ChattingRoomView: View {
                         inputText.removeAll()
                     }
                 } label: {
-                    Image(.mailSendEmailMessage35)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.gray600)
+                    if !inputText.isEmpty || selectedPhoto != nil {
+                        Image(.sendMessage)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.myPrimary)
+                            .frame(width: 24, height: 24)
+                    } else {
+                        Image(.sendMessage)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
                 .padding(.trailing, 10)
             }
@@ -415,7 +405,7 @@ struct ChattingRoomView: View {
                     isRead: false
                 )
                 messageStore.sendMessage(travelCalculation: travel, message: newMessage)
-                messageStore.updateChatRoomImages(travelCalculation: travel, message: newMessage)
+                await messageStore.updateChatRoomImages(travelCalculation: travel, message: newMessage)
                 imageData?.removeAll()
             }
         } else {

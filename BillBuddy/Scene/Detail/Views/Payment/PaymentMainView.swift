@@ -84,7 +84,7 @@ struct PaymentMainView: View {
                     Spacer()
                     
                     NavigationLink {
-                        SettledAccountView()
+                        SettledAccountView(entryViewtype: .more)
                             .environmentObject(travelDetailStore)
                     } label: {
                         Text(travelDetailStore.travel.isPaymentSettled ? "정산내역": "정산하기")
@@ -151,7 +151,7 @@ struct PaymentMainView: View {
                     .resizable()
                     .frame(width: 28, height: 28)
                 
-                Text("지출 내역 추가")
+                Text(travelDetailStore.travel.isPaymentSettled ? "정산 완료 여행" : "지출 내역 추가")
                     .font(.body04)
                     .foregroundStyle(Color.gray600)
                 
@@ -160,7 +160,7 @@ struct PaymentMainView: View {
             .padding(.top, 12)
             .padding(.bottom, 12)
         }
-        
+        .disabled(travelDetailStore.travel.isPaymentSettled)
         .background {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray100, lineWidth: 1)
@@ -266,6 +266,7 @@ struct PaymentMainView: View {
                             .foregroundStyle(Color.gray600)
                     }
                 })
+                .disabled(travelDetailStore.travel.isPaymentSettled)
             }
             .padding(.leading, 17)
             .padding(.trailing, 20)

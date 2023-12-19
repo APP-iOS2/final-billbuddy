@@ -10,7 +10,6 @@ import AuthenticationServices
 import FirebaseAuth
 
 struct AppleSignInView: View {
-    
     @Environment(\.window) var window: UIWindow?
     @State private var appleLoginCoordinator: AppleSignInStore?
     
@@ -30,7 +29,6 @@ struct AppleSignInView: View {
         .onTapGesture {
             appleSignin()
         }
-        
     }
     
     func appleSignin() {

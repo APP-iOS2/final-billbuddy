@@ -99,17 +99,17 @@ extension AppleSignInStore: ASAuthorizationControllerDelegate {
                                                            fullName: appleIDCredential.fullName)
             
             //Firebase 작업
-            Auth.auth().signIn(with: credential) { authResult, error in
-                if error != nil {
-                    return
-                }
-                
-                guard let userId = authResult?.user.uid else { return }
-                let fullName = appleIDCredential.fullName
-                let name =  (fullName?.familyName ?? "") + (fullName?.givenName ?? "")
-                guard let email = authResult?.user.email else { return }
-                print(userId)
-                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email)
+                Auth.auth().signIn(with: credential) { authResult, error in
+                    if error != nil {
+                        return
+                    }
+                    
+                    guard let userId = authResult?.user.uid else { return }
+                    let name =  (appleIDCredential.fullName?.familyName ?? "") + (appleIDCredential.fullName?.givenName ?? "")
+                    guard let email = authResult?.user.email else { return }
+                    let phoneNum = authResult?.user.phoneNumber ?? ""
+                    
+                    SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
             }
         }
     }

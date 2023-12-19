@@ -6,22 +6,33 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MemberCell: View {
     @ObservedObject var sampleMemeberStore: SampleMemeberStore
     @Binding var isShowingShareSheet: Bool
     var member: TravelCalculation.Member
+    let isPaymentSettled: Bool
     
     var onEditing: () -> Void
     var onRemove: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
-            Image(.profile)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-                .padding(.leading, 8)
+            if member.userImage != "" {
+                KFImage(URL(string: member.userImage))
+                    .placeholder {
+                        ProgressView()
+                            .frame(width: 40, height: 40)
+                    }
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+            } else {
+                Image(.defaultUser)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+            }
 
             
             VStack(alignment: .leading, spacing: 0) {
@@ -54,18 +65,18 @@ struct MemberCell: View {
                 .padding(.trailing, 12)
             }
         }
-        
         .swipeActions(edge: .trailing) {
-            Button("삭제") {
-                onRemove()
+            if isPaymentSettled == false {
+                Button("삭제") {
+                    onRemove()
+                }
+                .tint(Color.error)
+                
+                Button("수정") {
+                    onEditing()
+                }
+                .tint(Color.gray500)
             }
-            .tint(Color.error)
-            
-            Button("수정") {
-                onEditing()
-            }
-            .tint(Color.gray500)
-            
         }
         .frame(height: 40)
         .padding([.top, .bottom], 12)
@@ -73,5 +84,5 @@ struct MemberCell: View {
 }
 
 #Preview {
-    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), onEditing: { print("edit") }, onRemove: { print("remove") })
+    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), isPaymentSettled: false, onEditing: { print("edit") }, onRemove: { print("remove") })
 }

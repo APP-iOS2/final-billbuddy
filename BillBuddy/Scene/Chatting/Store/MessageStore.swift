@@ -157,41 +157,51 @@ final class MessageStore: ObservableObject {
     }
     
     /// 채팅방 사이드메뉴 이미지 배열 업데이트
-    func updateChatRoomImages(travelCalculation: TravelCalculation, message: Message) {
+    func updateChatRoomImages(travelCalculation: TravelCalculation, message: Message) async {
         guard let imageExist = message.imageString else { return }
-        Task {
+        do {
             try await db.document(travelCalculation.id)
                 .updateData([
                     "chatImages": FieldValue.arrayUnion([imageExist])
                 ])
+        } catch {
+            print("failed to update image list \(error)")
         }
     }
     
     /// 채팅방 공지사항 업데이트
-    func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) {
+    func updateChatRoomNotice(travelCalculation: TravelCalculation, message: Message) async {
         guard let existMessage = message.message else { return }
         let data = [ "notice" : existMessage,
-                     "name" : message.userName as Any,
+                     "name" : message.userName ?? "이름없음",
                      "date" : message.sendDate
         ] as [String : Any]
-        Task {
-            try await db.document(travelCalculation.id)
-                .updateData([
+        do {
+            try await db.document(travelCalculation.id).updateData([
                     "chatNotice": FieldValue.arrayUnion([data])
                 ])
+        } catch {
+            print("failed to update notice \(error)")
         }
     }
     
     /// 채팅방 데이터 가져오기
-    func getChatRoomData(travelCalculation: TravelCalculation) async {
-        do {
-            let snapshotData = try await db.document(travelCalculation.id).getDocument()
-            let travelData = try snapshotData.data(as: TravelCalculation.self)
-            DispatchQueue.main.async {
-                self.travel = travelData
+    func getChatRoomData(travelCalculation: TravelCalculation)  {
+        db.document(travelCalculation.id).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print("Failed to load chat room data: \(error)")
+                return
             }
-        } catch {
-            print(error)
+            guard let querySnapshot = snapshot else {
+                print("No data available")
+                return
+            }
+            do {
+                let item = try querySnapshot.data(as: TravelCalculation.self)
+                self.travel = item
+            } catch {
+                print("Failed to fetch chat message: \(error)")
+            }
         }
     }
 }
