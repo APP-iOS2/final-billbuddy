@@ -23,7 +23,7 @@ struct SignUpView: View {
                 .font(.title05)
                 .padding(.bottom, 24)
                 .padding(.top, 17)
-            scro
+            
             ScrollView {
                 VStack(alignment: .leading) {
                     TextField("이름을 입력해주세요.", text: $signUpStore.signUpData.name)
