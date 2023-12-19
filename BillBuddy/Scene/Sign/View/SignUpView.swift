@@ -110,25 +110,6 @@ struct SignUpView: View {
                             .padding(.leading, 3)
                             .padding(.bottom, 12)
                     }
-                    
-                    TextField("전화번호를 입력해주세요", text: $signUpStore.signUpData.phoneNum)
-                        .padding(16)
-                        .font(.body04)
-                        .autocapitalization(.none)
-                        .frame(width: 351, height: 52)
-                        .background(RoundedRectangle(cornerRadius: 12)
-                            .stroke(signUpStore.isPhoneNumError ? Color.error : Color.gray300, lineWidth: 2))
-                        .cornerRadius(12)
-                        .padding(.bottom, signUpStore.isPhoneNumError ? 0 : 12)
-                        .focused($isKeyboardUp)
-                    
-                    if signUpStore.isPhoneNumError {
-                        Text("휴대폰 번호 11자리 입력해주세요")
-                            .font(.caption03)
-                            .foregroundColor(.error)
-                            .padding(.leading, 3)
-                            .padding(.bottom, 12)
-                    }
                 }
             
             AgreementCheckButton(agreement: $signUpStore.signUpData.isTermOfUseAgree, text: "이용약관에 동의합니다.(필수)")
@@ -146,11 +127,10 @@ struct SignUpView: View {
                         signUpStore.emailCheck(email: signUpStore.signUpData.email) { isEmailInUse in
                             let isPasswordValid = signUpStore.signUpData.password.count >= 6
                             let isPasswordConfirmed = signUpStore.signUpData.passwordConfirm == signUpStore.signUpData.password
-                            let isPhoneNumValid = signUpStore.signUpData.phoneNum.count == 11 && signUpStore.signUpData.phoneNum.rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
                             let isTermOfUseAgreeValid = signUpStore.signUpData.isTermOfUseAgree
                             let isPrivacyAgreeValid = signUpStore.signUpData.isPrivacyAgree
                             
-                            if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isPhoneNumValid && isTermOfUseAgreeValid && isPrivacyAgreeValid {
+                            if isNameValid && isEmailValid && isEmailInUse && isPasswordValid && isPasswordConfirmed && isTermOfUseAgreeValid && isPrivacyAgreeValid {
                                 isShowingAlert = true
                                 
                                 Task {
@@ -166,7 +146,6 @@ struct SignUpView: View {
                                 signUpStore.isEmailInUseError = !isEmailInUse
                                 signUpStore.isPasswordCountError = !isPasswordValid
                                 signUpStore.isPasswordUnCorrectError = !isPasswordConfirmed
-                                signUpStore.isPhoneNumError = !isPhoneNumValid
                             }
                         }
                     }, label: {

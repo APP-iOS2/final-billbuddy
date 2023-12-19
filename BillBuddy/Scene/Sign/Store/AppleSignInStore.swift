@@ -108,10 +108,8 @@ extension AppleSignInStore: ASAuthorizationControllerDelegate {
                 let fullName = appleIDCredential.fullName
                 let name =  (fullName?.familyName ?? "") + (fullName?.givenName ?? "")
                 guard let email = authResult?.user.email else { return }
-                let phoneNum = authResult?.user.phoneNumber ?? ""
                 print(userId)
-                print(phoneNum)
-                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email)
             }
         }
     }

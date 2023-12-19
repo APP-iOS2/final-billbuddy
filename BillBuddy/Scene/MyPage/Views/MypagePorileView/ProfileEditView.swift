@@ -13,8 +13,6 @@ struct ProfileEditView: View {
     @EnvironmentObject private var userService: UserService
     @EnvironmentObject private var myPageStore: MyPageStore
     
-    @State private var tempPhoneNum: String = ""
-    @State private var phoneNumLabel: String = ""
     @State private var tempEmail: String = ""
     @State private var emailLabel: String = ""
     @State private var tempBankName: String = ""
@@ -61,20 +59,6 @@ struct ProfileEditView: View {
                     .padding(16)
                     
                     HStack {
-                        Text("휴대폰 번호")
-                            .font(.body02)
-                        Spacer()
-                        TextField(text: $tempPhoneNum) {
-                            Text(phoneNumLabel)
-                                .foregroundColor(Color.gray600)
-                                .focused($isKeyboardUp)
-                        }
-                        .multilineTextAlignment(.trailing)
-                        .font(.body04)
-                    }
-                    .padding(16)
-                    
-                    HStack {
                         Text("이메일")
                             .font(.body02)
                         Spacer()
@@ -101,11 +85,8 @@ struct ProfileEditView: View {
                 Spacer()
                 
                 Button(action: {
-                    if myPageStore.isValidBankName(tempBankName) && myPageStore.isValidAccountNumber(tempBankAccountNum) && myPageStore.isValidPhoneNumber(tempPhoneNum) && myPageStore.isValidEmail(tempEmail) {
+                    if myPageStore.isValidBankName(tempBankName) && myPageStore.isValidAccountNumber(tempBankAccountNum) && myPageStore.isValidEmail(tempEmail) {
                         
-                        if tempPhoneNum != "" {
-                            userService.currentUser?.phoneNum = tempPhoneNum
-                        }
                         if tempEmail != "" {
                             userService.currentUser?.email = tempEmail
                         }
@@ -161,7 +142,6 @@ struct ProfileEditView: View {
             }
         }
         .onAppear {
-            phoneNumLabel = userService.currentUser?.phoneNum ?? ""
             emailLabel = userService.currentUser?.email ?? ""
             bankNameLabel = userService.currentUser?.bankName ?? ""
             bankAccountNumLabel = userService.currentUser?.bankAccountNum ?? ""
