@@ -852,6 +852,7 @@
 		900B97D02B31E34E00A89464 /* SubView */ = {
 			isa = PBXGroup;
 			children = (
+				90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */,
 				900B97CE2B31DFD300A89464 /* PaymentButtonView.swift */,
 			);
 			path = SubView;
@@ -889,7 +890,6 @@
 				C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */,
 				C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */,
 				C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */,
-				90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */,
 				900B97D02B31E34E00A89464 /* SubView */,
 			);
 			path = Payment;
