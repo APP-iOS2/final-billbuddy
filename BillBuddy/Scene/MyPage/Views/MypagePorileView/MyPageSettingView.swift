@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MyPageSettingView: View {
     
-    @EnvironmentObject var signInStore: SignInStore
-    @EnvironmentObject var signUpStore: SignUpStore
-    @EnvironmentObject var notificationStore: NotificationStore
+    @EnvironmentObject private var signInStore: SignInStore
+    @EnvironmentObject private var signUpStore: SignUpStore
+    @EnvironmentObject private var notificationStore: NotificationStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
+    @State private var isReAuthAlert: Bool = false
+    @State private var isErrorAlert: Bool = false
+    @State private var isCheckingProvider: Bool = AuthStore.shared.checkCurrentUserProviderId()
     
     var body: some View {
         ScrollView {
@@ -65,7 +71,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
+                    NavigationLink(destination: InquiryView()){
                         HStack {
                             Text("문의하기")
                             Spacer()
@@ -75,7 +81,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
+                    NavigationLink(destination: LicenseView()){
                         HStack {
                             Text("오픈소스 라이센스")
                             Spacer()
@@ -84,7 +90,19 @@ struct MyPageSettingView: View {
                                 .frame(width: 24, height: 24)
                         }
                     }
-                    .padding(.bottom, 32)
+                    .padding(.bottom, isCheckingProvider ? 36 : 32)
+                    if isCheckingProvider {
+                        NavigationLink(destination: ChangePasswordView()){
+                            HStack {
+                                Text("비밀번호 변경")
+                                Spacer()
+                                Image("chevron_right")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                        }
+                        .padding(.bottom, 32)
+                    }
                 }
                 .font(.body04)
                 .foregroundColor(.systemBlack)
@@ -110,6 +128,7 @@ struct MyPageSettingView: View {
                             if try AuthStore.shared.signOut() {
                                 UserService.shared.isSignIn = false
                                 notificationStore.resetStore()
+                                userTravelStore.resetStore()
                             }
                         } catch {
                             print("Error signing out: \(error.localizedDescription)")
@@ -130,14 +149,28 @@ struct MyPageSettingView: View {
                     Button("취소", role: .cancel) {}
                     Button("탈퇴", role: .destructive) {
                         Task {
-                            try await signUpStore.deleteUser()
-                            signInStore.deleteUser()
-                            UserService.shared.isSignIn = false
-                            notificationStore.resetStore()
+                            let resultErrorCode = try await signInStore.deleteUser()
+                            if resultErrorCode == 0 {
+                                try await signUpStore.deleteUser()
+                                UserService.shared.isSignIn = false
+                                AuthStore.shared.userUid = ""
+                                notificationStore.resetStore()
+                                userTravelStore.resetStore()
+                            } else if resultErrorCode == AuthErrorCode.requiresRecentLogin.rawValue{
+                                isReAuthAlert.toggle()
+                            } else {
+                                isErrorAlert.toggle()
+                            }
                         }
                     }
                 } message: {
                     Text("서비스 탈퇴를 합니다.")
+                }
+                .alert("인증이 만료되어 재로그인이 필요한 작업입니다.", isPresented: $isReAuthAlert) {
+                    Button("확인") {}
+                }
+                .alert("알 수 없는 오류가 발생했습니다.", isPresented: $isErrorAlert) {
+                    Button("확인") {}
                 }
             }
             .padding(.horizontal, 24)
@@ -151,5 +184,6 @@ struct MyPageSettingView: View {
             .environmentObject(SignInStore())
             .environmentObject(SignUpStore())
             .environmentObject(NotificationStore())
+            .environmentObject(UserTravelStore())
     }
 }

@@ -33,17 +33,13 @@ extension Double {
         return Self.dateFormatter.string(from: dateCreatedAt)
     }
     
-    func howManyDaysFromStartDate(startDate: Double)->Int {
-        if self < startDate {
-            return -1
-        }
-        let now = 86400 * floor(self / 86400)
-        let start = 86400 * floor(startDate / 86400)
+    func toFormattedMonthAndDate() -> String {
+        let dateCreatedAt: Date = Date(timeIntervalSince1970: self)
         
-        let difference: Double = now - start
-        let days = difference / 86400
+        Self.dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        Self.dateFormatter.dateFormat = "MM.dd"
         
-        return Int(days) + 1
+        return Self.dateFormatter.string(from: dateCreatedAt)
     }
     
     func toFormattedChatDate() -> String {
@@ -65,12 +61,41 @@ extension Double {
         return Date(timeIntervalSince1970: self)
     }
     
+    // Date 연산
+    func howManyDaysFromStartDate(startDate: Double)->Int {
+        if self < startDate {
+            return -1
+        }
+        
+        let now = 86400 * floor(self / 86400)
+        let start = 86400 * floor(startDate / 86400)
+        
+        let difference: Double = now - start
+        let days = difference / 86400
+        
+        return Int(days) + 1
+    }
+    
     func timeTo00_00_00() -> Double {
-        return 86400 * ceil(self / 86400)
+        var date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        date = calendar.date(from: dateComponents) ?? date
+        return date.timeIntervalSince1970
     }
     
     func timeTo11_59_59() -> Double {
-        return 86400 * ceil(self / 86400 + 1) - 1
+        var date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        dateComponents.hour = 23
+        dateComponents.minute = 59
+        dateComponents.second = 59
+        date = calendar.date(from: dateComponents) ?? date
+        return date.timeIntervalSince1970
     }
     
     func todayRange()->ClosedRange<Double> {
@@ -81,6 +106,13 @@ extension Double {
     }
     
     func convertGMT() -> Double {
-        return self - 9 * 60 * 60
+        var date = Date(timeIntervalSince1970: self)
+        let calendar = Calendar.current
+        var dateComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        dateComponents.hour = 0
+        dateComponents.minute = 0
+        dateComponents.second = 0
+        date = calendar.date(byAdding: .hour, value: 9, to: dateComponents.date ?? date) ?? date
+        return date.timeIntervalSince1970
     }
 }

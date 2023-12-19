@@ -27,6 +27,17 @@ struct TravelCalculation: Identifiable, Codable {
     var lastMessageDate: Double?
     // 채팅: 읽지 않은 메세지 수 [유저아이디 : 갯수]
     var unreadMessageCount: [String : Int]?
+    // 채팅방 공지
+    var chatNotice: [Notice]?
+    // 채팅방 이미지 리스트
+    var chatImages: [String]?
+    
+    // 채팅 공지사항 구조체
+    struct Notice: Codable, Hashable {
+        let notice: String
+        let name: String
+        let date: Double
+    }
     
     struct Member: Codable, Identifiable, Hashable {
         var id: String = UUID().uuidString
@@ -76,5 +87,5 @@ struct TravelCalculation: Identifiable, Codable {
         }
     }
     
-    static let sampletravel = TravelCalculation(id: "F92969E9-4F81-4F7E-A41D-86082C8F35FE", hostId: "UjxYzXDaALUqPKuDPL8kbJrYCml2", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
+    static let sampletravel = TravelCalculation(id: "273202B9-5ABD-4FC4-823C-41DBA038CC68", hostId: "UjxYzXDaALUqPKuDPL8kbJrYCml2", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
 }

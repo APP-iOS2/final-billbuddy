@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Kingfisher
 
 struct ProfileView: View {
     
@@ -20,15 +21,15 @@ struct ProfileView: View {
             HStack {
                 VStack {
                     if let userImage = userService.currentUser?.userImage {
-                        AsyncImage(url: URL(string: userImage), content: { image in
-                            image
-                                .resizable()
-                                .frame(width: 80, height: 80)
-                                .cornerRadius(50)
-                        }, placeholder: {
-                            ProgressView()
-                                .frame(width: 80, height: 80)
-                        })
+                        KFImage(URL(string: userImage)!)
+                            .placeholder {
+                                ProgressView()
+                                    .frame(width: 80, height: 80)
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                            .clipShape(Circle())
                     } else {
                         Image("profileImage")
                             .resizable()
@@ -51,9 +52,6 @@ struct ProfileView: View {
                     Text(userService.currentUser?.name ?? "")
                         .font(.body01)
                         .padding(.bottom, 8)
-                    Text("애플 계정 연결중")
-                        .font(.caption02)
-                        .foregroundColor(.gray600)
                 }
                 .padding(16)
                 Spacer()

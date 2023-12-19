@@ -17,17 +17,23 @@ final class PaymentStore: ObservableObject {
     var members: [TravelCalculation.Member]
     var travelCalculationId: String
     var dbRef: CollectionReference
-    
+    var isPaymentSettled: Bool
+
     var sumAllPayment: Int = 0
+    
+    var paymentDates: [Date] {
+        payments.map { $0.paymentDate.toDate() }
+    }
     
     init(travel: TravelCalculation) {
         self.travelCalculationId = travel.id
-        self.members = travel.members
         self.dbRef = Firestore.firestore()
             .collection("TravelCalculation")
-            .document(travelCalculationId)
+            .document(travel.id)
             .collection("Payment")
+        self.members = travel.members
         self.updateContentDate = travel.updateContentDate
+        self.isPaymentSettled = travel.isPaymentSettled
     }
     
     @MainActor
@@ -60,13 +66,15 @@ final class PaymentStore: ObservableObject {
     
     func filterDate(date: Double) {
         filteredPayments = payments.filter({ (payment: Payment) in
-            return payment.paymentDate.todayRange() == date.todayRange()
+            print(payment.content, payment.paymentDate, date.todayRange(), date.todayRange() ~= payment.paymentDate)
+            return date.todayRange() ~= payment.paymentDate
         })
+        print("COUNT!!!!", filteredPayments.count)
     }
     
     func filterDateCategory(date: Double, category: Payment.PaymentType) {
         filteredPayments = payments.filter({ (payment: Payment) in
-            return payment.paymentDate.todayRange() == date.todayRange() && payment.type == category
+            return date.todayRange() ~= payment.paymentDate && payment.type == category
         })
     }
     
@@ -78,45 +86,46 @@ final class PaymentStore: ObservableObject {
     }
     
     func addPayment(newPayment: Payment) async {
+        if isPaymentSettled == true { return }
         try! dbRef.addDocument(from: newPayment.self)
         await saveUpdateDate()
         await fetchAll()
     }
     
     func editPayment(payment: Payment) async {
+        if isPaymentSettled == true { return }
         if let id = payment.id {
             self.isFetchingList = true
-            
-            try? dbRef.document(id).setData(from: payment)
-            
             await saveUpdateDate()
+            try? dbRef.document(id).setData(from: payment)
 
-            if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                DispatchQueue.main.async {
-                    self.payments[index] = payment
+            DispatchQueue.main.sync {
+                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                    payments[index] = payment
                 }
-            }
-            
-            if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
-                DispatchQueue.main.async {
-                    self.filteredPayments[index] = payment
+                
+                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                    filteredPayments[index] = payment
                 }
-            }
-            
+            }            
             self.isFetchingList = false
         }
     }
     
     func deletePayment(payment: Payment) async {
+        if isPaymentSettled == true { return }
         if let id = payment.id {
             self.isFetchingList = true
             do {
-                if let index = payments.firstIndex(where: { $0.id == payment.id }) {
-                    payments.remove(at: index)
-                }
-                
-                if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
-                    filteredPayments.remove(at: index)
+                await saveUpdateDate()
+                DispatchQueue.main.sync {
+                    if let index = payments.firstIndex(where: { $0.id == payment.id }) {
+                        payments.remove(at: index)
+                    }
+                    
+                    if let index = filteredPayments.firstIndex(where: { $0.id == payment.id }) {
+                        filteredPayments.remove(at: index)
+                    }
                 }
                 
                 await saveUpdateDate()
@@ -128,7 +137,15 @@ final class PaymentStore: ObservableObject {
         }
     }
     
+    func deletePayments(payment: [Payment]) async {
+        if isPaymentSettled == true { return }
+        for p in payment {
+            await self.deletePayment(payment: p)
+        }
+    }
+    
     func saveUpdateDate() async {
+        if isPaymentSettled == true { return }
         do {
             let newUpdateDate = Date.now.timeIntervalSince1970
             try await Firestore.firestore()

@@ -8,10 +8,22 @@
 import SwiftUI
 
 struct EditTravelSheetView: View {
+    @EnvironmentObject private var userTravelStore: UserTravelStore
+    @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
+
+    @Binding var isPresentedSheet: Bool
+    @Binding var isPresentedDateView: Bool
+    @Binding var isPresentedMemeberView: Bool
+    @Binding var isPresentedSpendingView: Bool
+
+    let travel: TravelCalculation
+    
     var body: some View {
-        VStack{
+        VStack {
             Button {
-                
+                isPresentedSheet = false
+                tabBarVisivilyStore.hideTabBar()
+                isPresentedDateView = true
             } label: {
                 HStack {
                     Image(.calendarCheck1)
@@ -28,7 +40,9 @@ struct EditTravelSheetView: View {
             } //MARK: BUTTON1
             
             Button {
-                
+                isPresentedSheet = false
+                tabBarVisivilyStore.hideTabBar()
+                isPresentedMemeberView = true
             } label: {
                 
                 HStack {
@@ -46,7 +60,9 @@ struct EditTravelSheetView: View {
             } //MARK: BUTTON2
             
             Button {
-                
+                isPresentedSheet = false
+                tabBarVisivilyStore.hideTabBar()
+                isPresentedSpendingView = true
             } label: {
                 HStack {
                     Image(.script218)
@@ -67,10 +83,16 @@ struct EditTravelSheetView: View {
         .foregroundColor(.systemBlack)
     }
     
+    
 } //MARK: BODY
 
 
 
 #Preview {
-    EditTravelSheetView()
+    EditTravelSheetView(
+        isPresentedSheet: .constant(true),
+        isPresentedDateView: .constant(true),
+        isPresentedMemeberView: .constant(true),
+        isPresentedSpendingView: .constant(true),
+        travel: TravelCalculation.sampletravel)
 }

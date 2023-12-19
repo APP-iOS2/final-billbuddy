@@ -78,10 +78,7 @@ struct MemberEditSheet: View {
             Spacer()
             
             Button {
-                member.isExcluded = isExcluded
-                member.name = nickName
-                member.advancePayment = Int(advancePayment) ?? 0
-                isShowingEditSheet = false
+                setMemeber()
             } label: {
                 Text("수정 완료")
                     .font(Font.body02)
@@ -93,8 +90,18 @@ struct MemberEditSheet: View {
             .padding(.bottom, 54)
         }
         .onTapGesture {
-            isKeyboardUp = false
+            DispatchQueue.main.async {
+                self.isKeyboardUp = false
+            }
         }
+    }
+    
+    func setMemeber() {
+        let nickName = nickName.isEmpty ? member.name : nickName
+        member.name = nickName
+        member.advancePayment = Int(advancePayment) ?? 0
+        member.isExcluded = isExcluded
+        isShowingEditSheet = false
     }
 }
 

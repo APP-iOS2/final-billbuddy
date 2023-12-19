@@ -11,12 +11,18 @@ struct SignInView: View {
     
     @ObservedObject var signInStore: SignInStore
     @FocusState private var isKeyboardUp: Bool
+    @State private var isShowingAlert: Bool = false
+    @State private var name: String = ""
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("간편하게 가입하고\n서비스를 이용해보세요.")
-                .font(.title04)
-                .padding(.bottom, 24)
+            Group {
+                Text("간편하게 가입하고")
+                Text("서비스를 이용해보세요.")
+                    .padding(.bottom, 24)
+            }
+            .lineLimit(2)
+            .font(.title04)
             VStack(spacing: 12) {
                 TextField("이메일",text: $signInStore.emailText)
                     .padding(16)
@@ -68,15 +74,14 @@ struct SignInView: View {
                 } label: {
                     Text("이메일 가입")
                 }
+                
                 Spacer()
-                NavigationLink {
-                    //
-                } label: {
-                    Text("이메일 찾기")
-                }
+                Divider()
+                    .frame(height: 16)
                 Spacer()
+                
                 NavigationLink {
-                    //
+                    ForgotPasswordView()
                 } label: {
                     Text("비밀번호 찾기")
                 }
@@ -85,25 +90,13 @@ struct SignInView: View {
             .font(.body04)
             .foregroundStyle(Color.systemBlack)
             .padding(.top, 20)
-            .padding(.bottom, 77)
+            .padding(.bottom, 30)
             
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text("SNS계정으로 로그인")
                     .font(.body02)
-                Link(destination: URL(string: "https://google.com")!, label: {
-                    HStack{
-                        Image(.google)
-                        Spacer()
-                        Text("구글로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.systemBlack)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.gray050)
-                    .cornerRadius(12)
-                })
+                
+                GoogleSignInView()
                 
                 Link(destination: URL(string: "https://naver.com")!, label: {
                     HStack{
@@ -120,30 +113,31 @@ struct SignInView: View {
                     .cornerRadius(12)
                 })
                 
-                Link(destination: URL(string: "https://apple.com")!, label: {
-                    HStack{
-                        Image(.apple)
-                        Spacer()
-                        Text("애플로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.systemBlack)
-                    .cornerRadius(12)
-                })
+                AppleSignInView()
+                
             }
         }
         .onTapGesture {
             isKeyboardUp = false
         }
+        .onReceive(SNSSignInService.shared.$tempUser.receive(on: DispatchQueue.main), perform: { newValue in
+            if let newValue {
+                if newValue.name == "" {
+                    isShowingAlert.toggle()
+                } else {
+                    SNSSignInService.shared.signInUserFirstTime()
+                }
+            }
+        })
         .padding(24)
         .onAppear {
             signInStore.emailText = ""
             signInStore.passwordText = ""
         }
+        .textFieldAlert(isPresented: $isShowingAlert, textField: $name, message: "이름을 입력하세요", isDismiss: false, action: {
+            SNSSignInService.shared.tempUser?.name = name
+            SNSSignInService.shared.signInUserFirstTime()
+        })
     }
 }
 

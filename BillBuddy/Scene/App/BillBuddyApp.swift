@@ -9,6 +9,21 @@ import SwiftUI
 import FirebaseCore
 import GoogleMobileAds
 import FirebaseMessaging
+import GoogleSignIn
+
+@main
+struct BillBuddyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .onOpenURL(perform: { url in
+                    InvitTravelService.shared.getInviteURL(url)
+                })
+        }
+    }
+}
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
@@ -43,20 +58,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
     }
-}
-
-@main
-struct BillBuddyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .onOpenURL(perform: { url in
-                    SchemeService.shared.getUrl(url: url)
-                })
-        }
+    // Google SignIn
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any])
+    -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
     }
+    
 }
 
 extension AppDelegate : MessagingDelegate {
@@ -65,7 +75,7 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("AppDelegate - 파베 토큰을 받았습니다.")
         print("AppDelegate - Firebase registration token: \(String(describing: fcmToken))")
-        UserService.shared.reciverToken = fcmToken ?? ""
+        UserService.shared.getReciverToken(fcmToken ?? "nil")
     }
 }
 
@@ -75,12 +85,19 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
         let userInfo = notification.request.content.userInfo
         
-        print("willPresent: userInfo: ", userInfo)
-        
-        completionHandler([.banner, .sound, .badge])
+        if let senderToken = userInfo["senderToken"] as? String {
+            let currentUserToken = UserService.shared.reciverToken
+            
+            if senderToken != currentUserToken {
+                completionHandler([.banner, .sound, .badge])
+            } else {
+                completionHandler([])
+            }
+        } else {
+            completionHandler([.banner, .sound, .badge])
+        }
     }
     
     /// 푸시메시지를 받았을 때
@@ -92,5 +109,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print("didReceivet: userInfo: ", userInfo)
         completionHandler()
         
+    }
+}
+
+extension AppDelegate {
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        // 세로방향 고정
+        return UIInterfaceOrientationMask.portrait
     }
 }

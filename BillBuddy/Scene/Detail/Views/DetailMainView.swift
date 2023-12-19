@@ -30,6 +30,7 @@ struct DetailMainView: View {
             }
             await paymentStore.fetchAll()
             settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+            selectedDate = 0
         }
     }
     
@@ -45,8 +46,48 @@ struct DetailMainView: View {
                 .frame(height: 52)
             
             if selection == "내역" {
-                PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore, travelDetailStore: travelDetailStore)
-                    .environmentObject(travelDetailStore)
+                ZStack {
+                    PaymentMainView(selectedDate: $selectedDate, paymentStore: paymentStore)
+                        .environmentObject(travelDetailStore)
+                    
+                    if travelDetailStore.isChangedTravel &&
+                        paymentStore.updateContentDate != travelDetailStore.travel.updateContentDate &&
+                        !paymentStore.isFetchingList
+                    {
+                        
+                        Button {
+                            Task {
+                                fetchPaymentAndSettledAccount(edit: false)
+                                travelDetailStore.isChangedTravel = false
+                            }
+                        } label: {
+                            HStack(spacing: 8) {
+                                Image(.info)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                Text("새로운 변경사항이 있어요")
+                                    .font(.body01)
+                                Image(.chevronRight)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                            .padding(.leading, 12)
+                            .padding(.trailing, 12)
+                            .padding(.top, 10)
+                            .padding(.bottom, 10)
+                        }
+                        .frame(height: 44)
+                        .background {
+                            RoundedRectangle(cornerRadius: 22.5)
+                                .stroke(Color.myPrimary, style: StrokeStyle(lineWidth: 1))
+                        }
+                        .background(Color.white)
+                        .padding(.top, 300)
+                        
+                        
+                    }
+                    
+                }
             }
             else if selection == "지도" {
                 MapMainView(locationManager: locationManager, paymentStore: paymentStore, travelDetailStore: travelDetailStore, selectedDate: $selectedDate)
@@ -63,15 +104,18 @@ struct DetailMainView: View {
         .onAppear {
             tabBarVisivilyStore.hideTabBar()
             if selectedDate == 0 {
-                travelDetailStore.listenTravelDate()
                 Task {
                     if travelDetailStore.isFirstFetch {
+                        travelDetailStore.setTravel()
+
+                        travelDetailStore.checkAndResaveToken()
                         fetchPaymentAndSettledAccount(edit: false)
                         travelDetailStore.isFirstFetch = false
+                        
                     }
                 }
-            }
-            else {
+                travelDetailStore.listenTravelDate()
+            } else {
                 paymentStore.filterDate(date: selectedDate)
             }
         }
@@ -84,7 +128,6 @@ struct DetailMainView: View {
         .toolbar(content: {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    SchemeService.shared.removeUrl()
                     dismiss()
                 }, label: {
                     Image(.arrowBack)
@@ -104,6 +147,8 @@ struct DetailMainView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
                     MoreView(travel: travelDetailStore.travel)
+                        .environmentObject(travelDetailStore)
+                        .environmentObject(paymentStore)
                 } label: {
                     Image("steps-1 3")
                         .resizable()

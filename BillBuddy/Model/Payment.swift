@@ -28,7 +28,11 @@ struct Payment: Identifiable, Codable {
     
     struct Participant: Codable, Hashable {
         var memberId: String
-        var payment: Int
+        /// 먼저 지불한 금액
+        var advanceAmount: Int
+        /// 개인 사용 금액
+        var seperateAmount: Int
+        var memo: String
     }
     
     ///  case에 직접 String을 넣어주면 안된다는 멘토링을 들었던것같은데 저렇게 안하면 저장에문제가 생김

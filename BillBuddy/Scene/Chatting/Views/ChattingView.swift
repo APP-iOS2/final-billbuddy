@@ -11,6 +11,7 @@ struct ChattingView: View {
     @EnvironmentObject private var travelStore: UserTravelStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
+    @EnvironmentObject private var tabViewStore: TabViewStore
     
     var body: some View {
         VStack {
@@ -24,6 +25,9 @@ struct ChattingView: View {
                     )
             }
             Divider().padding(0)
+        }
+        .navigationDestination(isPresented: $tabViewStore.isPresentedChat) {
+            ChattingRoomView(travel: tabViewStore.seletedTravel)
         }
         .onAppear {
             tabBarVisivilyStore.showTabBar()
@@ -52,10 +56,9 @@ struct ChattingView: View {
     }
     
     private var chattingItems: some View {
-        ForEach(travelStore.travels) { travel in
-            NavigationLink {
-                ChattingRoomView(travel: travel)
-
+        ForEach(sortedList()) { travel in
+            Button {
+                tabViewStore.pushView(type: .chatting, travel: travel)
             } label: {
                 HStack {
                     Circle()
@@ -73,10 +76,10 @@ struct ChattingView: View {
                         }
                         if let messagePreview = travel.lastMessage {
                             Text(messagePreview)
-                                .frame(alignment: .leading)
-                                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                                 .font(Font.body04)
                                 .foregroundColor(.gray700)
+                                .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
+                                .multilineTextAlignment(.leading)
                         }
                     }
                     Spacer()
@@ -103,6 +106,26 @@ struct ChattingView: View {
         }
         .padding(2)
     }
+    
+    private func sortedList() -> [TravelCalculation] {
+        let sortedItems = travelStore.travels.sorted { (firstTravel, secondTravel) in
+                if let firstDate = firstTravel.lastMessageDate, let secondDate = secondTravel.lastMessageDate {
+                    // 1. lastMessageDate 최신순
+                    return firstDate > secondDate
+                } else if firstTravel.lastMessageDate != nil {
+                    // firstTravel은 lastMessageDate가 있고, secondTravel은 없는 경우
+                    return true
+                } else if secondTravel.lastMessageDate != nil {
+                    // secondTravel은 lastMessageDate가 있고, firstTravel은 없는 경우
+                    return false
+                } else {
+                    // 2. startDate 빠른순
+                    return firstTravel.startDate < secondTravel.startDate
+                }
+            }
+        return sortedItems
+    }
+
 }
 
 #Preview {
