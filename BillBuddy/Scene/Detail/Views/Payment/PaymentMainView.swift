@@ -113,10 +113,7 @@ extension PaymentMainView {
         .background(Color.myPrimary)
         .alert(isPresented: $isShowingDeletePayment) {
             return Alert(title: Text(PaymentAlertText.selectedPaymentDelete), primaryButton: .destructive(Text("네"), action: {
-                Task {
-                    await paymentStore.deletePayments(payment: forDeletePayments)
-                    settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
-                }
+                deleteSelectedPayments()
                 isEditing.toggle()
             }), secondaryButton: .cancel(Text("아니오"), action: {
                 isEditing.toggle()
@@ -273,6 +270,15 @@ extension PaymentMainView {
                 .padding(.leading, 16)
                 .padding(.trailing, 16)
                 .padding(.bottom, 16)
+        }
+    }
+}
+
+extension PaymentMainView {
+    func deleteSelectedPayments() {
+        Task {
+            await paymentStore.deletePayments(payment: forDeletePayments)
+            settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
         }
     }
 }
