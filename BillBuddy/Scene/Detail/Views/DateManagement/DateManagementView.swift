@@ -21,7 +21,6 @@ struct DateManagementView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 0) {
-                Divider()
                 Rectangle()
                     .foregroundStyle(Color.gray100)
             }

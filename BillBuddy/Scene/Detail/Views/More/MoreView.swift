@@ -58,8 +58,9 @@ struct MoreView: View {
 
     var body: some View {
         VStack {
-            Divider()
-                .padding(.bottom, 16)
+            
+            Spacer()
+
             ScrollView {
                 VStack {
                     ForEach(ListItem.allCases, id: \.self) { item in
