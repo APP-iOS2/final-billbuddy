@@ -157,9 +157,6 @@ struct ChattingRoomView: View {
                             HStack {
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text(message.userName ?? "이름없음")
-                                        .font(Font.caption02)
-                                        .foregroundColor(.systemBlack)
                                     HStack {
                                         VStack {
                                             Spacer()
@@ -204,23 +201,6 @@ struct ChattingRoomView: View {
                                             }
                                         }
                                     }
-                                }
-                                VStack {
-                                    if let userImage = userService.currentUser?.userImage {
-                                        KFImage(URL(string: userImage)!)
-                                            .placeholder {
-                                                ProgressView()
-                                                    .frame(width: 40, height: 40)
-                                            }
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Image(.defaultUser)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                    }
-                                    Spacer()
                                 }
                             }
                             .padding(.horizontal)
