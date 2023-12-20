@@ -100,7 +100,6 @@
 		638A9F512ADA817B00C931DD /* MapSubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F502ADA817B00C931DD /* MapSubView.swift */; };
 		638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A9F522ADA818D00C931DD /* MapDetailView.swift */; };
 		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
-		63EF15642B319EAC0031F617 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63EF15632B319EAC0031F617 /* GoogleService-Info.plist */; };
 		63EF15662B319FA50031F617 /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EF15652B319FA50031F617 /* CustomAnnotation.swift */; };
 		90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
@@ -242,7 +241,6 @@
 		638A9F502ADA817B00C931DD /* MapSubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSubView.swift; sourceTree = "<group>"; };
 		638A9F522ADA818D00C931DD /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
-		63EF15632B319EAC0031F617 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		63EF15652B319FA50031F617 /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAlertText.swift; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
@@ -553,7 +551,6 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
-				63EF15632B319EAC0031F617 /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -1041,7 +1038,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63EF15642B319EAC0031F617 /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
