@@ -170,8 +170,12 @@ final class UserTravelStore: ObservableObject {
     
     @MainActor
     func resetStore() {
-        userTravels = []
-        travels = []
+        for travel in travels {
+            leaveTravel(travel: travel)
+            print("resetStore 진입")
+        }
+//        userTravels = []
+//        travels = []
         isFetchedFirst = false
     }
 }
