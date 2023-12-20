@@ -95,7 +95,7 @@ struct PaymentManageView: View {
 }
 
 extension PaymentManageView {
-    
+    // MARK: SubView Section
     var selectTravelSection: some View {
         Group {
             HStack {
@@ -286,7 +286,7 @@ extension PaymentManageView {
 }
 
 extension PaymentManageView {
-    
+    // MARK: Function Section
     func addPayment() {
         let newPayment =
         Payment(type: selectedCategory ?? .etc, content: expandDetails, payment: Int(priceString) ?? 0, address: Payment.Address(address: locationManager.selectedAddress, latitude: locationManager.selectedLatitude, longitude: locationManager.selectedLongitude), participants: participants, paymentDate: paymentDate.timeIntervalSince1970)
