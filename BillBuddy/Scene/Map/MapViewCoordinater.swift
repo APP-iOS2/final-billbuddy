@@ -10,7 +10,7 @@ import SwiftUI
 import MapKit
 
 struct MapViewCoordinater: UIViewRepresentable {
-    @StateObject var locationManager: LocationManager
+    @ObservedObject var locationManager: LocationManager
     
     func makeUIView(context: Context) -> some UIView {
         return locationManager.mapView

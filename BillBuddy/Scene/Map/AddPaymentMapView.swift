@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct AddPaymentMapView: View {
-    @StateObject var locationManager: LocationManager
+    @ObservedObject var locationManager: LocationManager
     
     @State private var isShowingAddress: Bool = false
     @State private var isShowingMapView: Bool = false
     
     @Binding var searchAddress: String
     @FocusState private var isKeyboardUp: Bool
-//    @Binding var searchlatitude: Double
-//    @Binding var searchlongitude: Double
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,6 +25,7 @@ struct AddPaymentMapView: View {
                     Spacer()
                     if isShowingAddress {
                         Text("\(locationManager.selectedAddress)")
+                            .font(.body04)
                     }
                 }
                 if isShowingMapView == false {
@@ -76,8 +75,6 @@ struct AddPaymentMapView: View {
                             Image("my_location")
                                 .resizable()
                                 .frame(width: 24, height: 24)
-//                                .renderingMode(.template)
-                                
                         }
                 }
                 .onTapGesture {
@@ -87,7 +84,7 @@ struct AddPaymentMapView: View {
                 
                 Image(systemName: "mappin")
                     .resizable()
-                    .position(CGPoint(x: geometry.size.width / 2, y: locationManager.isChaging ? (geometry.size.height / 1.6 - 5) : (geometry.size.height / 1.6)))
+                    .position(CGPoint(x: geometry.size.width / 2, y: locationManager.isChaging ? (geometry.size.height / 2 - 5) : (geometry.size.height / 2)))
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 24, alignment: .center)
                     .foregroundStyle(Color.myPrimary)
