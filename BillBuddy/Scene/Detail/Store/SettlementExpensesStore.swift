@@ -88,15 +88,26 @@ final class SettlementExpensesStore: ObservableObject {
         newExpenses.members = members.map { SettlementExpenses.MemberPayment(memberData: $0, totalParticipationAmount: 0, personaPayment: 0, advancePayment: $0.advancePayment) }
         
         for payment in payments {
-            var personaPayment = 0
-            if !payment.participants.isEmpty {
-                personaPayment = payment.payment / payment.participants.count
+            var seperate: [Int] = [0, 0]
+            for participant in payment.participants {
+                if participant.seperateAmount != 0 {
+                    seperate[0] += 1
+                    seperate[1] += participant.seperateAmount
+                }
             }
+            
             for participant in payment.participants {
                 guard let index = members.firstIndex(where: { $0.id == participant.memberId } ) else {
                     continue
                 }
-                newExpenses.members[index].totalParticipationAmount += participant.seperateAmount
+                
+                if participant.seperateAmount != 0 {
+                    newExpenses.members[index].totalParticipationAmount += participant.seperateAmount
+                }
+                else {
+                    newExpenses.members[index].totalParticipationAmount += ((payment.payment - seperate[1]) / (payment.participants.count - seperate[0]))
+                }
+                
                 newExpenses.members[index].totalParticipationAmount -= participant.advanceAmount
             }
         }
@@ -105,8 +116,6 @@ final class SettlementExpensesStore: ObservableObject {
     }
     
     func addExpenses(payment: Payment) {
-        let personaPayment = payment.payment / payment.participants.count
-        
         settlementExpenses.totalExpenditure += payment.payment
         
         switch payment.type {
@@ -122,16 +131,10 @@ final class SettlementExpensesStore: ObservableObject {
             settlementExpenses.totalEtc += payment.payment
         }
         
-        for participant in payment.participants {
-            let index = settlementExpenses.members.firstIndex { $0.memberData.id == participant.memberId }
-            settlementExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
-            settlementExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
-        }
+        resetExpense(payment: payment)
     }
     
     func removeExpenses(payment: Payment) {
-        let personaPayment = payment.payment / payment.participants.count
-        
         settlementExpenses.totalExpenditure -= payment.payment
         
         switch payment.type {
@@ -147,9 +150,28 @@ final class SettlementExpensesStore: ObservableObject {
             settlementExpenses.totalEtc += payment.payment
         }
         
+        resetExpense(payment: payment)
+    }
+    
+    func resetExpense(payment: Payment) {
+        var seperate: [Int] = [0, 0]
+        for participant in payment.participants {
+            if participant.seperateAmount != 0 {
+                seperate[0] += 1
+                seperate[1] += participant.seperateAmount
+            }
+        }
+        
         for participant in payment.participants {
             let index = settlementExpenses.members.firstIndex { $0.memberData.id == participant.memberId }
-            settlementExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
+            
+            if participant.seperateAmount != 0 {
+                settlementExpenses.members[index!].totalParticipationAmount += participant.seperateAmount
+            }
+            else {
+                settlementExpenses.members[index!].totalParticipationAmount += ((payment.payment - seperate[1]) / (payment.participants.count - seperate[0]))
+            }
+            
             settlementExpenses.members[index!].totalParticipationAmount -= participant.advanceAmount
         }
     }

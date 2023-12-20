@@ -41,6 +41,6 @@ struct LodingView: View {
 #Preview {
     LodingView()
         .environmentObject(InvitTravelService.shared)
-        .environmentObject(TabViewStore())
+        .environmentObject(TabViewStore.shared)
         .environmentObject(UserTravelStore())
 }

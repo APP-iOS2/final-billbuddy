@@ -122,12 +122,7 @@ struct PaymentListView: View {
         }
         .alert(isPresented: $isShowingDeletePayment) {
             return Alert(title: Text(PaymentAlertText.paymentDelete), primaryButton: .destructive(Text("네"), action: {
-                Task {
-                    if let payment = selectedPayment {
-                        await paymentStore.deletePayment(payment: payment)
-                        settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
-                    }
-                }
+                deleteAPayment()
             }), secondaryButton: .cancel(Text("아니오")))
         }
         .listRowInsets(nil)
@@ -135,3 +130,13 @@ struct PaymentListView: View {
     }
 }
 
+extension PaymentListView {
+    func deleteAPayment() {
+        Task {
+            if let payment = selectedPayment {
+                await paymentStore.deletePayment(payment: payment)
+                settlementExpensesStore.setSettlementExpenses(payments: paymentStore.payments, members: travelDetailStore.travel.members)
+            }
+        }
+    }
+}

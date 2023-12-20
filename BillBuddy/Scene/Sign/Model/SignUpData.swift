@@ -12,12 +12,12 @@ struct SignUpData {
     var email: String = ""
     var password: String = ""
     var passwordConfirm: String = ""
-    var phoneNum: String = ""
+
     
     var isPrivacyAgree: Bool = false
     var isTermOfUseAgree: Bool = false
     
     func changeToUserModel(id: String) -> User {
-        return User(id: id, email: email, name: name, phoneNum: phoneNum, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
+        return User(id: id, email: email, name: name, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import WebKit
 
 struct MyPageSettingView: View {
     
@@ -14,7 +15,6 @@ struct MyPageSettingView: View {
     @EnvironmentObject private var signUpStore: SignUpStore
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var userTravelStore: UserTravelStore
-
     
     @State private var isShowingLogoutAlert: Bool = false
     @State private var isPresentedAlert: Bool = false
@@ -22,46 +22,41 @@ struct MyPageSettingView: View {
     @State private var isErrorAlert: Bool = false
     @State private var isCheckingProvider: Bool = AuthStore.shared.checkCurrentUserProviderId()
     
+    @State private var isShowingSafari: Bool = false
+    private var termsWebView = "https://cut-hospital-213.notion.site/5e186613d1024010ad528f6ade1f09ae?pvs=4"
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
                 Group {
-                    NavigationLink(destination: MembershipView()){
+//                    NavigationLink(destination: MembershipView()){
+//                        HStack {
+//                            Text("프리미엄 멤버십")
+//                            Spacer()
+//                            Image("chevron_right")
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
+//                        }
+//                    }
+//                    .padding(.top, 32)
+//                    .padding(.bottom, 36)
+                    Button(action: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }, label: {
                         HStack {
-                            Text("프리미엄 멤버십")
+                            Text("알림 및 위치 설정")
                             Spacer()
                             Image("chevron_right")
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.top, 32)
                     .padding(.bottom, 36)
+                   
                     Button(action: {
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                        isShowingSafari = true
                     }, label: {
-                        HStack {
-                            Text("알림 설정")
-                            Spacer()
-                            Image("chevron_right")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                    })
-                    .padding(.bottom, 36)
-                    Button(action: {
-                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                    }, label: {
-                        HStack {
-                            Text("위치 설정")
-                            Spacer()
-                            Image("chevron_right")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                    })
-                    .padding(.bottom, 36)
-                    NavigationLink(destination: ProfileView()){
                         HStack {
                             Text("개인정보 이용 동의")
                             Spacer()
@@ -69,9 +64,17 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.bottom, 36)
-                    NavigationLink(destination: InquiryView()){
+                    .sheet(isPresented: $isShowingSafari, content: {
+                        WebView(url: termsWebView)
+                    })
+
+                    Button(action: {
+                        if let emailURL = URL(string: "mailto:2023billbuddy@gmail.com") {
+                                UIApplication.shared.open(emailURL)
+                            }
+                    }, label: {
                         HStack {
                             Text("문의하기")
                             Spacer()
@@ -79,8 +82,9 @@ struct MyPageSettingView: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                         }
-                    }
+                    })
                     .padding(.bottom, 36)
+                    
                     NavigationLink(destination: LicenseView()){
                         HStack {
                             Text("오픈소스 라이센스")
@@ -91,6 +95,7 @@ struct MyPageSettingView: View {
                         }
                     }
                     .padding(.bottom, isCheckingProvider ? 36 : 32)
+                    
                     if isCheckingProvider {
                         NavigationLink(destination: ChangePasswordView()){
                             HStack {
@@ -153,9 +158,9 @@ struct MyPageSettingView: View {
                             if resultErrorCode == 0 {
                                 try await signUpStore.deleteUser()
                                 UserService.shared.isSignIn = false
-                                AuthStore.shared.userUid = ""
                                 notificationStore.resetStore()
                                 userTravelStore.resetStore()
+                                AuthStore.shared.userUid = ""
                             } else if resultErrorCode == AuthErrorCode.requiresRecentLogin.rawValue{
                                 isReAuthAlert.toggle()
                             } else {
@@ -166,7 +171,7 @@ struct MyPageSettingView: View {
                 } message: {
                     Text("서비스 탈퇴를 합니다.")
                 }
-                .alert("인증이 만료되어 재로그인이 필요한 작업입니다.", isPresented: $isReAuthAlert) {
+                .alert("인증이 만료되어 다시 로그인후 탈퇴해주세요.", isPresented: $isReAuthAlert) {
                     Button("확인") {}
                 }
                 .alert("알 수 없는 오류가 발생했습니다.", isPresented: $isErrorAlert) {
@@ -183,7 +188,7 @@ struct MyPageSettingView: View {
         MyPageSettingView()
             .environmentObject(SignInStore())
             .environmentObject(SignUpStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
             .environmentObject(UserTravelStore())
     }
 }

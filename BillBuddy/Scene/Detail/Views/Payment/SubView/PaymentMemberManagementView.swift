@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PaymentMemberManagementView: View {
-    @State var mode: Mode = .add
+    @State var mode: PaymentCreateMode = .add
     
     @Binding var priceString: String
     @Binding var travelCalculation: TravelCalculation
@@ -27,45 +27,43 @@ struct PaymentMemberManagementView: View {
     @State private var advanceAmountString: String = ""
     @State private var seperateAmountString: String = ""
     @State private var personalMemo: String = ""
-    
-    private var expectPrice: Int {
-        let price: Int = Int(priceString) ?? 0
-        let count: Int = participants.count
-        
-        if members.isEmpty {
-            return 0
-        }
-        else {
-            let result = price / count
-            return result
-        }
-    }
-    
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
+    @State private var seperate: [Int] = [0, 0]
     
     var body: some View {
         Section {
-            switch(mode) {
-            case .add:
-                addPaymentMember
-                    .background {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
+            VStack(spacing: 0) {
+                memberSection
+                    .sheet(isPresented: $isShowingMemberSheet, content: {
+                        memberSheet
+                    })
+                
+                participantsListSection
+            }
+            .onAppear {
+                if mode == .edit {
+                    if let payment = payment {
+                        for participant in payment.participants {
+                            if let existMember = travelCalculation.members.firstIndex(where: { m in
+                                m.id == participant.memberId
+                            }) {
+                                if let _ = members.firstIndex(of: travelCalculation.members[existMember]) {
+                                    continue
+                                }
+                                members.append(travelCalculation.members[existMember])
+                            }
+                        }
+                        participants = payment.participants
+                        howManySeperate()
                     }
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
-            case .edit:
-                editPaymentMember
-                    .background {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white)
-                    }
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
+                }
             }
         }
+        .background {
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+        }
+        .padding(.leading, 16)
+        .padding(.trailing, 16)
     }
     
     var memberSection: some View {
@@ -85,36 +83,23 @@ struct PaymentMemberManagementView: View {
                         Text("추가하기")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
-                        
-                        Image("chevron_right")
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(Color.gray600)
                     }
                     else if members.count == travelCalculation.members.count {
                         Text("모든 인원")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
-                        
-                        Image("chevron_right")
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(Color.gray600)
-                        
                     }
                     else {
                         Text("수정하기")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
-                        
-                        Image("chevron_right")
-                            .renderingMode(.template)
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundStyle(Color.gray600)
                     }
+                    
+                    Image("chevron_right")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.gray600)
                     
                 }
                 .padding(.top, 14)
@@ -125,105 +110,95 @@ struct PaymentMemberManagementView: View {
         }
     }
     
-    
     var memberSheet: some View {
-        VStack(spacing: 0, content: {
-            HStack {
-                Spacer()
-                
-                Button(action: {
-                    tempMembers = travelCalculation.members
-                }, label: {
-                    Text("전체 선택")
-                })
-                .font(.body03)
-                .foregroundStyle(Color.myPrimary)
-                
-                Text("/")
-                
-                Button(action: {
-                    tempMembers = []
-                }, label: {
-                    Text("전체 해제")
-                })
-                .font(.body03)
-                .foregroundStyle(Color.myPrimary)
-            }
-            .padding(.trailing, 32)
-            .padding(.top, 32)
-            
-            ScrollView {
-                ForEach(travelCalculation.members) { member in
-                    HStack {
-                        Text(member.name)
-                            .font(.body03)
-                            .foregroundStyle(Color.black)
-                        
-                        Spacer()
-                        
-                        if tempMembers.firstIndex(where: { m in
-                            m.name == member.name
-                        }) != nil {
-                            Image(.checked)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                        else {
-                            Image(.noneChecked)
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                    }
-                    .padding(.leading, 32)
-                    .padding(.trailing, 46)
-                    .padding(.top, 36)
-                    .onTapGesture {
-                        if let existMember = tempMembers.firstIndex(where: { m in
-                            m.name == member.name
-                        }) {
-                            tempMembers.remove(at: existMember)
-                        }
-                        else {
-                            tempMembers.append(member)
-                        }
-                    }
-                }
-                .onAppear {
-                    tempMembers = members
-                }
-                .presentationDetents([.fraction(0.45)])
-            }
-            
-            .padding(.top, 8)
-            .padding(.bottom, 36)
-        })
-        
-        
-    }
-    var addPaymentMember: some View {
-        VStack(spacing: 0) {
-            memberSection
-                .sheet(isPresented: $isShowingMemberSheet, content: {
-                    addPaymentMemberSheet
-                })
-            
-            memberListSection
-        }
-    }
-    var addPaymentMemberSheet: some View {
         VStack {
-            memberSheet
+            VStack(spacing: 0, content: {
+                HStack {
+                    Spacer()
+                    
+                    Button(action: {
+                        tempMembers = travelCalculation.members
+                    }, label: {
+                        Text("전체 선택")
+                    })
+                    .font(.body03)
+                    .foregroundStyle(Color.myPrimary)
+                    
+                    Text("/")
+                    
+                    Button(action: {
+                        tempMembers = []
+                    }, label: {
+                        Text("전체 해제")
+                    })
+                    .font(.body03)
+                    .foregroundStyle(Color.myPrimary)
+                }
+                .padding(.trailing, 32)
+                .padding(.top, 32)
+                
+                ScrollView {
+                    ForEach(travelCalculation.members) { member in
+                        HStack {
+                            Text(member.name)
+                                .font(.body03)
+                                .foregroundStyle(Color.black)
+                            
+                            Spacer()
+                            
+                            if tempMembers.firstIndex(where: { m in
+                                m.id == member.id
+                            }) != nil {
+                                Image(.checked)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                            else {
+                                Image(.noneChecked)
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                        }
+                        .padding(.leading, 32)
+                        .padding(.trailing, 46)
+                        .padding(.top, 36)
+                        .onTapGesture {
+                            if let existMember = tempMembers.firstIndex(where: { m in
+                                m.name == member.name
+                            }) {
+                                tempMembers.remove(at: existMember)
+                            }
+                            else {
+                                tempMembers.append(member)
+                            }
+                        }
+                    }
+                    .onAppear {
+                        tempMembers = members
+                    }
+                    .presentationDetents([.fraction(0.45)])
+                }
+                
+                .padding(.top, 8)
+            })
+            
             
             Button {
-                participants = []
-                for member in tempMembers {
-                    participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: (Int(priceString) ?? 0) / tempMembers.count, memo: ""))
+                if mode == .add {
+                    addButton()
                 }
-                members = tempMembers
-                isShowingMemberSheet = false
+                else if mode == .edit {
+                    editButton()
+                }
             } label: {
-                Text("인원 추가")
-                    .font(Font.body02)
+                if mode == .add {
+                    Text("인원 추가")
+                        .font(Font.body02)
+                }
+                else if mode == .edit {
+                    Text("인원 수정")
+                        .font(Font.body02)
+                }
             }
             .frame(width: 332, height: 52)
             .background(Color.myPrimary)
@@ -233,81 +208,12 @@ struct PaymentMemberManagementView: View {
         }
         .ignoresSafeArea(.all, edges: .bottom)
     }
-    var editPaymentMember: some View {
-        VStack(spacing: 0) {
-            
-            memberSection
-                .sheet(isPresented: $isShowingMemberSheet, content: {
-                    editPaymentMemberSheet
-                })
-            memberListSection
-        }
-        .onAppear {
-            if let payment = payment {
-                for participant in payment.participants {
-                    if let existMember = travelCalculation.members.firstIndex(where: { m in
-                        m.id == participant.memberId
-                    }) {
-                        if let _ = members.firstIndex(of: travelCalculation.members[existMember]) {
-                            continue
-                        }
-                        members.append(travelCalculation.members[existMember])
-                    }
-                }
-                participants = payment.participants
-            }
-        }
-    }
-    var editPaymentMemberSheet: some View {
-        VStack {
-            memberSheet
-            
-            Button(action: {
-                isShowingMemberSheet = false
-                
-                var tempParticipants: [Payment.Participant] = []
-                for m in tempMembers {
-                    if let participant = participants.first(where: { p in
-                        p.memberId == m.id
-                    }) {
-                        tempParticipants.append(participant)
-                    }
-                    else {
-                        tempParticipants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
-                    }
-                }
-                
-                participants = tempParticipants
-                payment?.participants = participants
-                members = tempMembers
-                
-                var sum = 0
-                for participant in participants {
-                    sum += participant.seperateAmount
-                }
-                priceString = String(sum)
-            }, label: {
-                HStack {
-                    Spacer()
-                    Text("인원 수정")
-                        .font(.body02)
-                        .padding(.top, 16)
-                        .padding(.bottom, 16)
-                    Spacer()
-                }
-            })
-            .buttonStyle(.borderedProminent)
-            .padding(.leading, 31)
-            .padding(.trailing, 31)
-            .frame(height: 52)
-        }
-    }
-    var memberListSection: some View {
+    
+    var participantsListSection: some View {
         ForEach(members) { member in
             Button(action: {
                 selectedMember = member
                 isShowingPersonalMemberSheet = true
-                print(participants)
             }, label: {
                 HStack(spacing: 2) {
                     Text(member.name)
@@ -316,11 +222,11 @@ struct PaymentMemberManagementView: View {
                         .padding(.top, 12)
                         .padding(.bottom, 12)
                     Spacer()
-                    // MARK: 가격
+                    
                     if let idx = participants.firstIndex(where: { p in
                         p.memberId == member.id
                     }) {
-                        Text("₩\(participants[idx].seperateAmount - participants[idx].advanceAmount)")
+                        Text("₩\(getPersonalPrice(idx: idx))")
                             .font(.body04)
                             .foregroundStyle(Color.gray600)
                     }
@@ -351,7 +257,7 @@ struct PaymentMemberManagementView: View {
                 personalButton = false
             }) {
                 ZStack {
-                    addPersonalPriceSection
+                    personalPriceView
                         .onAppear(perform: {
                             if let idx = participants.firstIndex(where: { p in
                                 p.memberId == selectedMember.id
@@ -418,7 +324,7 @@ struct PaymentMemberManagementView: View {
         })
     }
     
-    var addPersonalPriceSection: some View {
+    var personalPriceView: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("개인 항목 추가")
                 .font(.title04)
@@ -508,6 +414,9 @@ struct PaymentMemberManagementView: View {
                             .multilineTextAlignment(.trailing)
                             .font(.body04)
                             .padding(.trailing, 14)
+                            .onTapGesture {
+                                advanceAmountString = ""
+                            }
                     }
                     else if personalButton {
                         TextField("금액을 입력해주세요", text: $seperateAmountString)
@@ -515,6 +424,9 @@ struct PaymentMemberManagementView: View {
                             .multilineTextAlignment(.trailing)
                             .font(.body04)
                             .padding(.trailing, 14)
+                            .onTapGesture {
+                                seperateAmountString = ""
+                            }
                     }
                     else {
                         Text("분류를 먼저 선택해주세요")
@@ -584,19 +496,7 @@ struct PaymentMemberManagementView: View {
             }
             Spacer()
             Button {
-                isShowingPersonalMemberSheet = false
-                if let idx = participants.firstIndex(where: { p in
-                    p.memberId == selectedMember.id
-                }) {
-                    participants[idx].advanceAmount = Int(advanceAmountString) ?? 0
-                    participants[idx].seperateAmount = Int(seperateAmountString) ?? 0
-                }
-                
-                var sum = 0
-                for participant in participants {
-                    sum += participant.seperateAmount
-                }
-                priceString = String(sum)
+                personalPrice()
             } label: {
                 HStack {
                     Spacer()
@@ -626,6 +526,94 @@ struct PaymentMemberManagementView: View {
     }
 }
 
+extension PaymentMemberManagementView {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    func addButton() {
+        participants = []
+        for member in tempMembers {
+            participants.append(Payment.Participant(memberId: member.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+        }
+        members = tempMembers
+        isShowingMemberSheet = false
+    }
+    
+    func editButton() {
+        isShowingMemberSheet = false
+        
+        var tempParticipants: [Payment.Participant] = []
+        for m in tempMembers {
+            if let participant = participants.first(where: { p in
+                p.memberId == m.id
+            }) {
+                tempParticipants.append(participant)
+            }
+            else {
+                tempParticipants.append(Payment.Participant(memberId: m.id, advanceAmount: 0, seperateAmount: 0, memo: ""))
+            }
+        }
+        
+        participants = tempParticipants
+        payment?.participants = participants
+        members = tempMembers
+    }
+    
+    func personalPrice() {
+        if let idx = participants.firstIndex(where: { p in
+            p.memberId == selectedMember.id
+        }) {
+            participants[idx].advanceAmount = Int(advanceAmountString) ?? 0
+            participants[idx].seperateAmount = Int(seperateAmountString) ?? 0
+        }
+        howManySeperate()
+        isShowingPersonalMemberSheet = false
+    }
+    
+    func getPersonalPrice(idx: Int) -> Int {
+        if participants[idx].seperateAmount != 0 {
+            return participants[idx].seperateAmount - participants[idx].advanceAmount
+        }
+        else {
+            let numOfDutch = participants.count - seperate[0]
+            var amountOfDutch = 0
+            if mode == .add {
+                if priceString != "" {
+                    amountOfDutch = Int(priceString)! - seperate[1]
+                }
+                else {
+                    amountOfDutch = 0 - seperate[1]
+                }
+            }
+            else if mode == .edit {
+                if let p = payment {
+                    amountOfDutch = p.payment - seperate[1]
+                }
+            }
+            
+            return amountOfDutch / numOfDutch - participants[idx].advanceAmount
+        }
+    }
+    
+    func howManySeperate() {
+        var result = 0
+        var amount = 0
+        
+        for participant in self.participants {
+            if participant.seperateAmount != 0 {
+                result += 1
+                amount += participant.seperateAmount
+            }
+        }
+        
+        seperate[0] = result
+        seperate[1] = amount
+    }
+}
+
+
 #Preview {
     PaymentMemberManagementView(priceString: .constant("15000"), travelCalculation: .constant(TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: [])), members: .constant([TravelCalculation.Member(name: "김유진", advancePayment: 0, payment: 0)]), payment: .constant(nil), selectedMember: .constant(TravelCalculation.Member(name: "", advancePayment: 0, payment: 0)), participants: .constant([]), isShowingMemberSheet: .constant(false))
+        .background(Color.black)
 }

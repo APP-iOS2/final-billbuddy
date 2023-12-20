@@ -119,8 +119,9 @@ struct ChattingRoomView: View {
             ChattingMenuView(travel: travel)
         } label: {
             HStack {
-                Image(.announcementMegaphoneBlue)
+                Image(.announcementMegaphone)
                     .resizable()
+                    .renderingMode(.template)
                     .foregroundColor(.myPrimary)
                     .frame(width: 24, height: 24)
                     .padding(.leading, 12)
@@ -156,9 +157,6 @@ struct ChattingRoomView: View {
                             HStack {
                                 Spacer()
                                 VStack(alignment: .trailing) {
-                                    Text(message.userName ?? "이름없음")
-                                        .font(Font.caption02)
-                                        .foregroundColor(.systemBlack)
                                     HStack {
                                         VStack {
                                             Spacer()
@@ -189,12 +187,14 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
+                                                                notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
                                                                     .resizable()
-                                                                    .frame(width: 24, height: 24)
+                                                                    .frame(width: 24, height: 24) 
                                                                 Text("공지등록")
                                                                     .font(.body01)
                                                             }
@@ -203,23 +203,6 @@ struct ChattingRoomView: View {
                                             }
                                         }
                                     }
-                                }
-                                VStack {
-                                    if let userImage = userService.currentUser?.userImage {
-                                        KFImage(URL(string: userImage)!)
-                                            .placeholder {
-                                                ProgressView()
-                                                    .frame(width: 40, height: 40)
-                                            }
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                            .clipShape(Circle())
-                                    } else {
-                                        Image(.defaultUser)
-                                            .resizable()
-                                            .frame(width: 40, height: 40)
-                                    }
-                                    Spacer()
                                 }
                             }
                             .padding(.horizontal)
@@ -286,6 +269,8 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
+                                                                notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {
                                                             HStack {
@@ -385,18 +370,20 @@ struct ChattingRoomView: View {
                     if !inputText.isEmpty || selectedPhoto != nil {
                         sendChat()
                         PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.", senderToken: "senderToken")
-                        NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
+                        notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle) 채팅방에서 읽지 않은 메세지", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                         selectedPhoto = nil
                         imageData?.removeAll()
                         inputText.removeAll()
                     }
                 } label: {
                     if !inputText.isEmpty || selectedPhoto != nil {
-                        Image(.sendMessageBlue)
+                        Image(.sendMessage)
                             .resizable()
+                            .renderingMode(.template)
+                            .foregroundColor(.myPrimary)
                             .frame(width: 24, height: 24)
                     } else {
-                        Image(.mailSendEmailMessage35)
+                        Image(.sendMessage)
                             .resizable()
                             .frame(width: 24, height: 24)
                     }
@@ -443,6 +430,6 @@ struct ChattingRoomView: View {
         ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
             .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }

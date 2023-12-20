@@ -8,6 +8,9 @@
 import Foundation
 
 final class TabViewStore: ObservableObject {
+    static let shared = TabViewStore()
+    private init() { }
+    
     @Published var selectedTab: Int = 0 {
         didSet {
             switchTab()
@@ -17,6 +20,10 @@ final class TabViewStore: ObservableObject {
     @Published var isPresentedDetail: Bool = false
     @Published var isPresentedChat: Bool = false
     @Published var isPresnetedNoti: Bool = false
+    
+    var isPresentedView: Bool {
+        return isPresentedChat || isPresentedDetail
+    }
     
     var seletedTravel: TravelCalculation = TravelCalculation.sampletravel
     

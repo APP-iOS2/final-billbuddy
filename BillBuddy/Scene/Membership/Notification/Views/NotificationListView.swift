@@ -11,11 +11,11 @@ import FirebaseFirestore
 
 struct NotificationListView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var isAllRead = false {
-        didSet {
-            updateAllReadStatus()
-        }
-    } 
+//    @State private var isAllRead = false {
+//        didSet {
+//            updateAllReadStatus()
+//        }
+//    } 
     @State private var isPresentedAlert: Bool = false
     @EnvironmentObject private var notificationStore: NotificationStore
     @EnvironmentObject private var tabViewStore: TabViewStore
@@ -28,10 +28,11 @@ struct NotificationListView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ForEach(notifications.sorted(by: { $0.addDate > $1.addDate }), id: \.id) { notification in
-                    NotificationCell(notification: notification, isRead: false) {
+                ForEach(notificationStore.viewList) { notification in
+                    NotificationCell(notification: notification, isRead: notification.isChecked) {
                         deleteNotification(notification)
                     } callBack: {
+                        notificationStore.readNotifications(noti: notification)
                         switch notification.type {
                         case .chatting, .travel:
                             let travel = userTravelStore.getTravel(id: notification.contentId)
@@ -72,13 +73,13 @@ struct NotificationListView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    isAllRead.toggle()
+                    notificationStore.readAll()
                 }, label: {
                     Text("모두읽음")
                         .font(.body01)
-                        .foregroundColor(isAllRead ? Color.gray : Color.myPrimary)
+                        .foregroundColor(notificationStore.notifications.isEmpty ? Color.gray : Color.myPrimary)
                 })
-                .disabled(isAllRead)
+                .disabled(notificationStore.notifications.isEmpty)
             }
             ToolbarItem(placement: .principal) {
                 Text("알림")
@@ -92,38 +93,27 @@ struct NotificationListView: View {
             if let error = error {
                 print("Error fetching notifications: \(error)")
             } else {
-                // var notifications: [UserNotification] = []
+                var notifications: [UserNotification] = []
                 for document in querySnapshot!.documents {
                     if let notification = try? document.data(as: UserNotification.self) {
                         notifications.append(notification)
                     }
                 }
                 // notifications.sorted(by: { $0.addDate > $1.addDate }
-                // self.notifications = notifications
+                self.notificationStore.notifications = notificationStore.setDuplicateNotifications(notifications)
             }
         }
     }
     
     private func deleteNotification(_ notification: UserNotification) {
-        if let index = notifications.firstIndex(where: { $0.id == notification.id }) {
-            notifications.remove(at: index)
-        }
-        
-        db.collection("User").document(AuthStore.shared.userUid).collection("Notification").document(notification.id ?? "")
-            .delete { error in
-                if let error = error {
-                    print("Error deleting notification from Firestore: \(error)")
-                } else {
-                    print("Notification deleted from Firestore successfully")
-                }
-            }
+        notificationStore.deleteNotification(notification)
     }
     
-    private func updateAllReadStatus() {
-        for index in notifications.indices {
-            notifications[index].isChecked = isAllRead
-        }
-    }
+//    private func updateAllReadStatus() {
+//        for index in notifications.indices {
+//            notifications[index].isChecked = isAllRead
+//        }
+//    }
           
     private func getInvited(accept: Bool, selectedNotification: UserNotification?) {
         guard let selectedNotification else { return }
@@ -138,6 +128,6 @@ struct NotificationListView: View {
 
 #Preview {
     NotificationListView()
-        .environmentObject(NotificationStore())
-        .environmentObject(TabViewStore())
+        .environmentObject(NotificationStore.shared)
+        .environmentObject(TabViewStore.shared)
 }

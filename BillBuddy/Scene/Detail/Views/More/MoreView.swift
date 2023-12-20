@@ -58,8 +58,9 @@ struct MoreView: View {
 
     var body: some View {
         VStack {
-            Divider()
-                .padding(.bottom, 16)
+            
+            Spacer()
+
             ScrollView {
                 VStack {
                     ForEach(ListItem.allCases, id: \.self) { item in
@@ -75,10 +76,16 @@ struct MoreView: View {
                                 )
                                 .environmentObject(travelDetailStore)
                             case .mamberManagement:
-                                MemberManagementView(travel: travel)
+                                MemberManagementView(
+                                    paymentsOfType: paymentStore.payments, 
+                                    travel: travel,
+                                    entryViewtype: .more
+                                )
                                     .environmentObject(travelDetailStore)
                             case .settledAccount:
-                                SettledAccountView(entryViewtype: .more)
+                                SettledAccountView(
+                                    entryViewtype: .more
+                                )
                                     .environmentObject(travelDetailStore)
                             }
                         } label: {
@@ -151,7 +158,7 @@ struct MoreView: View {
     NavigationStack {
         MoreView(travel: .sampletravel)
             .environmentObject(UserTravelStore())
-            .environmentObject(TabViewStore())
+            .environmentObject(TabViewStore.shared)
             .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
             .environmentObject(PaymentStore(travel: TravelCalculation.sampletravel))
     }

@@ -16,12 +16,12 @@ struct ContentView: View {
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
     @StateObject private var messageStore = MessageStore()
     @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
-    @StateObject private var notificationStore = NotificationStore()
+    @StateObject private var notificationStore = NotificationStore.shared
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
     @StateObject private var googleSignIn = GoogleSignInModel()
-    @StateObject private var tabViewStore = TabViewStore()
+    @StateObject private var tabViewStore = TabViewStore.shared
     
     var body: some View {
         if AuthStore.shared.userUid != "" {
@@ -41,6 +41,9 @@ struct ContentView: View {
                         .environmentObject(myPageStore)
                         .environmentObject(adViewModel)
                         .environmentObject(tabViewStore)
+                        .onAppear {
+                            notificationStore.fetchNotification()
+                        }
                 } else {
                     NavigationStack {
                         LodingView()
@@ -52,7 +55,7 @@ struct ContentView: View {
             }
         } else {
             NavigationStack {
-                SignInView(signInStore: signInStore)
+                SignInView()
             }
             .environmentObject(signInStore)
             .environmentObject(signUpStore)
@@ -60,9 +63,8 @@ struct ContentView: View {
             .environmentObject(googleSignIn)
         }
     }
+    
 }
-
-
 
 #Preview {
     ContentView()

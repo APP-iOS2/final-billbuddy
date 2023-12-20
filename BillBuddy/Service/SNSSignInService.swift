@@ -25,8 +25,10 @@ class SNSSignInService {
         }
     }
     
-    func signInUser(userId: String, name: String, email: String, phoneNum: String) {
-        let user: User = User(email: email, name: name, phoneNum: phoneNum, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
+
+    func signInUser(userId: String, name: String, email: String) {
+        let user: User = User(email: email, name: name, bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date(), reciverToken: "")
+        
         Task {
             if await !checkUserInFirestore(userId: userId) {
                 tempUser = user

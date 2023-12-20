@@ -38,9 +38,8 @@ class GoogleSIgnInStore {
                 guard let userId = result?.user.uid else { return }
                 guard let email = result?.user.email else { return }
                 let name = result?.user.displayName ?? ""
-                let phoneNum = result?.user.phoneNumber ?? ""
                 
-                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email, phoneNum: phoneNum)
+                SNSSignInService.shared.signInUser(userId: userId, name: name, email: email)
             }
         }
         

@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MemberCell: View {
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @ObservedObject var sampleMemeberStore: SampleMemeberStore
     @Binding var isShowingShareSheet: Bool
     var member: TravelCalculation.Member
@@ -15,15 +17,25 @@ struct MemberCell: View {
     
     var onEditing: () -> Void
     var onRemove: () -> Void
+    let saveAction: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
-            Image(.profile)
-                .resizable()
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-                .padding(.leading, 8)
-
+            if member.userImage != "" {
+                KFImage(URL(string: member.userImage))
+                    .placeholder {
+                        ProgressView()
+                            .frame(width: 40, height: 40)
+                    }
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+            } else {
+                Image(.defaultUser)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+            }
+            
             
             VStack(alignment: .leading, spacing: 0) {
                 Text(member.name)
@@ -35,7 +47,7 @@ struct MemberCell: View {
             }
             .padding(.leading, 12)
             .foregroundColor(Color.systemBlack)
-
+            
             Spacer()
             if member.inviteState != .invited {
                 Button(member.inviteState.string) {
@@ -44,7 +56,9 @@ struct MemberCell: View {
                         isShowingShareSheet = true
                     }
                     if member.inviteState == .wating {
-                        sampleMemeberStore.cancelInvite(member.id)
+                        sampleMemeberStore.cancelInvite(member.id) {
+                            saveAction()
+                        }
                     }
                 }
                 .frame(width: 80, height: 28)
@@ -54,25 +68,33 @@ struct MemberCell: View {
                 .foregroundStyle(member.inviteState == .dummy ? Color.myPrimary : Color.myGreen)
                 .padding(.trailing, 12)
             }
+                
+                
         }
+        .frame(height: 40)
+        .padding([.top, .bottom], 12)
         .swipeActions(edge: .trailing) {
             if isPaymentSettled == false {
                 Button("삭제") {
-                    onRemove()
+                    if isPaymentSettled == false {
+                        onRemove()
+                        saveAction()
+                    }
                 }
                 .tint(Color.error)
                 
                 Button("수정") {
-                    onEditing()
+                    if isPaymentSettled == false {
+                        onEditing()
+                        saveAction()
+                    }
                 }
                 .tint(Color.gray500)
             }
         }
-        .frame(height: 40)
-        .padding([.top, .bottom], 12)
     }
 }
 
 #Preview {
-    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), isPaymentSettled: false, onEditing: { print("edit") }, onRemove: { print("remove") })
+    MemberCell(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(false), member: TravelCalculation.Member(name: "name", advancePayment: 100, payment: 100), isPaymentSettled: false, onEditing: { print("edit") }, onRemove: { print("remove") }, saveAction: { })
 }

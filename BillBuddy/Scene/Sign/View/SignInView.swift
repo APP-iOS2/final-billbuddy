@@ -7,14 +7,24 @@
 
 import SwiftUI
 
+struct SignEntry: View {
+    var body: some View {
+        
+            SignInView()
+        
+    }
+}
+
 struct SignInView: View {
     
-    @ObservedObject var signInStore: SignInStore
+    @EnvironmentObject private var signInStore: SignInStore
     @FocusState private var isKeyboardUp: Bool
     @State private var isShowingAlert: Bool = false
     @State private var name: String = ""
-    
+    @State private var isFirstEntry = false
+   
     var body: some View {
+        
         VStack(alignment: .leading) {
             Group {
                 Text("간편하게 가입하고")
@@ -97,25 +107,12 @@ struct SignInView: View {
                     .font(.body02)
                 
                 GoogleSignInView()
-                
-                Link(destination: URL(string: "https://naver.com")!, label: {
-                    HStack{
-                        Image(.naver)
-                        Spacer()
-                        Text("네이버로 로그인")
-                            .font(.body02)
-                            .foregroundStyle(Color.white)
-                        Spacer()
-                    }
-                    .padding(20)
-                    .frame(width: 351, height: 52)
-                    .background(Color.naverSignature)
-                    .cornerRadius(12)
-                })
-                
                 AppleSignInView()
                 
             }
+        }
+        .fullScreenCover(isPresented: $isFirstEntry) {
+            OnboardingView(isFirstEntry: $isFirstEntry)
         }
         .onTapGesture {
             isKeyboardUp = false
@@ -131,6 +128,7 @@ struct SignInView: View {
         })
         .padding(24)
         .onAppear {
+            self.isFirstEntry = AuthStore.shared.isFirstEntry
             signInStore.emailText = ""
             signInStore.passwordText = ""
         }
@@ -143,6 +141,7 @@ struct SignInView: View {
 
 #Preview {
     NavigationStack {
-        SignInView(signInStore: SignInStore())
+        SignInView()
     }
+    .environmentObject(SignInStore())
 }

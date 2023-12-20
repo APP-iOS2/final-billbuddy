@@ -15,14 +15,13 @@ struct ChattingView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                chattingItems
-                    .padding(.top, 5)
-                    .overlay(
-                        Rectangle()
-                            .frame(height: 1, alignment: .top)
-                            .foregroundColor(.gray100), alignment: .top
-                    )
+            if sortedList().isEmpty {
+                emptyList
+            } else {
+                ScrollView {
+                    chattingItems
+                        .padding(.top, 5)
+                }
             }
             Divider().padding(0)
         }
@@ -46,12 +45,28 @@ struct ChattingView: View {
                 NavigationLink {
                     NotificationListView()
                 } label: {
-                    Image(.ringingBellNotification3)
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.systemBlack)
+                    if notificationStore.hasUnReadNoti {
+                        Image(.redDotRingBell)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    else {
+                        Image("ringing-bell-notification-3")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
+        }
+    }
+    
+    private var emptyList: some View {
+        VStack {
+            Spacer()
+            Text("참여 중인 채팅이 없습니다.")
+                .font(.body04)
+                .foregroundColor(.gray600)
+            Spacer()
         }
     }
     
@@ -61,9 +76,9 @@ struct ChattingView: View {
                 tabViewStore.pushView(type: .chatting, travel: travel)
             } label: {
                 HStack {
-                    Circle()
+                    Image(.chatroom)
+                        .resizable()
                         .frame(width: 48, height: 48)
-                        .foregroundColor(.gray200)
                     VStack(alignment: .leading) {
                         HStack {
                             Text(travel.travelTitle)
@@ -133,7 +148,7 @@ struct ChattingView: View {
         ChattingView()
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }
 

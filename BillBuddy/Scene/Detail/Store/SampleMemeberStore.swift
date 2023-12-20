@@ -50,12 +50,12 @@ class SampleMemeberStore: ObservableObject {
     }
     
     @MainActor
-    func saveMemeber() async {
+    func saveMemeber(saveListAction: @escaping () -> Void) async {
         Task {
             do {
                 self.travel.members = members
                 try await FirestoreService.shared.saveDocument(collection: .travel, documentId: self.travel.id, data: self.travel)
-                
+                saveListAction()
             } catch {
                 self.alertDescription = "저장을 실패하였습니다."
                 self.isShowingAlert = true
@@ -80,18 +80,22 @@ class SampleMemeberStore: ObservableObject {
     }
     
     @MainActor
-    func inviteMemberAndSave() async {
+    func inviteMemberAndSave(saveListAction: @escaping () -> Void) async {
         members[selectedmemberIndex].isInvited = true
-        await saveMemeber()
+        await saveMemeber() { 
+            saveListAction()
+        }
         isSelectedMember = false
     }
     
     @MainActor
-    func cancelInvite(_ memberId: String) {
+    func cancelInvite(_ memberId: String, saveListAction: @escaping () -> Void) {
         Task {
             guard let index = members.firstIndex(where: { $0.id == memberId }) else { return }
             members[index].isInvited = false
-            await saveMemeber()
+            await saveMemeber() { 
+                saveListAction()
+            }
         }
     }
     

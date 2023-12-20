@@ -74,7 +74,8 @@ final class UserTravelStore: ObservableObject {
     }
     
     func getTravel(id: String) -> TravelCalculation {
-        guard let travelIndex = travels.firstIndex(where: { $0.id == id }) else { return TravelCalculation.sampletravel }
+        guard let contentId = id.split(separator: "=").last else { return .sampletravel}
+        guard let travelIndex = travels.firstIndex(where: { $0.id == contentId }) else { return .sampletravel }
         return travels[travelIndex]
     }
     
@@ -128,11 +129,16 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
-    func setTravelDate(travelId: String, startDate: Date, endDate: Date ) {
+    func setTravelDate(travelId: String, startDate: Date, endDate: Date) {
         guard let index = travels.firstIndex(where: { $0.id == travelId }) else { return }
         travels[index].startDate = startDate.timeIntervalSince1970
         travels[index].endDate = endDate.timeIntervalSince1970
 
+    }
+    
+    func setTravelMember(travelId: String, members: [TravelCalculation.Member]) {
+        guard let index = travels.firstIndex(where: { $0.id == travelId }) else { return }
+        travels[index].members = members
     }
     
     @MainActor
@@ -170,8 +176,12 @@ final class UserTravelStore: ObservableObject {
     
     @MainActor
     func resetStore() {
-        userTravels = []
-        travels = []
+        for travel in travels {
+            leaveTravel(travel: travel)
+            print("resetStore 진입")
+        }
+//        userTravels = []
+//        travels = []
         isFetchedFirst = false
     }
 }
