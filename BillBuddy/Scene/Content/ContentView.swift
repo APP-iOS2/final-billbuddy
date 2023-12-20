@@ -21,7 +21,7 @@ struct ContentView: View {
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
     @StateObject private var googleSignIn = GoogleSignInModel()
-    @StateObject private var tabViewStore = TabViewStore()
+    @StateObject private var tabViewStore = TabViewStore.shared
     
     var body: some View {
         if AuthStore.shared.userUid != "" {

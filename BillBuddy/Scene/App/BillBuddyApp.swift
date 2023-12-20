@@ -97,7 +97,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let currentUserToken = UserService.shared.reciverToken
             
             if senderToken != currentUserToken {
-                completionHandler([.banner, .sound, .badge])
+                if TabViewStore.shared.isPresentedView {
+                    completionHandler([])
+                } else {
+                    completionHandler([.banner, .sound, .badge])
+                }
             } else {
                 completionHandler([])
             }

@@ -202,5 +202,5 @@ struct ChattingMenuView: View {
     ChattingMenuView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
         .environmentObject(UserTravelStore())
         .environmentObject(MessageStore())
-        .environmentObject(TabViewStore())
+        .environmentObject(TabViewStore.shared)
 }

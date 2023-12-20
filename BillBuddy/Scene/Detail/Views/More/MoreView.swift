@@ -158,7 +158,7 @@ struct MoreView: View {
     NavigationStack {
         MoreView(travel: .sampletravel)
             .environmentObject(UserTravelStore())
-            .environmentObject(TabViewStore())
+            .environmentObject(TabViewStore.shared)
             .environmentObject(TravelDetailStore(travel: TravelCalculation.sampletravel))
             .environmentObject(PaymentStore(travel: TravelCalculation.sampletravel))
     }
