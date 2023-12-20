@@ -145,9 +145,9 @@ struct MyPageSettingView: View {
                             if resultErrorCode == 0 {
                                 try await signUpStore.deleteUser()
                                 UserService.shared.isSignIn = false
-                                AuthStore.shared.userUid = ""
                                 notificationStore.resetStore()
                                 userTravelStore.resetStore()
+                                AuthStore.shared.userUid = ""
                             } else if resultErrorCode == AuthErrorCode.requiresRecentLogin.rawValue{
                                 isReAuthAlert.toggle()
                             } else {
