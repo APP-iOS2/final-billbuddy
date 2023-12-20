@@ -33,6 +33,7 @@ struct MemeberAcountCell: View {
                 Text(member.lastDividedAmount.wonAndDecimal)
                     .font(.body02)
             }
+            .padding(.leading, 12)
             .foregroundStyle(Color.systemBlack)
 
             Spacer()
