@@ -147,7 +147,7 @@ struct PaymentMemberManagementView: View {
                             Spacer()
                             
                             if tempMembers.firstIndex(where: { m in
-                                m.name == member.name
+                                m.id == member.id
                             }) != nil {
                                 Image(.checked)
                                     .resizable()
@@ -572,7 +572,6 @@ extension PaymentMemberManagementView {
     }
     
     func getPersonalPrice(idx: Int) -> Int {
-        print("getPersonalPrice!!! \(participants[idx])")
         if participants[idx].seperateAmount != 0 {
             return participants[idx].seperateAmount - participants[idx].advanceAmount
         }

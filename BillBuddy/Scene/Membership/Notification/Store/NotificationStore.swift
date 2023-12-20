@@ -11,7 +11,7 @@ import FirebaseFirestore
 final class NotificationStore: ObservableObject {
     @Published var notifications: [UserNotification] = []
     var hasUnReadNoti: Bool {
-        return notifications.filter { $0.isChecked == false }.isEmpty
+        return !notifications.filter { $0.isChecked == false }.isEmpty
     }
     
     var didFetched: Bool = false
