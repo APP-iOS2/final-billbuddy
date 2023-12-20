@@ -70,7 +70,6 @@ struct MemberManagementView: View {
                 .listRowSeparator(.hidden)
                 
                 VStack(alignment: .leading, spacing: 0) {
-                    
                     Text("더미 인원")
                         .listRowSeparator(.hidden)
                         .font(.body04)

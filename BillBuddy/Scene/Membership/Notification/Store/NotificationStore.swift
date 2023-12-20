@@ -122,7 +122,7 @@ final class NotificationStore: ObservableObject {
 
         for noti in notis {
             guard let notiIndex = chattingResult.firstIndex(where: { $0.contentId == noti.contentId }) else {
-                let noti = UserNotification(id: UUID().uuidString, duplicationIds: [noti.id ?? ""], type: .chatting, content: noti.content, contentId: noti.contentId, addDate: noti.addDate, isChecked: noti.isChecked)
+                let noti = UserNotification(id: UUID().uuidString, duplicationIds: [noti.id ?? ""], type: noti.type, content: noti.content, contentId: noti.contentId, addDate: noti.addDate, isChecked: noti.isChecked)
                 chattingResult.append(noti)
                 continue
             }
