@@ -29,6 +29,7 @@ struct NotificationCell: View {
                     
                     Text(setContentTitle(noti: notification))
                         .font(.caption01)
+                        .multilineTextAlignment(.leading)
                         .foregroundColor(notification.isChecked ? Color(hex: "A8A9AC") : Color.black)
                 }
                 
@@ -59,7 +60,7 @@ struct NotificationCell: View {
         if noti.duplicationIds == nil {
             return "\(notification.content)가 있습니다"
         } else {
-            return "\(notification.content) \(noti.duplicationIds?.count ?? 1)개가 있습니다"
+            return "\(notification.content)\n\(noti.duplicationIds?.count ?? 1)개가 있습니다"
         }
     }
     
