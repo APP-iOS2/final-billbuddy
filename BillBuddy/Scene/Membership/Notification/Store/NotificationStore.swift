@@ -9,9 +9,21 @@ import Foundation
 import FirebaseFirestore
 
 final class NotificationStore: ObservableObject {
+    enum NotificationReadState {
+        case didRead
+        case unRead
+    }
+    
+    /// fetch해온 안읽은 notifications
     @Published var notifications: [UserNotification] = []
+    /// 읽은 notifications (파이어 베이스에서는 삭제)
+    @Published var readedNotifications: [UserNotification] = []
     var hasUnReadNoti: Bool {
         return notifications.filter { $0.isChecked == false }.isEmpty
+    }
+    var viewList: [UserNotification] {
+        let list = notifications + readedNotifications
+        return list.sorted(by: { $0.addDate > $1.addDate })
     }
     
     var didFetched: Bool = false
@@ -20,9 +32,128 @@ final class NotificationStore: ObservableObject {
     init() {
         let userId = AuthStore.shared.userUid
         if !userId.isEmpty {
-            self.dbRef = Firestore.firestore().collection("User").document(userId).collection("Notification")
+            self.dbRef = Firestore.firestore().collection(StoreCollection.user.path).document(userId).collection(StoreCollection.notification.path)
             self.didFetched = true
             self.fetchNotification()
+        }
+    }
+    
+    func readAll() {
+        notifications.forEach { notification in
+            readNotifications(noti: notification)
+        }
+    }
+    
+    func readNotifications(noti: UserNotification) {
+        if noti.duplicationIds == nil {
+            readSingleNotification(notiId: noti.id ?? "")
+        } else {
+            readCombinedNotifications(notiId: noti.id ?? "")
+        }
+    }
+    
+    /// 하나의 notification을 읽었을 시
+    private func readSingleNotification(notiId: String) {
+        guard let index = notifications.firstIndex(where: { $0.id == notiId} ) else {
+            return
+        }
+        // 파이어 베이스에서는 제거하고 읽은데이터는 가지고 있다가 앱종료 시 사라지도록
+        notifications[index].isChecked = true
+        readedNotifications.append(notifications[index])
+        notifications.remove(at: index)
+        
+        guard let dbRef = dbRef else {
+            return
+        }
+        dbRef.document(notiId).delete()
+    }
+    
+    /// 힙쳐진 notification을 읽었을 시
+    private func readCombinedNotifications(notiId: String) {
+        guard let index = notifications.firstIndex(where: { $0.id == notiId} ) else {
+            return
+        }
+        guard let notiIds = notifications[index].duplicationIds else {
+            return
+        }
+        
+        for notiId in notiIds {
+            guard let dbRef = dbRef else {
+                return
+            }
+            dbRef.document(notiId).delete()
+        }
+            
+        // 파이어 베이스에서는 제거하고 읽은데이터는 가지고 있다가 앱종료 시 사라지도록
+        notifications[index].isChecked = true
+        readedNotifications.append(notifications[index])
+        notifications.remove(at: index)
+        
+    }
+    
+    func setDuplicateNotifications(_ notifications: [UserNotification]) -> [UserNotification] {
+        var chattingNotis: [UserNotification] = []
+        var travelNotis: [UserNotification] = []
+        var noticeNotis: [UserNotification] = []
+        var inviteNotis: [UserNotification] = []
+        for notification in notifications {
+            switch notification.type {
+            case .chatting:
+                chattingNotis.append(notification)
+            case .travel:
+                travelNotis.append(notification)
+            case .notice:
+                noticeNotis.append(notification)
+            case .invite:
+                inviteNotis.append(notification)
+            }
+        }
+        
+        let chattingResult: [UserNotification] = convertDuplicateNotifications(chattingNotis)
+        let travelResult: [UserNotification] = convertDuplicateNotifications(travelNotis)
+        
+        let result = chattingResult + travelResult + noticeNotis + inviteNotis
+        
+        return result
+    }
+    
+    private func convertDuplicateNotifications(_ notis: [UserNotification]) -> [UserNotification] {
+        var chattingResult: [UserNotification] = []
+
+        for noti in notis {
+            guard let notiIndex = chattingResult.firstIndex(where: { $0.contentId == noti.contentId }) else {
+                let noti = UserNotification(id: UUID().uuidString, duplicationIds: [noti.id ?? ""], type: .chatting, content: noti.content, contentId: noti.contentId, addDate: noti.addDate, isChecked: noti.isChecked)
+                chattingResult.append(noti)
+                continue
+            }
+            chattingResult[notiIndex].duplicationIds!.append(noti.id!)
+            if chattingResult[notiIndex].addDate < noti.addDate {
+                chattingResult[notiIndex].addDate = noti.addDate
+            }
+        }
+        
+        return chattingResult
+    }
+    
+    func deleteNotification(_ notification: UserNotification) {
+        if notification.isChecked {
+            if let index = readedNotifications.firstIndex(where: { $0.id == notification.id }) {
+                readedNotifications.remove(at: index)
+            }
+        } else {
+            if let index = notifications.firstIndex(where: { $0.id == notification.id }) {
+                guard let dbRef = dbRef else { return }
+                var notiIds: [String] = []
+                if notification.duplicationIds == nil {
+                    notiIds.append(notification.id ?? "")
+                } else {
+                    notiIds = notification.duplicationIds ?? []
+                }
+                for notiId in notiIds {
+                    dbRef.document(notiId).delete()
+                }
+                notifications.remove(at: index)
+            }
         }
     }
     
@@ -34,7 +165,7 @@ final class NotificationStore: ObservableObject {
     
     func getUserUid() {
         let userId = AuthStore.shared.userUid
-        self.dbRef = Firestore.firestore().collection("User").document(userId).collection("Notification")
+        self.dbRef = Firestore.firestore().collection(StoreCollection.user.path).document(userId).collection(StoreCollection.notification.path)
         self.didFetched = true
         self.fetchNotification()
     }
