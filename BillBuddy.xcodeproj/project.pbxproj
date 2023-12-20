@@ -86,6 +86,7 @@
 		27933F722AD3402300E6A545 /* SettledAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6F2AD3402300E6A545 /* SettledAccountView.swift */; };
 		27933F742AD3403500E6A545 /* SettlementExpensesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */; };
 		27933F762AD3405000E6A545 /* SettlementExpenses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F752AD3405000E6A545 /* SettlementExpenses.swift */; };
+		27B7AC3A2B324F7100D15972 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B7AC392B324F7100D15972 /* OnboardingView.swift */; };
 		46231F3B2AE6E8C000083128 /* ChattingMenuDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46231F3A2AE6E8C000083128 /* ChattingMenuDetailView.swift */; };
 		46A25E442ACD9F0700195F89 /* ChattingRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */; };
 		46AA65712AD6796C00988491 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AA65702AD6796C00988491 /* Message.swift */; };
@@ -229,6 +230,7 @@
 		27933F6F2AD3402300E6A545 /* SettledAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettledAccountView.swift; sourceTree = "<group>"; };
 		27933F732AD3403500E6A545 /* SettlementExpensesStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpensesStore.swift; sourceTree = "<group>"; };
 		27933F752AD3405000E6A545 /* SettlementExpenses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettlementExpenses.swift; sourceTree = "<group>"; };
+		27B7AC392B324F7100D15972 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		46231F3A2AE6E8C000083128 /* ChattingMenuDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingMenuDetailView.swift; sourceTree = "<group>"; };
 		46A25E432ACD9F0700195F89 /* ChattingRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingRoomView.swift; sourceTree = "<group>"; };
 		46AA65702AD6796C00988491 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				2766484F2ABD8E51000F8A10 /* MyPage */,
 				276648432ABD8DB4000F8A10 /* Membership */,
 				277403DE2AC3B81E000537DF /* Admob */,
+				27B7AC3B2B324F7900D15972 /* Onboarding */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -828,6 +831,14 @@
 			path = SubView;
 			sourceTree = "<group>";
 		};
+		27B7AC3B2B324F7900D15972 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				27B7AC392B324F7100D15972 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		46AA656D2AD6743700988491 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1085,6 +1096,7 @@
 				90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */,
 				46B8E2272AD8295F001B3A6C /* MessageStore.swift in Sources */,
 				277403E62AC3E579000537DF /* SignInStore.swift in Sources */,
+				27B7AC3A2B324F7100D15972 /* OnboardingView.swift in Sources */,
 				D21BD5EF2AD62E590074FA80 /* ProfileView.swift in Sources */,
 				638A9F4D2ADA815700C931DD /* EditPaymentMapView.swift in Sources */,
 				02C5A7D92AE0239800CBD8D1 /* FloatingButtonMenuStore.swift in Sources */,
