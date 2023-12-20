@@ -9,15 +9,17 @@ import SwiftUI
 import UIKit
 
 struct MemberShareSheet: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var sampleMemeberStore: SampleMemeberStore
-    @EnvironmentObject var notificationStore: NotificationStore
+    @EnvironmentObject private var notificationStore: NotificationStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
     @Binding var isShowingShareSheet: Bool
     @State private var searchText: String = ""
     @State private var isShowingInviteAlert: Bool = false
     @State private var seletedUser: User = User(email: "", name: "", bankName: "", bankAccountNum: "", isPremium: false, premiumDueDate: Date.now, reciverToken: "")
     @State private var isfinishsearched: Bool = true
-        
+    let saveAction: () -> Void
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -101,7 +103,9 @@ struct MemberShareSheet: View {
                                             content: "\(sampleMemeberStore.travel.travelTitle) 에서 당신을 초대했습니다",
                                             contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(sampleMemeberStore.travel.id )&memberId=\(sampleMemeberStore.seletedMember.id)",
                                             addDate: Date.now)
-                                        await sampleMemeberStore.inviteMemberAndSave()
+                                        await sampleMemeberStore.inviteMemberAndSave() {
+                                            saveAction()
+                                        }
                                         notificationStore.sendNotification(users: [seletedUser], notification: noti)
                                         isShowingShareSheet = false
                                     }
@@ -161,7 +165,7 @@ struct MemberShareSheet: View {
 
 #Preview {
     NavigationStack {
-        MemberShareSheet(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(true))
+        MemberShareSheet(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(true), saveAction: { })
             .environmentObject(NotificationStore())
     }
 }

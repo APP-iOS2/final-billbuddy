@@ -128,11 +128,16 @@ final class UserTravelStore: ObservableObject {
         }
     }
     
-    func setTravelDate(travelId: String, startDate: Date, endDate: Date ) {
+    func setTravelDate(travelId: String, startDate: Date, endDate: Date) {
         guard let index = travels.firstIndex(where: { $0.id == travelId }) else { return }
         travels[index].startDate = startDate.timeIntervalSince1970
         travels[index].endDate = endDate.timeIntervalSince1970
 
+    }
+    
+    func setTravelMember(travelId: String, members: [TravelCalculation.Member]) {
+        guard let index = travels.firstIndex(where: { $0.id == travelId }) else { return }
+        travels[index].members = members
     }
     
     @MainActor

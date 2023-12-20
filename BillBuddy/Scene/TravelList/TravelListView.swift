@@ -114,7 +114,8 @@ struct TravelListView: View {
                                             }
                                             .navigationDestination(isPresented: $isPresentedMemeberView) {
                                                 MemberManagementView(
-                                                    travel: selectedTravel
+                                                    travel: selectedTravel,
+                                                    entryViewtype: .list
                                                 )
                                                 .environmentObject(travelDetailStore)
                                             }
