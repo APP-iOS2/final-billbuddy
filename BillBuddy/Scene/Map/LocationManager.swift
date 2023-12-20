@@ -158,10 +158,10 @@ extension LocationManager: MKMapViewDelegate {
         for payment in filteredPayments {
             let customPinImage = "customPinImage"
             let coordinate = CLLocationCoordinate2D(latitude: payment.address.latitude, longitude: payment.address.longitude)
-            
             let annotation = CustomAnnotation(pinIndex: String(pinIndex), customPinImage: customPinImage, coordinate: coordinate)
-            mapView.addAnnotation(annotation)
-            
+            if (coordinate.latitude != 0.0) && (coordinate.longitude != 0.0) {
+                mapView.addAnnotation(annotation)
+            }
             pinIndex += 1
         }
         getCenterCoordinate(filteredPayments: filteredPayments)
@@ -169,7 +169,8 @@ extension LocationManager: MKMapViewDelegate {
     
     // MARK: - 어노테이션의 사이 좌표로 시야 이동
     func getCenterCoordinate(filteredPayments: [Payment]) {
-            let count = Double(filteredPayments.count)
+        let count = Double(filteredPayments.count)
+        
         if count > 1 {
             let latitude = filteredPayments.map({ $0.address }).map({ $0.latitude }).reduce(0, +) / count
             let longitude = filteredPayments.map({ $0.address }).map({ $0.longitude }).reduce(0, +) / count
