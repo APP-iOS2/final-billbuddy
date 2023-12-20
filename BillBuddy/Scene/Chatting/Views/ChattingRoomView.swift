@@ -187,6 +187,7 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
                                                                 notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {
@@ -268,6 +269,7 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
                                                                 notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {

@@ -113,6 +113,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler()
         
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        // 푸시 알림이 도착하면 호출되는 부분
+        // MARK: Fetch 되도록!!!
+    }
 }
 
 extension AppDelegate {
