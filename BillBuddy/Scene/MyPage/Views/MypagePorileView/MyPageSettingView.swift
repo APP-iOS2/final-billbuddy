@@ -29,17 +29,17 @@ struct MyPageSettingView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 Group {
-                    NavigationLink(destination: MembershipView()){
-                        HStack {
-                            Text("프리미엄 멤버십")
-                            Spacer()
-                            Image("chevron_right")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                        }
-                    }
-                    .padding(.top, 32)
-                    .padding(.bottom, 36)
+//                    NavigationLink(destination: MembershipView()){
+//                        HStack {
+//                            Text("프리미엄 멤버십")
+//                            Spacer()
+//                            Image("chevron_right")
+//                                .resizable()
+//                                .frame(width: 24, height: 24)
+//                        }
+//                    }
+//                    .padding(.top, 32)
+//                    .padding(.bottom, 36)
                     Button(action: {
                         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                     }, label: {
@@ -51,6 +51,7 @@ struct MyPageSettingView: View {
                                 .frame(width: 24, height: 24)
                         }
                     })
+                    .padding(.top, 32)
                     .padding(.bottom, 36)
                    
                     Button(action: {

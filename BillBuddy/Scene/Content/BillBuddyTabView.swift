@@ -37,28 +37,28 @@ struct BillBuddyTabView: View {
                 Text("홈")
             }
             
-            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                AdContentView(isShowingAdScreen: $isShowingAdScreen)
-            })
-            .onAppear {
-                if let isPremium = userService.currentUser?.isPremium {
-                    if !isPremium {
-                        isShowingAdScreen = Bool.random()
-                    } else {
-                        isShowingAdScreen = false
-                    }
-                }
-            }
+//            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
+//                AdContentView(isShowingAdScreen: $isShowingAdScreen)
+//            })
+//            .onAppear {
+//                if let isPremium = userService.currentUser?.isPremium {
+//                    if !isPremium {
+//                        isShowingAdScreen = Bool.random()
+//                    } else {
+//                        isShowingAdScreen = false
+//                    }
+//                }
+//            }
             .tag(0)
             
             NavigationStack {
                 ChattingView()
-                if let isPremium = userService.currentUser?.isPremium {
-                    if !isPremium {
-                        BannerView().frame(height: 60)
-                            .padding(.top, -8)
-                    }
-                }
+//                if let isPremium = userService.currentUser?.isPremium {
+//                    if !isPremium {
+//                        BannerView().frame(height: 60)
+//                            .padding(.top, -8)
+//                    }
+//                }
             }
             
             .tabItem {
@@ -67,28 +67,28 @@ struct BillBuddyTabView: View {
                 
                 Text("채팅")
             }
-            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                AdContentView(isShowingAdScreen: $isShowingAdScreen)
-            })
-            .onAppear {
-                if let isPremium = userService.currentUser?.isPremium {
-                    if !isPremium {
-                        isShowingAdScreen = Bool.random()
-                    } else {
-                        isShowingAdScreen = false
-                    }
-                }
-            }
+//            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
+//                AdContentView(isShowingAdScreen: $isShowingAdScreen)
+//            })
+//            .onAppear {
+//                if let isPremium = userService.currentUser?.isPremium {
+//                    if !isPremium {
+//                        isShowingAdScreen = Bool.random()
+//                    } else {
+//                        isShowingAdScreen = false
+//                    }
+//                }
+//            }
             .tag(1)
             
             NavigationStack {
                 MyPageView()
-                if let isPremium = userService.currentUser?.isPremium {
-                    if isPremium == false {
-                        BannerView().frame(height: 60)
-                            .padding(.top, -8)
-                    }
-                }
+//                if let isPremium = userService.currentUser?.isPremium {
+//                    if isPremium == false {
+//                        BannerView().frame(height: 60)
+//                            .padding(.top, -8)
+//                    }
+//                }
             }
             .tabItem {
                 Image(.mypagetap)
@@ -96,18 +96,18 @@ struct BillBuddyTabView: View {
                 
                 Text("마이페이지")
             }
-            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
-                AdContentView(isShowingAdScreen: $isShowingAdScreen)
-            })
-            .onAppear {
-                if let isPremium = userService.currentUser?.isPremium {
-                    if !isPremium {
-                        isShowingAdScreen = Bool.random()
-                    } else {
-                        isShowingAdScreen = false
-                    }
-                }
-            }
+//            .fullScreenCover(isPresented: $isShowingAdScreen, content: {
+//                AdContentView(isShowingAdScreen: $isShowingAdScreen)
+//            })
+//            .onAppear {
+//                if let isPremium = userService.currentUser?.isPremium {
+//                    if !isPremium {
+//                        isShowingAdScreen = Bool.random()
+//                    } else {
+//                        isShowingAdScreen = false
+//                    }
+//                }
+//            }
             .tag(2)
         }
         .accentColor(.systemBlack)
