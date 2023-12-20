@@ -187,12 +187,14 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
+                                                                notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {
                                                             HStack {
                                                                 Image(.announcementMegaphone)
                                                                     .resizable()
-                                                                    .frame(width: 24, height: 24)
+                                                                    .frame(width: 24, height: 24) 
                                                                 Text("공지등록")
                                                                     .font(.body01)
                                                             }
@@ -267,6 +269,8 @@ struct ChattingRoomView: View {
                                                         Button {
                                                             Task {
                                                                 await messageStore.updateChatRoomNotice(travelCalculation: travel, message: message)
+                                                                PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle)여행방", body: "\(travel.travelTitle)에 공지가 등록되었습니다.", senderToken: "senderToken")
+                                                                notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle)에 공지가 등록되었습니다.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                                                             }
                                                         } label: {
                                                             HStack {
@@ -366,7 +370,7 @@ struct ChattingRoomView: View {
                     if !inputText.isEmpty || selectedPhoto != nil {
                         sendChat()
                         PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.", senderToken: "senderToken")
-                        NotificationStore().sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle) 채팅방에서 읽지 않은 메세지", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
+                        notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle) 채팅방에서 읽지 않은 메세지", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                         selectedPhoto = nil
                         imageData?.removeAll()
                         inputText.removeAll()
@@ -426,6 +430,6 @@ struct ChattingRoomView: View {
         ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
             .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }

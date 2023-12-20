@@ -103,8 +103,8 @@
 		63A3F1762ADF78B1006EE206 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */; };
 		900B97CF2B31DFD300A89464 /* PaymentButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900B97CE2B31DFD300A89464 /* PaymentButtonView.swift */; };
 		90BA673D2B2ACABE002911DB /* PaymentAlertText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */; };
-		A5EE60052B32D42E0032435B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5EE60042B32D42D0032435B /* GoogleService-Info.plist */; };
-		A5EE60072B32F1550032435B /* ServerKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = A5EE60062B32F1550032435B /* ServerKeys.plist */; };
+		90EEBA362B33142D00FC8B93 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90EEBA352B33142D00FC8B93 /* GoogleService-Info.plist */; };
+		90EEBA382B33143600FC8B93 /* ServerKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90EEBA372B33143600FC8B93 /* ServerKeys.plist */; };
 		C45A4D442AD7958800904D89 /* CategorySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45A4D432AD7958800904D89 /* CategorySelectView.swift */; };
 		C45E24EE2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */; };
 		C478B1922AC6BAE8005EE427 /* FillInPaymentInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */; };
@@ -247,8 +247,8 @@
 		63A3F1752ADF78B1006EE206 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		900B97CE2B31DFD300A89464 /* PaymentButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButtonView.swift; sourceTree = "<group>"; };
 		90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentAlertText.swift; sourceTree = "<group>"; };
-		A5EE60042B32D42D0032435B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A5EE60062B32F1550032435B /* ServerKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = ServerKeys.plist; path = ../../../../../../Downloads/ServerKeys.plist; sourceTree = "<group>"; };
+		90EEBA352B33142D00FC8B93 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		90EEBA372B33143600FC8B93 /* ServerKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ServerKeys.plist; sourceTree = "<group>"; };
 		C45A4D432AD7958800904D89 /* CategorySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectView.swift; sourceTree = "<group>"; };
 		C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMemberManagementView.swift; sourceTree = "<group>"; };
 		C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillInPaymentInfoView.swift; sourceTree = "<group>"; };
@@ -558,8 +558,8 @@
 			isa = PBXGroup;
 			children = (
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
-				A5EE60042B32D42D0032435B /* GoogleService-Info.plist */,
-				A5EE60062B32F1550032435B /* ServerKeys.plist */,
+				90EEBA352B33142D00FC8B93 /* GoogleService-Info.plist */,
+				90EEBA372B33143600FC8B93 /* ServerKeys.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
 			);
 			path = Config;
@@ -866,6 +866,9 @@
 		900B97D02B31E34E00A89464 /* SubView */ = {
 			isa = PBXGroup;
 			children = (
+				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
+				C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */,
+				C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */,
 				90BA673C2B2ACABE002911DB /* PaymentAlertText.swift */,
 				900B97CE2B31DFD300A89464 /* PaymentButtonView.swift */,
 			);
@@ -900,10 +903,7 @@
 			isa = PBXGroup;
 			children = (
 				C47F6C762AD51878006B77D6 /* PaymentMainView.swift */,
-				2766484A2ABD8E34000F8A10 /* PaymentListView.swift */,
 				C4F433B12ADE41AC00C8D20C /* PaymentManageView.swift */,
-				C478B1912AC6BAE8005EE427 /* FillInPaymentInfoView.swift */,
-				C45E24ED2B1E29FA0056FEF8 /* PaymentMemberManagementView.swift */,
 				900B97D02B31E34E00A89464 /* SubView */,
 			);
 			path = Payment;
@@ -1063,10 +1063,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5EE60052B32D42E0032435B /* GoogleService-Info.plist in Resources */,
+				90EEBA362B33142D00FC8B93 /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
-				A5EE60072B32F1550032435B /* ServerKeys.plist in Resources */,
+				90EEBA382B33143600FC8B93 /* ServerKeys.plist in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
