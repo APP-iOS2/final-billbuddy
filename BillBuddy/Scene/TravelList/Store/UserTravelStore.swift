@@ -74,7 +74,8 @@ final class UserTravelStore: ObservableObject {
     }
     
     func getTravel(id: String) -> TravelCalculation {
-        guard let travelIndex = travels.firstIndex(where: { $0.id == id }) else { return TravelCalculation.sampletravel }
+        guard let contentId = id.split(separator: "=").last else { return .sampletravel}
+        guard let travelIndex = travels.firstIndex(where: { $0.id == contentId }) else { return .sampletravel }
         return travels[travelIndex]
     }
     

@@ -97,8 +97,10 @@ struct SettledAccountView: View {
                         }
                     }
                 }
-                .padding([.top, .bottom], 16)
+                .padding(.top, 16)
+                .padding(.bottom, 70)
             }
+            .scrollIndicators(.never)
             .ignoresSafeArea(.all, edges: .all)
             .overlay(alignment: .bottom) {
                 Button {
