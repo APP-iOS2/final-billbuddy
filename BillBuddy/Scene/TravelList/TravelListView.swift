@@ -38,16 +38,16 @@ struct TravelListView: View {
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
-                        if let isPremium = userService.currentUser?.isPremium {
-                            if !isPremium {
-                                NativeAdView(nativeViewModel: nativeAdViewModel)
-                                    .frame(height: 94)
-                                    .frame(maxWidth: .infinity)
-                                    .cornerRadius(12)
-                                    .padding(.horizontal, 16)
-                                    .padding(.top, 16)
-                            }
-                        }
+//                        if let isPremium = userService.currentUser?.isPremium {
+//                            if !isPremium {
+//                                NativeAdView(nativeViewModel: nativeAdViewModel)
+//                                    .frame(height: 94)
+//                                    .frame(maxWidth: .infinity)
+//                                    .cornerRadius(12)
+//                                    .padding(.horizontal, 16)
+//                                    .padding(.top, 16)
+//                            }
+//                        }
                         if !userTravelStore.isFetching {
                             //.onAppear 애니메이션 효과 때문에 문장이 접혔다 펴지는 문제가 있음
                             if selectedFilter == .paymentInProgress && createTravelList().isEmpty {
