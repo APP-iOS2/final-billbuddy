@@ -10,6 +10,7 @@ import FirebaseFirestoreSwift
 
 struct UserNotification: Identifiable, Codable {
     @DocumentID var id: String?
+    var duplicationIds: [String]?
     var type: NotiType
 
     var content: String

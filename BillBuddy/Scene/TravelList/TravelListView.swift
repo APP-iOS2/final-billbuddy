@@ -114,7 +114,8 @@ struct TravelListView: View {
                                             }
                                             .navigationDestination(isPresented: $isPresentedMemeberView) {
                                                 MemberManagementView(
-                                                    travel: selectedTravel
+                                                    travel: selectedTravel,
+                                                    entryViewtype: .list
                                                 )
                                                 .environmentObject(travelDetailStore)
                                             }
@@ -166,9 +167,23 @@ struct TravelListView: View {
                 NavigationLink {
                     NotificationListView()
                 } label: {
-                    Image(.ringingBellNotification3)
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    if notificationStore.hasUnReadNoti {
+                        Image(.redDotRingBell)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    else {
+                        if notificationStore.hasUnReadNoti {
+                            Image(.redDotRingBell)
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        else {
+                            Image("ringing-bell-notification-3")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                    }
                 }
             }
         }

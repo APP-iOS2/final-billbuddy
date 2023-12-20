@@ -34,6 +34,10 @@ extension Font {
     static var title05: Font {
         return Font.custom("Pretendard-Bold", size: 18)
     }
+    /// Bold / 22
+    static var title06: Font {
+        return Font.custom("Pretendard-Bold", size: 22)
+    }
     /// SemiBold / 16
     static var body01: Font {
         return Font.custom("Pretendard-SemiBold", size: 16)
