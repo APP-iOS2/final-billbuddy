@@ -15,6 +15,8 @@ struct MemberEditSheet: View {
     @State var advancePayment: String = ""
     @FocusState private var isKeyboardUp: Bool
     
+    let saveAction: () -> Void
+    
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             RoundedRectangle(cornerRadius: 12)
@@ -102,9 +104,10 @@ struct MemberEditSheet: View {
         member.advancePayment = Int(advancePayment) ?? 0
         member.isExcluded = isExcluded
         isShowingEditSheet = false
+        saveAction()
     }
 }
 
 #Preview {
-    MemberEditSheet(member: .constant(TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)), isShowingEditSheet: .constant(true), isExcluded: false)
+    MemberEditSheet(member: .constant(TravelCalculation.Member(name: "name", advancePayment: 0, payment: 0)), isShowingEditSheet: .constant(true), isExcluded: false, saveAction: { })
 }

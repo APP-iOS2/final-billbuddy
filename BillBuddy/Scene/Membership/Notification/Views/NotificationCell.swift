@@ -27,7 +27,7 @@ struct NotificationCell: View {
                         .font(.caption02)
                         .foregroundColor(notification.isChecked ? Color(hex: "AFB0B7") : Color.gray)
                     
-                    Text(notification.content)
+                    Text(setContentTitle(noti: notification))
                         .font(.caption01)
                         .foregroundColor(notification.isChecked ? Color(hex: "A8A9AC") : Color.black)
                 }
@@ -53,6 +53,14 @@ struct NotificationCell: View {
                         .foregroundColor(.red)
                 }
             }
+    }
+    
+    private func setContentTitle(noti: UserNotification) -> String {
+        if noti.duplicationIds == nil {
+            return "\(notification.content)가 있습니다"
+        } else {
+            return "\(notification.content) \(noti.duplicationIds?.count ?? 1)개가 있습니다"
+        }
     }
     
     private func getImage(for type: NotiType, isRead: Bool) -> Image {

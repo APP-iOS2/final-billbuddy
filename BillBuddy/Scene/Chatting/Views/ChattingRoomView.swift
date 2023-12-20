@@ -368,7 +368,7 @@ struct ChattingRoomView: View {
                     if !inputText.isEmpty || selectedPhoto != nil {
                         sendChat()
                         PushNotificationManager.sendPushNotification(toTravel: travel, title: "\(travel.travelTitle) 채팅방", body: "읽지 않은 메세지를 확인해보세요.", senderToken: "senderToken")
-//                        notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "읽지 않은 메세지를 확인해보세요.", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
+                        notificationStore.sendNotification(members: travel.members, notification: UserNotification(type: .chatting, content: "\(travel.travelTitle) 채팅방에서 읽지 않은 메세지", contentId: "\(URLSchemeBase.scheme.rawValue)://travel?travelId=\(travel.id)", addDate: Date(), isChecked: false))
                         selectedPhoto = nil
                         imageData?.removeAll()
                         inputText.removeAll()

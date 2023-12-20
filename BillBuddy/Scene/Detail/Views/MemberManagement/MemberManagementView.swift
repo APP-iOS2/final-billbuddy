@@ -6,20 +6,26 @@
 //
 
 import SwiftUI
-
+import Firebase
+import FirebaseFirestore
 
 
 struct MemberManagementView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var sampleMemeberStore: SampleMemeberStore = SampleMemeberStore()
+    @EnvironmentObject private var settlementExpensesStore: SettlementExpensesStore
     @EnvironmentObject private var travelDetailStore: TravelDetailStore
+    @EnvironmentObject private var userTravelStore: UserTravelStore
 
-    var travel: TravelCalculation
     @State private var isShowingAlert: Bool = false
     @State private var isShowingSaveAlert: Bool = false
     @State private var isShowingEditSheet: Bool = false
     @State private var isShowingShareSheet: Bool = false
     @State private var isPresentedSettledAlert: Bool = false
+    @State var paymentsOfType: [Payment] = []
+    var travel: TravelCalculation
+    var entryViewtype: EntryViewType
+
     
     var body: some View {
         
@@ -43,7 +49,7 @@ struct MemberManagementView: View {
                     MemberCell(
                         sampleMemeberStore: sampleMemeberStore,
                         isShowingShareSheet: $isShowingShareSheet,
-                        member: member, 
+                        member: member,
                         isPaymentSettled: travel.isPaymentSettled,
                         onEditing: {
                             sampleMemeberStore.selectMember(member.id)
@@ -52,6 +58,11 @@ struct MemberManagementView: View {
                         onRemove: {
                             withAnimation {
                                 sampleMemeberStore.removeMember(memberId: member.id)
+                            }
+                        }, 
+                        saveAction: {
+                            if entryViewtype == .list {
+                                userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
                             }
                         }
                     )
@@ -86,6 +97,11 @@ struct MemberManagementView: View {
                             withAnimation {
                                 sampleMemeberStore.removeMember(memberId: member.id)
                             }
+                        }, 
+                        saveAction: {
+                            if entryViewtype == .list {
+                                userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                            }
                         }
                     )
                 }
@@ -118,6 +134,11 @@ struct MemberManagementView: View {
                             withAnimation {
                                 sampleMemeberStore.removeMember(memberId: member.id)
                             }
+                        }, 
+                        saveAction: {
+                            if entryViewtype == .list {
+                                userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                            }
                         }
                     )
                 }
@@ -144,6 +165,7 @@ struct MemberManagementView: View {
         .ignoresSafeArea(.all, edges: .bottom)
         .padding(.top, 3)
         .onAppear {
+            fetchPayments()
             if sampleMemeberStore.InitializedStore == false {
                 sampleMemeberStore.initStore(travel: travelDetailStore.travel)
             }
@@ -160,7 +182,7 @@ struct MemberManagementView: View {
                         self.isShowingSaveAlert = true
                     } else {
                         travelDetailStore.stoplistening()
-                        dismiss()
+                        dismissAction()
                     }
                 }, label: {
                     Image("arrow_back")
@@ -181,13 +203,20 @@ struct MemberManagementView: View {
                   message: Text("뒤로가기 시 변경사항이 삭제됩니다."),
                   primaryButton: .destructive(Text("취소하고 나가기"), action: {
                 travelDetailStore.stoplistening()
-                dismiss()
+                dismissAction()
             }),
                   secondaryButton: .default(Text("저장"), action: {
                 Task {
                     travelDetailStore.stoplistening()
-                    await sampleMemeberStore.saveMemeber()
-                    dismiss()
+                    await sampleMemeberStore.saveMemeber() {
+                        if entryViewtype == .list {
+                            userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                        }
+                    }
+                    if entryViewtype == .list {
+                        fetchPayments()
+                    }
+                    dismissAction()
                 }
             }))
         }
@@ -197,22 +226,61 @@ struct MemberManagementView: View {
             MemberEditSheet(
                 member: $sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex],
                 isShowingEditSheet: $isShowingEditSheet,
-                isExcluded: sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex].isExcluded)
+                isExcluded: sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex].isExcluded,
+                saveAction: {
+                    Task {
+                        await sampleMemeberStore.saveMemeber() {
+                            if entryViewtype == .list {
+                                userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                            }
+                        }
+                    }
+                }
+            )
                 .presentationDetents([.height(374)])
                 .presentationDragIndicator(.hidden)
         }
         .sheet(isPresented: $isShowingShareSheet) {
             // onDismiss
         } content: {
-            MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet)
+            MemberShareSheet(sampleMemeberStore: sampleMemeberStore, isShowingShareSheet: $isShowingShareSheet, saveAction: {
+                if entryViewtype == .list {
+                    userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                }
+            })
                 .presentationDetents([.large])
                 .presentationDragIndicator(.hidden)
         }
+    }
+    
+    func fetchPayments() {
+        if entryViewtype == .list {
+            Task {
+                do {
+                    let snapshot = try await Firestore.firestore()
+                        .collection(StoreCollection.travel.path).document(travel.id)
+                        .collection(StoreCollection.payment.path).getDocuments()
+                    
+                    let result = try snapshot.documents.map { try $0.data(as: Payment.self) }
+                    self.paymentsOfType = result
+                    
+                } catch {
+                    print("false fetch payments - \(error)")
+                }
+            }
+        }
+    }
+    
+    func dismissAction() {
+        settlementExpensesStore.setSettlementExpenses(payments: paymentsOfType, members: sampleMemeberStore.members)
+        dismiss()
     }
 }
 
 #Preview {
     NavigationStack {
-        MemberManagementView(travel: TravelCalculation.sampletravel)
+        MemberManagementView(travel: .sampletravel, entryViewtype: .more)
     }
+    .environmentObject(TravelDetailStore(travel: .sampletravel))
+    .environmentObject(UserTravelStore())
 }
