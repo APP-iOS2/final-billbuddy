@@ -187,7 +187,7 @@ struct MyPageSettingView: View {
         MyPageSettingView()
             .environmentObject(SignInStore())
             .environmentObject(SignUpStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
             .environmentObject(UserTravelStore())
     }
 }

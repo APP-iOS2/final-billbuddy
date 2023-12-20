@@ -9,6 +9,9 @@ import Foundation
 import FirebaseFirestore
 
 final class NotificationStore: ObservableObject {
+    
+    static let shared = NotificationStore()
+    
     enum NotificationReadState {
         case didRead
         case unRead
@@ -29,7 +32,7 @@ final class NotificationStore: ObservableObject {
     var didFetched: Bool = false
     private var dbRef: CollectionReference?
     
-    init() {
+    private init() {
         let userId = AuthStore.shared.userUid
         if !userId.isEmpty {
             self.dbRef = Firestore.firestore().collection(StoreCollection.user.path).document(userId).collection(StoreCollection.notification.path)

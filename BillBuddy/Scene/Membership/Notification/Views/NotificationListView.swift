@@ -128,6 +128,6 @@ struct NotificationListView: View {
 
 #Preview {
     NotificationListView()
-        .environmentObject(NotificationStore())
+        .environmentObject(NotificationStore.shared)
         .environmentObject(TabViewStore())
 }

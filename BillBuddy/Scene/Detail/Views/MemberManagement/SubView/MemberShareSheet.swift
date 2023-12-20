@@ -166,6 +166,6 @@ struct MemberShareSheet: View {
 #Preview {
     NavigationStack {
         MemberShareSheet(sampleMemeberStore: SampleMemeberStore(), isShowingShareSheet: .constant(true), saveAction: { })
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }

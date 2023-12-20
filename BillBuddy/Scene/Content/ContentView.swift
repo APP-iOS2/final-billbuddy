@@ -16,7 +16,7 @@ struct ContentView: View {
     @StateObject private var settlementExpensesStore = SettlementExpensesStore()
     @StateObject private var messageStore = MessageStore()
     @StateObject private var tabBarVisivilyStore = TabBarVisivilyStore()
-    @StateObject private var notificationStore = NotificationStore()
+    @StateObject private var notificationStore = NotificationStore.shared
     @StateObject private var nativeViewModel = NativeAdViewModel()
     @StateObject private var myPageStore = MyPageStore()
     @StateObject private var adViewModel = AdViewModel()
@@ -63,9 +63,8 @@ struct ContentView: View {
             .environmentObject(googleSignIn)
         }
     }
+    
 }
-
-
 
 #Preview {
     ContentView()

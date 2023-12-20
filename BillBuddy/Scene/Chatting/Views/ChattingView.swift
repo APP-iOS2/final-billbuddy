@@ -148,7 +148,7 @@ struct ChattingView: View {
         ChattingView()
             .environmentObject(UserTravelStore())
             .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }
 

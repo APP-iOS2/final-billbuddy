@@ -430,6 +430,6 @@ struct ChattingRoomView: View {
         ChattingRoomView(travel: TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: 0, endDate: 0, updateContentDate: 0, members: []))
             .environmentObject(MessageStore())
             .environmentObject(TabBarVisivilyStore())
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }

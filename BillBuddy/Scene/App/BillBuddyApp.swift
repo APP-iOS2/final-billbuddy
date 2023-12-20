@@ -10,6 +10,7 @@ import FirebaseCore
 import GoogleMobileAds
 import FirebaseMessaging
 import GoogleSignIn
+import UserNotifications
 
 @main
 struct BillBuddyApp: App {
@@ -89,6 +90,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // - 만약 앱 실행중에도 알림배너를 표시해주고 싶으면, 이 메서드를 구현하면됩니다.
         let userInfo = notification.request.content.userInfo
         
+        // TODO: fetch -> 받아온 데이터로 add만 해주는 형식으로 바꿔야한다.
+        NotificationStore.shared.fetchNotification()
+        
         if let senderToken = userInfo["senderToken"] as? String {
             let currentUserToken = UserService.shared.reciverToken
             
@@ -117,6 +121,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         // 푸시 알림이 도착하면 호출되는 부분
         // MARK: Fetch 되도록!!!
+        
     }
 }
 

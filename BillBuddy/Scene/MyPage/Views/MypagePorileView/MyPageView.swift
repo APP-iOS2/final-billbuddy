@@ -48,6 +48,6 @@ struct MyPageView: View {
     NavigationStack {
         MyPageView()
             .environmentObject(UserService.shared)
-            .environmentObject(NotificationStore())
+            .environmentObject(NotificationStore.shared)
     }
 }
