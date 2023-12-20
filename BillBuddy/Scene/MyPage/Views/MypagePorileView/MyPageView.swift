@@ -28,10 +28,16 @@ struct MyPageView: View {
                 NavigationLink {
                     NotificationListView()
                 }label: {
-                    Image("ringing-bell-notification-3")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.systemBlack)
+                    if notificationStore.hasUnReadNoti {
+                        Image(.redDotRingBell)
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
+                    else {
+                        Image("ringing-bell-notification-3")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
         }
