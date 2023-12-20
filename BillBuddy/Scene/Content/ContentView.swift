@@ -52,7 +52,7 @@ struct ContentView: View {
             }
         } else {
             NavigationStack {
-                SignInView(signInStore: signInStore)
+                SignInView()
             }
             .environmentObject(signInStore)
             .environmentObject(signUpStore)
