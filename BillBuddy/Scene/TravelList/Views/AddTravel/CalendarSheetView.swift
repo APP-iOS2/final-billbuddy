@@ -177,15 +177,10 @@ struct CalendarSheetView: View {
             return
         }
         
-        //        let adjustedFirstDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: firstDate)!
-        //        let adjustedSecondDate = calendarStore.calendar.date(byAdding: .hour, value: 9, to: secondDate)!
-        
         startDate = firstDate
         endDate = secondDate
-        //        startDate = adjustedFirstDate
-        //        endDate = adjustedSecondDate
-        
         isShowingCalendarView = false
+        
         print("시작일: \(firstDate)")
         print("종료일: \(secondDate)")
         

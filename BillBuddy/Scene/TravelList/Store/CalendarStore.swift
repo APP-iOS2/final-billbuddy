@@ -37,7 +37,6 @@ final class CalendarStore: ObservableObject {
                         if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth) {
                             weekDays.append(date)
                         } else {
-                            // Add nil for days outside the month
                             weeks.append(weekDays)
                         }
                     }
@@ -160,23 +159,4 @@ final class CalendarStore: ObservableObject {
     }
 }
 
-//extension Date {
-//    // 해당 월의 첫 번째 날짜 반환
-//    func startOfMonth(_ calendar: Calendar) -> Date {
-//        return calendar.date(from: calendar.dateComponents([.year, .month], from: calendar.startOfDay(for: self)))!
-//    }
-//
-//    // 해당 월의 첫 번째 주 반환
-//    func startOfWeek(_ week: Int, calendar: Calendar) -> Date {
-//        var components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
-//        components.weekOfYear = week
-//        components.weekday = calendar.firstWeekday
-//        return calendar.date(from: components)!
-//    }
-//
-//    func endOfMonth(calendar: Calendar) -> Date {
-//        let components = calendar.dateComponents([.year, .month], from: self)
-//        let startOfMonth = calendar.date(from: components)!
-//        return calendar.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth)!
-//    }
-//}
+

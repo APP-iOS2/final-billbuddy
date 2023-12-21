@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct AddTravelView: View {
-    //    @Binding var travelData: TravelCalculation
-    //    @StateObject private var tempMemberStore: TempMemberStore = TempMemberStore()
-    //    @State private var newTravel = TravelCalculation(hostId: "", travelTitle: "", managerId: "", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date(), members: [])
-    
     
     @EnvironmentObject private var tabBarVisivilyStore: TabBarVisivilyStore
     @EnvironmentObject var userTravelStore: UserTravelStore
@@ -64,7 +60,6 @@ struct AddTravelView: View {
                                     isShowingCalendarView.toggle()
                                 }) {
                                     
-                                    // CalendarSheetView의 firstDate와 endDate가 시차때문에 하루 전날로 표시돼서 
                                     if startDate <= endDate {
                                         let nineHoursInSeconds: TimeInterval = 9 * 60 * 60
                                         let adjustedStartDate = startDate.addingTimeInterval(nineHoursInSeconds)
