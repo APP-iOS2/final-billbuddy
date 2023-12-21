@@ -20,19 +20,19 @@ final class CalendarStore: ObservableObject {
     
     var weeks: [[Date]] {
         var weeks = [[Date]]()
-
+        
         let components = calendar.dateComponents([.year, .month], from: date)
         if let firstDayOfMonth = calendar.date(from: components) {
             let range = calendar.range(of: .weekOfMonth, in: .month, for: firstDayOfMonth)!
             let weekCount = range.count
-
+            
             var offsetComponent = DateComponents()
             offsetComponent.day = -calendar.component(.weekday, from: firstDayOfMonth) + calendar.firstWeekday
-
+            
             if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
                 for week in 0..<weekCount {
                     var weekDays = [Date]()
-
+                    
                     for day in 0..<7 {
                         if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth) {
                             weekDays.append(date)
@@ -45,108 +45,14 @@ final class CalendarStore: ObservableObject {
                 }
             }
         }
-
+        
         return weeks
     }
-
     
-//    var weeks: [[Date]] {
-//        var weeks = [[Date]]()
-//
-//        let components = calendar.dateComponents([.year, .month], from: date)
-//        if let firstDayOfMonth = calendar.date(from: components) {
-//            let range = calendar.range(of: .weekOfMonth, in: .month, for: firstDayOfMonth)!
-//            let weekCount = range.count
-//
-//            var offsetComponent = DateComponents()
-//            offsetComponent.day = -calendar.component(.weekday, from: firstDayOfMonth) + calendar.firstWeekday
-//
-//            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
-//                for week in 0..<weekCount {
-//                    var weekDays = [Date]()
-//
-//                    for day in 0..<7 {
-//                        if let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth),
-//                            calendar.component(.month, from: date) == calendar.component(.month, from: firstDayOfMonth) {
-//                            weekDays.append(date)
-//                        } else {
-//                            // Add placeholder dates for days outside the month
-//                            weekDays.append(Date(timeIntervalSince1970: 0))
-//                        }
-//                    }
-//                    weeks.append(weekDays)
-//                }
-//            }
-//        }
-//
-//        return weeks
-//    }
-
-    
-    
-//    var weeks: [[Date]] {
-//        calendar.firstWeekday = -5
-//        var weeks = [[Date]]()
-//        
-//        let components = calendar.dateComponents([.year, .month], from: date)
-//        if let firstDayOfMonth = calendar.date(from: components) {
-//            let firstWeekdayOfMonth = calendar.component(.weekday, from: firstDayOfMonth)
-//            var offsetComponent = DateComponents()
-//            offsetComponent.day = -firstWeekdayOfMonth + calendar.firstWeekday
-//            if let startOfMonth = calendar.date(byAdding: offsetComponent, to: firstDayOfMonth) {
-//                for week in 0..<6 {
-//                    var weekDays = [Date]()
-//                    for day in 0..<7 {
-//                        let date = calendar.date(byAdding: .day, value: day + week * 7, to: startOfMonth)!
-//                        weekDays.append(date)
-//                        
-//                    }
-//                    weeks.append(weekDays)
-//                }
-//            }
-//        }
-//        
-//        return weeks
-//    }
-    
-    //    // 각 주의 날짜들을 반환
-    //    var weeks: [[Date]] {
-    //
-    //        // 일주일의 첫 번째 요일을 월요일로 지정(일요일은 1)
-    //        calendar.firstWeekday = 2
-    //        var weeks = [[Date]]()
-    //        let range = calendar.range(of: .weekOfYear, in: .month, for: date)!
-    //        for week in range {
-    //            var weekDays = [Date]()
-    //            for day in 1...7 {
-    //                let date = calendar.date(byAdding: .day, value: day-1, to: date.startOfMonth(calendar).startOfWeek(week, calendar: calendar))!
-    //                weekDays.append(date)
-    //            }
-    //            weeks.append(weekDays)
-    //        }
-    //
-    //        // 해당 월이 5주로 되어있을 경우 마지막 주에 날짜 추가
-    //        if weeks.count == 5 {
-    //            let startDate = calendar.date(byAdding: .day, value: 1, to: weeks.last!.last!)!
-    //            var weekDays = [startDate]
-    //            for day in 1...6 {
-    //                let date = calendar.date(byAdding: .day, value: day, to: startDate)!
-    //                weekDays.append(date)
-    //            }
-    //            weeks.append(weekDays)
-    //        }
-    //
-    //
-    //        return weeks
-    //    }
     
     var days: [String] {
         ["월", "화", "수", "목", "금", "토", "일"]
     }
-    
-    //    init(_ currentDate: Date = Date()) {
-    //        date = currentDate
-    //    }
     
     // 날짜 선택
     func selectDay(_ day: Date) {
