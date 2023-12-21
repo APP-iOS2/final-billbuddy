@@ -118,6 +118,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let userInfo = response.notification.request.content.userInfo
         
         print("didReceivet: userInfo: ", userInfo)
+        TabViewStore.shared.pushNotificationListView()
         completionHandler()
         
     }
