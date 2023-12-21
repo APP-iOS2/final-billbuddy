@@ -107,6 +107,11 @@ struct MemberShareSheet: View {
                                             saveAction()
                                         }
                                         notificationStore.sendNotification(users: [seletedUser], notification: noti)
+                                        
+                                        if let serverKey = ServerKeyManager.loadServerKey() {
+                                            PushNotificationManager.sendPushNotificationToToken(seletedUser.reciverToken, title: "여행 초대", body: "\(sampleMemeberStore.travel.travelTitle)에서 당신을 초대했습니다", senderToken: UserService.shared.currentUser?.reciverToken ?? "", serverKey: serverKey)
+                                        }
+                                        
                                         isShowingShareSheet = false
                                     }
                                 }))

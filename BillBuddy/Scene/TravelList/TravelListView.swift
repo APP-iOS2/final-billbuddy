@@ -164,8 +164,8 @@ struct TravelListView: View {
             }
             
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink {
-                    NotificationListView()
+                Button {
+                    tabViewStore.pushNotificationListView()
                 } label: {
                     if notificationStore.hasUnReadNoti {
                         Image(.redDotRingBell)
@@ -186,6 +186,9 @@ struct TravelListView: View {
                     }
                 }
             }
+        }
+        .navigationDestination(isPresented: $tabViewStore.isPresentedNotiList) {
+            NotificationListView()
         }
         .overlay(
             Rectangle()

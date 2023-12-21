@@ -147,7 +147,7 @@ struct MoreView: View {
             Button("머물기", role: .cancel) { }
             Button("여행 떠나기", role: .destructive) {
                 userTravelStore.leaveTravel(travel: travel)
-                tabViewStore.poToRoow()
+                tabViewStore.popToRoow()
             }
 
         }

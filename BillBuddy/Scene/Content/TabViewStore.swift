@@ -19,7 +19,8 @@ final class TabViewStore: ObservableObject {
     
     @Published var isPresentedDetail: Bool = false
     @Published var isPresentedChat: Bool = false
-    @Published var isPresnetedNoti: Bool = false
+    @Published var isPresentedNoti: Bool = false
+    @Published var isPresentedNotiList: Bool = false
     
     var isPresentedView: Bool {
         return isPresentedChat || isPresentedDetail
@@ -31,7 +32,7 @@ final class TabViewStore: ObservableObject {
         DispatchQueue.main.async {
             self.isPresentedDetail = false
             self.isPresentedChat = false
-            self.isPresnetedNoti = false
+            self.isPresentedNoti = false
         }
     }
     
@@ -54,16 +55,24 @@ final class TabViewStore: ObservableObject {
         case .notice:
             selectedTab = 2
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.isPresnetedNoti = true
+                self.isPresentedNoti = true
             }
         }
     }
     
     @MainActor
-    func poToRoow() {
+    func pushNotificationListView() {
+        popToRoow()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.isPresentedNotiList = true
+        }
+    }
+    
+    @MainActor
+    func popToRoow() {
         isPresentedDetail = false
         isPresentedChat = false
-        isPresnetedNoti = false
+        isPresentedNoti = false
     }
 }
 
