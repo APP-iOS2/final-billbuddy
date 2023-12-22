@@ -56,6 +56,7 @@
 		277403E12AC3B8CC000537DF /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 277403E02AC3B8CC000537DF /* GoogleMobileAds */; };
 		277403E52AC3E579000537DF /* SignUpStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E32AC3E579000537DF /* SignUpStore.swift */; };
 		277403E62AC3E579000537DF /* SignInStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277403E42AC3E579000537DF /* SignInStore.swift */; };
+		277A93632B354D9A002CB609 /* LicenseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277A93622B354D9A002CB609 /* LicenseStore.swift */; };
 		277C99A02AC069A9006DFCFC /* TravelRenewalDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */; };
 		277C99A22AC08F9C006DFCFC /* UserTravel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 277C99A12AC08F9C006DFCFC /* UserTravel.swift */; };
 		278193C42ADBDD900041A6BF /* MoreListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278193C32ADBDD900041A6BF /* MoreListCell.swift */; };
@@ -200,6 +201,7 @@
 		2766484D2ABD8E4D000F8A10 /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		277403E32AC3E579000537DF /* SignUpStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpStore.swift; sourceTree = "<group>"; };
 		277403E42AC3E579000537DF /* SignInStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInStore.swift; sourceTree = "<group>"; };
+		277A93622B354D9A002CB609 /* LicenseStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseStore.swift; sourceTree = "<group>"; };
 		277C999F2AC069A9006DFCFC /* TravelRenewalDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRenewalDate.swift; sourceTree = "<group>"; };
 		277C99A12AC08F9C006DFCFC /* UserTravel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTravel.swift; sourceTree = "<group>"; };
 		278193C32ADBDD900041A6BF /* MoreListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreListCell.swift; sourceTree = "<group>"; };
@@ -948,6 +950,7 @@
 			isa = PBXGroup;
 			children = (
 				D2C7BD342AE52EFD00C6AA15 /* MyPageStore.swift */,
+				277A93622B354D9A002CB609 /* LicenseStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -1195,6 +1198,7 @@
 				638A9F532ADA818D00C931DD /* MapDetailView.swift in Sources */,
 				FFCF22592B24500000B79BF9 /* SNSSignInService.swift in Sources */,
 				2766480E2ABD5509000F8A10 /* Custom.swift in Sources */,
+				277A93632B354D9A002CB609 /* LicenseStore.swift in Sources */,
 				D2C16DA22ACD54BE00F48A06 /* SignInData.swift in Sources */,
 				C4849A6F2AD3C50E00DFFF81 /* DetailMainView.swift in Sources */,
 				D2EF00B22AE787D400ABD4F0 /* InquiryView.swift in Sources */,
