@@ -42,7 +42,7 @@
 <br>
 
 ## Architecture
-Model이 있고 해당 Model의 로직을 처리하는 Service, Store 그리고 View가 있는 MV 구조를 하고 있지만 필요할 경우 View Model의 역할을 해야 하는 상황도 존재하기에 MVVM 구조라고 생각할 수도 있을 것 같습니다.
+MV
 <br>
 <br>
 
