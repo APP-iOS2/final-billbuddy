@@ -3,33 +3,89 @@
 //  BillBuddy
 //
 //  Created by 윤지호 on 2023/09/22.
-//
+//  2023/09/27. 13:40
 
 import Foundation
 import FirebaseFirestoreSwift
 
-struct TravelCalculation {
-    @DocumentID var id: String?
+struct TravelCalculation: Identifiable, Codable {
+    var id: String = UUID().uuidString
     
     /// 방 호스트 user id
-    var hostId: String
-    let createdDate: Double
+    let hostId: String
+    var travelTitle: String
+    /// 총무id
+    var managerId: String
+    var startDate: Double
+    var endDate: Double
+    var updateContentDate: Double
+    var isPaymentSettled: Bool = false
+    var members: [Member]
+    // 채팅: 마지막 메세지 내용 - 미리보기
+    var lastMessage: String?
+    // 채팅: 마지막 메세지 날짜 -- 미리보기, 리스트 정렬 순서
+    var lastMessageDate: Double?
+    // 채팅: 읽지 않은 메세지 수 [유저아이디 : 갯수]
+    var unreadMessageCount: [String : Int]?
+    // 채팅방 공지
+    var chatNotice: [Notice]?
+    // 채팅방 이미지 리스트
+    var chatImages: [String]?
     
-    var formattedDate: String {
-        let dateCreatedAt: Date = Date(timeIntervalSince1970: createdDate)
-        
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "MM/dd HH시 mm분"
-        
-        return dateFormatter.string(from: dateCreatedAt)
+    // 채팅 공지사항 구조체
+    struct Notice: Codable, Hashable {
+        let notice: String
+        let name: String
+        let date: Double
     }
-}
-
-struct Member: Identifiable, Codable {
-    @DocumentID var id: String?
-    var memberId: String? //nil이면 user가 들어와있지않은 임시 맴버
-    var name: String
-    var deposit: Int
+    
+    struct Member: Codable, Identifiable, Hashable {
+        var id: String = UUID().uuidString
+        /// uid / nil이면 user가 들어와있지않은 임시 맴버
+        var userId: String?
+        var name: String
+        /// 제외된 인원인지(Payment에서 선택 제외)
+        var isExcluded: Bool = false
+        /// 초대중인지
+        var isInvited: Bool = false
+        /// 선금
+        var advancePayment: Int
+        /// 쓴비용 중간중간 + - << 추가 할지 말지 고민해야함.
+        var payment: Int
+        // 추가
+        var userImage: String = ""
+        var bankName: String = ""
+        var bankAccountNum: String = ""
+        /// 알림 토큰
+        var reciverToken: String = ""
+        
+        var inviteState: InviteState {
+            if isInvited && userId != nil {
+                return .invited
+            } else if isInvited && userId == nil {
+                return .wating
+            } else {
+                return .dummy
+            }
+        }
+        
+        enum InviteState: String {
+            case invited
+            case wating
+            case dummy
+            
+            var string: String {
+                switch self {
+                case .invited:
+                    "초대됨"
+                case .wating:
+                    "초대중"
+                case .dummy:
+                    "초대하기"
+                }
+            }
+        }
+    }
+    
+    static let sampletravel = TravelCalculation(id: "273202B9-5ABD-4FC4-823C-41DBA038CC68", hostId: "UjxYzXDaALUqPKuDPL8kbJrYCml2", travelTitle: "travelTitle", managerId: "managerId", startDate: Date().timeIntervalSince1970, endDate: Date().timeIntervalSince1970, updateContentDate: Date().timeIntervalSince1970, members: [Member(name: "인원1", advancePayment: 0, payment: 0)])
 }

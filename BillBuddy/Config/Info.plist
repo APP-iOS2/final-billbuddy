@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.11733718181-l8m29o6v1h91i3pu2b6jnigq1nggdnvu</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>billbuddybuddy</string>
+			</array>
+		</dict>
+	</array>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-4634552659933346~7460949431</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SF-Pro-Display-Semibold.otf</string>
+		<string>SF-Pro-Rounded-Semibold.otf</string>
+		<string>SF-Pro-Text-SemiboldItalic.otf</string>
+		<string>Pretendard-Medium.otf</string>
+		<string>Pretendard-Black.otf</string>
+		<string>Pretendard-SemiBold.otf</string>
+		<string>Pretendard-Light.otf</string>
+		<string>Pretendard-Bold.otf</string>
+		<string>Pretendard-ExtraLight.otf</string>
+		<string>Pretendard-Thin.otf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-ExtraBold.otf</string>
+	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>primary2</string>
+		<key>UIImageName</key>
+		<string>billBuddy</string>
+		<key>UILaunchScreen</key>
+		<dict/>
+	</dict>
+</dict>
+</plist>

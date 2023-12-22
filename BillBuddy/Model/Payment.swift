@@ -3,35 +3,97 @@
 //  BillBuddy
 //
 //  Created by 윤지호 on 2023/09/22.
-//
+//  2023/09/27. 13:40
 
 import Foundation
 import FirebaseFirestoreSwift
-
+/// 결제 - 추가, 또는 수정 시 리얼타임 베이스에 갱신일 최신화
 struct Payment: Identifiable, Codable {
     @DocumentID var id: String?
-    var type: String // 분류
-    var content: String // 내용
-    var payment: Int // 금액
-    var address: String // 주소
-    var x : Double
-    var y: Double
     
-    var paymentDate: Double = Date().timeIntervalSince1970 // 지출날짜
-    
-    var formattedDate: String {
-        let dateCreatedAt: Date = Date(timeIntervalSince1970: paymentDate)
-        
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "MM/dd HH시 mm분"
-        
-        return dateFormatter.string(from: dateCreatedAt)
-    }
-}
-
-struct Participant: Codable {
-    var memberId: String
+    var type: PaymentType
+    var content: String
     var payment: Int
+    let address: Address
+    var participants: [Participant]
+    var paymentDate: Double
+    
+    struct Address: Codable {
+        let address: String
+        /// 위도
+        let latitude: Double
+        /// 경도
+        let longitude: Double
+    }
+    
+    struct Participant: Codable, Hashable {
+        var memberId: String
+        /// 먼저 지불한 금액
+        var advanceAmount: Int
+        /// 개인 사용 금액
+        var seperateAmount: Int
+        var memo: String
+    }
+    
+    ///  case에 직접 String을 넣어주면 안된다는 멘토링을 들었던것같은데 저렇게 안하면 저장에문제가 생김
+    ///    하면 안좋은 이유가 궁금함.
+    enum PaymentType: String, CaseIterable, Codable {
+        case transportation = "교통"
+        case accommodation = "숙박"
+        case tourism = "관광"
+        case food = "식비"
+        case etc = "기타"
+        
+        
+        var typeString: String {
+            switch self {
+            case .transportation:
+                return "교통"
+            case .accommodation:
+                return "숙박"
+            case .tourism:
+                return "관광"
+            case .food:
+                return "식비"
+            case .etc:
+                return "기타"
+            }
+        }
+        
+        enum ImageType: String {
+            case nomal = ""
+            case thin = "-thin"
+            case badge = "-badge"
+        }
+        
+        func getImageString(type: ImageType) -> String {
+            switch self {
+            case .accommodation:
+                return "hotel-bed-5-2\(type.rawValue)"
+            case .food:
+                return "fork-knife-9\(type.rawValue)"
+            case .transportation:
+                return "bus-39\(type.rawValue)"
+            case .tourism:
+                return "beach-36\(type.rawValue)"
+            case .etc:
+                return "etc\(type.rawValue)"
+            }
+        }
+        
+        static func fromRawString(_ rawString: String) -> PaymentType {
+               switch rawString {
+               case "교통":
+                   return .transportation
+               case "숙박":
+                   return .accommodation
+               case "관광":
+                   return .tourism
+               case "식비":
+                   return .food
+               default:
+                   return .etc
+               }
+           }
+    }
 }

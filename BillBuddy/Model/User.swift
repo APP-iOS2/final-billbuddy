@@ -3,7 +3,7 @@
 //  BillBuddy
 //
 //  Created by 윤지호 on 2023/09/22.
-//
+//  2023/09/27. 13:40
 
 import Foundation
 import FirebaseFirestoreSwift
@@ -15,20 +15,15 @@ struct User: Identifiable, Codable {
     
     var email: String
     var name: String
-    var phoneNum: String
-    var bankName: String // "국민"
-    var bankAccountNum: String // "0290063094-24-1241"
+    var bankName: String
+    var bankAccountNum: String
     var isPremium: Bool
-    var premiumDueDate: Double // 1970어쩌구저쩌구
+    var premiumDueDate: Date
+    var userImage: String?
+    /// 알림 토큰
+    var reciverToken: String
     
     var formattedDate: String {
-        let dateCreatedAt: Date = Date(timeIntervalSince1970: premiumDueDate)
-        
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "MM/dd HH시 mm분"
-        
-        return dateFormatter.string(from: dateCreatedAt)
+        return premiumDueDate.dateAndTime
     }
 }
