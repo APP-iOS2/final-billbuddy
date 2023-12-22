@@ -9,7 +9,9 @@ import SwiftUI
 
 struct LicenseView: View {
     @Environment(\.dismiss) private var dismiss
-    
+    @StateObject private var licenseStore: LicenseStore = .init()
+    @State private var isPresentedSheet: Bool = false
+    @State private var seletedLicense: PakageLicense = .init(name: "", contend: "")
     var body: some View {
         ZStack{
             Color.gray050
@@ -20,7 +22,7 @@ struct LicenseView: View {
                         Text("버전")
                             .font(.body02)
                         Spacer()
-                        Text("ver 0.0.1")
+                        Text("ver 1.0.0")
                             .multilineTextAlignment(.trailing)
                             .font(.body04)
                             .foregroundColor(Color.gray600)
@@ -28,19 +30,19 @@ struct LicenseView: View {
                     .padding(16)
                     .frame(width: 361, height: 52)
                     
-                    HStack {
-                        Text("개발자")
-                            .font(.body02)
-                        Spacer()
-                        VStack{
-                            Text("윤지호 김상인 \n 김유진 노유리 \n 박지현 이승준 \n 한아리 황지연")
-                        }
-                            .multilineTextAlignment(.trailing)
+                    
+                    List {
+                        ForEach(licenseStore.licenses) { license in
+                            Button(license.name) {
+                                seletedLicense = license
+                                isPresentedSheet = true
+                            }
                             .font(.body04)
                             .foregroundColor(Color.gray600)
+                        }
                     }
-                    .padding(16)
-                    .frame(width: 361, height: 104)
+                    .background(Color.gray050)
+                    .scrollContentBackground(.hidden)
                 }
                 .background(.white)
                 .cornerRadius(12)
@@ -51,6 +53,25 @@ struct LicenseView: View {
                 .padding(.top, 16)
                 Spacer()
             }
+        }
+        .sheet(isPresented: $isPresentedSheet) {
+            VStack(alignment: .leading) {
+                Group {
+                    Text(seletedLicense.name)
+                        .padding(16)
+                        .font(.title06)
+                }
+                
+                Group {
+                    Section {
+                        Text(seletedLicense.contend)
+                            .font(.body04)
+                    }
+                }
+                .padding(25)
+                
+            }
+            
         }
         .navigationTitle("오픈소스 라이센스")
         .navigationBarTitleDisplayMode(.inline)
