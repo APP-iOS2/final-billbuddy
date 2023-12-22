@@ -222,22 +222,24 @@ struct MemberManagementView: View {
         .sheet(isPresented: $isShowingEditSheet) {
             // onDismiss
         } content: {
-            MemberEditSheet(
-                member: $sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex],
-                isShowingEditSheet: $isShowingEditSheet,
-                isExcluded: sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex].isExcluded,
-                saveAction: {
-                    Task {
-                        await sampleMemeberStore.saveMemeber() {
-                            if entryViewtype == .list {
-                                userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+            ZStack {
+                MemberEditSheet(
+                    member: $sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex],
+                    isShowingEditSheet: $isShowingEditSheet,
+                    isExcluded: sampleMemeberStore.members[sampleMemeberStore.selectedmemberIndex].isExcluded,
+                    saveAction: {
+                        Task {
+                            await sampleMemeberStore.saveMemeber() {
+                                if entryViewtype == .list {
+                                    userTravelStore.setTravelMember(travelId: travel.id, members: sampleMemeberStore.members)
+                                }
                             }
                         }
                     }
-                }
-            )
-                .presentationDetents([.height(374)])
-                .presentationDragIndicator(.hidden)
+                )
+            }
+            .presentationDetents([.height(374)])
+            .presentationDragIndicator(.hidden)
         }
         .sheet(isPresented: $isShowingShareSheet) {
             // onDismiss
