@@ -83,13 +83,15 @@ struct MemberCell: View {
                 }
                 .tint(Color.error)
                 
-                Button("수정") {
-                    if isPaymentSettled == false {
-                        onEditing()
-                        saveAction()
+                if member.inviteState != .wating {
+                    Button("수정") {
+                        if isPaymentSettled == false {
+                            onEditing()
+                            saveAction()
+                        }
                     }
+                    .tint(Color.gray500)
                 }
-                .tint(Color.gray500)
             }
         }
     }
