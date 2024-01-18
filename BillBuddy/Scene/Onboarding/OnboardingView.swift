@@ -120,7 +120,7 @@ extension OnboardingType {
     var secondTitle: String {
         switch self {
         case .firstTab:
-            return "지출내역을 N/1로 관리해요"
+            return "지출내역을 1/N로 관리해요"
         case .secondTab:
             return "지출 및 일정 확인해요"
         case .thirdTab:
