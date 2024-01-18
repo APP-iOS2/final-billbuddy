@@ -70,36 +70,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func checkVersionTask() {
-            _ = try? AppVersionCheck.isUpdateAvailable { (update, error) in
-                if let error = error {
-                    print(error)
-                } else if let update = update {
-                    if update {
-                        print("This App is old version")
-                        self.appUpdate()
-                        return
-                    } else {
-                        print("This App is latest version")
-                        return
-                    }
+        _ = try? AppVersionCheck.isUpdateAvailable { (update, error) in
+            if let error = error {
+                print(error)
+            } else if let update = update {
+                if update {
+                    print("This App is old version")
+                    self.appUpdate()
+                    return
+                } else {
+                    print("This App is latest version")
+                    return
                 }
             }
         }
+    }
     // AppStore 이동
     func appUpdate() {
+        let alert = UIAlertController(title: "업데이트 필수", message: "더 나은 서비스를 위해 새 버전으로 업데이트를 해주세요.", preferredStyle: .alert)
         
-        let alert = UIAlertController(title: "업데이트 필수", message: "새 버전이 출시했습니다. 더 나은 서비스를 위해 업데이트를 해주세요.", preferredStyle: .alert)
-        
-        alert.addAction(.init(title: "업데이트", style: .default, handler: { _ in
+        alert.addAction(.init(title: "업데이트", style: .default) { _ in
             let appleId = "6474726564"        // 앱 스토어에 일반 정보의 Apple ID 입력
-            if let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleId)"), UIApplication.shared.canOpenURL(url) {
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                } else {
-                    UIApplication.shared.openURL(url)
-                }
+            guard let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleId)") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-        }))
+        })
     }
 }
 
