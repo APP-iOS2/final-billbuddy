@@ -31,6 +31,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        checkVersionTask()
         FirebaseApp.configure()
         ///모바일 광고 SDK 초기화
         GADMobileAds.sharedInstance().start(completionHandler: nil)
@@ -68,6 +69,34 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return GIDSignIn.sharedInstance.handle(url)
     }
     
+    func checkVersionTask() {
+        _ = try? AppVersionCheck.isUpdateAvailable { (update, error) in
+            if let error = error {
+                print(error)
+            } else if let update = update {
+                if update {
+                    print("This App is old version")
+                    self.appUpdate()
+                    return
+                } else {
+                    print("This App is latest version")
+                    return
+                }
+            }
+        }
+    }
+    // AppStore 이동
+    func appUpdate() {
+        let alert = UIAlertController(title: "업데이트 필수", message: "더 나은 서비스를 위해 새 버전으로 업데이트를 해주세요.", preferredStyle: .alert)
+        
+        alert.addAction(.init(title: "업데이트", style: .default) { _ in
+            let appleId = "6474726564"        // 앱 스토어에 일반 정보의 Apple ID 입력
+            guard let url = URL(string: "itms-apps://itunes.apple.com/app/\(appleId)") else { return }
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        })
+    }
 }
 
 extension AppDelegate : MessagingDelegate {
