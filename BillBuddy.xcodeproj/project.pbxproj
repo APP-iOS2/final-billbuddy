@@ -81,6 +81,7 @@
 		278DDC1A2ACC3A3B00B2EC50 /* StoreCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */; };
 		278DDC1C2ACC3E7F00B2EC50 /* SampleMemeberStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */; };
 		278FA0A52B2CDCC00031E987 /* CustomSpendingAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278FA0A42B2CDCC00031E987 /* CustomSpendingAlert.swift */; };
+		27906ED92B591EB900AFA9CD /* ServerKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27906ED82B591EB900AFA9CD /* ServerKeys.plist */; };
 		27933F6A2AD33D9A00E6A545 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F692AD33D9A00E6A545 /* Int+Extension.swift */; };
 		27933F702AD3402300E6A545 /* CategoryLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6D2AD3402300E6A545 /* CategoryLabel.swift */; };
 		27933F712AD3402300E6A545 /* MemeberAcountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27933F6E2AD3402300E6A545 /* MemeberAcountCell.swift */; };
@@ -227,6 +228,7 @@
 		278DDC192ACC3A3B00B2EC50 /* StoreCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCollection.swift; sourceTree = "<group>"; };
 		278DDC1B2ACC3E7F00B2EC50 /* SampleMemeberStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMemeberStore.swift; sourceTree = "<group>"; };
 		278FA0A42B2CDCC00031E987 /* CustomSpendingAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpendingAlert.swift; sourceTree = "<group>"; };
+		27906ED82B591EB900AFA9CD /* ServerKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ServerKeys.plist; sourceTree = "<group>"; };
 		27933F692AD33D9A00E6A545 /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		27933F6D2AD3402300E6A545 /* CategoryLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryLabel.swift; sourceTree = "<group>"; };
 		27933F6E2AD3402300E6A545 /* MemeberAcountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemeberAcountCell.swift; sourceTree = "<group>"; };
@@ -241,8 +243,8 @@
 		46C09CD22AE1C65D001E34E6 /* ChattingMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingMenuView.swift; sourceTree = "<group>"; };
 		636CE5FA2AC3B27400BF7730 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		636CE5FE2AC3BA1E00BF7730 /* Line.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
-		6382196C2B333B7700991A3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6386C1B62B5E3BBD00F502A1 /* AppStoreUpdateChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreUpdateChecker.swift; sourceTree = "<group>"; };
+		6382196C2B333B7700991A3E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		638A9F482ADA812100C931DD /* MapViewCoordinater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewCoordinater.swift; sourceTree = "<group>"; };
 		638A9F4A2ADA813D00C931DD /* AddPaymentMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentMapView.swift; sourceTree = "<group>"; };
 		638A9F4C2ADA815700C931DD /* EditPaymentMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPaymentMapView.swift; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 				2655B7032ADD972A002E051B /* BillBuddy.entitlements */,
 				6382196C2B333B7700991A3E /* GoogleService-Info.plist */,
 				2717D0FD2ACD7E260002D620 /* Info.plist */,
+				27906ED82B591EB900AFA9CD /* ServerKeys.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1072,6 +1075,7 @@
 				6382196D2B333B7700991A3E /* GoogleService-Info.plist in Resources */,
 				FF63648F2AE6257400DDA16D /* AdView.xib in Resources */,
 				278BA60D2AC25EA800761B0B /* Pretendard-SemiBold.otf in Resources */,
+				27906ED92B591EB900AFA9CD /* ServerKeys.plist in Resources */,
 				276647FF2ABD53F9000F8A10 /* Assets.xcassets in Resources */,
 				278BA60A2AC25EA800761B0B /* Pretendard-Bold.otf in Resources */,
 				FF82176A2ACEFBA3002ACD4C /* NativeAdView.xib in Resources */,
