@@ -7,19 +7,6 @@
 
 import Foundation
 
-//MARK: - AppStoreResponse
-struct AppStoreResponse: Codable {
-    let resultCount: Int
-    let results: [AppStoreResult]
-}
-
-//MARK: - Result
-struct AppStoreResult: Codable {
-    let releaseNotes: String
-    let releaseDate: String
-    let version: String
-}
-
 private extension Bundle {
     var releaseVersionNumber: String? {
         infoDictionary?["CFBundleShortVersionString"] as? String
@@ -31,25 +18,24 @@ struct AppStoreUpdateChecker {
         guard
             let bundleID = Bundle.main.bundleIdentifier,
             let currentVersionNumber = Bundle.main.releaseVersionNumber,
-            let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleID)")
+            let url = URL(string: "https://itunes.apple.com/lookup?bundleId=\(bundleID)&country=kr")
         else { return false }
         print("---> url:", url)
         do {
             // Fetches and parses the response
             let (data, response) = try await URLSession.shared.data(from: url)
             guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
-            let appStoreResponse = try JSONDecoder().decode(AppStoreResponse.self, from: data)
             
-            // Retrieves the version number
-            guard let latestVersionNumber = appStoreResponse.results.first?.version else {
-                // Error: no app with matching bundle ID found
-                
+            guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+                  let results = json["results"] as? [[String: Any]],
+                  let appStoreVersion = results[0]["version"] as? String else {
                 return false
             }
-            print("----> 최신 버전:", latestVersionNumber)
+                
+            print("----> 최신 버전:", appStoreVersion)
             print("----> 현재 버전:", currentVersionNumber)
             // Checks if there's a mismatch in version numbers
-            return currentVersionNumber != latestVersionNumber
+            return currentVersionNumber != appStoreVersion
         } catch {
             // TODO: Handle Error
             return false
