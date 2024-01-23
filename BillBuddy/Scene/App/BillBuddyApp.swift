@@ -15,13 +15,29 @@ import UserNotifications
 @main
 struct BillBuddyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @State private var showingUpdate: Bool = false
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onOpenURL(perform: { url in
-                    InvitTravelService.shared.getInviteURL(url)
-                })
+                .alert("새로운 버전 업데이트가 있어요", isPresented: $showingUpdate) {
+                    Button(action: {
+                        openAppStore()
+                    }, label: {
+                        Text("앱스토어로 이동")
+                    })
+                }
+                .task {
+                    if await AppStoreUpdateChecker.isNewVersionAvailable() {
+                        showingUpdate.toggle()
+                    }
+                }
+        }
+    }
+    private func openAppStore() {
+        guard let appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/apple-store/6474726564") else { return }
+        if UIApplication.shared.canOpenURL(appStoreURL) {
+            UIApplication.shared.open(appStoreURL, options: [:], completionHandler: nil)
         }
     }
 }
@@ -67,7 +83,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
     }
-    
 }
 
 extension AppDelegate : MessagingDelegate {
